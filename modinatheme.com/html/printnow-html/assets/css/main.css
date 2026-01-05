@@ -1743,6 +1743,10 @@ input.main-search-input::placeholder {
   }
 }
 
+.mean__menu-wrapper {
+  margin-left: auto;
+}
+
 .header-main .main-menu ul {
   margin-bottom: 0;
 }
