@@ -4173,8 +4173,9 @@ input.main-search-input::placeholder {
 }
 
 .about-wrapper-3 .about-image-3 {
-  margin-left: -50%;
-  margin-bottom: -120px;
+  margin-left: 0;
+  margin-bottom: 0;
+  text-align: center;
 }
 
 @media (max-width: 1199px) {
