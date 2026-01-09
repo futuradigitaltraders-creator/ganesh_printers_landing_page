@@ -2,7 +2,7 @@ import os
 import re
 
 directory = "/Users/renga/Downloads/sri ganesh"
-new_title = "Furura - Ganesh Printers"
+new_title = "Futura - Ganesh Printers"
 
 for root, dirs, files in os.walk(directory):
     for file in files:
