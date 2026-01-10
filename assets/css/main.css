@@ -10521,15 +10521,17 @@ p.sticky-label {
   transition: all 0.3s ease-in-out;
 }
 
+.single-contact-card:hover {
+  background-color: var(--theme);
+}
+
 @media (max-width: 585px) {
   .single-contact-card {
     padding: 30px;
   }
 }
 
-.single-contact-card:hover {
-  background-color: var(--theme);
-}
+
 
 .single-contact-card:hover .icon {
   color: var(--theme) !important;
