@@ -34,3 +34,13 @@
         border-radius: 20px;
     }
 }
+/* Fix for squashed footer icons */
+.contact-list-2 li .icon {
+    flex-shrink: 0;
+}
+
+/* Ensure footer header is black */
+.footer-content h2 {
+    color: #000000 !important;
+    margin-bottom: 20px;
+}
