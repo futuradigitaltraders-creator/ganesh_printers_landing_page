@@ -1,151 +1,326 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2027 Calendars & 2027 Diary - Ganesh Printers</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css/animate.css">
-    <link rel="stylesheet" href="assets/css/style.css">
+<title>2027 Calendars & Diary | Ganesh Printers</title>
 
-    <style>
-        .calendar-page {
-            padding: 70px 20px;
-            background: #f8f8f8;
-            min-height: 70vh;
-        }
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
-        .calendar-title {
-            text-align: center;
-            margin-bottom: 50px;
-        }
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f5f5f5;
+    color:#222;
+}
 
-        .calendar-title h1 {
-            font-size: 36px;
-            font-weight: 700;
-            margin-bottom: 15px;
-        }
+.header{
+    background:#111;
+    color:#fff;
+    text-align:center;
+    padding:45px 20px;
+}
 
-        .calendar-title p {
-            font-size: 17px;
-            color: #666;
-        }
+.header h1{
+    font-size:38px;
+    margin-bottom:10px;
+}
 
-        .calendar-card {
-            background: #fff;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 30px;
-            box-shadow: 0 3px 15px rgba(0,0,0,0.10);
-        }
+.header p{
+    font-size:17px;
+    opacity:.9;
+}
 
-        .calendar-card .calendar-image {
-            height: 280px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #eeeeee;
-            color: #888;
-            font-size: 18px;
-        }
+.container{
+    max-width:1200px;
+    margin:40px auto;
+    padding:0 20px;
+}
 
-        .calendar-card .calendar-content {
-            padding: 22px;
-            text-align: center;
-        }
+.section-title{
+    text-align:center;
+    margin-bottom:35px;
+}
 
-        .calendar-content h3 {
-            font-size: 21px;
-            margin-bottom: 10px;
-        }
+.section-title h2{
+    font-size:30px;
+    margin-bottom:8px;
+}
 
-        .calendar-content p {
-            color: #666;
-            margin-bottom: 18px;
-        }
+.section-title p{
+    color:#666;
+}
 
-        .whatsapp-btn {
-            display: inline-block;
-            padding: 11px 22px;
-            background: #25D366;
-            color: #fff !important;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: 600;
-        }
+.products{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:30px;
+}
 
-        .whatsapp-btn:hover {
-            color: #fff;
-            text-decoration: none;
-        }
-    </style>
+.product{
+    background:#fff;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 4px 18px rgba(0,0,0,.10);
+    transition:.3s;
+}
+
+.product:hover{
+    transform:translateY(-5px);
+    box-shadow:0 8px 25px rgba(0,0,0,.16);
+}
+
+.product img{
+    width:100%;
+    height:auto;
+    display:block;
+    cursor:pointer;
+}
+
+.product-content{
+    padding:20px;
+    text-align:center;
+}
+
+.product-number{
+    font-size:14px;
+    color:#888;
+    margin-bottom:6px;
+}
+
+.product h3{
+    font-size:21px;
+    margin-bottom:15px;
+}
+
+.buttons{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    display:inline-block;
+    padding:11px 20px;
+    border-radius:6px;
+    text-decoration:none;
+    font-weight:bold;
+    font-size:14px;
+}
+
+.view-btn{
+    background:#222;
+    color:#fff;
+}
+
+.whatsapp-btn{
+    background:#25D366;
+    color:#fff;
+}
+
+.footer{
+    margin-top:50px;
+    background:#111;
+    color:#fff;
+    text-align:center;
+    padding:25px 15px;
+    font-size:14px;
+}
+
+@media(max-width:700px){
+    .header h1{
+        font-size:28px;
+    }
+
+    .products{
+        grid-template-columns:1fr;
+    }
+
+    .product h3{
+        font-size:19px;
+    }
+}
+</style>
 </head>
 
 <body>
 
-    <div class="calendar-page">
+<header class="header">
+    <h1>2027 CALENDARS & DIARY</h1>
+    <p>Individual Catalogue – Ganesh Printers</p>
+</header>
 
-        <div class="container">
+<div class="container">
 
-            <div class="calendar-title">
-                <h1>2027 Calendars & 2027 Diary</h1>
-                <p>Explore our collection of professionally designed 2027 calendars and diaries.</p>
+    <div class="section-title">
+        <h2>Our 2027 Collection</h2>
+        <p>Choose your preferred calendar or diary design</p>
+    </div>
+
+    <div class="products">
+
+        <!-- PRODUCT 01 -->
+        <div class="product">
+            <img src="images/product-01.jpg"
+                 alt="Gold Frame Special Daily Calendar"
+                 onclick="window.open(this.src,'_blank')">
+            <div class="product-content">
+                <div class="product-number">PRODUCT 01</div>
+                <h3>Gold Frame Special Daily Calendar</h3>
+                <div class="buttons">
+                    <a class="btn view-btn" href="images/product-01.jpg" target="_blank">View Full Image</a>
+                    <a class="btn whatsapp-btn" href="https://wa.me/919488917786?text=Enquiry%20for%20Gold%20Frame%20Special%20Daily%20Calendar" target="_blank">WhatsApp Enquiry</a>
+                </div>
             </div>
+        </div>
 
-            <div class="row">
-
-                <div class="col-md-4">
-                    <div class="calendar-card">
-                        <div class="calendar-image">
-                            Calendar Image
-                        </div>
-                        <div class="calendar-content">
-                            <h3>2027 Calendar</h3>
-                            <p>Premium quality calendar design.</p>
-                            <a href="https://wa.me/919488917786" class="whatsapp-btn">
-                                Enquire on WhatsApp
-                            </a>
-                        </div>
-                    </div>
+        <!-- PRODUCT 02 -->
+        <div class="product">
+            <img src="images/product-02.jpg"
+                 alt="Die-Cut Special Daily Calendar"
+                 onclick="window.open(this.src,'_blank')">
+            <div class="product-content">
+                <div class="product-number">PRODUCT 02</div>
+                <h3>Die-Cut Special Daily Calendar</h3>
+                <div class="buttons">
+                    <a class="btn view-btn" href="images/product-02.jpg" target="_blank">View Full Image</a>
+                    <a class="btn whatsapp-btn" href="https://wa.me/919488917786?text=Enquiry%20for%20Die-Cut%20Special%20Daily%20Calendar" target="_blank">WhatsApp Enquiry</a>
                 </div>
-
-                <div class="col-md-4">
-                    <div class="calendar-card">
-                        <div class="calendar-image">
-                            Calendar Image
-                        </div>
-                        <div class="calendar-content">
-                            <h3>2027 Calendar</h3>
-                            <p>Professional printing with attractive designs.</p>
-                            <a href="https://wa.me/919488917786" class="whatsapp-btn">
-                                Enquire on WhatsApp
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="calendar-card">
-                        <div class="calendar-image">
-                            Calendar Image
-                        </div>
-                        <div class="calendar-content">
-                            <h3>2027 Diary</h3>
-                            <p>Quality diary printing for personal and corporate use.</p>
-                            <a href="https://wa.me/919488917786" class="whatsapp-btn">
-                                Enquire on WhatsApp
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
             </div>
+        </div>
 
+        <!-- PRODUCT 03 -->
+        <div class="product">
+            <img src="images/product-03.jpg"
+                 alt="Daily Mount 15x10 UV Gold Foil Calendar"
+                 onclick="window.open(this.src,'_blank')">
+            <div class="product-content">
+                <div class="product-number">PRODUCT 03</div>
+                <h3>Daily Mount 15×10 Special UV & Gold Foil Calendar</h3>
+                <div class="buttons">
+                    <a class="btn view-btn" href="images/product-03.jpg" target="_blank">View Full Image</a>
+                    <a class="btn whatsapp-btn" href="https://wa.me/919488917786?text=Enquiry%20for%20Daily%20Mount%2015x10%20UV%20Gold%20Foil%20Calendar" target="_blank">WhatsApp Enquiry</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- PRODUCT 04 -->
+        <div class="product">
+            <img src="images/product-04.jpg"
+                 alt="Gems with Frame Calendar"
+                 onclick="window.open(this.src,'_blank')">
+            <div class="product-content">
+                <div class="product-number">PRODUCT 04</div>
+                <h3>Gems with Frame Calendar</h3>
+                <div class="buttons">
+                    <a class="btn view-btn" href="images/product-04.jpg" target="_blank">View Full Image</a>
+                    <a class="btn whatsapp-btn" href="https://wa.me/919488917786?text=Enquiry%20for%20Gems%20with%20Frame%20Calendar" target="_blank">WhatsApp Enquiry</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- PRODUCT 05 -->
+        <div class="product">
+            <img src="images/product-05.jpg"
+                 alt="2027 Daily Calendar Slips"
+                 onclick="window.open(this.src,'_blank')">
+            <div class="product-content">
+                <div class="product-number">PRODUCT 05</div>
+                <h3>2027 Daily Calendar Slips</h3>
+                <div class="buttons">
+                    <a class="btn view-btn" href="images/product-05.jpg" target="_blank">View Full Image</a>
+                    <a class="btn whatsapp-btn" href="https://wa.me/919488917786?text=Enquiry%20for%202027%20Daily%20Calendar%20Slips" target="_blank">WhatsApp Enquiry</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- PRODUCT 06 -->
+        <div class="product">
+            <img src="images/product-06.jpg"
+                 alt="Fancy Cutting Daily Calendar"
+                 onclick="window.open(this.src,'_blank')">
+            <div class="product-content">
+                <div class="product-number">PRODUCT 06</div>
+                <h3>Fancy Cutting Daily Calendar with Monthly Sheeter</h3>
+                <div class="buttons">
+                    <a class="btn view-btn" href="images/product-06.jpg" target="_blank">View Full Image</a>
+                    <a class="btn whatsapp-btn" href="https://wa.me/919488917786?text=Enquiry%20for%20Fancy%20Cutting%20Daily%20Calendar" target="_blank">WhatsApp Enquiry</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- PRODUCT 07 -->
+        <div class="product">
+            <img src="images/product-07.jpg"
+                 alt="Monthly Sheeter Gods Image Calendar"
+                 onclick="window.open(this.src,'_blank')">
+            <div class="product-content">
+                <div class="product-number">PRODUCT 07</div>
+                <h3>Monthly Sheeter Special Gods Image Calendar</h3>
+                <div class="buttons">
+                    <a class="btn view-btn" href="images/product-07.jpg" target="_blank">View Full Image</a>
+                    <a class="btn whatsapp-btn" href="https://wa.me/919488917786?text=Enquiry%20for%20Monthly%20Sheeter%20Gods%20Image%20Calendar" target="_blank">WhatsApp Enquiry</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- PRODUCT 08 -->
+        <div class="product">
+            <img src="images/product-08.jpg"
+                 alt="2027 Diaries"
+                 onclick="window.open(this.src,'_blank')">
+            <div class="product-content">
+                <div class="product-number">PRODUCT 08</div>
+                <h3>2027 Diaries</h3>
+                <div class="buttons">
+                    <a class="btn view-btn" href="images/product-08.jpg" target="_blank">View Full Image</a>
+                    <a class="btn whatsapp-btn" href="https://wa.me/919488917786?text=Enquiry%20for%202027%20Diaries" target="_blank">WhatsApp Enquiry</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- PRODUCT 09 -->
+        <div class="product">
+            <img src="images/product-09.jpg"
+                 alt="Table Calendar"
+                 onclick="window.open(this.src,'_blank')">
+            <div class="product-content">
+                <div class="product-number">PRODUCT 09</div>
+                <h3>Table Calendar</h3>
+                <div class="buttons">
+                    <a class="btn view-btn" href="images/product-09.jpg" target="_blank">View Full Image</a>
+                    <a class="btn whatsapp-btn" href="https://wa.me/919488917786?text=Enquiry%20for%20Table%20Calendar" target="_blank">WhatsApp Enquiry</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- PRODUCT 10 -->
+        <div class="product">
+            <img src="images/product-10.jpg"
+                 alt="Personalized Family Photo Daily Calendar"
+                 onclick="window.open(this.src,'_blank')">
+            <div class="product-content">
+                <div class="product-number">PRODUCT 10</div>
+                <h3>Personalized Family Photo Daily Calendar</h3>
+                <div class="buttons">
+                    <a class="btn view-btn" href="images/product-10.jpg" target="_blank">View Full Image</a>
+                    <a class="btn whatsapp-btn" href="https://wa.me/919488917786?text=Enquiry%20for%20Personalized%20Family%20Photo%20Daily%20Calendar" target="_blank">WhatsApp Enquiry</a>
+                </div>
+            </div>
         </div>
 
     </div>
+</div>
+
+<footer class="footer">
+    Ganesh Printers · 2027 Calendars & Diary · Custom Designs & Printing Available
+</footer>
 
 </body>
 </html>
