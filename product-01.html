@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gold Frame Special Daily Calendar | Ganesh Printers</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f7f7f7;color:#222}.header{background:#111;color:#fff;padding:22px 18px;text-align:center}.header h1{margin:0;font-size:28px}.header p{margin:7px 0 0;color:#ddd}.container{max-width:1200px;margin:28px auto;padding:0 16px}.back{display:inline-block;margin-bottom:20px;text-decoration:none;color:#8a5a00;font-weight:700}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px}.card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 4px 18px rgba(0,0,0,.10)}.card img{width:100%;height:360px;object-fit:contain;background:#eee;display:block;cursor:pointer}.info{padding:18px}.title{font-size:20px;font-weight:700;margin:0 0 14px}.row{padding:7px 0;border-bottom:1px solid #eee;font-size:15px}.label{font-weight:700}.status{display:inline-block;padding:5px 10px;border-radius:20px;background:#e8f7e8;color:#18752b;font-weight:700}.buttons{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.btn{display:inline-block;padding:11px 15px;border-radius:8px;text-decoration:none;font-weight:700}.view{background:#222;color:#fff}.wa{background:#128c7e;color:#fff}.note{background:#fff3cd;padding:15px;border-radius:10px;margin:20px 0;line-height:1.5}.loading{text-align:center;padding:40px;font-size:18px}.error{background:#ffe5e5;padding:18px;border-radius:10px;color:#9b0000}.footer{text-align:center;padding:30px;color:#666}
+</style>
+</head>
+<body>
+<div class="header"><h1>Gold Frame Special Daily Calendar</h1><p>2027 Calendars &amp; Diary • Product 01</p></div>
+<div class="container">
+<a class="back" href="calendar.html">← Back to 2027 Calendars &amp; Diary</a>
+<div class="note"><strong>Professional Product Catalogue</strong><br>All images placed inside this product folder will be displayed automatically. There is no fixed image limit.</div>
+<div id="gallery" class="grid"><div class="loading">Loading product models...</div></div>
+</div><div class="footer">Ganesh Printers • Kodaikanal</div>
+<script>
+const API_URL="https://api.github.com/repos/futuradigitaltraders-creator/ganesh_printers_landing_page/contents/images/gold-frame-special-daily-calendar?ref=main";
+const RAW_BASE="https://raw.githubusercontent.com/futuradigitaltraders-creator/ganesh_printers_landing_page/main/images/gold-frame-special-daily-calendar/";
+const PRODUCT_DATA={
+"15x25_Gold_Calendar_Album_Page-images-1.jpg":{model:"1400",size:'15" × 25"',otherSizes:'14" × 24" | 20" × 30" | 23" × 36"',availability:"Available for Order",design:"Gold Frame Special Daily Calendar"},
+"15x25_Gold_Calendar_Album_Page-images-2.jpg":{model:"1401",size:'15" × 25"',otherSizes:'14" × 24" | 20" × 30" | 23" × 36"',availability:"Available for Order",design:"Gold Frame Special Daily Calendar"},
+"15x25_Gold_Calendar_Album_Page-images-3.jpg":{model:"1402",size:'15" × 25"',otherSizes:'14" × 24" | 20" × 30" | 23" × 36"',availability:"Available for Order",design:"Gold Frame Special Daily Calendar"},
+"15x25_Gold_Calendar_Album_Page-images-4.jpg":{model:"1403",size:'15" × 25"',otherSizes:'14" × 24" | 20" × 30" | 23" × 36"',availability:"Available for Order",design:"Gold Frame Special Daily Calendar"}
+};
+function esc(t){return String(t??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function wa(model,size){return "https://wa.me/919488917786?text="+encodeURIComponent(`Enquiry for Gold Frame Special Daily Calendar - Model ${model} - Size ${size}`)}
+async function loadGallery(){const g=document.getElementById("gallery");try{const r=await fetch(API_URL,{headers:{Accept:"application/vnd.github+json"}});if(!r.ok)throw Error("GitHub folder could not be read.");const files=await r.json();const imgs=files.filter(f=>f.type==="file"&&/\.(jpg|jpeg|png|webp)$/i.test(f.name));if(!imgs.length){g.innerHTML='<div class="error">No product images found in this folder.</div>';return}g.innerHTML=imgs.map(f=>{const d=PRODUCT_DATA[f.name]||{model:"Model To Be Updated",size:"Size To Be Updated",otherSizes:"",availability:"Available for Order",design:"Gold Frame Special Daily Calendar"};return `<article class="card"><img src="${RAW_BASE+encodeURIComponent(f.name)}" alt="${esc(d.design)}" onclick="window.open(this.src,'_blank')"><div class="info"><h2 class="title">${esc(d.design)}</h2><div class="row"><span class="label">Company Model No:</span> ${esc(d.model)}</div><div class="row"><span class="label">Available Size:</span> ${esc(d.size)}</div>${d.otherSizes?`<div class="row"><span class="label">Other Available Sizes:</span> ${esc(d.otherSizes)}</div>`:""}<div class="row"><span class="label">Availability:</span> <span class="status">${esc(d.availability)}</span></div><div class="buttons"><a class="btn view" href="${RAW_BASE+encodeURIComponent(f.name)}" target="_blank">View Full Image</a><a class="btn wa" href="${wa(d.model,d.size)}" target="_blank">WhatsApp Enquiry</a></div></div></article>`}).join("")}catch(e){g.innerHTML=`<div class="error"><strong>Unable to load catalogue.</strong><br>${esc(e.message)}</div>`}}
+loadGallery();
+</script></body></html>
