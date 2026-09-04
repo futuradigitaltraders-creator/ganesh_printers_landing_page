@@ -1,1 +1,380 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>2027 Calendars & Diary</title><style>body{margin:0;font-family:Arial;background:#f6f6f6}header{text-align:center;background:#111;color:white;padding:35px 15px}main{max-width:1200px;margin:25px auto;padding:0 15px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px}.card{background:white;border-radius:12px;overflow:hidden;box-shadow:0 3px 15px #0002}.pic{background:#eee;min-height:300px;display:flex;align-items:center;justify-content:center;padding:12px}.pic img{max-width:100%;max-height:520px;width:auto;height:auto;object-fit:contain}.info{padding:16px}.title{font-size:19px;font-weight:bold;margin:0 0 12px}.btn{background:#168b45;color:white;text-decoration:none;padding:10px 14px;border-radius:7px;display:inline-block}</style></head><body><header><h1>2027 CALENDARS & DIARY</h1><p>Individual Catalogue</p></header><main><div id="catalogue" class="grid"></div></main><script src="image-list.js"></script><script>const root=document.getElementById('catalogue');function title(n){return n.replace(/\.[^.]+$/,'').replace(/[_-]+/g,' ').replace(/\b(\d+)\s*x\s*(\d+)\b/gi,'$1×$2').replace(/\b\w/g,c=>c.toUpperCase())}window.CATALOGUE_IMAGES.forEach(f=>{let t=title(f),c=document.createElement('article');c.className='card';c.innerHTML='<div class="pic"><img src="images/'+encodeURIComponent(f)+'" loading="lazy" alt="'+t+'"></div><div class="info"><div class="title">'+t+'</div><a class="btn" target="_blank" href="https://wa.me/919488917786?text='+encodeURIComponent('Hello Ganesh Printers, I am interested in: '+t)+'">WhatsApp Enquiry</a></div>';root.appendChild(c)})</script></main></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>2027 Calendars & Diary | Ganesh Printers</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f5f5f5;
+    color:#222;
+}
+
+header{
+    background:linear-gradient(135deg,#8b0000,#c69214);
+    color:white;
+    padding:35px 20px;
+    text-align:center;
+}
+
+header h1{
+    font-size:34px;
+    margin-bottom:10px;
+}
+
+header p{
+    font-size:16px;
+    opacity:.95;
+}
+
+.container{
+    width:94%;
+    max-width:1400px;
+    margin:35px auto;
+}
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.topbar h2{
+    font-size:25px;
+}
+
+.home-btn{
+    display:inline-block;
+    padding:11px 20px;
+    background:#222;
+    color:white;
+    text-decoration:none;
+    border-radius:6px;
+}
+
+.catalogue{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:25px;
+}
+
+.card{
+    background:white;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 4px 15px rgba(0,0,0,.12);
+    transition:.2s;
+}
+
+.card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 8px 22px rgba(0,0,0,.18);
+}
+
+.image-box{
+    background:#eee;
+    width:100%;
+    min-height:260px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+}
+
+.image-box img{
+    width:100%;
+    height:auto;
+    display:block;
+}
+
+.info{
+    padding:18px;
+}
+
+.info h3{
+    font-size:18px;
+    line-height:1.35;
+    margin-bottom:8px;
+}
+
+.size{
+    color:#777;
+    font-size:14px;
+    margin-bottom:15px;
+}
+
+.whatsapp{
+    display:block;
+    text-align:center;
+    background:#25D366;
+    color:white;
+    text-decoration:none;
+    padding:11px;
+    border-radius:6px;
+    font-weight:bold;
+}
+
+.loading{
+    text-align:center;
+    padding:60px 20px;
+    font-size:18px;
+}
+
+.error{
+    background:#fff0f0;
+    color:#a00000;
+    padding:25px;
+    border-radius:8px;
+    text-align:center;
+}
+
+footer{
+    text-align:center;
+    padding:35px 15px;
+    margin-top:50px;
+    background:#222;
+    color:white;
+    font-size:14px;
+}
+
+/* Full image popup */
+.modal{
+    display:none;
+    position:fixed;
+    z-index:9999;
+    inset:0;
+    background:rgba(0,0,0,.92);
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.modal img{
+    max-width:95%;
+    max-height:90vh;
+    object-fit:contain;
+}
+
+.close{
+    position:absolute;
+    top:15px;
+    right:25px;
+    color:white;
+    font-size:40px;
+    cursor:pointer;
+}
+
+@media(max-width:600px){
+    header h1{
+        font-size:25px;
+    }
+
+    .catalogue{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>2027 CALENDARS & DIARY</h1>
+    <p>Premium Calendar & Diary Collection</p>
+</header>
+
+<div class="container">
+
+    <div class="topbar">
+        <h2>Our Catalogue</h2>
+        <a class="home-btn" href="index.html">← Back to Home</a>
+    </div>
+
+    <div id="catalogue" class="catalogue">
+        <div class="loading">Loading catalogue images...</div>
+    </div>
+
+</div>
+
+<footer>
+    Ganesh Printers · 2027 Calendars & Diary<br>
+    Custom Designs & Printing Available
+</footer>
+
+<div id="modal" class="modal" onclick="closeModal()">
+    <span class="close">&times;</span>
+    <img id="modalImage" src="" alt="">
+</div>
+
+<script>
+
+const GITHUB_API =
+"https://api.github.com/repos/futuradigitaltraders-creator/ganesh_printers_landing_page/contents/images?ref=main";
+
+const GITHUB_RAW =
+"https://raw.githubusercontent.com/futuradigitaltraders-creator/ganesh_printers_landing_page/main/images/";
+
+const catalogue = document.getElementById("catalogue");
+
+function makeTitle(filename){
+
+    let name = filename
+        .replace(/\.[^/.]+$/, "")
+        .replace(/[_-]+/g, " ")
+        .replace(/^\d+[A-Za-z]?\s*[\)\.\-_]?\s*/,"")
+        .replace(/\s+/g," ")
+        .trim();
+
+    return name || "Calendar / Diary";
+}
+
+function formatSize(width,height){
+
+    return width + " × " + height + " px";
+}
+
+function openModal(src,alt){
+
+    document.getElementById("modalImage").src = src;
+    document.getElementById("modalImage").alt = alt;
+    document.getElementById("modal").style.display = "flex";
+}
+
+function closeModal(){
+
+    document.getElementById("modal").style.display = "none";
+    document.getElementById("modalImage").src = "";
+}
+
+async function loadCatalogue(){
+
+    try{
+
+        const response = await fetch(GITHUB_API);
+
+        if(!response.ok){
+            throw new Error("Unable to read GitHub images folder.");
+        }
+
+        const files = await response.json();
+
+        const imageFiles = files
+            .filter(file => file.type === "file")
+            .filter(file => /\.(jpg|jpeg|png|webp)$/i.test(file.name))
+            .sort((a,b) =>
+                a.name.localeCompare(
+                    b.name,
+                    undefined,
+                    {numeric:true,sensitivity:"base"}
+                )
+            );
+
+        if(imageFiles.length === 0){
+
+            catalogue.innerHTML =
+                '<div class="error">No catalogue images found in the images folder.</div>';
+
+            return;
+        }
+
+        catalogue.innerHTML = "";
+
+        imageFiles.forEach((file,index)=>{
+
+            const imageURL =
+                GITHUB_RAW + encodeURIComponent(file.name);
+
+            const card = document.createElement("div");
+            card.className = "card";
+
+            const imageBox = document.createElement("div");
+            imageBox.className = "image-box";
+
+            const img = document.createElement("img");
+            img.src = imageURL;
+            img.alt = makeTitle(file.name);
+            img.loading = "lazy";
+
+            const info = document.createElement("div");
+            info.className = "info";
+
+            const title = document.createElement("h3");
+            title.textContent =
+                (index + 1) + ". " + makeTitle(file.name);
+
+            const size = document.createElement("div");
+            size.className = "size";
+            size.textContent = "Detecting image size...";
+
+            const whatsapp = document.createElement("a");
+            whatsapp.className = "whatsapp";
+            whatsapp.target = "_blank";
+
+            const message =
+                "Hello Ganesh Printers, I am interested in: " +
+                makeTitle(file.name);
+
+            whatsapp.href =
+                "https://wa.me/919488917786?text=" +
+                encodeURIComponent(message);
+
+            whatsapp.textContent = "WhatsApp Enquiry";
+
+            img.onload = function(){
+
+                size.textContent =
+                    "Image Size: " +
+                    formatSize(img.naturalWidth,img.naturalHeight);
+            };
+
+            img.onerror = function(){
+
+                size.textContent = "Image could not be loaded";
+            };
+
+            imageBox.onclick = function(){
+                openModal(imageURL,makeTitle(file.name));
+            };
+
+            imageBox.appendChild(img);
+
+            info.appendChild(title);
+            info.appendChild(size);
+            info.appendChild(whatsapp);
+
+            card.appendChild(imageBox);
+            card.appendChild(info);
+
+            catalogue.appendChild(card);
+
+        });
+
+    }
+    catch(error){
+
+        catalogue.innerHTML =
+            '<div class="error">' +
+            'Catalogue could not be loaded.<br><br>' +
+            error.message +
+            '</div>';
+    }
+}
+
+loadCatalogue();
+
+</script>
+
+</body>
+</html>
