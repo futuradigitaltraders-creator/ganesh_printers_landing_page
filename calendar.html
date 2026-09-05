@@ -138,6 +138,9 @@ const UPLOAD_ORDER=[
 
 function title(n){
   return decodeURIComponent(n).replace(/\.[^.]+$/,'').replace(/[_-]+/g,' ').replace(/\s+/g,' ').trim();
+}function seoAlt(n){
+  const name=title(n);
+  return `2027 ${name} Calendar - Direct from Sivakasi Printing`;
 }
 function natural(a,b){
   return a.name.localeCompare(b.name,undefined,{numeric:true,sensitivity:'base'});
@@ -146,6 +149,7 @@ function uploadOrder(a,b){
   if(!UPLOAD_ORDER.length)return natural(a,b);
   const ai=UPLOAD_ORDER.findIndex(v=>v===a.name||v===a.path);
   const bi=UPLOAD_ORDER.findIndex(v=>v===b.name||v===b.path);
+  
   if(ai<0&&bi<0)return natural(a,b);
   if(ai<0)return 1;
   if(bi<0)return -1;
@@ -201,7 +205,7 @@ function addSection(name,images){
     card.className='product';
 
     const img=document.createElement('img');
-    img.src=src;img.alt=title(x.name);img.loading='lazy';
+    img.src=src;img.alt=seoAlt(x.name);img.loading='lazy';
     img.addEventListener('click',()=>openModal(src,x.name));
 
     const content=document.createElement('div');
