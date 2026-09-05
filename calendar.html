@@ -238,7 +238,7 @@ async function build(){
     for(const x of files){
       const parts=x.path.split('/');
       if(parts.length===2){
-        if(x.name.toLowerCase()!=='product-01.jpg')general.push(x);
+       if(x.name.toLowerCase()!=='product-01.jpg' && x.name.toLowerCase()!=='futura-favicon-512.png' && x.name.toLowerCase()!=='og image final.png')general.push(x);
       }else{
         const folder=parts[1];
         (groups[folder] ||= []).push(x);
