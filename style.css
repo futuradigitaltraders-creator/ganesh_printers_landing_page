@@ -245,27 +245,158 @@
     background: rgba(255,255,255,0.08) !important;
     color: #f5d76e !important;
 }
+/* ================================
+   FINAL HEADER FIX
+   ================================ */
 
+/* Header box */
+.header-section-3 {
+    position: relative !important;
+    width: 100% !important;
+    height: 153px !important;
+    min-height: 153px !important;
+    background: #24105F !important;
+    background-color: #24105F !important;
+    z-index: 9999 !important;
+}
 
-/* CENTER BRAND INSIDE HEADER */
+.header-section-3 #header-sticky,
+.header-section-3 #header-sticky.sticky {
+    position: relative !important;
+    width: 100% !important;
+    height: 153px !important;
+    min-height: 153px !important;
+    background: #24105F !important;
+    background-color: #24105F !important;
+}
 
+/* Main header box */
+.header-section-3 .header-main {
+    position: relative !important;
+    width: 100% !important;
+    height: 153px !important;
+    min-height: 153px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* BRAND - LEFT SIDE */
 .header-section-3 .header-left {
     position: absolute !important;
-    left: 50% !important;
-    top: 10px !important;
-    transform: translateX(-50%) !important;
+    left: 35px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
     width: auto !important;
+    height: auto !important;
     display: flex !important;
-    justify-content: center !important;
     align-items: center !important;
+    justify-content: flex-start !important;
 }
+
+/* Logo + brand group */
 .header-section-3 .logo,
 .header-section-3 .professional-brand {
     display: flex !important;
-    justify-content: center !important;
     align-items: center !important;
+    justify-content: flex-start !important;
 }
+
+/* Brand text stays internally centred */
+.header-section-3 .brand-text {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Tagline */
 .header-section-3 .brand-tagline {
     font-weight: 700 !important;
     margin-top: 2px !important;
 }
+
+/* MENU - RIGHT SIDE */
+.header-section-3 .mean__menu-wrapper {
+    position: absolute !important;
+    right: 35px !important;
+    bottom: 20px !important;
+    width: auto !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+}
+
+.header-section-3 .main-menu {
+    display: flex !important;
+    align-items: center !important;
+}
+
+.header-section-3 #mobile-menu {
+    display: block !important;
+}
+
+.header-section-3 #mobile-menu > ul {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 28px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+}
+
+.header-section-3 #mobile-menu > ul > li {
+    position: relative !important;
+    display: block !important;
+}
+
+.header-section-3 #mobile-menu > ul > li > a {
+    display: block !important;
+    color: #ffffff !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+    white-space: nowrap !important;
+    padding: 10px 0 !important;
+}
+
+.header-section-3 #mobile-menu > ul > li > a:hover {
+    color: #f5d76e !important;
+}
+
+/* OTHER SERVICES DROPDOWN */
+.header-section-3 #mobile-menu .submenu {
+    position: absolute !important;
+    top: 100% !important;
+    left: 0 !important;
+    min-width: 210px !important;
+    background: #111b35 !important;
+    padding: 10px 0 !important;
+    margin: 0 !important;
+    list-style: none !important;
+    display: none !important;
+    z-index: 99999 !important;
+}
+
+.header-section-3 #mobile-menu .has-dropdown:hover > .submenu {
+    display: block !important;
+}
+
+.header-section-3 #mobile-menu .submenu li {
+    display: block !important;
+}
+
+.header-section-3 #mobile-menu .submenu li a {
+    display: block !important;
+    padding: 9px 18px !important;
+    color: #ffffff !important;
+    text-decoration: none !important;
+    white-space: nowrap !important;
+}
+
+.header-section-3 #mobile-menu .submenu li a:hover {
+    background: rgba(255,255,255,0.08) !important;
+    color: #f5d76e !important;
+}
+
