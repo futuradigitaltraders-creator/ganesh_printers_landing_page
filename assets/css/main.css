@@ -3249,7 +3249,7 @@ input.main-search-input::placeholder {
 
 }
 .hero-section-3 {
-   background: url("/images/ChatGPT%20Image%20Sep%206,%202026,%2008_03_32%20PM.png") center / cover no-repeat !important;
+  background-image: url("../../images/ChatGPT Image Sep 6, 2026, 08_03_32 PM.png") !important;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
