@@ -44,3 +44,72 @@
     color: #000000 !important;
     margin-bottom: 20px;
 }
+/* Professional Header Branding */
+
+.professional-brand {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    text-decoration: none;
+}
+
+.brand-logo {
+    width: 105px;
+    height: 105px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.brand-divider {
+    width: 2px;
+    height: 82px;
+    background: linear-gradient(
+        to bottom,
+        transparent,
+        #d4af37,
+        #f5d76e,
+        #d4af37,
+        transparent
+    );
+}
+
+.brand-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.brand-name-main {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    line-height: 1;
+    color: #ffffff;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.brand-name-sub {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    line-height: 1.2;
+    color: #ffffff;
+    margin-top: 8px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.brand-tagline {
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    font-style: italic;
+    letter-spacing: 2px;
+    color: #f5d76e;
+    margin-top: 7px;
+    text-align: center;
+}
