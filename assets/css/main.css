@@ -3250,7 +3250,7 @@ input.main-search-input::placeholder {
 }
 .hero-section-3 {
     position: relative;
-    height: 900px;
+    
     background: url("../../hero-purple-gold-bg.png") center center / cover no-repeat !important;
 }
 
