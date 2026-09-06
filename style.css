@@ -403,7 +403,7 @@
 
 ..hero-section-3 {
     position: relative;
-    min-height: 550px;
+   height: 900px !important;
     overflow: hidden;
 }
 
