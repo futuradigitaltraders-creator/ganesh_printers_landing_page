@@ -3253,6 +3253,7 @@ input.main-search-input::placeholder {
     min-height: 900px;
     background: url("../../hero-purple-gold-bg.png") center center / cover no-repeat !important;
 }
+background-color: #24105f !important;
 .hero-section-3 .swiper-slide.swiper-slide-active .hero-content {
   opacity: 1;
   transform: translateY(0px);
