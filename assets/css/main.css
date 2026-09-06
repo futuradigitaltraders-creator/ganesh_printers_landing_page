@@ -3250,7 +3250,12 @@ input.main-search-input::placeholder {
 .hero-section-3 {
   position: relative;
 }
-
+.hero-section-3 {
+    background-image: url("../../images/ChatGPT Image Sep 6, 2026, 08_03_32 PM.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
 .hero-section-3 .swiper-slide.swiper-slide-active .hero-content {
   opacity: 1;
   transform: translateY(0px);
