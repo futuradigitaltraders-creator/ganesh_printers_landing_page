@@ -3249,10 +3249,9 @@ input.main-search-input::placeholder {
 
 }
 .hero-section-3 {
-  background-image: url("../../hero-purple-gold-bg.png") !important;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    position: relative;
+    min-height: 900px;
+    background: url("../../hero-purple-gold-bg.png") center center / cover no-repeat !important;
 }
 .hero-section-3 .swiper-slide.swiper-slide-active .hero-content {
   opacity: 1;
