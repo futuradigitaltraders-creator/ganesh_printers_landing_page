@@ -400,3 +400,13 @@
     color: #f5d76e !important;
 }
 
+
+.hero-section-3 {
+    position: relative;
+}
+
+.hero-section-3 .hero-bg {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
