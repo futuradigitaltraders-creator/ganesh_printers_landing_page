@@ -3247,10 +3247,6 @@ input.main-search-input::placeholder {
   }
 }
 
-.hero-section-3 {
-    position: relative;
-    min-height: 900px;
-}
 }
 .hero-section-3 {
     background-image: url("../../images/ChatGPT%20Image%20Sep%206,%202026,%2008_03_32%20PM.png");
@@ -3951,7 +3947,7 @@ input.main-search-input::placeholder {
 
 .about-section {
     position: relative;
-    margin-top: 500px;
+    margin-top: 900px;
 }
 }
 
