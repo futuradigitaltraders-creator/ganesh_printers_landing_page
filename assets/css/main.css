@@ -3248,7 +3248,9 @@ input.main-search-input::placeholder {
 }
 
 .hero-section-3 {
-  position: relative;
+    position: relative;
+    min-height: 900px;
+}
 }
 .hero-section-3 {
     background-image: url("../../images/ChatGPT Image Sep 6, 2026, 08_03_32 PM.png");
