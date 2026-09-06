@@ -220,6 +220,26 @@
     text-decoration: none !important;
     white-space: nowrap !important;
 }
+/* FINAL HEADER BACKGROUND FIX */
+
+.header-section-3,
+.header-section-3 #header-sticky,
+.header-section-3 #header-sticky.sticky {
+    background: #09052F !important;
+    background-color: #09052F !important;
+}
+
+.header-section-3 {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999 !important;
+}
+
+.header-section-3 #header-sticky {
+    width: 100%;
+}
 
 .header-section-3 #mobile-menu .submenu li a:hover {
     background: rgba(255,255,255,0.08) !important;
