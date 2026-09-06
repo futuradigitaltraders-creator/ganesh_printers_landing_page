@@ -3155,7 +3155,7 @@ input.main-search-input::placeholder {
   width: 100%;
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: center center;
+  background-image: url("../../hero-purple-gold-bg.png") !important;
 }
 
 .hero-3 .hero-content {
