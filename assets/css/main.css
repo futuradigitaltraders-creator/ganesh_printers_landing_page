@@ -3948,7 +3948,9 @@ input.main-search-input::placeholder {
 }
 
 .about-section {
-  position: relative;
+    position: relative;
+    margin-top: 500px;
+}
 }
 
 .about-section .dot-shape {
