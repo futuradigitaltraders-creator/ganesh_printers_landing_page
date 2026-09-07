@@ -421,11 +421,16 @@
     height: 900px !important;
     min-height: 900px !important;
 }
+.hero-animation {
+    position: relative;
+    top: -80px;
+    z-index: 5;
+}
 .hero-animation-track {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    align-items: center;
+    align-items: flex-start;
     width: max-content;
     animation: heroImageMove 32s linear infinite alternate;
 }
@@ -447,4 +452,3 @@
     100% {
         transform: translateX(-3900px);
     }
-}
