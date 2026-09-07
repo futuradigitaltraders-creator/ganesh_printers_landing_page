@@ -438,7 +438,7 @@
 
 .hero-animation-track img {
     width: 900px;
-   height: 680px;
+   height: auto;
     max-width: none;
     flex: 0 0 1300px;
     display: block;
