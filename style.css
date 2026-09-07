@@ -421,18 +421,10 @@
     height: 900px !important;
     min-height: 900px !important;
 }
-/* NEW HERO IMAGE ANIMATION */
-.hero-animation {
-    position: relative;
-    z-index: 5;
-    width: 100%;
-    max-width: 1300px;
-    margin: 0 auto;
-    overflow: hidden;
-}
-
 .hero-animation-track {
     display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
     align-items: center;
     width: max-content;
     animation: heroImageMove 32s linear infinite alternate;
@@ -442,9 +434,10 @@
     width: 1300px;
     height: auto;
     max-width: none;
-    flex-shrink: 0;
+    flex: 0 0 1300px;
     display: block;
 }
+
 
 @keyframes heroImageMove {
     0% {
