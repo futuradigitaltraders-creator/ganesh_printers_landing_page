@@ -423,7 +423,7 @@
 }
 .hero-animation {
     position: relative;
-    top: -80px;
+    top: -150px;
     z-index: 5;
 }
 .hero-animation-track {
