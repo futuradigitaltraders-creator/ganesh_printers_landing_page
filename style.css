@@ -420,7 +420,7 @@
 
 .hero-animation {
     position: relative;
-    top: -200px;
+    top: -210px;
     z-index: 5;
 }
 .hero-animation-track {
@@ -449,7 +449,7 @@
 }
 
 .hero-animation-track img:nth-child(3) {
-    width: 800px;
+    width: 700px;
     height: auto;
     max-width: none;
     flex: 0 0 550px;
