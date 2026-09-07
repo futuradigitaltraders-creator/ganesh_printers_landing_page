@@ -429,7 +429,7 @@
     flex-wrap: nowrap;
     align-items: flex-start;
     width: max-content;
-    animation: heroImageMove 32s linear infinite;
+   animation: heroImageMove 32s linear infinite;
 }
 
 .hero-animation-track img:nth-child(1) {
@@ -501,5 +501,7 @@
         transform: translateX(0);
     }
 
-   100% { transform: translateX(-1650px); 
-        }
+    100% {
+        transform: translateX(-100%);
+    }
+}
