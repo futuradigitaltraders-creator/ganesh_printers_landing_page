@@ -116,8 +116,10 @@ const UPLOAD_ORDER=[
 ];
 
 function title(n){
-  return decodeURIComponent(n).replace(/\.[^.]+$/,'').replace(/[_-]+/g,' ').replace(/\s+/g,' ').trim();
-}function seoAlt(n){
+  const s=decodeURIComponent(n).replace(/\.[^.]+$/,'').replace(/[_-]+/g,' ').replace(/\s+/g,' ').trim();
+  if(s.toLowerCase()==='1) gold frame special daily calendars') return 'Gold Daily Calendars';
+  return s;
+}
   const name=title(n);
   return `2027 ${name} Calendar - Direct from Sivakasi Printing`;
 }
