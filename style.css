@@ -432,9 +432,33 @@
     animation: heroImageMove 32s linear infinite alternate;
 }
 
-.hero-animation-track img {
-    width: 12000px;
-   height: auto;
+.hero-animation-track img:nth-child(1) {
+    width: 1200px;
+    height: auto;
+    max-width: none;
+    flex: 0 0 1200px;
+    display: block;
+}
+
+.hero-animation-track img:nth-child(2) {
+    width: 550px;
+    height: auto;
+    max-width: none;
+    flex: 0 0 550px;
+    display: block;
+}
+
+.hero-animation-track img:nth-child(3) {
+    width: 550px;
+    height: auto;
+    max-width: none;
+    flex: 0 0 550px;
+    display: block;
+}
+
+.hero-animation-track img:nth-child(4) {
+    width: 550px;
+    height: auto;
     max-width: none;
     flex: 0 0 550px;
     display: block;
