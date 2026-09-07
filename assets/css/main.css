@@ -3948,7 +3948,7 @@ input.main-search-input::placeholder {
 .about-section {
     position: relative;
     margin-top: 0;
-}
+  }
 
 .about-section .dot-shape {
   position: absolute;
