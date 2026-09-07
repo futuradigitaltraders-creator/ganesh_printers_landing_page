@@ -464,6 +464,37 @@
     display: block;
 }
 
+.hero-animation-track img:nth-child(5) {
+    width: 550px;
+    height: auto;
+    max-width: none;
+    flex: 0 0 550px;
+    display: block;
+}
+
+.hero-animation-track img:nth-child(6) {
+    width: 550px;
+    height: auto;
+    max-width: none;
+    flex: 0 0 550px;
+    display: block;
+}
+
+.hero-animation-track img:nth-child(7) {
+    width: 550px;
+    height: auto;
+    max-width: none;
+    flex: 0 0 550px;
+    display: block;
+}
+
+.hero-animation-track img:nth-child(8) {
+    width: 550px;
+    height: auto;
+    max-width: none;
+    flex: 0 0 550px;
+    display: block;
+}
 
 @keyframes heroImageMove {
     0% {
