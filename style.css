@@ -418,9 +418,10 @@
     background-repeat: no-repeat;
 }
 .hero-section-3 {
-    height: 900px !important;
-    min-height: 900px !important;
+    height: 680px !important;
+    min-height: 680px !important;
 }
+
 .hero-animation {
     position: relative;
     top: -260px;
