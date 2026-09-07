@@ -425,14 +425,15 @@
 .hero-animation {
     position: relative;
     z-index: 5;
-    width: 1300px;
-    max-width: 100%;
+    width: 100%;
+    max-width: 1300px;
     margin: 0 auto;
     overflow: hidden;
 }
 
 .hero-animation-track {
     display: flex;
+    align-items: center;
     width: max-content;
     animation: heroImageMove 32s linear infinite alternate;
 }
@@ -449,6 +450,7 @@
     0% {
         transform: translateX(0);
     }
+
     100% {
         transform: translateX(-3900px);
     }
