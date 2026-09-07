@@ -446,6 +446,5 @@
         transform: translateX(0);
     }
 
-    100% {
-        transform: translateX(-3900px);
-    }
+   100% { transform: translateX(-1650px); 
+        }
