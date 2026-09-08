@@ -465,7 +465,7 @@
 }
 
 .hero-animation-track img:nth-child(5) {
-    width: 550px;
+    width: 650px;
     height: auto;
     max-width: none;
     flex: 0 0 550px;
@@ -473,7 +473,7 @@
 }
 
 .hero-animation-track img:nth-child(6) {
-    width: 550px;
+    width: 650px;
     height: auto;
     max-width: none;
     flex: 0 0 550px;
@@ -481,7 +481,7 @@
 }
 
 .hero-animation-track img:nth-child(7) {
-    width: 700px;
+    width: 650px;
     height: auto;
     max-width: none;
     flex: 0 0 550px;
@@ -489,14 +489,14 @@
 }
 
 .hero-animation-track img:nth-child(8) {
-    width: 900px;
+    width: 750px;
     height: auto;
     max-width: none;
     flex: 0 0 550px;
     display: block;
 }
 .hero-animation-track img:nth-child(9) {
-    width: 800px;
+    width: 600px;
     height: auto;
     max-width: none;
     flex: 0 0 550px;
@@ -524,7 +524,7 @@
     display: block;
 }
 .hero-animation-track img:nth-child(13) {
-    width: 620px;
+    width: 630px;
     height: auto;
     max-width: none;
     flex: 0 0 550px;
@@ -545,7 +545,7 @@
     display: block;
 }
 .hero-animation-track img:nth-child(16) {
-    width: 550px;
+    width: 560px;
     height: auto;
     max-width: none;
     flex: 0 0 550px;
