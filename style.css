@@ -481,7 +481,7 @@
 }
 
 .hero-animation-track img:nth-child(7) {
-    width: 600px;
+    width: 550px;
     height: auto;
     max-width: none;
     flex: 0 0 550px;
@@ -489,7 +489,7 @@
 }
 
 .hero-animation-track img:nth-child(8) {
-    width: 300px;
+    width: 400px;
     height: auto;
     max-width: none;
     flex: 0 0 550px;
@@ -525,7 +525,7 @@
     display: block;
 }
 .hero-animation-track img:nth-child(14) {
-    width: 540px;
+    width: 550px;
     height: auto;
     max-width: none;
     flex: 0 0 550px;
@@ -546,14 +546,14 @@
     display: block;
 }
 .hero-animation-track img:nth-child(17) {
-    width: 750px;
+    width: 700px;
     height: auto;
     max-width: none;
     flex: 0 0 550px;
     display: block;
 }
 .hero-animation-track img:nth-child(18) {
-    width: 1300px;
+    width: 1400px;
     height: auto;
     max-width: none;
     flex: 0 0 550px;
