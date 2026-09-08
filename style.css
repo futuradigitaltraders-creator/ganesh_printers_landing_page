@@ -452,7 +452,7 @@
     width: 700px;
     height: auto;
     max-width: none;
-    flex: 0 0 700px;
+    flex: 0 0 550px;
     display: block;
 }
 
@@ -460,7 +460,7 @@
     width: 650px;
     height: auto;
     max-width: none;
-    flex: 0 0 650px;
+    flex: 0 0 550px;
     display: block;
 }
 
@@ -468,7 +468,7 @@
     width: 650px;
     height: auto;
     max-width: none;
-    flex: 0 0 600px;
+    flex: 0 0 550px;
     display: block;
 }
 
@@ -476,7 +476,7 @@
     width: 600px;
     height: auto;
     max-width: none;
-    flex: 0 0 600px;
+    flex: 0 0 550px;
     display: block;
 }
 
@@ -484,7 +484,7 @@
     width: 600px;
     height: auto;
     max-width: none;
-    flex: 0 0 600px;
+    flex: 0 0 550px;
     display: block;
 }
 
@@ -492,7 +492,7 @@
     width: 800px;
     height: auto;
     max-width: none;
-    flex: 0 0 800px;
+    flex: 0 0 550px;
     display: block;
 }
 
@@ -512,12 +512,7 @@
     flex: 0 0 550px;
     display: block;
 }
-    width: 550px;
-    height: auto;
-    max-width: none;
-    flex: 0 0 550px;
-    display: block;
-}
+ 
 @keyframes heroImageMove {
     0% {
         transform: translateX(0);
