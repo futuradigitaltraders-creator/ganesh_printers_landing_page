@@ -433,10 +433,10 @@
 }
 
 .hero-animation-track img:nth-child(1) {
-    width: 600px;
+    width: 800px;
     height: auto;
     max-width: none;
-    flex: 0 0 1200px;
+    flex: 0 0 550px;
     display: block;
 }
 
@@ -496,17 +496,64 @@
     display: block;
 }
 
-/* Hero Animation - Image 8A to 15 */
-.hero-animation-track img:nth-child(9),
-.hero-animation-track img:nth-child(10),
-.hero-animation-track img:nth-child(11),
-.hero-animation-track img:nth-child(12),
-.hero-animation-track img:nth-child(13),
-.hero-animation-track img:nth-child(14),
-.hero-animation-track img:nth-child(15),
-.hero-animation-track img:nth-child(16),
+.hero-animation-track img:nth-child(10) {
+    width: 550px;
+    height: auto;
+    max-width: none;
+    flex: 0 0 550px;
+    display: block;
+}
+.hero-animation-track img:nth-child(11) {
+    width: 550px;
+    height: auto;
+    max-width: none;
+    flex: 0 0 550px;
+    display: block;
+}
+.hero-animation-track img:nth-child(12) {
+    width: 550px;
+    height: auto;
+    max-width: none;
+    flex: 0 0 550px;
+    display: block;
+}
+.hero-animation-track img:nth-child(13) {
+    width: 550px;
+    height: auto;
+    max-width: none;
+    flex: 0 0 550px;
+    display: block;
+}
+.hero-animation-track img:nth-child(14) {
+    width: 550px;
+    height: auto;
+    max-width: none;
+    flex: 0 0 550px;
+    display: block;
+}
+.hero-animation-track img:nth-child(15) {
+    width: 550px;
+    height: auto;
+    max-width: none;
+    flex: 0 0 550px;
+    display: block;
+}
+.hero-animation-track img:nth-child(16) {
+    width: 550px;
+    height: auto;
+    max-width: none;
+    flex: 0 0 550px;
+    display: block;
+}
 .hero-animation-track img:nth-child(17) {
-    width: 250px;
+    width: 550px;
+    height: auto;
+    max-width: none;
+    flex: 0 0 550px;
+    display: block;
+}
+.hero-animation-track img:nth-child(18) {
+    width: 550px;
     height: auto;
     max-width: none;
     flex: 0 0 550px;
