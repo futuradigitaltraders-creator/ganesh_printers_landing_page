@@ -464,7 +464,7 @@
     display: block;
 }
 
-.hero-animation-track img:nth-child(15) {
+.hero-animation-track img:nth-child(5) {
     width: 550px;
     height: auto;
     max-width: none;
@@ -472,7 +472,7 @@
     display: block;
 }
 
-.hero-animation-track img:nth-child(16) {
+.hero-animation-track img:nth-child(6) {
     width: 550px;
     height: auto;
     max-width: none;
