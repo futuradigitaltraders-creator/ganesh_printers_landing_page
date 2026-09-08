@@ -457,7 +457,7 @@
 }
 
 .hero-animation-track img:nth-child(4) {
-    width: 600px;
+    width: 500px;
     height: auto;
     max-width: none;
     flex: 0 0 550px;
@@ -465,14 +465,6 @@
 }
 
 .hero-animation-track img:nth-child(5) {
-    width: 650px;
-    height: auto;
-    max-width: none;
-    flex: 0 0 550px;
-    display: block;
-}
-
-.hero-animation-track img:nth-child(6) {
     width: 550px;
     height: auto;
     max-width: none;
@@ -480,8 +472,16 @@
     display: block;
 }
 
+.hero-animation-track img:nth-child(6) {
+    width: 650px;
+    height: auto;
+    max-width: none;
+    flex: 0 0 550px;
+    display: block;
+}
+
 .hero-animation-track img:nth-child(7) {
-    width: 300px;
+    width: 400px;
     height: auto;
     max-width: none;
     flex: 0 0 550px;
@@ -511,21 +511,21 @@
     display: block;
 }
 .hero-animation-track img:nth-child(12) {
-    width: 600px;
+    width: 550px;
     height: auto;
     max-width: none;
     flex: 0 0 550px;
     display: block;
 }
 .hero-animation-track img:nth-child(13) {
-    width: 600px;
+    width: 550px;
     height: auto;
     max-width: none;
     flex: 0 0 550px;
     display: block;
 }
 .hero-animation-track img:nth-child(14) {
-    width: 600px;
+    width: 500px;
     height: auto;
     max-width: none;
     flex: 0 0 550px;
