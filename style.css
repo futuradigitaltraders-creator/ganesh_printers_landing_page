@@ -457,7 +457,7 @@
 }
 
 .hero-animation-track img:nth-child(4) {
-    width: 550px;
+    width: 650px;
     height: auto;
     max-width: none;
     flex: 0 0 550px;
@@ -465,7 +465,7 @@
 }
 
 .hero-animation-track img:nth-child(5) {
-    width: 550px;
+    width: 650px;
     height: auto;
     max-width: none;
     flex: 0 0 550px;
@@ -473,7 +473,7 @@
 }
 
 .hero-animation-track img:nth-child(6) {
-    width: 550px;
+    width: 600px;
     height: auto;
     max-width: none;
     flex: 0 0 550px;
