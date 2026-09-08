@@ -436,12 +436,12 @@
     width: 800px;
     height: auto;
     max-width: none;
-    flex: 0 0 550px;
+    flex: 0 0 1200px;
     display: block;
 }
 
 .hero-animation-track img:nth-child(2) {
-    width: 250px;
+    width: 150px;
     height: auto;
     max-width: none;
     flex: 0 0 550px;
@@ -465,7 +465,7 @@
 }
 
 .hero-animation-track img:nth-child(5) {
-    width: 650px;
+    width: 550px;
     height: auto;
     max-width: none;
     flex: 0 0 550px;
@@ -473,7 +473,7 @@
 }
 
 .hero-animation-track img:nth-child(6) {
-    width: 600px;
+    width: 500px;
     height: auto;
     max-width: none;
     flex: 0 0 550px;
@@ -489,7 +489,7 @@
 }
 
 .hero-animation-track img:nth-child(8) {
-    width: 800px;
+    width: 300px;
     height: auto;
     max-width: none;
     flex: 0 0 550px;
@@ -497,35 +497,35 @@
 }
 
 .hero-animation-track img:nth-child(10) {
-    width: 550px;
+    width: 400px;
     height: auto;
     max-width: none;
     flex: 0 0 550px;
     display: block;
 }
 .hero-animation-track img:nth-child(11) {
-    width: 550px;
+    width: 650px;
     height: auto;
     max-width: none;
     flex: 0 0 550px;
     display: block;
 }
 .hero-animation-track img:nth-child(12) {
-    width: 550px;
+    width: 650px;
     height: auto;
     max-width: none;
     flex: 0 0 550px;
     display: block;
 }
 .hero-animation-track img:nth-child(13) {
-    width: 550px;
+    width: 600px;
     height: auto;
     max-width: none;
     flex: 0 0 550px;
     display: block;
 }
 .hero-animation-track img:nth-child(14) {
-    width: 550px;
+    width: 650px;
     height: auto;
     max-width: none;
     flex: 0 0 550px;
