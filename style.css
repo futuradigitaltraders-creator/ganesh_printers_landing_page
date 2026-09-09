@@ -440,7 +440,7 @@
     display: block;
 }
 
-.hero-animation-track img:nth-child(2) {
+.hero-animation-track > a:nth-child(2) img {
     width: 200px;
     height: auto;
     max-width: none;
