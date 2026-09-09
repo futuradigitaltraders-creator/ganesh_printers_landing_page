@@ -441,10 +441,10 @@
 }
 
 .hero-animation-track > a:nth-child(2) img {
-    width: 200px;
+    width: 550px;
     height: auto;
     max-width: none;
-    flex: 0 0 200px;
+    flex: 0 0 550px;
     display: block;
 }
 
