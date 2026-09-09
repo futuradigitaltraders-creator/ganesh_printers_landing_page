@@ -76,7 +76,7 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f5f5f5;color:#2
 </div>
 
 <script>
-const TREE='https://api.github.com/repos/futuradigitaltraders-creator/ganesh_printers_landing_page/git/trees/main?recursive=1';
+const REPO='https://api.github.com/repos/futuradigitaltraders-creator/ganesh_printers_landing_page/contents/';
 const RAW='https://raw.githubusercontent.com/futuradigitaltraders-creator/ganesh_printers_landing_page/main/';
 const WA='919488917786';
 const EXT=/\.(jpg|jpeg|png|webp|gif)$/i;
@@ -159,15 +159,29 @@ document.addEventListener('contextmenu',e=>e.preventDefault());
 document.addEventListener('dragstart',e=>{if(e.target.tagName==='IMG')e.preventDefault()});
 
 async function fetchCatalogue(){
-  const r = await fetch(REPO + 'images', {
-    headers:{Accept:'application/vnd.github+json'}
-  });
+  const result=[];
 
-  if(!r.ok) throw new Error('GitHub images folder could not be loaded');
+  async function walk(path){
+    const r=await fetch(REPO + path + '?ref=main',{cache:'no-store'});
+    if(!r.ok) throw new Error('GitHub folder could not be loaded');
 
-  return await r.json();
-}
- 
+    const items=await r.json();
+
+    for(const x of items){
+      if(x.type==='file'){
+        result.push({
+          type:'blob',
+          path:x.path
+        });
+      }else if(x.type==='dir'){
+        await walk(x.path);
+      }
+    }
+  }
+
+  await walk('images');
+  return result;
+} 
 function addSection(name,images){
   if(!images.length)return;
   const section=document.createElement('section');
@@ -229,7 +243,7 @@ function addSection(name,images){
 
 async function build(){
   try{
-    const tree=await fetchTree();
+  const tree=await fetchCatalogue();
     const files=tree
       .filter(x=>x.type==='blob'&&x.path.toLowerCase().startsWith('images/')&&EXT.test(x.path))
       .map(x=>({path:x.path,name:x.path.split('/').pop()}));
