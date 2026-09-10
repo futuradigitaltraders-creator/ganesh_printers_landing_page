@@ -9,14 +9,13 @@
 body{overflow-x:hidden}.page{min-height:100vh;padding:24px 18px 45px;background:#10045a url('images/Die%20Cutting%20Calendars/die%20cutting%20cal%20bg.jpg') center/cover fixed no-repeat}
 .wrap{max-width:1180px;margin:auto}.back{display:inline-block;background:#222;color:#fff;text-decoration:none;padding:9px 14px;border-radius:6px;font-size:13px;font-weight:700;margin-bottom:16px}
 .product{background:#fff;border-radius:12px;box-shadow:0 5px 24px #0007;padding:18px;display:grid;grid-template-columns:1.15fr .85fr;gap:24px}.left{text-align:center}
-.viewer{position:relative;width:100%;height:720px;overflow:hidden;border-radius:8px;background:#f5f5f5;cursor:grab;touch-action:none}.viewer.dragging{cursor:grabbing}
+.viewer{position:relative;width:100%;height:720px;overflow:hidden;border-radius:8px;background:#f5f5f5;cursor:zoom-in;touch-action:none}.viewer.dragging{cursor:grabbing}
 .viewer img{position:absolute;left:50%;top:50%;display:block;width:auto;height:auto;max-width:none;max-height:none;transform:translate(-50%,-50%) scale(1);transform-origin:center center;user-select:none;-webkit-user-drag:none}
 .zoom-tools{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px 0 4px}.zoom-tools button{background:#222;color:#fff;border:0;border-radius:6px;padding:9px 14px;font-weight:700;cursor:pointer}.zoom-level{font-size:12px;color:#555;margin-top:5px}
 .details{padding:22px;color:#222}.details h1{margin:0 0 8px;font-size:28px;color:#c90000}.description{font-family:Georgia,serif;font-size:18px;font-weight:700;color:#111b67;line-height:1.4;margin:0 0 18px}
-.box{border:1px solid #ddd;border-radius:8px;padding:12px;margin-bottom:12px;background:#fff}
 .moq{background:#fff7df;border:2px solid #e2b52e;color:#7a4b00;text-align:center;font-size:19px;font-weight:800;padding:14px;border-radius:8px;margin-bottom:14px}
 .section-title{font-size:19px;color:#111b67;font-weight:800;margin:12px 0 7px}.select{width:100%;padding:11px;border:1px solid #aaa;border-radius:6px;font-size:15px;background:#fff}
-.total{margin-top:12px;padding:14px;background:#fff7df;border:1px solid #e2c36b;border-radius:8px;font-size:19px;font-weight:800;display:flex;justify-content:space-between}.total strong{font-size:22px;color:#174a9c}
+.total{margin-top:12px;padding:14px;background:#fff7df;border:1px solid #e2c36b;border-radius:8px;font-size:19px;font-weight:800;display:flex;justify-content:space-between}.total strong{font-size:22px;color:#174a9c}.total.reached{background:#edf9ef;border-color:#168a3a}.total.reached strong{color:#168a3a}
 .availability{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}.avail,.nostock{padding:12px;border-radius:7px;text-align:center;font-weight:800;background:#fff}.avail{color:#168a3a;border:1px solid #168a3a}.nostock{color:#d71920;border:1px solid #d71920}
 .actions{display:flex;gap:10px;margin-top:15px}.cart,.whatsapp{flex:1;padding:20px;border:0;border-radius:8px;font-weight:800;font-size:20px;text-align:center;text-decoration:none;cursor:pointer}.cart{background:#e21b1b;color:#fff}.whatsapp{background:#25D366;color:#fff}
 .zoom-overlay{display:none;position:fixed;inset:0;background:#000e;z-index:9999;align-items:center;justify-content:center;overflow:hidden}.zoom-overlay.show{display:flex}.zoom-stage{width:94vw;height:88vh;overflow:hidden;cursor:default;touch-action:none;position:relative}.zoom-stage.dragging{cursor:grabbing}.zoom-stage img{position:absolute;left:50%;top:50%;max-width:none;max-height:none;width:auto;height:auto;transform-origin:center center;user-select:none;-webkit-user-drag:none}.zoom-close{position:fixed;top:10px;right:20px;color:#fff;font-size:42px;cursor:pointer;z-index:3}.zoom-controls{position:fixed;top:14px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:3}.zoom-controls button{border:0;border-radius:6px;padding:9px 12px;font-weight:700;cursor:pointer}.zoom-help{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);background:#fffd;padding:6px 12px;border-radius:15px;font-size:11px;white-space:nowrap;z-index:3}
@@ -29,8 +28,8 @@ body{overflow-x:hidden}.page{min-height:100vh;padding:24px 18px 45px;background:
 <section class="product">
 <div class="left">
 <div class="viewer" id="viewer"><img id="productImage" src="images/Die%20Cutting%20Calendars/CATELAGUE%20-%2001L/23x36/0002.jpg" alt="Die-Cutting Calendar Design No. 200"></div>
-<div class="zoom-tools"><button type="button" onclick="zoomIn()">ZOOM +</button><button type="button" onclick="zoomOut()">ZOOM −</button><button type="button" onclick="zoomReset()">ZOOM 1:1</button><button type="button" onclick="zoomMax()">ZOOM ++</button><button type="button" onclick="resetView()">RESET VIEW</button></div>
-<div class="zoom-level" id="zoomLevel">Zoom: 100% · Click image to zoom</div>
+<div class="zoom-tools"><button type="button" onclick="zoomIn()">ZOOM +</button><button type="button" onclick="zoomOut()">ZOOM −</button><button type="button" onclick="zoomReset()">ZOOM 100%</button><button type="button" onclick="zoomMax()">ZOOM ++</button><button type="button" onclick="resetView()">RESET VIEW</button></div>
+<div class="zoom-level" id="zoomLevel">Zoom: 100% · Click image to open full viewer</div>
 </div>
 <div class="details">
 <h1>Design No. 200</h1>
@@ -38,26 +37,37 @@ body{overflow-x:hidden}.page{min-height:100vh;padding:24px 18px 45px;background:
 <div class="moq">MINIMUM ORDER QUANTITY (MOQ): 100</div>
 <div class="section-title">Quantities</div>
 <select class="select" id="qty" aria-label="Quantity"><option value="0">Select Quantity</option><option value="10">10</option><option value="20">20</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select>
-<div class="total"><span>TOTAL QUANTITY</span><strong id="totalQty">0</strong></div>
+<div class="total" id="totalBox"><span>TOTAL QUANTITY</span><strong id="totalQty">0</strong></div>
 <div class="section-title">Availability</div>
 <div class="availability"><div class="avail">✓ AVAILABLE</div><div class="nostock">✕ NO STOCK</div></div>
 <div class="actions"><button class="cart" id="cartBtn" type="button">🛒 ADD TO CART</button><button class="whatsapp" id="waBtn" type="button">WHATSAPP ORDER →</button></div>
 </div>
 </section>
 </div></main>
-<div class="zoom-overlay" id="overlay"><button class="zoom-close" id="close" aria-label="Close">×</button><div class="zoom-controls"><button type="button" onclick="zoomIn()">ZOOM +</button><button type="button" onclick="zoomOut()">ZOOM −</button><button type="button" onclick="zoomReset()">ZOOM 1:1</button><button type="button" onclick="zoomMax()">ZOOM ++</button><button type="button" onclick="resetView()">RESET</button></div><div class="zoom-stage" id="stage"><img id="zoomImage" src="" alt="Zoomed calendar"></div><div class="zoom-help">Zoom in → hand cursor → drag to inspect any area · Zoom − or Reset returns to normal</div></div>
+<div class="zoom-overlay" id="overlay"><button class="zoom-close" id="close" aria-label="Close">×</button><div class="zoom-controls"><button type="button" onclick="zoomIn()">ZOOM +</button><button type="button" onclick="zoomOut()">ZOOM −</button><button type="button" onclick="zoomReset()">ZOOM 100%</button><button type="button" onclick="zoomMax()">ZOOM ++</button><button type="button" onclick="resetView()">RESET</button></div><div class="zoom-stage" id="stage"><img id="zoomImage" src="" alt="Zoomed calendar"></div><div class="zoom-help">Zoom in → hand cursor → drag to inspect any area · Zoom − returns directly to 100% normal view</div></div>
 <script>
 const img=document.getElementById('productImage'),viewer=document.getElementById('viewer'),overlay=document.getElementById('overlay'),stage=document.getElementById('stage'),zoomImg=document.getElementById('zoomImage'),zoomLevel=document.getElementById('zoomLevel');
 let scale=1,x=0,y=0,dragging=false,startX=0,startY=0,baseX=0,baseY=0;const MIN=1,MAX=5,STEP=.5;
 function render(){zoomImg.style.transform=`translate(calc(-50% + ${x}px),calc(-50% + ${y}px)) scale(${scale})`;zoomLevel.textContent=`Zoom: ${Math.round(scale*100)}% · ${scale>1?'Hand drag enabled':'Click image to zoom'}`;stage.style.cursor=scale>1?'grab':'default'}
-function zoomIn(){scale=Math.min(MAX,scale+STEP);render()};function zoomOut(){scale=Math.max(MIN,scale-STEP);if(scale===1){x=0;y=0}render()};function zoomReset(){scale=1;x=0;y=0;render()};function zoomMax(){scale=MAX;render()};function resetView(){zoomReset()}
-function openZoom(){scale=1;x=0;y=0;zoomImg.src=img.src;overlay.classList.add('show');document.body.style.overflow='hidden';render()};img.onclick=openZoom;
+function zoomIn(){scale=Math.min(MAX,scale+STEP);render()}
+function zoomOut(){zoomReset()}
+function zoomReset(){scale=1;x=0;y=0;render()}
+function zoomMax(){scale=MAX;render()}
+function resetView(){zoomReset()}
+function openZoom(){scale=1;x=0;y=0;zoomImg.src=img.src;overlay.classList.add('show');document.body.style.overflow='hidden';render()}
+img.onclick=openZoom;
 document.getElementById('close').onclick=()=>{overlay.classList.remove('show');document.body.style.overflow=''};overlay.onclick=e=>{if(e.target===overlay){overlay.classList.remove('show');document.body.style.overflow=''}};
 stage.addEventListener('pointerdown',e=>{if(scale<=1)return;dragging=true;stage.classList.add('dragging');startX=e.clientX;startY=e.clientY;baseX=x;baseY=y;stage.setPointerCapture(e.pointerId);e.preventDefault()});stage.addEventListener('pointermove',e=>{if(!dragging)return;x=baseX+e.clientX-startX;y=baseY+e.clientY-startY;render()});function endDrag(){dragging=false;stage.classList.remove('dragging')}stage.addEventListener('pointerup',endDrag);stage.addEventListener('pointercancel',endDrag);
 stage.addEventListener('wheel',e=>{e.preventDefault();if(e.deltaY<0)zoomIn();else zoomOut()},{passive:false});
-const qty=document.getElementById('qty'),total=document.getElementById('totalQty');qty.onchange=()=>total.textContent=qty.value;
-document.getElementById('cartBtn').onclick=()=>{const q=Number(qty.value);if(q<100){alert('Minimum Order Quantity is 100. Select 100 for this design or add other designs later to reach the MOQ.');return}document.getElementById('cartBtn').textContent='✓ ADDED TO CART';document.getElementById('cartBtn').style.background='#168a3a'};
-document.getElementById('waBtn').onclick=()=>{const q=Number(qty.value);if(q<100){alert('Minimum Order Quantity is 100.');return}window.open('https://wa.me/?text='+encodeURIComponent('Die-Cutting Calendar Order\nDesign No. 200\nQuantity: '+q),'_blank')};render();
+const qty=document.getElementById('qty'),total=document.getElementById('totalQty'),totalBox=document.getElementById('totalBox');
+const TOTAL_KEY='dieCuttingCalendarTotalQty';
+function getTotal(){return Number(localStorage.getItem(TOTAL_KEY)||0)}
+function showTotal(){const t=getTotal();total.textContent=t;totalBox.classList.toggle('reached',t>=100)}
+qty.onchange=()=>{const newQty=Number(qty.value);const oldQty=Number(sessionStorage.getItem('dieCuttingCurrentQty')||0);const base=getTotal()-oldQty;const updated=base+newQty;localStorage.setItem(TOTAL_KEY,String(updated));sessionStorage.setItem('dieCuttingCurrentQty',String(newQty));showTotal()};
+window.addEventListener('pageshow',showTotal);
+document.getElementById('cartBtn').onclick=()=>{const t=getTotal();if(t<100){alert('Minimum Order Quantity is 100. You can continue selecting quantities from other designs.');return}document.getElementById('cartBtn').textContent='✓ ADDED TO CART';document.getElementById('cartBtn').style.background='#168a3a'};
+document.getElementById('waBtn').onclick=()=>{const t=getTotal();if(t<100){alert('Minimum Order Quantity is 100. Continue selecting designs until Total Quantity reaches 100.');return}window.open('https://wa.me/?text='+encodeURIComponent('Die-Cutting Calendar Order\nDesign No. 200\nTotal Quantity: '+t),'_blank')};
+showTotal();render();
 </script>
 </body>
 </html>
