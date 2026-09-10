@@ -1,0 +1,1 @@
+Vercel deployment trigger for 12x18 catalogue update.
