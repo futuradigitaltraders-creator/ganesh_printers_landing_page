@@ -441,10 +441,10 @@
 }
 
 .hero-animation-track > a:nth-child(2) img {
-    width: 570px;
+    width: 560px;
     height: auto;
     max-width: none;
-    flex: 0 0 570px;
+    flex: 0 0 560px;
     display: block;
 }
 
@@ -473,33 +473,33 @@
 }
 
 .hero-animation-track img:nth-child(6) {
-    width: 750px;
+    width: 650px;
     height: auto;
     max-width: none;
-    flex: 0 0 550px;
+    flex: 0 0 650px;
     display: block;
 }
 
 .hero-animation-track img:nth-child(7) {
-    width: 500px;
+    width: 700px;
     height: auto;
     max-width: none;
-    flex: 0 0 550px;
+    flex: 0 0 700px;
     display: block;
 }
 
 .hero-animation-track img:nth-child(8) {
-    width: 650px;
+    width: 550px;
     height: auto;
     max-width: none;
     flex: 0 0 550px;
     display: block;
 }
 .hero-animation-track img:nth-child(9) {
-    width: 850px;
+    width: 750px;
     height: auto;
     max-width: none;
-    flex: 0 0 550px;
+    flex: 0 0 750px;
     display: block;
 }
 .hero-animation-track img:nth-child(10) {
