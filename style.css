@@ -420,7 +420,7 @@
 
 .hero-animation {
     position: relative;
-    top: -210px;
+    top: -185px;
     z-index: 5;
 }
 .hero-animation-track {
@@ -444,7 +444,7 @@
     width: 570px;
     height: auto;
     max-width: none;
-    flex: 0 0 550px;
+    flex: 0 0 570px;
     display: block;
 }
 
@@ -452,7 +452,7 @@
     width: 680px;
     height: auto;
     max-width: none;
-    flex: 0 0 550px;
+    flex: 0 0 680px;
     display: block;
 }
 
@@ -460,7 +460,7 @@
     width: 600px;
     height: auto;
     max-width: none;
-    flex: 0 0 550px;
+    flex: 0 0 600px;
     display: block;
 }
 
@@ -552,14 +552,14 @@
     display: block;
 }
 .hero-animation-track img:nth-child(17) {
-    width: 700px;
+    width: 720px;
     height: auto;
     max-width: none;
-    flex: 0 0 550px;
+    flex: 0 0 720px;
     display: block;
 }
 .hero-animation-track img:nth-child(18) {
-    width: 1400px;
+    width: 1350px;
     height: auto;
     max-width: none;
     flex: 0 0 550px;
