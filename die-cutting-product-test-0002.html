@@ -3,60 +3,97 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Die-Cutting Calendar | Design 0002 | Futura Traders</title>
+<title>Die-Cutting Calendar | 23×36 | Futura Traders</title>
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;background:#10045a;color:#fff;font-family:Arial,sans-serif}
 body{overflow-x:hidden}
 .page{min-height:100vh;padding:28px 20px 55px;background:#10045a url('images/Die%20Cutting%20Calendars/CATELOGUE%2003/DIE%20%20CUT%20BG.jpg') center/cover fixed no-repeat}
-.wrap{max-width:1180px;margin:0 auto}
-.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
-.back{display:inline-block;background:#222;color:#fff;text-decoration:none;padding:9px 15px;border-radius:6px;font-size:14px;font-weight:700}
+.wrap{max-width:1250px;margin:0 auto}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:20px}
+.back{display:inline-block;background:#222;color:#fff;text-decoration:none;padding:10px 16px;border-radius:6px;font-size:14px;font-weight:700}
 .crumb{font-size:13px;color:#ddd6ff}
-.product{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(360px,.92fr);gap:28px;align-items:start}
-.preview,.details{background:rgba(255,255,255,.97);border-radius:12px;box-shadow:0 10px 28px rgba(0,0,0,.45)}
-.preview{padding:16px;text-align:center;color:#222}
-.preview img{display:block;width:100%;height:auto;max-height:720px;object-fit:contain;margin:0 auto;border-radius:8px}
-.preview-caption{font-weight:700;margin-top:12px;font-size:16px}
-.details{padding:22px;color:#222}
-.title{margin:0;color:#b40000;font-size:26px;line-height:1.15}
-.subtitle{margin:6px 0 16px;color:#174a9c;font-weight:700}
-.box{border:1px solid #d5d5d5;border-radius:7px;padding:12px;margin:10px 0;background:#fff}
-.box h3{margin:0 0 8px;font-size:14px;color:#174a9c}
-.note{background:#eef9ef;border:1px solid #a9d9ae;border-radius:6px;padding:10px;font-size:12px;line-height:1.45}
-select,input{width:100%;padding:10px;border:1px solid #aaa;border-radius:5px;font-size:14px;background:#fff}
-.qty{font-weight:700}
-.status{margin:12px 0;padding:9px;text-align:center;border-radius:5px;background:#eaf8ea;color:#188038;font-weight:700;border:1px solid #9ad09f}
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
-button{border:0;border-radius:5px;padding:12px;font-weight:700;cursor:pointer;font-size:14px}
+.product{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(390px,.88fr);gap:28px;align-items:start}
+.preview,.details{background:rgba(255,255,255,.98);border-radius:12px;box-shadow:0 10px 28px rgba(0,0,0,.45)}
+.preview{padding:18px;text-align:center;color:#222}
+.preview img{display:block;width:100%;height:auto;max-height:760px;object-fit:contain;margin:0 auto;border-radius:8px}
+.preview-caption{font-weight:700;margin-top:12px;font-size:17px}
+.details{padding:24px;color:#222}
+.title{margin:0;color:#b40000;font-size:28px;line-height:1.15}
+.subtitle{margin:7px 0 18px;color:#174a9c;font-weight:700;font-size:17px}
+.box{border:1px solid #d5d5d5;border-radius:7px;padding:13px;margin:10px 0;background:#fff}
+.box h3{margin:0 0 9px;font-size:14px;color:#174a9c}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.info{border:1px solid #ddd;border-radius:6px;padding:10px;background:#fafafa}
+.info strong{display:block;font-size:12px;color:#555;margin-bottom:4px}
+.info span{font-size:16px;font-weight:700}
+select,input{width:100%;padding:11px;border:1px solid #aaa;border-radius:5px;font-size:15px;background:#fff}
+.status{margin:12px 0;padding:10px;text-align:center;border-radius:5px;background:#eaf8ea;color:#188038;font-weight:700;border:1px solid #9ad09f}
+.moq{background:#fff7df;border:1px solid #e0b64d;color:#6a4a00;border-radius:6px;padding:11px;font-size:13px;line-height:1.45}
+.total{margin-top:12px;padding:13px;border-radius:7px;background:#f2f5ff;border:1px solid #bdc9ee;display:flex;justify-content:space-between;align-items:center;font-size:15px}
+.total strong{font-size:22px;color:#174a9c}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:15px}
+button{border:0;border-radius:6px;padding:13px;font-weight:700;cursor:pointer;font-size:14px}
 .cart{background:#e60000;color:#fff}.whatsapp{background:#20c55a;color:#fff}
-.small{font-size:11px;color:#555;line-height:1.45}
-@media(max-width:800px){.product{grid-template-columns:1fr}.details{padding:18px}.topbar{align-items:flex-start}.crumb{display:none}}
-@media(max-width:500px){.page{padding:18px 12px 40px}.actions{grid-template-columns:1fr}.title{font-size:22px}}
+.small{font-size:12px;color:#555;line-height:1.5}
+@media(max-width:850px){.product{grid-template-columns:1fr}.details{padding:18px}.topbar{align-items:flex-start}.crumb{display:none}}
+@media(max-width:500px){.page{padding:18px 12px 40px}.actions,.info-grid{grid-template-columns:1fr}.title{font-size:23px}}
 </style>
 </head>
 <body>
 <main class="page"><div class="wrap">
 <div class="topbar">
 <a class="back" href="die-cutting-catalogue-01l-23x36.html">← Back to Designs</a>
-<div class="crumb">CATELOGUE - 01L › 23×36 › Design 0002</div>
+<div class="crumb">CATELOGUE - 01L › 23×36 › Product</div>
 </div>
 <section class="product">
 <div class="preview">
-<img src="images/Die%20Cutting%20Calendars/CATELAGUE%20-%2001L/23x36/0002.jpg" alt="Die-Cutting Calendar Design 0002">
-<div class="preview-caption">Design 0002</div>
+<img src="images/Die%20Cutting%20Calendars/CATELAGUE%20-%2001L/23x36/0002.jpg" alt="23×36 Die-Cutting Calendar">
+<div class="preview-caption">23 × 36 DIE-CUTTING CALENDAR</div>
 </div>
 <div class="details">
-<h1 class="title">Design No. 200</h1>
-<div class="subtitle">23×36 DIE-CUTTING CALENDAR</div>
-<div class="box"><h3>PRODUCT DETAILS</h3><div class="small">Fancy die-cutting calendar design for 2027. Final printing is prepared with the selected design and customer details.</div></div>
-<div class="box"><h3>AVAILABLE SIZE</h3><select><option>23 × 36 Inches</option></select></div>
-<div class="box"><h3>QUANTITY</h3><input class="qty" type="number" min="1" value="1"></div>
-<div class="note"><strong>Important:</strong> Company name, address and other printing details can be provided after selecting the product.</div>
-<div class="status">✓ Available</div>
-<div class="actions"><button class="cart" type="button">ADD TO CART</button><button class="whatsapp" type="button">WHATSAPP ORDER</button></div>
+<h1 class="title">23 × 36 DIE-CUTTING CALENDAR</h1>
+<div class="subtitle">SELECT QUANTITY &amp; ADD TO CART</div>
+<div class="info-grid">
+<div class="info"><strong>SIZE</strong><span>23 × 36 Inches</span></div>
+<div class="info"><strong>ORDER TYPE</strong><span>Print to Order</span></div>
+</div>
+<div class="box">
+<h3>QUANTITY</h3>
+<select id="qty" aria-label="Quantity">
+<option value="10">10</option>
+<option value="20">20</option>
+<option value="25">25</option>
+<option value="50">50</option>
+<option value="100">100</option>
+</select>
+</div>
+<div class="moq"><strong>Minimum Order Quantity (MOQ): 100</strong><br>Quantities 10, 20, 25, 50 and 100 can be selected for each design. Your total order quantity must reach 100.</div>
+<div class="status">✓ AVAILABLE — NOT STOCK</div>
+<div class="total"><span>TOTAL QUANTITY</span><strong id="totalQty">10</strong></div>
+<div class="actions">
+<button class="cart" type="button" onclick="addToCart()">ADD TO CART</button>
+<button class="whatsapp" type="button" onclick="whatsappOrder()">WHATSAPP ORDER</button>
+</div>
+<div class="box"><h3>ORDER NOTE</h3><div class="small">After adding designs to the cart, you can combine quantities from different designs. The final cart total must be 100 or more. Company name, address and printing details can be provided during order confirmation.</div></div>
 </div>
 </section>
 </div></main>
+<script>
+const qty=document.getElementById('qty');
+const totalQty=document.getElementById('totalQty');
+qty.addEventListener('change',()=>{totalQty.textContent=qty.value});
+function addToCart(){
+ const q=Number(qty.value);
+ if(q<100){alert('Minimum Order Quantity is 100. You can add more designs/quantities to reach a total of 100.');return;}
+ alert('Added to cart: 100 calendars.');
+}
+function whatsappOrder(){
+ const q=Number(qty.value);
+ if(q<100){alert('Minimum Order Quantity is 100. Please reach a total of 100 before placing the order.');return;}
+ const msg=encodeURIComponent('Die-Cutting Calendar Order\nSize: 23 × 36\nQuantity: '+q+'\nAvailable: Yes');
+ window.open('https://wa.me/?text='+msg,'_blank');
+}
+</script>
 </body>
 </html>
