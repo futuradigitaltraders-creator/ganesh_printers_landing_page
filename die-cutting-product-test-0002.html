@@ -28,14 +28,15 @@ stage.addEventListener('pointerdown',e=>{if(scale<=1)return;dragging=true;stage.
 stage.addEventListener('pointermove',e=>{if(!dragging)return;x=baseX+e.clientX-startX;y=baseY+e.clientY-startY;render()});
 function endDrag(){dragging=false;stage.classList.remove('dragging')}stage.addEventListener('pointerup',endDrag);stage.addEventListener('pointercancel',endDrag);stage.addEventListener('wheel',e=>{e.preventDefault();setZoom(scale+(e.deltaY<0?.1:-.1))},{passive:false});
 const requiredQty=document.getElementById('requiredQty'),qty=document.getElementById('qty'),designQty=document.getElementById('designQty'),subTotal=document.getElementById('subTotal'),total=document.getElementById('totalQty'),totalBox=document.getElementById('totalBox');
-const CART_KEY='dieCuttingCalendarCart';const REQUIRED_KEY='dieCuttingRequiredQty';const DESIGN_ID='200';
+const CART_KEY='dieCuttingCalendarCartV2';const REQUIRED_KEY='dieCuttingRequiredQtyV2';const DESIGN_ID='200';
 function readCart(){try{return JSON.parse(localStorage.getItem(CART_KEY)||'{}')}catch(e){return{}}}
 function writeCart(c){localStorage.setItem(CART_KEY,JSON.stringify(c))}
 function refresh(){const c=readCart();const items=Object.values(c);const t=items.reduce((s,i)=>s+Number(i.qty||0),0);const q=Number(c[DESIGN_ID]?.qty||0);designQty.textContent=q;subTotal.textContent=q;total.textContent=t;totalBox.classList.toggle('reached',t>=100);requiredQty.value=localStorage.getItem(REQUIRED_KEY)||'0';qty.value=q||'0'}
 requiredQty.onchange=()=>{localStorage.setItem(REQUIRED_KEY,requiredQty.value);refresh()};
 qty.onchange=()=>{const n=Number(qty.value);const c=readCart();if(n>0)c[DESIGN_ID]={design:'200',qty:n};else delete c[DESIGN_ID];writeCart(c);refresh()};
-document.getElementById('cartBtn').onclick=()=>{const target=Number(requiredQty.value),t=Number(total.textContent);if(!target){alert('Please select Total Required Quantity first.');return}if(t<target){alert('Continue selecting quantities from other designs. Total Order Quantity: '+t+' / '+target);return}document.getElementById('cartBtn').textContent='✓ ADDED TO CART';document.getElementById('cartBtn').style.background='#168a3a'};
-document.getElementById('waBtn').onclick=()=>{const target=Number(requiredQty.value),t=Number(total.textContent);if(!target){alert('Please select Total Required Quantity first.');return}if(t<target){alert('Continue selecting quantities from other designs. Total Order Quantity: '+t+' / '+target);return}window.open('https://wa.me/?text='+encodeURIComponent('Die-Cutting Calendar Order\nRequired Quantity: '+target+'\nTotal Order Quantity: '+t),'_blank')};
+function checkTarget(){const target=Number(requiredQty.value),t=Number(total.textContent);if(!target){alert('Please select Total Required Quantity first.');return false}if(t<target){alert('Total Order Quantity is '+t+' / '+target+'. Continue selecting quantities from other designs.');return false}return true}
+document.getElementById('cartBtn').onclick=()=>{if(!checkTarget())return;document.getElementById('cartBtn').textContent='✓ ADDED TO CART';document.getElementById('cartBtn').style.background='#168a3a'};
+document.getElementById('waBtn').onclick=()=>{if(!checkTarget())return;const target=Number(requiredQty.value),t=Number(total.textContent);window.open('https://wa.me/?text='+encodeURIComponent('Die-Cutting Calendar Order\nRequired Quantity: '+target+'\nTotal Order Quantity: '+t),'_blank')};
 window.addEventListener('pageshow',refresh);refresh();
 </script>
 </body>
