@@ -7,25 +7,31 @@
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;background:#10045a;overflow-x:hidden}
-.catalogue-page{min-height:100vh;background:#10045a url('images/Die%20Cutting%20Calendars/CATELOGUE%2003/DIE%20%20CUT%20BG.jpg') center/cover fixed no-repeat}
-.wrap{position:relative;width:100%;min-height:100vh;overflow:hidden}
-.back{position:absolute;top:72px;left:50%;transform:translateX(-50%);z-index:10;display:inline-block;margin:0;color:#fff;text-decoration:none;font:700 14px Arial;background:#222;padding:9px 15px;border-radius:6px;white-space:nowrap}
-.hotspot{position:absolute;z-index:5;display:block;background:transparent;border:0;cursor:pointer}
-.hotspot.one{left:15.5%;top:52%;width:32%;height:12%}
-.hotspot.two{right:15.5%;top:52%;width:32%;height:12%}
-@media(max-width:700px){
-.catalogue-page{background-attachment:scroll}
-.back{top:35px;font-size:12px}
-.hotspot.one{left:7%;top:50%;width:40%;height:13%}
-.hotspot.two{right:7%;top:50%;width:40%;height:13%}
-}
+.catalogue-page{min-height:100vh;background:#10045a url('images/Die%20Cutting%20Calendars/CATELOGUE%2003/DIE%20%20CUT%20BG.jpg') center/cover fixed no-repeat;color:#fff}
+.wrap{position:relative;width:100%;min-height:100vh;padding:72px 7% 55px;text-align:center}
+.back{display:inline-block;color:#fff;text-decoration:none;font:700 14px Arial;background:#222;padding:9px 15px;border-radius:6px;margin-bottom:24px}
+.title{margin:0;color:#ffe36b;font:700 clamp(42px,5vw,72px) Georgia,serif;letter-spacing:1px;text-shadow:2px 3px 0 #7b1b00,0 5px 12px #000}
+.sizes{margin:12px 0 20px;color:#fff;font:400 clamp(20px,2.3vw,32px) Georgia,serif}
+.features{margin:0 auto 28px;color:#ffe36b;font:700 clamp(17px,2vw,27px) Georgia,serif;white-space:nowrap}
+.tagline{display:flex;align-items:center;justify-content:center;gap:18px;margin:0 auto 24px;color:#ffe36b;font:400 13px Georgia,serif;letter-spacing:2px}
+.tagline:before,.tagline:after{content:"";height:1px;background:#ffe36b;flex:1;max-width:220px}
+.catalogues{display:grid;grid-template-columns:repeat(2,minmax(280px,1fr));gap:48px;max-width:1050px;margin:0 auto}
+.catalogue-btn{display:flex;align-items:center;justify-content:center;gap:22px;min-height:92px;border:4px solid #e4aa18;border-radius:18px;background:linear-gradient(#a5160a,#5f0805);box-shadow:0 6px 0 #7d4800,0 10px 25px rgba(0,0,0,.4);color:#ffe79a;text-decoration:none;font:700 clamp(25px,2.6vw,38px) Georgia,serif;text-shadow:1px 2px 2px #000}
+.arrow{width:48px;height:48px;border:3px solid #ffe36b;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font:700 34px Arial;line-height:1}
+@media(max-width:760px){.wrap{padding:35px 5% 40px}.back{font-size:12px}.features{white-space:normal;line-height:1.4}.catalogues{grid-template-columns:1fr;gap:24px}.catalogue-btn{min-height:78px}.tagline{letter-spacing:1px}}
 </style>
 </head>
 <body>
 <main class="catalogue-page"><div class="wrap">
 <a class="back" href="gold-frame-calendars.html">← Back: Gold Frame Calendars</a>
-<a class="hotspot one" href="die-cutting-catalogue-01l.html" aria-label="CATELOGUE - 01L"></a>
-<a class="hotspot two" href="die-cutting-catalogue-02.html" aria-label="CATELOGUE - 02G"></a>
+<h1 class="title">DIE-CUTTING FANCY CALENDARS</h1>
+<div class="sizes">11x17 &nbsp;|&nbsp; 12x18 &nbsp;|&nbsp; 14x24 &nbsp;|&nbsp; 15x25 &nbsp;|&nbsp; 20x30 &nbsp;|&nbsp; 23x36 &nbsp;|&nbsp; 40x14 Sizes</div>
+<div class="features">FANCY CUTTING &nbsp;|&nbsp; GLITTER FINISHING &nbsp;|&nbsp; METALLIC &nbsp;|&nbsp; UV COAT FINISHING</div>
+<div class="tagline">MORE THAN A CALENDAR – A BLESSING FOR EVERY DAY</div>
+<section class="catalogues" aria-label="Die-cutting catalogues">
+<a class="catalogue-btn" href="die-cutting-catalogue-01l.html">CATELOGUE - 01L <span class="arrow">›</span></a>
+<a class="catalogue-btn" href="die-cutting-catalogue-02.html">CATELOGUE - 02G <span class="arrow">›</span></a>
+</section>
 </div></main>
 </body>
 </html>
