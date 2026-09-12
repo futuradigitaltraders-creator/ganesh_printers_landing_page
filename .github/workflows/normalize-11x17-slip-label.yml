@@ -12,22 +12,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Change inner label to Slip Number
+      - name: Change inner slip selector text
         run: |
           python3 <<'PY'
           from pathlib import Path
           p=Path('die-cutting-product-test-11x17.html')
           s=p.read_text(encoding='utf-8')
-          old='<label for="specialDesign">Design Number</label>'
-          new='<label for="specialDesign">Slip Number</label>'
-          if old in s:
-              s=s.replace(old,new,1)
+          replacements={
+              '<label for="specialDesign">Design Number</label>':'<label for="specialDesign">Slip Number</label>',
+              '<option value="">Select Design Number</option>':'<option value="">Select Slip Number</option>'
+          }
+          changed=False
+          for old,new in replacements.items():
+              if old in s:
+                  s=s.replace(old,new,1)
+                  changed=True
+          if changed:
               p.write_text(s,encoding='utf-8')
           PY
-      - name: Commit label change
+      - name: Commit slip selector text
         run: |
           git config user.name 'futuradigitaltraders-creator'
           git config user.email 'futuradigitaltraders@gmail.com'
           git add die-cutting-product-test-11x17.html
-          git diff --cached --quiet || git commit -m 'Set inner slip selector label [skip ci]'
+          git diff --cached --quiet || git commit -m 'Set slip selector text [skip ci]'
           git push
