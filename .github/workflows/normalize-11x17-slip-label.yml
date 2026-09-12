@@ -1,0 +1,33 @@
+name: Normalize 11x17 Slip Label
+on:
+  workflow_run:
+    workflows: ["Update 11x17 Catalogue"]
+    types: [completed]
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  normalize:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Change inner label to Slip Number
+        run: |
+          python3 <<'PY'
+          from pathlib import Path
+          p=Path('die-cutting-product-test-11x17.html')
+          s=p.read_text(encoding='utf-8')
+          old='<label for="specialDesign">Design Number</label>'
+          new='<label for="specialDesign">Slip Number</label>'
+          if old in s:
+              s=s.replace(old,new,1)
+              p.write_text(s,encoding='utf-8')
+          PY
+      - name: Commit label change
+        run: |
+          git config user.name 'futuradigitaltraders-creator'
+          git config user.email 'futuradigitaltraders@gmail.com'
+          git add die-cutting-product-test-11x17.html
+          git diff --cached --quiet || git commit -m 'Set inner slip selector label [skip ci]'
+          git push
