@@ -1,0 +1,36 @@
+name: Create Daily Slip folders
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  setup:
+    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create Daily Slip structure and remove old SLIP path
+        run: |
+          rm -rf "images/Die Cutting Calendars/CATELAGUE - 01L/SLIP"
+          mkdir -p "images/gold-frame-special-daily-calendar/Daily Slip/1 Colour"
+          mkdir -p "images/gold-frame-special-daily-calendar/Daily Slip/2 Colours"
+          mkdir -p "images/gold-frame-special-daily-calendar/Daily Slip/Multi Colours"
+          touch "images/gold-frame-special-daily-calendar/Daily Slip/1 Colour/.gitkeep"
+          touch "images/gold-frame-special-daily-calendar/Daily Slip/2 Colours/.gitkeep"
+          touch "images/gold-frame-special-daily-calendar/Daily Slip/Multi Colours/.gitkeep"
+      - name: Commit structure
+        run: |
+          git config user.name 'futuradigitaltraders-creator'
+          git config user.email 'futuradigitaltraders@gmail.com'
+          git add -A
+          git commit -m 'Create Daily Slip folder structure [skip ci]'
+          git push
+      - name: Remove one-time workflow
+        run: |
+          rm -f .github/workflows/create-daily-slip-folders.yml
+          git config user.name 'futuradigitaltraders-creator'
+          git config user.email 'futuradigitaltraders@gmail.com'
+          git add .github/workflows/create-daily-slip-folders.yml
+          git commit -m 'Remove one-time Daily Slip folder workflow [skip ci]'
+          git push
