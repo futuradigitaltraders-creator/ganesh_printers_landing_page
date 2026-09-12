@@ -1,0 +1,62 @@
+name: Add 3 More Slip Boxes
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  add-slips:
+    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add 3 extra slip selection pairs
+        run: |
+          python3 <<'PY'
+          from pathlib import Path
+          p = Path('die-cutting-product-test-11x17.html')
+          s = p.read_text(encoding='utf-8')
+
+          marker = '''<div class="special-controls-selects" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div class="special-control"><label for="specialDesign">Slip Number</label><select class="select" id="specialDesign"><option value="">Select Slip Number</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="10">10</option><option value="15">15</option></select></div>
+          <div class="special-control"><label for="specialColour">Slip Colour</label><select class="select" id="specialColour"><option value="">Select Slip Colour</option><option value="1 Colour">1 Colour</option><option value="2 Colours">2 Colours</option><option value="Multi Colours">Multi Colours</option></select></div>
+          </div>'''
+          replacement = marker + '''
+          <div class="special-controls-selects" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div class="special-control"><label for="specialDesign2">Slip Number 2</label><select class="select" id="specialDesign2"><option value="">Select Slip Number</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="10">10</option><option value="15">15</option></select></div>
+          <div class="special-control"><label for="specialColour2">Slip Colour 2</label><select class="select" id="specialColour2"><option value="">Select Slip Colour</option><option value="1 Colour">1 Colour</option><option value="2 Colours">2 Colours</option><option value="Multi Colours">Multi Colours</option></select></div>
+          </div>
+          <div class="special-controls-selects" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div class="special-control"><label for="specialDesign3">Slip Number 3</label><select class="select" id="specialDesign3"><option value="">Select Slip Number</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="10">10</option><option value="15">15</option></select></div>
+          <div class="special-control"><label for="specialColour3">Slip Colour 3</label><select class="select" id="specialColour3"><option value="">Select Slip Colour</option><option value="1 Colour">1 Colour</option><option value="2 Colours">2 Colours</option><option value="Multi Colours">Multi Colours</option></select></div>
+          </div>
+          <div class="special-controls-selects" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div class="special-control"><label for="specialDesign4">Slip Number 4</label><select class="select" id="specialDesign4"><option value="">Select Slip Number</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="10">10</option><option value="15">15</option></select></div>
+          <div class="special-control"><label for="specialColour4">Slip Colour 4</label><select class="select" id="specialColour4"><option value="">Select Slip Colour</option><option value="1 Colour">1 Colour</option><option value="2 Colours">2 Colours</option><option value="Multi Colours">Multi Colours</option></select></div>
+          </div>'''
+          if marker not in s:
+              raise SystemExit('Slip selector block not found')
+          s = s.replace(marker, replacement, 1)
+
+          old_handler = "specialDesign.addEventListener('change',()=>{safeWrite('dieCuttingDailySlipDesignV1',specialDesign.value);refresh()});\nspecialColour.addEventListener('change',()=>{safeWrite('dieCuttingDailySlipColourV1',specialColour.value);refresh()});"
+          new_handler = "specialDesign2=document.getElementById('specialDesign2'),specialColour2=document.getElementById('specialColour2'),specialDesign3=document.getElementById('specialDesign3'),specialColour3=document.getElementById('specialColour3'),specialDesign4=document.getElementById('specialDesign4'),specialColour4=document.getElementById('specialColour4');\nspecialDesign.addEventListener('change',()=>{safeWrite('dieCuttingDailySlipDesignV1',specialDesign.value);refresh()});\nspecialColour.addEventListener('change',()=>{safeWrite('dieCuttingDailySlipColourV1',specialColour.value);refresh()});\n[specialDesign2,specialColour2,specialDesign3,specialColour3,specialDesign4,specialColour4].forEach(el=>el.addEventListener('change',refresh));"
+          if old_handler not in s:
+              raise SystemExit('Slip event handler not found')
+          s = s.replace(old_handler, new_handler, 1)
+
+          old_wa = "if((pages[currentIndex]?.id==='204'||pages[currentIndex]?.id==='206')&&specialDesign.value)extra.push('Design Number: '+specialDesign.value);if((pages[currentIndex]?.id==='204'||pages[currentIndex]?.id==='206')&&specialColour.value)extra.push('Colour: '+specialColour.value);"
+          new_wa = "if((pages[currentIndex]?.id==='204'||pages[currentIndex]?.id==='206')){[[specialDesign,specialColour],[specialDesign2,specialColour2],[specialDesign3,specialColour3],[specialDesign4,specialColour4]].forEach((pair,i)=>{if(pair[0]?.value)extra.push('Slip '+(i+1)+' Number: '+pair[0].value);if(pair[1]?.value)extra.push('Slip '+(i+1)+' Colour: '+pair[1].value);});}"
+          if old_wa not in s:
+              raise SystemExit('WhatsApp slip block not found')
+          s = s.replace(old_wa, new_wa, 1)
+
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit and clean workflow
+        run: |
+          rm -f .github/workflows/add-3-more-slip-boxes.yml
+          git config user.name 'futuradigitaltraders-creator'
+          git config user.email 'futuradigitaltraders@gmail.com'
+          git add die-cutting-product-test-11x17.html .github/workflows/add-3-more-slip-boxes.yml
+          git commit -m 'Add 3 additional slip selection boxes [skip ci]'
+          git push
