@@ -1,29 +1,48 @@
 name: One Time Daily Slip Fix
 on:
-  push:
+  workflow_run:
+    workflows: ["Update 11x17 Catalogue"]
+    types: [completed]
     branches: [main]
 permissions:
   contents: write
 jobs:
   fix:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Patch 11x17 special order controls
+      - name: Patch special controls and master workflow
         run: |
           python3 <<'PY'
           from pathlib import Path
           import re
-          p=Path('die-cutting-product-test-11x17.html')
-          s=p.read_text(encoding='utf-8')
-          s=s.replace("requiredQty.value=safeRead(REQUIRED_KEY,'0')||'0';const first=pg.items[0];qty.value=String(c[first]?.qty||0);", "const special=pg.id==='204'||pg.id==='206'; const reqOpts=special?['0','100','200','300','400','500']:['0','100','200','300','400','500','600','700','800','900','1000']; const qtyOpts=special?['0','100','200','300','400','500']:['0','10','20','25','50','100']; requiredQty.innerHTML=reqOpts.map(v=>`<option value=\\\"${v}\\\">${v==='0'?'Select Total Required Quantity':v}</option>`).join(''); qty.innerHTML=qtyOpts.map(v=>`<option value=\\\"${v}\\\">${v==='0'?'Select Quantity':v}</option>`).join(''); requiredQty.value=safeRead(REQUIRED_KEY,'0')||'0'; const first=pg.items[0];qty.value=String(c[first]?.qty||0);")
-          s=s.replace("function configureSpecialControls(){const pg=pages[currentIndex],isCalendar=pg?.id==='204',isSlip=pg?.id==='206',show=!!(isCalendar||isSlip);specialControls.style.display=show?'block':'none';", "function configureSpecialControls(){const pg=pages[currentIndex],isCalendar=pg?.id==='204',isSlip=pg?.id==='206',show=!!(isCalendar||isSlip);document.getElementById('moqBox').style.display=show?'none':'block';specialControls.style.display=show?'block':'none';")
-          p.write_text(s,encoding='utf-8')
+
+          html=Path('die-cutting-product-test-11x17.html')
+          s=html.read_text(encoding='utf-8')
+          old="requiredQty.value=safeRead(REQUIRED_KEY,'0')||'0';const first=pg.items[0];qty.value=String(c[first]?.qty||0);"
+          new="const special=pg.id==='204'||pg.id==='206'; const reqOpts=special?['0','100','200','300','400','500']:['0','100','200','300','400','500','600','700','800','900','1000']; const qtyOpts=special?['0','100','200','300','400','500']:['0','10','20','25','50','100']; requiredQty.innerHTML=reqOpts.map(v=>`<option value=\\\"${v}\\\">${v==='0'?'Select Total Required Quantity':v}</option>`).join(''); qty.innerHTML=qtyOpts.map(v=>`<option value=\\\"${v}\\\">${v==='0'?'Select Quantity':v}</option>`).join(''); requiredQty.value=safeRead(REQUIRED_KEY,'0')||'0'; const first=pg.items[0];qty.value=String(c[first]?.qty||0);"
+          if old in s:
+              s=s.replace(old,new,1)
+          old2="function configureSpecialControls(){const pg=pages[currentIndex],isCalendar=pg?.id==='204',isSlip=pg?.id==='206',show=!!(isCalendar||isSlip);specialControls.style.display=show?'block':'none';"
+          new2="function configureSpecialControls(){const pg=pages[currentIndex],isCalendar=pg?.id==='204',isSlip=pg?.id==='206',show=!!(isCalendar||isSlip);document.getElementById('moqBox').style.display=show?'none':'block';specialControls.style.display=show?'block':'none';"
+          if old2 in s:
+              s=s.replace(old2,new2,1)
+          html.write_text(s,encoding='utf-8')
+
+          wf=Path('.github/workflows/update-11x17-catalogue.yml')
+          w=wf.read_text(encoding='utf-8')
+          if old not in w:
+              w=w.replace("requiredQty.value=safeRead(REQUIRED_KEY,'0')||'0';const first=pg.items[0];qty.value=String(c[first]?.qty||0);", old.replace('`','\\`'), 1)
+          w=w.replace(old, new, 1)
+          w=w.replace(old2, new2, 1)
+          wf.write_text(w,encoding='utf-8')
           PY
-      - name: Commit fix
+      - name: Commit permanent fix and remove temporary workflow
         run: |
           git config user.name 'futuradigitaltraders-creator'
           git config user.email 'futuradigitaltraders@gmail.com'
-          git add die-cutting-product-test-11x17.html
-          git diff --cached --quiet || git commit -m 'Apply daily slip MOQ and quantity fix [skip ci]'
+          rm -f .github/workflows/_one_time_daily_slip_fix.yml
+          git add die-cutting-product-test-11x17.html .github/workflows/update-11x17-catalogue.yml .github/workflows/_one_time_daily_slip_fix.yml
+          git diff --cached --quiet || git commit -m 'Fix special MOQ and quantity selectors [skip ci]'
           git push
