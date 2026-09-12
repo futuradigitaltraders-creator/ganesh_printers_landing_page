@@ -37,9 +37,12 @@ fetch(api).then(r=>r.json()).then(files=>{
     const n=Number(m[1]);
     if(n>=1&&n<=22&&!(n===15&&/^15A\b/i.test(f.name))&&!wanted[n]) wanted[n]=f;
   });
+  const order=[1,2,3,4,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,5];
   const gallery=document.getElementById('gallery');
-  Object.keys(wanted).map(Number).sort((a,b)=>a-b).forEach(n=>{
-    const f=wanted[n], card=document.createElement('div'), img=document.createElement('img');
+  order.forEach(n=>{
+    const f=wanted[n];
+    if(!f)return;
+    const card=document.createElement('div'), img=document.createElement('img');
     card.className='card';
     img.src=f.download_url;
     img.alt='Party Special Design '+n;
