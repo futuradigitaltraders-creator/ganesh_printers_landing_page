@@ -9,7 +9,7 @@
 html,body{margin:0;padding:0;background:#10045a;overflow:auto}
 .slip-page{min-height:100vh;background:#10045a;display:flex;justify-content:center;align-items:flex-start;padding:0}
 .viewer{position:relative;width:100%;overflow:auto;min-height:100vh}
-.slip-hero{position:relative;width:100%;max-width:1664px;margin:0 auto;line-height:0;transform-origin:top center;transition:transform .2s ease}
+.slip-hero{position:relative;width:100%;max-width:1664px;margin:0 auto;line-height:0}
 .slip-hero img{display:block;width:100%;height:auto;user-select:none;-webkit-user-drag:none}
 .slip-hotspot{position:absolute;display:flex;align-items:center;justify-content:center;z-index:20;background:rgba(255,210,60,.02);border:2px solid transparent;border-radius:18px;text-decoration:none;cursor:pointer;pointer-events:auto}
 .slip-hotspot:hover{border-color:rgba(255,220,70,.9);background:rgba(255,210,60,.10)}
@@ -17,13 +17,7 @@ html,body{margin:0;padding:0;background:#10045a;overflow:auto}
 .slip-hotspot:hover span{opacity:1}
 .slip-01{left:12%;top:60.5%;width:38%;height:10.5%}
 .slip-02{left:50%;top:60.5%;width:38%;height:10.5%}
-.zoom-controls{position:fixed;right:18px;top:18px;z-index:100;display:flex;align-items:center;gap:6px;background:rgba(20,5,70,.94);padding:8px;border:2px solid #e4aa18;border-radius:12px;box-shadow:0 5px 18px rgba(0,0,0,.45)}
-.zoom-controls button{border:1px solid #e4aa18;background:#3d0905;color:#ffe36b;font:700 14px Arial,sans-serif;padding:8px 11px;border-radius:7px;cursor:pointer}
-.zoom-controls button:hover{background:#6b1008}
-.zoom-level{min-width:58px;text-align:center;color:#fff;font:700 13px Arial,sans-serif}
 @media(max-width:700px){
-.zoom-controls{right:8px;top:8px;padding:5px;gap:4px}
-.zoom-controls button{padding:7px 9px;font-size:12px}
 .slip-01{left:12%;top:60.5%;width:38%;height:10.5%}
 .slip-02{left:50%;top:60.5%;width:38%;height:10.5%}
 }
@@ -39,23 +33,5 @@ html,body{margin:0;padding:0;background:#10045a;overflow:auto}
 </div>
 </div>
 </main>
-<div class="zoom-controls" aria-label="Image zoom controls">
-<button type="button" id="zoomOut">ZOOM −</button>
-<button type="button" id="zoomReset">100%</button>
-<button type="button" id="zoomIn">ZOOM +</button>
-<span class="zoom-level" id="zoomLevel">100%</span>
-</div>
-<script>
-(function(){
-  const hero=document.getElementById('slipHero');
-  const level=document.getElementById('zoomLevel');
-  let zoom=1;
-  function applyZoom(){hero.style.transform='scale('+zoom+')';level.textContent=Math.round(zoom*100)+'%';}
-  document.getElementById('zoomIn').addEventListener('click',function(){zoom=Math.min(2.5,Math.round((zoom+0.25)*100)/100);applyZoom();});
-  document.getElementById('zoomOut').addEventListener('click',function(){zoom=Math.max(0.5,Math.round((zoom-0.25)*100)/100);applyZoom();});
-  document.getElementById('zoomReset').addEventListener('click',function(){zoom=1;applyZoom();});
-  applyZoom();
-})();
-</script>
 </body>
 </html>
