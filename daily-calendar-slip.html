@@ -11,10 +11,7 @@ html,body{margin:0;padding:0;background:#10045a;overflow:auto}
 .viewer{position:relative;width:100%;overflow:auto;min-height:100vh}
 .slip-hero{position:relative;width:100%;max-width:1664px;margin:0 auto;line-height:0}
 .slip-hero img{display:block;width:100%;height:auto;user-select:none;-webkit-user-drag:none}
-.slip-hotspot{position:absolute;display:flex;align-items:center;justify-content:center;z-index:20;background:rgba(255,210,60,.02);border:2px solid transparent;border-radius:18px;text-decoration:none;cursor:pointer;pointer-events:auto}
-.slip-hotspot:hover{border-color:rgba(255,220,70,.9);background:rgba(255,210,60,.10)}
-.slip-hotspot span{font:700 clamp(14px,1.7vw,25px) Georgia,serif;color:#ffe36b;text-shadow:2px 2px 3px #000;opacity:0;transition:opacity .15s}
-.slip-hotspot:hover span{opacity:1}
+.slip-hotspot{position:absolute;display:block;z-index:20;background:transparent;border:0;border-radius:0;text-decoration:none;cursor:pointer;pointer-events:auto}
 .slip-01{left:12%;top:60.5%;width:38%;height:10.5%}
 .slip-02{left:50%;top:60.5%;width:38%;height:10.5%}
 @media(max-width:700px){
@@ -28,8 +25,8 @@ html,body{margin:0;padding:0;background:#10045a;overflow:auto}
 <div class="viewer">
 <div class="slip-hero" id="slipHero">
 <img src="images/gold-frame-special-daily-calendar/Daily%20Slip/Multi%20Colours/CAL%20SLIP%20POSTER.jpg" alt="Daily Calendar Slip">
-<a class="slip-hotspot slip-01" href="die-cutting-catalogue-01l.html" aria-label="CATALOGUE 01 L"><span>CATALOGUE - 01 L</span></a>
-<a class="slip-hotspot slip-02" href="die-cutting-calendars.html" aria-label="CATALOGUE 02"><span>CATALOGUE - 02</span></a>
+<a class="slip-hotspot slip-01" href="die-cutting-catalogue-01l.html" aria-label="CATALOGUE 01 L"></a>
+<a class="slip-hotspot slip-02" href="die-cutting-calendars.html" aria-label="CATALOGUE 02"></a>
 </div>
 </div>
 </main>
