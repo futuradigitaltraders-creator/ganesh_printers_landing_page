@@ -6,28 +6,56 @@
 <title>Daily Calendar Slip | Futura Traders</title>
 <style>
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;background:#10045a;overflow-x:hidden}
-.slip-page{min-height:100vh;display:flex;justify-content:center;align-items:center;background:#10045a}
-.slip-hero{position:relative;width:100%;max-width:1664px;line-height:0}
-.slip-hero img{display:block;width:100%;height:auto}
-.slip-hotspot{position:absolute;display:block;z-index:5;background:transparent;border:0}
-.slip-01{left:18%;top:76%;width:30%;height:9%}
-.slip-02{left:52%;top:76%;width:30%;height:9%}
+html,body{margin:0;padding:0;background:#10045a;overflow:auto}
+.slip-page{min-height:100vh;background:#10045a;display:flex;justify-content:center;align-items:flex-start;padding:0}
+.viewer{position:relative;width:100%;overflow:auto;min-height:100vh}
+.slip-hero{position:relative;width:100%;max-width:1664px;margin:0 auto;line-height:0;transform-origin:top center;transition:transform .2s ease}
+.slip-hero img{display:block;width:100%;height:auto;user-select:none;-webkit-user-drag:none}
+.slip-hotspot{position:absolute;display:flex;align-items:center;justify-content:center;z-index:20;background:rgba(255,210,60,.02);border:2px solid transparent;border-radius:18px;text-decoration:none;cursor:pointer;pointer-events:auto}
+.slip-hotspot:hover{border-color:rgba(255,220,70,.9);background:rgba(255,210,60,.10)}
+.slip-hotspot span{font:700 clamp(14px,1.7vw,25px) Georgia,serif;color:#ffe36b;text-shadow:2px 2px 3px #000;opacity:0;transition:opacity .15s}
+.slip-hotspot:hover span{opacity:1}
+.slip-01{left:12%;top:60.5%;width:38%;height:10.5%}
+.slip-02{left:50%;top:60.5%;width:38%;height:10.5%}
+.zoom-controls{position:fixed;right:18px;top:18px;z-index:100;display:flex;align-items:center;gap:6px;background:rgba(20,5,70,.94);padding:8px;border:2px solid #e4aa18;border-radius:12px;box-shadow:0 5px 18px rgba(0,0,0,.45)}
+.zoom-controls button{border:1px solid #e4aa18;background:#3d0905;color:#ffe36b;font:700 14px Arial,sans-serif;padding:8px 11px;border-radius:7px;cursor:pointer}
+.zoom-controls button:hover{background:#6b1008}
+.zoom-level{min-width:58px;text-align:center;color:#fff;font:700 13px Arial,sans-serif}
 @media(max-width:700px){
-.slip-page{align-items:flex-start}
-.slip-hero{width:100%}
-.slip-01{left:18%;top:76%;width:30%;height:9%}
-.slip-02{left:52%;top:76%;width:30%;height:9%}
+.zoom-controls{right:8px;top:8px;padding:5px;gap:4px}
+.zoom-controls button{padding:7px 9px;font-size:12px}
+.slip-01{left:12%;top:60.5%;width:38%;height:10.5%}
+.slip-02{left:50%;top:60.5%;width:38%;height:10.5%}
 }
 </style>
 </head>
 <body>
 <main class="slip-page">
-<div class="slip-hero">
+<div class="viewer">
+<div class="slip-hero" id="slipHero">
 <img src="images/gold-frame-special-daily-calendar/Daily%20Slip/Multi%20Colours/CAL%20SLIP%20POSTER.jpg" alt="Daily Calendar Slip">
-<a class="slip-hotspot slip-01" href="die-cutting-catalogue-01l.html" aria-label="CATALOGUE 01 L"></a>
-<a class="slip-hotspot slip-02" href="die-cutting-calendars.html" aria-label="CATALOGUE"></a>
+<a class="slip-hotspot slip-01" href="die-cutting-catalogue-01l.html" aria-label="CATALOGUE 01 L"><span>CATALOGUE - 01 L</span></a>
+<a class="slip-hotspot slip-02" href="die-cutting-calendars.html" aria-label="CATALOGUE 02"><span>CATALOGUE - 02</span></a>
+</div>
 </div>
 </main>
+<div class="zoom-controls" aria-label="Image zoom controls">
+<button type="button" id="zoomOut">ZOOM −</button>
+<button type="button" id="zoomReset">100%</button>
+<button type="button" id="zoomIn">ZOOM +</button>
+<span class="zoom-level" id="zoomLevel">100%</span>
+</div>
+<script>
+(function(){
+  const hero=document.getElementById('slipHero');
+  const level=document.getElementById('zoomLevel');
+  let zoom=1;
+  function applyZoom(){hero.style.transform='scale('+zoom+')';level.textContent=Math.round(zoom*100)+'%';}
+  document.getElementById('zoomIn').addEventListener('click',function(){zoom=Math.min(2.5,Math.round((zoom+0.25)*100)/100);applyZoom();});
+  document.getElementById('zoomOut').addEventListener('click',function(){zoom=Math.max(0.5,Math.round((zoom-0.25)*100)/100);applyZoom();});
+  document.getElementById('zoomReset').addEventListener('click',function(){zoom=1;applyZoom();});
+  applyZoom();
+})();
+</script>
 </body>
 </html>
