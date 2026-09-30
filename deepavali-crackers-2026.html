@@ -22,7 +22,7 @@ main{max-width:1100px;margin:auto;padding:38px 20px}.notice{background:#fff;bord
 .urgency strong{color:#b10f0f}
 .sample-shop{margin:0 auto 28px;background:#fff;border-radius:18px;padding:22px;box-shadow:0 8px 28px #5b220d1c}
 .sample-title{text-align:center;margin:0 0 18px;color:#8c1b0f;font-size:26px}
-.product-row{display:grid;grid-template-columns:150px 1fr 150px 190px;gap:18px;align-items:center;border:1px solid #eadfd6;border-radius:14px;padding:16px}
+.product-row{display:grid;grid-template-columns:150px 1fr 150px 190px;gap:18px;align-items:center;border:1px solid #eadfd6;border-radius:14px;padding:16px}.product-row + .product-row{margin-top:12px}.combo-note{text-align:center;margin:-8px 0 18px;font-weight:800;color:#8c1b0f}.summary-counts{font-size:13px;font-weight:700;color:#6e4a26;margin-bottom:4px}
 .product-row img{width:130px;height:130px;object-fit:contain;border-radius:10px;background:#fff}
 .product-name{font-size:20px;font-weight:800;margin-bottom:6px}.product-meta{font-size:13px;color:#73584a}
 .price-label{font-size:12px;color:#74594b;text-transform:uppercase;font-weight:700}.our-price{font-size:26px;font-weight:900;color:#e30062;margin-top:4px}
@@ -55,66 +55,139 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
     <div>Don’t wait until the last minute — place your order now and secure your stock.</div>
   </div>
 </section>
-<section class="sample-shop" aria-label="Sample crackers cart">
-  <h2 class="sample-title">Sample Product – Cart Test</h2>
+<section class="sample-shop" aria-label="Combo pack cart">
+  <h2 class="sample-title">COMBO PACKS – SPECIAL OFFER PRICE</h2>
+  <div class="combo-note">Already Specially Priced</div>
+
   <div class="product-row">
     <img src="images/crackers/2500-combo-soundless-sample.jpg" alt="2500 Combo Soundless">
-    <div>
-      <div class="product-name">2500 COMBO (SOUNDLESS)</div>
-      <div class="product-meta">Category: Combo Pack</div>
-    </div>
-    <div class="price-box">
-      <div class="price-label">SPECIAL COMBO OFFER PRICE</div>
-      <div class="our-price">₹3,250</div><div class="product-meta" style="margin-top:4px;font-weight:700;color:#8c1b0f">Already Specially Priced</div>
-    </div>
+    <div><div class="product-name">2500 COMBO (SOUNDLESS)</div><div class="product-meta">Category: Combo Pack</div></div>
+    <div class="price-box"><div class="price-label">SPECIAL COMBO OFFER PRICE</div><div class="our-price">₹3,250</div></div>
     <div class="qty-col">
       <div class="qty-wrap">
-        <button class="qty-btn" type="button" onclick="changeSampleQty(-1)" aria-label="Reduce quantity">−</button>
-        <span class="qty-num" id="sampleQty">0</span>
-        <button class="qty-btn" type="button" onclick="changeSampleQty(1)" aria-label="Increase quantity">+</button>
+        <button class="qty-btn" type="button" onclick="changeComboQty('p2500',-1)">−</button>
+        <span class="qty-num" id="qty-p2500">0</span>
+        <button class="qty-btn" type="button" onclick="changeComboQty('p2500',1)">+</button>
       </div>
-      <div class="subtotal">Sub-total <strong>₹<span id="sampleSubtotal">0</span></strong></div>
+      <div class="subtotal">Sub-total <strong>₹<span id="sub-p2500">0</span></strong></div>
     </div>
   </div>
+
+  <div class="product-row">
+    <img src="images/crackers/3000-combo-pack.jpg" alt="3000 Combo Pack">
+    <div><div class="product-name">3000 COMBO PACK</div><div class="product-meta">Category: Combo Pack</div></div>
+    <div class="price-box"><div class="price-label">SPECIAL COMBO OFFER PRICE</div><div class="our-price">₹3,900</div></div>
+    <div class="qty-col">
+      <div class="qty-wrap">
+        <button class="qty-btn" type="button" onclick="changeComboQty('p3000',-1)">−</button>
+        <span class="qty-num" id="qty-p3000">0</span>
+        <button class="qty-btn" type="button" onclick="changeComboQty('p3000',1)">+</button>
+      </div>
+      <div class="subtotal">Sub-total <strong>₹<span id="sub-p3000">0</span></strong></div>
+    </div>
+  </div>
+
+  <div class="product-row">
+    <img src="images/crackers/5000-combo-pack.jpg" alt="5000 Combo Pack">
+    <div><div class="product-name">5000 COMBO PACK</div><div class="product-meta">Category: Combo Pack</div></div>
+    <div class="price-box"><div class="price-label">SPECIAL COMBO OFFER PRICE</div><div class="our-price">₹6,500</div></div>
+    <div class="qty-col">
+      <div class="qty-wrap">
+        <button class="qty-btn" type="button" onclick="changeComboQty('p5000',-1)">−</button>
+        <span class="qty-num" id="qty-p5000">0</span>
+        <button class="qty-btn" type="button" onclick="changeComboQty('p5000',1)">+</button>
+      </div>
+      <div class="subtotal">Sub-total <strong>₹<span id="sub-p5000">0</span></strong></div>
+    </div>
+  </div>
+
+  <div class="product-row">
+    <img src="images/crackers/childrens-fancy-combo.jpg" alt="Children's Fancy Combo">
+    <div><div class="product-name">CHILDREN'S FANCY COMBO</div><div class="product-meta">Category: Combo Pack</div></div>
+    <div class="price-box"><div class="price-label">SPECIAL COMBO OFFER PRICE</div><div class="our-price">₹13,000</div></div>
+    <div class="qty-col">
+      <div class="qty-wrap">
+        <button class="qty-btn" type="button" onclick="changeComboQty('pchildren',-1)">−</button>
+        <span class="qty-num" id="qty-pchildren">0</span>
+        <button class="qty-btn" type="button" onclick="changeComboQty('pchildren',1)">+</button>
+      </div>
+      <div class="subtotal">Sub-total <strong>₹<span id="sub-pchildren">0</span></strong></div>
+    </div>
+  </div>
+
+  <div class="product-row">
+    <img src="images/crackers/starvell-childrens-fancy-combo.jpg" alt="Starvell Children's Fancy Combo">
+    <div><div class="product-name">STARVELL CHILDREN'S FANCY COMBO</div><div class="product-meta">Category: Combo Pack</div></div>
+    <div class="price-box"><div class="price-label">SPECIAL COMBO OFFER PRICE</div><div class="our-price">₹6,110</div></div>
+    <div class="qty-col">
+      <div class="qty-wrap">
+        <button class="qty-btn" type="button" onclick="changeComboQty('pstarvell',-1)">−</button>
+        <span class="qty-num" id="qty-pstarvell">0</span>
+        <button class="qty-btn" type="button" onclick="changeComboQty('pstarvell',1)">+</button>
+      </div>
+      <div class="subtotal">Sub-total <strong>₹<span id="sub-pstarvell">0</span></strong></div>
+    </div>
+  </div>
+
   <div class="cart-summary">
     <div>
+      <div class="summary-counts">Selected Products: <span id="selectedProducts">0</span> &nbsp; | &nbsp; Total Qty: <span id="totalQty">0</span></div>
       <div class="net-total">NET PRODUCT TOTAL <strong>₹<span id="sampleNetTotal">0</span></strong></div>
       <div class="shipping-note">Packing &amp; Shipping Charges Extra</div>
     </div>
-    <button class="pay-btn" id="samplePayBtn" type="button" onclick="sampleReadyToPay()" disabled>READY TO PAY – WHATSAPP</button>
+    <button class="pay-btn" id="samplePayBtn" type="button" onclick="comboReadyToPay()" disabled>READY TO PAY – WHATSAPP</button>
   </div>
 </section>
-<section class="notice"><h2>Full Product Catalogue Updating</h2><p>This is the first live cart test. Remaining cracker images, categories and products will be added after approval.</p><p class="terms">UP TO 70% Discount · Packing &amp; Shipping Charges Extra</p></section>
+<section class="notice"><h2>Full Product Catalogue Updating</h2><p>Combo Packs are now live. Remaining cracker categories and products will be added next.</p><p class="terms">UP TO 70% Discount on eligible products · Packing &amp; Shipping Charges Extra</p></section>
 </main>
 <footer>© 2026 FUTURA - Sivakasi</footer>
 <script>
-let sampleQty=0;
-const sampleUnitPrice=3250;
-function changeSampleQty(delta){
-  sampleQty=Math.max(0,sampleQty+delta);
-  const total=sampleQty*sampleUnitPrice;
-  document.getElementById('sampleQty').textContent=sampleQty;
-  document.getElementById('sampleSubtotal').textContent=total.toLocaleString('en-IN');
-  document.getElementById('sampleNetTotal').textContent=total.toLocaleString('en-IN');
-  document.getElementById('samplePayBtn').disabled=sampleQty===0;
+const comboProducts={
+  p2500:{name:'2500 COMBO (SOUNDLESS)',price:3250,qty:0},
+  p3000:{name:'3000 COMBO PACK',price:3900,qty:0},
+  p5000:{name:'5000 COMBO PACK',price:6500,qty:0},
+  pchildren:{name:"CHILDREN'S FANCY COMBO",price:13000,qty:0},
+  pstarvell:{name:"STARVELL CHILDREN'S FANCY COMBO",price:6110,qty:0}
+};
+
+function changeComboQty(id,delta){
+  const p=comboProducts[id];
+  p.qty=Math.max(0,p.qty+delta);
+  document.getElementById('qty-'+id).textContent=p.qty;
+  document.getElementById('sub-'+id).textContent=(p.qty*p.price).toLocaleString('en-IN');
+  refreshComboSummary();
 }
-function sampleReadyToPay(){
-  if(sampleQty<1) return;
-  const total=sampleQty*sampleUnitPrice;
-  const msg=[
-    'DEEPAVALI CRACKERS 2026 – READY TO PAY',
-    '',
-    'Product: 2500 COMBO (SOUNDLESS)',
-    'Qty: '+sampleQty,
-    'Unit Price: ₹'+sampleUnitPrice.toLocaleString('en-IN'),
-    'Sub Total: ₹'+total.toLocaleString('en-IN'),
-    '',
-    'Net Product Total: ₹'+total.toLocaleString('en-IN'),
-    'Packing & Shipping Charges Extra',
-    '',
-    'I am ready to make payment. Please confirm availability and send payment details.'
-  ].join('\n');
-  window.open('https://wa.me/919488917786?text='+encodeURIComponent(msg),'_blank');
+
+function refreshComboSummary(){
+  let selected=0,totalQty=0,total=0;
+  Object.values(comboProducts).forEach(p=>{
+    if(p.qty>0) selected++;
+    totalQty+=p.qty;
+    total+=p.qty*p.price;
+  });
+  document.getElementById('selectedProducts').textContent=selected;
+  document.getElementById('totalQty').textContent=totalQty;
+  document.getElementById('sampleNetTotal').textContent=total.toLocaleString('en-IN');
+  document.getElementById('samplePayBtn').disabled=totalQty===0;
+}
+
+function comboReadyToPay(){
+  const chosen=Object.values(comboProducts).filter(p=>p.qty>0);
+  if(!chosen.length) return;
+  let total=0;
+  const lines=['DEEPAVALI CRACKERS 2026 – READY TO PAY',''];
+  chosen.forEach((p,i)=>{
+    const sub=p.qty*p.price;
+    total+=sub;
+    lines.push((i+1)+'. '+p.name);
+    lines.push('Qty: '+p.qty+' | Unit Price: ₹'+p.price.toLocaleString('en-IN')+' | Sub Total: ₹'+sub.toLocaleString('en-IN'));
+    lines.push('');
+  });
+  lines.push('NET PRODUCT TOTAL: ₹'+total.toLocaleString('en-IN'));
+  lines.push('Packing & Shipping Charges Extra');
+  lines.push('');
+  lines.push('I am ready to make payment. Please confirm availability and send payment details.');
+  window.open('https://wa.me/919488917786?text='+encodeURIComponent(lines.join('\n')),'_blank');
 }
 </script>
 </body></html>
