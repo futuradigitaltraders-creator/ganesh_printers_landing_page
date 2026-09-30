@@ -20,6 +20,16 @@ main{max-width:1100px;margin:auto;padding:38px 20px}.notice{background:#fff;bord
 .urgency .ta{font-size:18px;font-weight:800;line-height:1.7;color:#7a140b}
 .urgency .en{margin-top:14px;padding-top:14px;border-top:1px solid #e2c36a;font-size:15px;font-weight:700;line-height:1.65;color:#3e2a17}
 .urgency strong{color:#b10f0f}
+.live-summary{display:grid;grid-template-columns:repeat(4,1fr);margin:0 auto 22px;border:1px solid #ddd;box-shadow:0 4px 16px rgba(0,0,0,.08);overflow:hidden;background:#fff}
+.live-summary .sum-box{min-height:118px;padding:22px 14px;text-align:center;color:#fff;display:flex;flex-direction:column;justify-content:center}
+.live-summary .sum-box+ .sum-box{border-left:1px solid rgba(255,255,255,.35)}
+.live-summary .sum-label{font-size:15px;font-weight:900;line-height:1.15;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.55);padding-bottom:10px;margin-bottom:10px}
+.live-summary .sum-value{font-size:26px;font-weight:900;line-height:1}
+.live-summary .sum-products{background:#ff9308}
+.live-summary .sum-items{background:#0851a6}
+.live-summary .sum-total{background:#0a9c92}
+.live-summary .sum-save{background:#e70067}
+@media(max-width:760px){.live-summary{grid-template-columns:repeat(2,1fr)}.live-summary .sum-box{min-height:92px;padding:14px 8px}.live-summary .sum-label{font-size:12px}.live-summary .sum-value{font-size:21px}.live-summary .sum-box:nth-child(3){border-left:0}.live-summary .sum-box:nth-child(n+3){border-top:1px solid rgba(255,255,255,.35)}}
 .sample-shop{margin:0 auto 28px;background:#fff;border-radius:18px;padding:22px;box-shadow:0 8px 28px #5b220d1c}
 .sample-title{text-align:center;margin:0 0 18px;color:#8c1b0f;font-size:26px;font-weight:900;line-height:1.2}
 .product-row{display:grid;grid-template-columns:150px 1fr 150px 190px;gap:0;align-items:stretch;border:1px solid #666;border-radius:0;padding:0;background:#fff;overflow:hidden}
@@ -74,6 +84,13 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
     <div>Don’t wait until the last minute — place your order now and secure your stock.</div>
   </div>
 </section>
+
+<div class="live-summary" id="liveSummaryBar" aria-label="Live order summary">
+  <div class="sum-box sum-products"><div class="sum-label">NUMBER OF PRODUCTS</div><div class="sum-value" id="liveProducts">0</div></div>
+  <div class="sum-box sum-items"><div class="sum-label">NUMBER OF ITEMS</div><div class="sum-value" id="liveItems">0</div></div>
+  <div class="sum-box sum-total"><div class="sum-label">TOTAL AMOUNT</div><div class="sum-value">₹<span id="liveAmount">0.00</span></div></div>
+  <div class="sum-box sum-save"><div class="sum-label">YOU SAVE</div><div class="sum-value">₹<span id="liveSave">0.00</span></div></div>
+</div>
 
 <section class="sample-shop" aria-label="Single and double sound crackers">
   <h2 class="sample-title">SINGLE / DOUBLE SOUND CRACKERS – 70% OFF</h2>
@@ -2339,16 +2356,36 @@ function changeComboQty(id,delta){
 }
 
 function refreshComboSummary(){
-  let selected=0,totalQty=0,total=0;
-  Object.values(comboProducts).forEach(p=>{
+  let selected=0,totalQty=0,total=0,saved=0;
+  Object.entries(comboProducts).forEach(([id,p])=>{
     if(p.qty>0) selected++;
     totalQty+=p.qty;
     total+=p.qty*p.price;
+
+    if(p.qty>0){
+      const qtyEl=document.getElementById('qty-'+id);
+      const row=qtyEl ? qtyEl.closest('.product-row') : null;
+      const mrpEl=row ? row.querySelector('.mrp-price') : null;
+      if(mrpEl){
+        const mrp=parseFloat((mrpEl.textContent||'').replace(/[^0-9.]/g,''))||0;
+        if(mrp>p.price) saved+=(mrp-p.price)*p.qty;
+      }
+    }
   });
+
   document.getElementById('selectedProducts').textContent=selected;
   document.getElementById('totalQty').textContent=totalQty;
   document.getElementById('sampleNetTotal').textContent=total.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
   document.getElementById('samplePayBtn').disabled=totalQty===0;
+
+  const lp=document.getElementById('liveProducts');
+  const li=document.getElementById('liveItems');
+  const la=document.getElementById('liveAmount');
+  const ls=document.getElementById('liveSave');
+  if(lp) lp.textContent=selected;
+  if(li) li.textContent=totalQty;
+  if(la) la.textContent=total.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
+  if(ls) ls.textContent=saved.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
 }
 
 function productImageError(img){
@@ -2442,6 +2479,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     img.addEventListener('error',()=>productImageError(img));
     if(img.complete && img.naturalWidth===0) productImageError(img);
   });
+  refreshComboSummary();
   hydrateCatalogueImages();
   document.querySelectorAll('.product-row img').forEach(img=>img.setAttribute('title','Click to enlarge'));
   const modal=document.getElementById('productImageModal');
