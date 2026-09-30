@@ -950,3 +950,73 @@
         font-size: 13px !important;
     }
 }
+
+
+/* HERO CRACKERS CTA - 2026-10-01 */
+.hero-section-3 {
+    position: relative !important;
+}
+
+.hero-crackers-cta {
+    position: absolute !important;
+    z-index: 80 !important;
+    top: 18px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 360px !important;
+    padding: 14px 28px !important;
+    border-radius: 14px !important;
+    background: rgba(117, 10, 10, .94) !important;
+    border: 2px solid #ffd34d !important;
+    color: #fff !important;
+    text-decoration: none !important;
+    text-align: center !important;
+    box-shadow: 0 8px 22px rgba(0,0,0,.28) !important;
+}
+
+.hero-crackers-cta-main {
+    font-size: 21px !important;
+    line-height: 1.05 !important;
+    font-weight: 900 !important;
+    letter-spacing: .4px !important;
+    color: #fff !important;
+    white-space: nowrap !important;
+}
+
+.hero-crackers-cta-sub {
+    margin-top: 5px !important;
+    font-size: 13px !important;
+    line-height: 1 !important;
+    font-weight: 800 !important;
+    color: #ffd34d !important;
+    letter-spacing: .5px !important;
+}
+
+.hero-crackers-cta:hover {
+    transform: translateX(-50%) scale(1.03) !important;
+    color: #fff !important;
+}
+
+@media (max-width: 767px) {
+    .hero-crackers-cta {
+        top: 10px !important;
+        min-width: 0 !important;
+        width: calc(100% - 28px) !important;
+        max-width: 520px !important;
+        padding: 13px 16px !important;
+        border-radius: 12px !important;
+    }
+
+    .hero-crackers-cta-main {
+        font-size: 19px !important;
+        white-space: normal !important;
+    }
+
+    .hero-crackers-cta-sub {
+        font-size: 12px !important;
+    }
+}
