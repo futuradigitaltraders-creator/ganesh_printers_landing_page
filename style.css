@@ -849,3 +849,104 @@
         font-size: 9px !important;
     }
 }
+
+
+/* READABLE NAV SIZE FIX - 2026-10-01 01:09 */
+/* Desktop: make main navigation clearly readable */
+@media (min-width: 1200px) {
+    .header-section-3 #mobile-menu > ul {
+        gap: 24px !important;
+    }
+    .header-section-3 #mobile-menu > ul > li > a {
+        font-size: 17px !important;
+        font-weight: 700 !important;
+        padding: 11px 0 !important;
+    }
+}
+
+/* Tablet/mobile: larger, touch-friendly two-row navigation */
+@media (max-width: 1199.98px) {
+    .header-section-3,
+    .header-section-3 #header-sticky,
+    .header-section-3 #header-sticky.sticky,
+    .header-section-3 .header-main {
+        height: 150px !important;
+        min-height: 150px !important;
+    }
+
+    .header-section-3 .header-left,
+    .header-section-3 .header-right {
+        top: 34px !important;
+    }
+
+    .header-section-3 .mean__menu-wrapper {
+        left: 8px !important;
+        right: 8px !important;
+        bottom: 6px !important;
+        height: 74px !important;
+        overflow: visible !important;
+        align-items: flex-start !important;
+    }
+
+    .header-section-3 .main-menu,
+    .header-section-3 #mobile-menu {
+        width: 100% !important;
+        min-width: 100% !important;
+    }
+
+    .header-section-3 #mobile-menu > ul {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 5px 14px !important;
+        width: 100% !important;
+        min-width: 100% !important;
+        padding: 0 4px !important;
+    }
+
+    .header-section-3 #mobile-menu > ul > li {
+        flex: 0 0 auto !important;
+    }
+
+    .header-section-3 #mobile-menu > ul > li > a {
+        font-size: 13px !important;
+        line-height: 1.15 !important;
+        font-weight: 700 !important;
+        padding: 8px 4px !important;
+        white-space: nowrap !important;
+    }
+
+    /* Make the crackers link especially easy to see and tap */
+    .header-section-3 #mobile-menu > ul > li:nth-child(2) > a {
+        font-size: 14px !important;
+        font-weight: 800 !important;
+    }
+}
+
+@media (max-width: 520px) {
+    .header-section-3,
+    .header-section-3 #header-sticky,
+    .header-section-3 #header-sticky.sticky,
+    .header-section-3 .header-main {
+        height: 158px !important;
+        min-height: 158px !important;
+    }
+
+    .header-section-3 .mean__menu-wrapper {
+        height: 82px !important;
+    }
+
+    .header-section-3 #mobile-menu > ul {
+        gap: 4px 10px !important;
+    }
+
+    .header-section-3 #mobile-menu > ul > li > a {
+        font-size: 12px !important;
+        padding: 8px 3px !important;
+    }
+
+    .header-section-3 #mobile-menu > ul > li:nth-child(2) > a {
+        font-size: 13px !important;
+    }
+}
