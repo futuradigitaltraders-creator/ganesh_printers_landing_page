@@ -1096,3 +1096,72 @@
         font-size: 13px;
     }
 }
+
+
+/* STRONG MOBILE CRACKERS CTA - 2026-10-01 */
+.home-crackers-promo-bar {
+    background: linear-gradient(180deg,#a40000 0%,#760000 100%) !important;
+    border-top: 3px solid #ffd84a !important;
+    padding: 16px 14px 18px !important;
+}
+
+.home-crackers-promo-bar strong {
+    font-size: 28px !important;
+    line-height: 1.05 !important;
+    font-weight: 1000 !important;
+    letter-spacing: .5px !important;
+    color: #fff !important;
+    text-shadow: 0 2px 2px rgba(0,0,0,.35) !important;
+}
+
+.home-crackers-off {
+    display:block !important;
+    margin-top:8px !important;
+    font-size:20px !important;
+    line-height:1 !important;
+    font-weight:1000 !important;
+    color:#ffd84a !important;
+    letter-spacing:.4px !important;
+}
+
+.home-crackers-click {
+    display:inline-block !important;
+    margin-top:10px !important;
+    padding:10px 18px !important;
+    border-radius:999px !important;
+    background:#ffd84a !important;
+    color:#7a120d !important;
+    font-size:16px !important;
+    line-height:1 !important;
+    font-weight:1000 !important;
+    border:2px solid #fff3a0 !important;
+    box-shadow:0 0 0 0 rgba(255,216,74,.75) !important;
+    animation:crackersCtaPulse 1.15s ease-in-out infinite !important;
+}
+
+@keyframes crackersCtaPulse {
+    0% { transform:scale(1); box-shadow:0 0 0 0 rgba(255,216,74,.70); }
+    50% { transform:scale(1.07); box-shadow:0 0 0 10px rgba(255,216,74,0); }
+    100% { transform:scale(1); box-shadow:0 0 0 0 rgba(255,216,74,0); }
+}
+
+@media (max-width:767px){
+    .home-crackers-promo-bar{
+        padding:18px 10px 20px !important;
+    }
+    .home-crackers-promo-bar strong{
+        font-size:25px !important;
+    }
+    .home-crackers-off{
+        font-size:21px !important;
+    }
+    .home-crackers-click{
+        font-size:17px !important;
+        padding:12px 20px !important;
+        margin-top:12px !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce){
+    .home-crackers-click{animation:none !important;}
+}
