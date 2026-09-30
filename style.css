@@ -668,3 +668,107 @@
         font-size: 9px !important;
     }
 }
+
+
+/* DEFINITIVE MOBILE/TABLET HEADER FIX - 2026-10-01 01:02 */
+@media (max-width: 1199.98px) {
+    .header-section-3,
+    .header-section-3 #header-sticky,
+    .header-section-3 #header-sticky.sticky,
+    .header-section-3 .header-main {
+        height: 88px !important;
+        min-height: 88px !important;
+    }
+
+    .header-section-3 .header-main {
+        padding: 0 14px !important;
+    }
+
+    .header-section-3 .header-left {
+        position: absolute !important;
+        left: 14px !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        max-width: calc(100% - 82px) !important;
+    }
+
+    .header-section-3 .professional-brand {
+        gap: 8px !important;
+        max-width: 100% !important;
+    }
+
+    .header-section-3 .brand-logo {
+        width: 58px !important;
+        height: 58px !important;
+        flex: 0 0 58px !important;
+    }
+
+    .header-section-3 .brand-divider {
+        width: 1px !important;
+        height: 48px !important;
+        flex: 0 0 1px !important;
+    }
+
+    .header-section-3 .brand-text {
+        min-width: 0 !important;
+    }
+
+    .header-section-3 .brand-name-main {
+        font-size: 21px !important;
+        line-height: 1 !important;
+        letter-spacing: .4px !important;
+        white-space: nowrap !important;
+    }
+
+    .header-section-3 .brand-name-sub {
+        font-size: 11px !important;
+        line-height: 1.05 !important;
+        letter-spacing: 1px !important;
+        margin-top: 5px !important;
+        white-space: nowrap !important;
+    }
+
+    .header-section-3 .brand-tagline {
+        display: none !important;
+    }
+
+    /* Do not force the desktop navigation into the small header.
+       The existing hamburger/off-canvas menu is used on tablet/mobile. */
+    .header-section-3 .mean__menu-wrapper {
+        display: none !important;
+    }
+
+    .header-section-3 .header-right {
+        position: absolute !important;
+        right: 16px !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        display: flex !important;
+        z-index: 10 !important;
+    }
+
+    .header-section-3 .header__hamburger {
+        display: block !important;
+    }
+
+    .header-section-3 .sidebar__toggle {
+        color: #ffffff !important;
+        font-size: 24px !important;
+        cursor: pointer !important;
+    }
+}
+
+@media (max-width: 420px) {
+    .header-section-3 .brand-logo {
+        width: 52px !important;
+        height: 52px !important;
+        flex-basis: 52px !important;
+    }
+    .header-section-3 .brand-name-main {
+        font-size: 18px !important;
+    }
+    .header-section-3 .brand-name-sub {
+        font-size: 10px !important;
+        letter-spacing: .7px !important;
+    }
+}
