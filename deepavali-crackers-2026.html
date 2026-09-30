@@ -24,18 +24,19 @@ main{max-width:1100px;margin:auto;padding:38px 20px}.notice{background:#fff;bord
 .sample-title{text-align:center;margin:0 0 18px;color:#8c1b0f;font-size:26px}
 .product-row{display:grid;grid-template-columns:150px 1fr 150px 190px;gap:18px;align-items:center;border:1px solid #eadfd6;border-radius:14px;padding:16px}.product-row + .product-row{margin-top:12px}.combo-note{text-align:center;margin:-8px 0 18px;font-weight:800;color:#8c1b0f}.summary-counts{font-size:13px;font-weight:700;color:#6e4a26;margin-bottom:4px}
 .product-row img{width:130px;height:130px;object-fit:contain;border-radius:10px;background:#fff;cursor:pointer;transition:transform .18s ease}.product-row img:hover{transform:scale(1.04)}
-.img-modal{display:none;position:fixed;z-index:99999;inset:0;background:rgba(0,0,0,.82);align-items:center;justify-content:center;padding:20px}
+.img-modal{display:none;position:fixed;z-index:99999;inset:0;background:rgba(0,0,0,.86);align-items:center;justify-content:center;padding:12px}
 .img-modal.open{display:flex}
-.img-modal-inner{position:relative;max-width:92vw;max-height:92vh;background:#fff;border-radius:14px;padding:12px;box-shadow:0 20px 60px rgba(0,0,0,.45)}
-.img-modal img{display:block;max-width:86vw;max-height:82vh;object-fit:contain;cursor:zoom-in;transition:transform .2s ease;transform-origin:center center}
-.img-modal img.zoom2x{transform:scale(2);cursor:zoom-out}
-.img-modal-inner{overflow:auto}
-.zoom-tools{position:absolute;left:12px;top:12px;display:flex;gap:8px;z-index:2}
-.zoom-btn{width:38px;height:38px;border:0;border-radius:8px;background:#24105f;color:#fff;font-size:22px;font-weight:900;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.25)}
+.img-modal-inner{position:relative;width:min(94vw,1280px);height:88vh;max-width:none;max-height:none;background:#111;border-radius:12px;padding:54px 12px 12px;box-shadow:0 20px 60px rgba(0,0,0,.55);overflow:auto;display:flex;align-items:center;justify-content:center}
+.img-modal-inner.is-zoomed{display:block;cursor:grab}
+.img-modal-inner.dragging{cursor:grabbing;user-select:none}
+.img-modal img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;cursor:zoom-in;margin:auto}
+.img-modal img.zoom2x{max-width:none;max-height:none;width:200%;height:auto;cursor:grab;margin:0 auto}
+.zoom-tools{position:absolute;left:14px;top:10px;display:flex;gap:8px;z-index:3}
+.zoom-btn{width:40px;height:40px;border:0;border-radius:8px;background:#24105f;color:#fff;font-size:24px;font-weight:900;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.28)}
 .product-row{position:relative}
-.product-row img+ .image-hand{display:none}
-.image-hand{position:absolute;left:118px;top:18px;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#fff;color:#24105f;font-size:20px;box-shadow:0 2px 8px rgba(0,0,0,.22);pointer-events:none}
-@media(max-width:760px){.image-hand{left:72px;top:16px;width:26px;height:26px;font-size:18px}}
+.product-row img{cursor:pointer}
+.image-hand{display:none!important}
+@media(max-width:760px){.img-modal{padding:6px}.img-modal-inner{width:96vw;height:84vh;padding:50px 8px 8px}.zoom-btn{width:38px;height:38px}}
 .img-modal-close{position:absolute;right:-12px;top:-12px;width:38px;height:38px;border-radius:50%;border:0;background:#e1122c;color:#fff;font-size:24px;font-weight:900;cursor:pointer}
 .product-name{font-size:20px;font-weight:800;margin-bottom:6px}.product-meta{font-size:13px;color:#73584a}
 .price-label{font-size:12px;color:#74594b;text-transform:uppercase;font-weight:700}.mrp-price{font-size:14px;color:#777;margin:2px 0 4px}.our-price{font-size:26px;font-weight:900;color:#e30062;margin-top:4px}
@@ -73,7 +74,7 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
   <div class="combo-note">Already Specially Priced</div>
 
   <div class="product-row">
-    <img src="images/crackers/2500-combo-soundless-sample.jpg" alt="2500 Combo Soundless" title="Click to enlarge" onclick="openProductImage(this.src,this.alt)"><span class="image-hand" aria-hidden="true">👆</span>
+    <img src="images/crackers/2500-combo-soundless-sample.jpg" alt="2500 Combo Soundless" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full)">
     <div><div class="product-name">2500 COMBO (SOUNDLESS)</div><div class="product-meta">Category: Combo Pack</div></div>
     <div class="price-box"><div class="price-label">SPECIAL COMBO OFFER PRICE</div><div class="our-price">₹3,250</div></div>
     <div class="qty-col">
@@ -87,7 +88,7 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
   </div>
 
   <div class="product-row">
-    <img src="images/crackers/3000-combo-pack.jpg" alt="3000 Combo Pack" title="Click to enlarge" onclick="openProductImage(this.src,this.alt)"><span class="image-hand" aria-hidden="true">👆</span>
+    <img src="images/crackers/3000-combo-pack.jpg" alt="3000 Combo Pack" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full)">
     <div><div class="product-name">3000 COMBO PACK</div><div class="product-meta">Category: Combo Pack</div></div>
     <div class="price-box"><div class="price-label">SPECIAL COMBO OFFER PRICE</div><div class="our-price">₹3,900</div></div>
     <div class="qty-col">
@@ -101,7 +102,7 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
   </div>
 
   <div class="product-row">
-    <img src="images/crackers/5000-combo-pack.jpg" alt="5000 Combo Pack" title="Click to enlarge" onclick="openProductImage(this.src,this.alt)"><span class="image-hand" aria-hidden="true">👆</span>
+    <img src="images/crackers/5000-combo-pack.jpg" alt="5000 Combo Pack" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full)">
     <div><div class="product-name">5000 COMBO PACK</div><div class="product-meta">Category: Combo Pack</div></div>
     <div class="price-box"><div class="price-label">SPECIAL COMBO OFFER PRICE</div><div class="our-price">₹6,500</div></div>
     <div class="qty-col">
@@ -115,7 +116,7 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
   </div>
 
   <div class="product-row">
-    <img src="images/crackers/childrens-fancy-combo.jpg" alt="Children's Fancy Combo" title="Click to enlarge" onclick="openProductImage(this.src,this.alt)"><span class="image-hand" aria-hidden="true">👆</span>
+    <img src="images/crackers/childrens-fancy-combo.jpg" alt="Children's Fancy Combo" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full)">
     <div><div class="product-name">CHILDREN'S FANCY COMBO</div><div class="product-meta">Category: Combo Pack</div></div>
     <div class="price-box"><div class="price-label">SPECIAL COMBO OFFER PRICE</div><div class="our-price">₹13,000</div></div>
     <div class="qty-col">
@@ -129,7 +130,7 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
   </div>
 
   <div class="product-row">
-    <img src="images/crackers/starvell-childrens-fancy-combo.jpg" alt="Starvell Children's Fancy Combo" title="Click to enlarge" onclick="openProductImage(this.src,this.alt)"><span class="image-hand" aria-hidden="true">👆</span>
+    <img src="images/crackers/starvell-childrens-fancy-combo.jpg" alt="Starvell Children's Fancy Combo" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full)">
     <div><div class="product-name">STARVELL CHILDREN'S FANCY COMBO</div><div class="product-meta">Category: Combo Pack</div></div>
     <div class="price-box"><div class="price-label">SPECIAL COMBO OFFER PRICE</div><div class="our-price">₹6,110</div></div>
     <div class="qty-col">
@@ -148,52 +149,206 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
   <h2 class="sample-title">SINGLE / DOUBLE SOUND CRACKERS – 70% OFF</h2>
 
   <div class="product-row">
-    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/IiyZDa3/HERCULESSTD.jpeg" alt="10 CM HERCULES DELUXE (5 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt)"><span class="image-hand" aria-hidden="true">👆</span>
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/IiyZDa3/HERCULESSTD.jpeg" data-full="https://assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/IiyZDa3/HERCULESSTD.jpeg" alt="10 CM HERCULES DELUXE (5 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full)">
     <div><div class="product-name">10 CM HERCULES DELUXE (5 PCS)</div><div class="product-meta">Brand: Standard · Category: Sound Crackers</div></div>
     <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹344.24</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹103.27</div></div>
     <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('shercules',-1)">−</button><span class="qty-num" id="qty-shercules">0</span><button class="qty-btn" type="button" onclick="changeComboQty('shercules',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-shercules">0.00</span></strong></div></div>
   </div>
 
   <div class="product-row">
-    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/t1tbq5H/9CMLAKSHMICRACKERS.jpeg" alt="9 CM LAKSHMI CRACKERS (5 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt)"><span class="image-hand" aria-hidden="true">👆</span>
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/t1tbq5H/9CMLAKSHMICRACKERS.jpeg" data-full="https://assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/t1tbq5H/9CMLAKSHMICRACKERS.jpeg" alt="9 CM LAKSHMI CRACKERS (5 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full)">
     <div><div class="product-name">9 CM LAKSHMI CRACKERS (5 PCS)</div><div class="product-meta">Brand: Standard · Category: Sound Crackers</div></div>
     <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹187.85</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹56.36</div></div>
     <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('slakshmi9',-1)">−</button><span class="qty-num" id="qty-slakshmi9">0</span><button class="qty-btn" type="button" onclick="changeComboQty('slakshmi9',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-slakshmi9">0.00</span></strong></div></div>
   </div>
 
   <div class="product-row">
-    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/dYhgTaE/Eco5Lakshmi.jpeg" alt="ECO 5 INCH LAKSHMI CRACKERS (5 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt)"><span class="image-hand" aria-hidden="true">👆</span>
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/dYhgTaE/Eco5Lakshmi.jpeg" data-full="https://assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/dYhgTaE/Eco5Lakshmi.jpeg" alt="ECO 5 INCH LAKSHMI CRACKERS (5 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full)">
     <div><div class="product-name">ECO 5&quot; LAKSHMI CRACKERS (5 PCS)</div><div class="product-meta">Brand: Budget · Category: Sound Crackers</div></div>
     <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹306.02</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹91.81</div></div>
     <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('seco5',-1)">−</button><span class="qty-num" id="qty-seco5">0</span><button class="qty-btn" type="button" onclick="changeComboQty('seco5',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-seco5">0.00</span></strong></div></div>
   </div>
 
   <div class="product-row">
-    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/HWA0CTU/Eco6Lakshmi.jpeg" alt="ECO 6 INCH LAKSHMI CRACKERS (5 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt)"><span class="image-hand" aria-hidden="true">👆</span>
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/HWA0CTU/Eco6Lakshmi.jpeg" data-full="https://assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/HWA0CTU/Eco6Lakshmi.jpeg" alt="ECO 6 INCH LAKSHMI CRACKERS (5 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full)">
     <div><div class="product-name">ECO 6&quot; LAKSHMI CRACKERS (5 PCS)</div><div class="product-meta">Brand: Budget · Category: Sound Crackers</div></div>
     <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹424.97</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹127.49</div></div>
     <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('seco6',-1)">−</button><span class="qty-num" id="qty-seco6">0</span><button class="qty-btn" type="button" onclick="changeComboQty('seco6',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-seco6">0.00</span></strong></div></div>
   </div>
 
   <div class="product-row">
-    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/5h7qNpO/2.75KURUVICRACKERSECO.jpeg" alt="ECO 2.75 INCH KURUVI CRACKERS (5 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt)"><span class="image-hand" aria-hidden="true">👆</span>
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/5h7qNpO/2.75KURUVICRACKERSECO.jpeg" data-full="https://assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/5h7qNpO/2.75KURUVICRACKERSECO.jpeg" alt="ECO 2.75 INCH KURUVI CRACKERS (5 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full)">
     <div><div class="product-name">ECO 2.75&quot; KURUVI CRACKERS (5 PCS)</div><div class="product-meta">Brand: Budget · Category: Sound Crackers</div></div>
     <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹83.46</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹25.04</div></div>
     <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('skuruvi',-1)">−</button><span class="qty-num" id="qty-skuruvi">0</span><button class="qty-btn" type="button" onclick="changeComboQty('skuruvi',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-skuruvi">0.00</span></strong></div></div>
   </div>
 
   <div class="product-row">
-    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/c0Zd8k0/Eco4Lakshmi.jpeg" alt="ECO 4 INCH DELUXE LAKSHMI CRACKERS (5 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt)"><span class="image-hand" aria-hidden="true">👆</span>
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/c0Zd8k0/Eco4Lakshmi.jpeg" data-full="https://assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/c0Zd8k0/Eco4Lakshmi.jpeg" alt="ECO 4 INCH DELUXE LAKSHMI CRACKERS (5 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full)">
     <div><div class="product-name">ECO 4&quot; DELUXE LAKSHMI CRACKERS (5 PCS)</div><div class="product-meta">Brand: Budget · Category: Sound Crackers</div></div>
     <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹208.65</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹62.60</div></div>
     <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('seco4deluxe',-1)">−</button><span class="qty-num" id="qty-seco4deluxe">0</span><button class="qty-btn" type="button" onclick="changeComboQty('seco4deluxe',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-seco4deluxe">0.00</span></strong></div></div>
   </div>
 
   <div class="product-row">
-    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/q7kTvoa/3.5LAKSHMICRACKERSECO.jpeg" alt="ECO 3.5 INCH LAKSHMI CRACKERS (5 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt)"><span class="image-hand" aria-hidden="true">👆</span>
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/q7kTvoa/3.5LAKSHMICRACKERSECO.jpeg" data-full="https://assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/q7kTvoa/3.5LAKSHMICRACKERSECO.jpeg" alt="ECO 3.5 INCH LAKSHMI CRACKERS (5 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full)">
     <div><div class="product-name">ECO 3.5&quot; LAKSHMI CRACKERS (5 PCS)</div><div class="product-meta">Brand: Budget · Category: Sound Crackers</div></div>
     <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹125.45</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹37.64</div></div>
     <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('seco35',-1)">−</button><span class="qty-num" id="qty-seco35">0</span><button class="qty-btn" type="button" onclick="changeComboQty('seco35',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-seco35">0.00</span></strong></div></div>
+  </div>
+</section>
+
+<section class="sample-shop" aria-label="Sparklers">
+  <h2 class="sample-title">SPARKLERS (ஸ்பார்க்லர்ஸ், फुलझड़ियों) – 70% OFF</h2>
+  <div class="product-row">
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/deL3ZYq/12CMJIMMYCRACKLING.jpeg" data-full="https://assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/deL3ZYq/12CMJIMMYCRACKLING.jpeg" alt="12 CM JIMMY CRACKLING SPARKLERS (10 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full)">
+    <div><div class="product-name">12 CM JIMMY CRACKLING SPARKLERS (10 PCS)</div><div class="product-meta">Brand: STANDARD · Category: Sparklers</div></div>
+    <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹351.52</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹105.46</div></div>
+    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('sp01',-1)">−</button><span class="qty-num" id="qty-sp01">0</span><button class="qty-btn" type="button" onclick="changeComboQty('sp01',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-sp01">0.00</span></strong></div></div>
+  </div>
+  <div class="product-row">
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/23_8_2026/3HZgXZ3/Standard15CMCracklingSparklers.jpeg" data-full="https://assetv2.iar.net.in/trial700.iar.net.in/23_8_2026/3HZgXZ3/Standard15CMCracklingSparklers.jpeg" alt="15 CM CRACKLING SPARKLERS (10 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full)">
+    <div><div class="product-name">15 CM CRACKLING SPARKLERS (10 PCS)</div><div class="product-meta">Brand: STANDARD · Category: Sparklers</div></div>
+    <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹612.43</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹183.73</div></div>
+    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('sp02',-1)">−</button><span class="qty-num" id="qty-sp02">0</span><button class="qty-btn" type="button" onclick="changeComboQty('sp02',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-sp02">0.00</span></strong></div></div>
+  </div>
+  <div class="product-row">
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/23_8_2026/tA5RHua/Standard15CMGoldSparklers.jpeg" data-full="https://assetv2.iar.net.in/trial700.iar.net.in/23_8_2026/tA5RHua/Standard15CMGoldSparklers.jpeg" alt="15 CM GOLD SPARKLERS (10 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full)">
+    <div><div class="product-name">15 CM GOLD SPARKLERS (10 PCS)</div><div class="product-meta">Brand: STANDARD · Category: Sparklers</div></div>
+    <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹546.65</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹163.99</div></div>
+    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('sp03',-1)">−</button><span class="qty-num" id="qty-sp03">0</span><button class="qty-btn" type="button" onclick="changeComboQty('sp03',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-sp03">0.00</span></strong></div></div>
+  </div>
+  <div class="product-row">
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/23_8_2026/MIcG8Az/Standard15CMLavenderSparklers.jpeg" data-full="https://assetv2.iar.net.in/trial700.iar.net.in/23_8_2026/MIcG8Az/Standard15CMLavenderSparklers.jpeg" alt="15 CM LAVENDER SPARKLERS (10 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full)">
+    <div><div class="product-name">15 CM LAVENDER SPARKLERS (10 PCS)</div><div class="product-meta">Brand: STANDARD · Category: Sparklers</div></div>
+    <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹643.63</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹193.09</div></div>
+    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('sp04',-1)">−</button><span class="qty-num" id="qty-sp04">0</span><button class="qty-btn" type="button" onclick="changeComboQty('sp04',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-sp04">0.00</span></strong></div></div>
+  </div>
+  <div class="product-row">
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/23_8_2026/8DbkYqz/Standard15CMLemonTreeSparklers.jpeg" data-full="https://assetv2.iar.net.in/trial700.iar.net.in/23_8_2026/8DbkYqz/Standard15CMLemonTreeSparklers.jpeg" alt="15 CM LEMON TREE SPARKLERS (10 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full)">
+    <div><div class="product-name">15 CM LEMON TREE SPARKLERS (10 PCS)</div><div class="product-meta">Brand: STANDARD · Category: Sparklers</div></div>
+    <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹461.11</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹138.33</div></div>
+    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('sp05',-1)">−</button><span class="qty-num" id="qty-sp05">0</span><button class="qty-btn" type="button" onclick="changeComboQty('sp05',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-sp05">0.00</span></strong></div></div>
+  </div>
+  <div class="product-row">
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/19_9_2026/2bARScB/30cmCrackling.jpeg" data-full="https://assetv2.iar.net.in/trial700.iar.net.in/19_9_2026/2bARScB/30cmCrackling.jpeg" alt="30 CM CRACKLING SPARKLERS (5 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full)">
+    <div><div class="product-name">30 CM CRACKLING SPARKLERS (5 PCS)</div><div class="product-meta">Brand: STANDARD · Category: Sparklers</div></div>
+    <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹612.43</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹183.73</div></div>
+    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('sp06',-1)">−</button><span class="qty-num" id="qty-sp06">0</span><button class="qty-btn" type="button" onclick="changeComboQty('sp06',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-sp06">0.00</span></strong></div></div>
+  </div>
+  <div class="product-row">
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/23_8_2026/AnyijIs/Standard30CMGoldSparklers1.jpeg" data-full="https://assetv2.iar.net.in/trial700.iar.net.in/23_8_2026/AnyijIs/Standard30CMGoldSparklers1.jpeg" alt="30 CM GOLD SPARKLERS (5 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full)">
+    <div><div class="product-name">30 CM GOLD SPARKLERS (5 PCS)</div><div class="product-meta">Brand: STANDARD · Category: Sparklers</div></div>
+    <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹546.65</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹163.99</div></div>
+    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('sp07',-1)">−</button><span class="qty-num" id="qty-sp07">0</span><button class="qty-btn" type="button" onclick="changeComboQty('sp07',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-sp07">0.00</span></strong></div></div>
+  </div>
+  <div class="product-row">
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/23_8_2026/B3nCzNU/Standard9CMCracklingSparklers1.jpeg" data-full="https://assetv2.iar.net.in/trial700.iar.net.in/23_8_2026/B3nCzNU/Standard9CMCracklingSparklers1.jpeg" alt="9 CM CRACKLING SPARKLERS (10 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full)">
+    <div><div class="product-name">9 CM CRACKLING SPARKLERS (10 PCS)</div><div class="product-meta">Brand: STANDARD · Category: Sparklers</div></div>
+    <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹171.08</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹51.32</div></div>
+    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('sp08',-1)">−</button><span class="qty-num" id="qty-sp08">0</span><button class="qty-btn" type="button" onclick="changeComboQty('sp08',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-sp08">0.00</span></strong></div></div>
+  </div>
+  <div class="product-row">
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/23_8_2026/Skqpd8c/Asok10CM5in1.jpeg" data-full="https://assetv2.iar.net.in/trial700.iar.net.in/23_8_2026/Skqpd8c/Asok10CM5in1.jpeg" alt="10 CM 5 IN 1 (50 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full)">
+    <div><div class="product-name">10 CM 5 IN 1 (50 PCS)</div><div class="product-meta">Brand: ELITE · Category: Sparklers</div></div>
+    <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹1,408.42</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹422.53</div></div>
+    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('sp09',-1)">−</button><span class="qty-num" id="qty-sp09">0</span><button class="qty-btn" type="button" onclick="changeComboQty('sp09',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-sp09">0.00</span></strong></div></div>
+  </div>
+  <div class="product-row">
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/19_9_2026/DkUSSW2/10cmSonato.jpeg" data-full="https://assetv2.iar.net.in/trial700.iar.net.in/19_9_2026/DkUSSW2/10cmSonato.jpeg" alt="10 CM SONATA GOLD (10 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full)">
+    <div><div class="product-name">10 CM SONATA GOLD (10 PCS)</div><div class="product-meta">Brand: ELITE · Category: Sparklers</div></div>
+    <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹276.51</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹82.95</div></div>
+    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('sp10',-1)">−</button><span class="qty-num" id="qty-sp10">0</span><button class="qty-btn" type="button" onclick="changeComboQty('sp10',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-sp10">0.00</span></strong></div></div>
+  </div>
+  <div class="product-row">
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/2k6RHdI/RAINBOXSIXASOK.jpeg" data-full="https://assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/2k6RHdI/RAINBOXSIXASOK.jpeg" alt="RAINBOW SIX - MULTICOLOR ROTATING UMBRELLA (1 PCE)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full)">
+    <div><div class="product-name">RAINBOW SIX - MULTICOLOR ROTATING UMBRELLA (1 PCE)</div><div class="product-meta">Brand: ELITE · Category: Sparklers</div></div>
+    <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹1,617.07</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹485.12</div></div>
+    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('sp11',-1)">−</button><span class="qty-num" id="qty-sp11">0</span><button class="qty-btn" type="button" onclick="changeComboQty('sp11',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-sp11">0.00</span></strong></div></div>
+  </div>
+  <div class="product-row">
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/29_8_2026/mOOj3mQ/Eco12cmGreen.jpeg" data-full="https://assetv2.iar.net.in/trial700.iar.net.in/29_8_2026/mOOj3mQ/Eco12cmGreen.jpeg" alt="ECO 12 CM GREEN SPARKLERS (10 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full)">
+    <div><div class="product-name">ECO 12 CM GREEN SPARKLERS (10 PCS)</div><div class="product-meta">Brand: BUDGET · Category: Sparklers</div></div>
+    <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹222.56</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹66.77</div></div>
+    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('sp12',-1)">−</button><span class="qty-num" id="qty-sp12">0</span><button class="qty-btn" type="button" onclick="changeComboQty('sp12',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-sp12">0.00</span></strong></div></div>
+  </div>
+  <div class="product-row">
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/29_8_2026/YkZpD9n/Eco12cmRed.jpeg" data-full="https://assetv2.iar.net.in/trial700.iar.net.in/29_8_2026/YkZpD9n/Eco12cmRed.jpeg" alt="ECO 12 CM RED SPARKLERS (10 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full)">
+    <div><div class="product-name">ECO 12 CM RED SPARKLERS (10 PCS)</div><div class="product-meta">Brand: BUDGET · Category: Sparklers</div></div>
+    <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹250.38</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹75.11</div></div>
+    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('sp13',-1)">−</button><span class="qty-num" id="qty-sp13">0</span><button class="qty-btn" type="button" onclick="changeComboQty('sp13',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-sp13">0.00</span></strong></div></div>
+  </div>
+  <div class="product-row">
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/19_9_2026/6OyHLod/12cmElectric.jpeg" data-full="https://assetv2.iar.net.in/trial700.iar.net.in/19_9_2026/6OyHLod/12cmElectric.jpeg" alt="ECO 12 CM ELECTRIC SPARKLERS (10 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full)">
+    <div><div class="product-name">ECO 12 CM ELECTRIC SPARKLERS (10 PCS)</div><div class="product-meta">Brand: BUDGET · Category: Sparklers</div></div>
+    <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹183.95</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹55.18</div></div>
+    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('sp14',-1)">−</button><span class="qty-num" id="qty-sp14">0</span><button class="qty-btn" type="button" onclick="changeComboQty('sp14',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-sp14">0.00</span></strong></div></div>
+  </div>
+  <div class="product-row">
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/19_9_2026/3GpG7af/12cmGlittering.jpeg" data-full="https://assetv2.iar.net.in/trial700.iar.net.in/19_9_2026/3GpG7af/12cmGlittering.jpeg" alt="ECO 12 CM GLITTERING SPARKLERS (10 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full)">
+    <div><div class="product-name">ECO 12 CM GLITTERING SPARKLERS (10 PCS)</div><div class="product-meta">Brand: BUDGET · Category: Sparklers</div></div>
+    <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹209.30</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹62.79</div></div>
+    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('sp15',-1)">−</button><span class="qty-num" id="qty-sp15">0</span><button class="qty-btn" type="button" onclick="changeComboQty('sp15',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-sp15">0.00</span></strong></div></div>
+  </div>
+  <div class="product-row">
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/23_8_2026/FD5x1DZ/Eco15ElectricSparklers.jpeg" data-full="https://assetv2.iar.net.in/trial700.iar.net.in/23_8_2026/FD5x1DZ/Eco15ElectricSparklers.jpeg" alt="ECO 15 CM ELECTRIC SPARKLERS (10 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full)">
+    <div><div class="product-name">ECO 15 CM ELECTRIC SPARKLERS (10 PCS)</div><div class="product-meta">Brand: BUDGET · Category: Sparklers</div></div>
+    <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹291.20</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹87.36</div></div>
+    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('sp16',-1)">−</button><span class="qty-num" id="qty-sp16">0</span><button class="qty-btn" type="button" onclick="changeComboQty('sp16',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-sp16">0.00</span></strong></div></div>
+  </div>
+  <div class="product-row">
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/23_8_2026/NeYYWPm/Eco15CMGlitteringCrackers.jpeg" data-full="https://assetv2.iar.net.in/trial700.iar.net.in/23_8_2026/NeYYWPm/Eco15CMGlitteringCrackers.jpeg" alt="ECO 15 CM GLITTERING SPARKLERS (10 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full)">
+    <div><div class="product-name">ECO 15 CM GLITTERING SPARKLERS (10 PCS)</div><div class="product-meta">Brand: BUDGET · Category: Sparklers</div></div>
+    <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹325.00</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹97.50</div></div>
+    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('sp17',-1)">−</button><span class="qty-num" id="qty-sp17">0</span><button class="qty-btn" type="button" onclick="changeComboQty('sp17',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-sp17">0.00</span></strong></div></div>
+  </div>
+  <div class="product-row">
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/IR4HnDi/15CMGREENSPARKLERSECO.jpeg" data-full="https://assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/IR4HnDi/15CMGREENSPARKLERSECO.jpeg" alt="ECO 15 CM GREEN SPARKLERS (10 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full)">
+    <div><div class="product-name">ECO 15 CM GREEN SPARKLERS (10 PCS)</div><div class="product-meta">Brand: BUDGET · Category: Sparklers</div></div>
+    <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹373.10</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹111.93</div></div>
+    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('sp18',-1)">−</button><span class="qty-num" id="qty-sp18">0</span><button class="qty-btn" type="button" onclick="changeComboQty('sp18',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-sp18">0.00</span></strong></div></div>
+  </div>
+  <div class="product-row">
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/ub3ecMg/15CMREDSPARKLERSECO.jpeg" data-full="https://assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/ub3ecMg/15CMREDSPARKLERSECO.jpeg" alt="ECO 15 CM RED SPARKLERS (10 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full)">
+    <div><div class="product-name">ECO 15 CM RED SPARKLERS (10 PCS)</div><div class="product-meta">Brand: BUDGET · Category: Sparklers</div></div>
+    <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹418.60</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹125.58</div></div>
+    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('sp19',-1)">−</button><span class="qty-num" id="qty-sp19">0</span><button class="qty-btn" type="button" onclick="changeComboQty('sp19',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-sp19">0.00</span></strong></div></div>
+  </div>
+  <div class="product-row">
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/7HDqOHe/30CMCRACKLINGSPARKLERSECO.jpeg" data-full="https://assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/7HDqOHe/30CMCRACKLINGSPARKLERSECO.jpeg" alt="ECO 30 CM CRACKLING SPARKLERS (5 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full)">
+    <div><div class="product-name">ECO 30 CM CRACKLING SPARKLERS (5 PCS)</div><div class="product-meta">Brand: BUDGET · Category: Sparklers</div></div>
+    <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹325.00</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹97.50</div></div>
+    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('sp20',-1)">−</button><span class="qty-num" id="qty-sp20">0</span><button class="qty-btn" type="button" onclick="changeComboQty('sp20',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-sp20">0.00</span></strong></div></div>
+  </div>
+  <div class="product-row">
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/iL3BIjj/30CMELECTRICSPARKLERSECO.jpeg" data-full="https://assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/iL3BIjj/30CMELECTRICSPARKLERSECO.jpeg" alt="ECO 30 CM ELECTRIC SPARKLERS (5 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full)">
+    <div><div class="product-name">ECO 30 CM ELECTRIC SPARKLERS (5 PCS)</div><div class="product-meta">Brand: BUDGET · Category: Sparklers</div></div>
+    <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹291.20</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹87.36</div></div>
+    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('sp21',-1)">−</button><span class="qty-num" id="qty-sp21">0</span><button class="qty-btn" type="button" onclick="changeComboQty('sp21',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-sp21">0.00</span></strong></div></div>
+  </div>
+  <div class="product-row">
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/e8fr046/30CMGREENSPARKLERSECO.jpeg" data-full="https://assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/e8fr046/30CMGREENSPARKLERSECO.jpeg" alt="ECO 30 CM GREEN SPARKLERS (5 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full)">
+    <div><div class="product-name">ECO 30 CM GREEN SPARKLERS (5 PCS)</div><div class="product-meta">Brand: BUDGET · Category: Sparklers</div></div>
+    <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹373.10</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹111.93</div></div>
+    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('sp22',-1)">−</button><span class="qty-num" id="qty-sp22">0</span><button class="qty-btn" type="button" onclick="changeComboQty('sp22',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-sp22">0.00</span></strong></div></div>
+  </div>
+  <div class="product-row">
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/qMZvjji/30CMREDSPARKLERSECO.jpeg" data-full="https://assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/qMZvjji/30CMREDSPARKLERSECO.jpeg" alt="ECO 30 CM RED SPARKLERS (5 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full)">
+    <div><div class="product-name">ECO 30 CM RED SPARKLERS (5 PCS)</div><div class="product-meta">Brand: BUDGET · Category: Sparklers</div></div>
+    <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹418.60</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹125.58</div></div>
+    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('sp23',-1)">−</button><span class="qty-num" id="qty-sp23">0</span><button class="qty-btn" type="button" onclick="changeComboQty('sp23',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-sp23">0.00</span></strong></div></div>
+  </div>
+  <div class="product-row">
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/1RpWYDd/50CMCRACKLINGSPARKLERSECO.jpeg" data-full="https://assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/1RpWYDd/50CMCRACKLINGSPARKLERSECO.jpeg" alt="ECO 50 CM CRACKLING SPARKLERS (5 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full)">
+    <div><div class="product-name">ECO 50 CM CRACKLING SPARKLERS (5 PCS)</div><div class="product-meta">Brand: BUDGET · Category: Sparklers</div></div>
+    <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹1,365.00</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹409.50</div></div>
+    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('sp24',-1)">−</button><span class="qty-num" id="qty-sp24">0</span><button class="qty-btn" type="button" onclick="changeComboQty('sp24',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-sp24">0.00</span></strong></div></div>
+  </div>
+  <div class="product-row">
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/6FSDo2d/50CMELECTRICSPARKLERSECO.jpeg" data-full="https://assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/6FSDo2d/50CMELECTRICSPARKLERSECO.jpeg" alt="ECO 50 CM ELECTRIC SPARKLERS (5 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full)">
+    <div><div class="product-name">ECO 50 CM ELECTRIC SPARKLERS (5 PCS)</div><div class="product-meta">Brand: BUDGET · Category: Sparklers</div></div>
+    <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹1,183.00</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹354.90</div></div>
+    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('sp25',-1)">−</button><span class="qty-num" id="qty-sp25">0</span><button class="qty-btn" type="button" onclick="changeComboQty('sp25',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-sp25">0.00</span></strong></div></div>
   </div>
 </section>
 
@@ -205,7 +360,7 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
   </div>
   <button class="pay-btn" id="samplePayBtn" type="button" onclick="comboReadyToPay()" disabled>READY TO PAY – WHATSAPP</button>
 </div>
-<section class="notice"><h2>Full Product Catalogue Updating</h2><p>Combo Packs and Single / Double Sound Crackers are now live. Remaining cracker categories will be added next.</p><p class="terms">UP TO 70% Discount on eligible products · Packing &amp; Shipping Charges Extra</p></section>
+<section class="notice"><h2>Full Product Catalogue Updating</h2><p>Combo Packs, Single / Double Sound Crackers and Sparklers are now live. Remaining cracker categories will be added next.</p><p class="terms">UP TO 70% Discount on eligible products · Packing &amp; Shipping Charges Extra</p></section>
 </main>
 <div class="img-modal" id="productImageModal" onclick="closeProductImage(event)">
   <div class="img-modal-inner">
@@ -231,7 +386,32 @@ const comboProducts={
   seco6:{name:'ECO 6" LAKSHMI CRACKERS (5 PCS)',price:127.49,qty:0},
   skuruvi:{name:'ECO 2.75" KURUVI CRACKERS (5 PCS)',price:25.04,qty:0},
   seco4deluxe:{name:'ECO 4" DELUXE LAKSHMI CRACKERS (5 PCS)',price:62.60,qty:0},
-  seco35:{name:'ECO 3.5" LAKSHMI CRACKERS (5 PCS)',price:37.64,qty:0}
+  seco35:{name:'ECO 3.5" LAKSHMI CRACKERS (5 PCS)',price:37.64,qty:0},
+  sp01:{name:'12 CM JIMMY CRACKLING SPARKLERS (10 PCS)',price:105.46,qty:0},
+  sp02:{name:'15 CM CRACKLING SPARKLERS (10 PCS)',price:183.73,qty:0},
+  sp03:{name:'15 CM GOLD SPARKLERS (10 PCS)',price:163.99,qty:0},
+  sp04:{name:'15 CM LAVENDER SPARKLERS (10 PCS)',price:193.09,qty:0},
+  sp05:{name:'15 CM LEMON TREE SPARKLERS (10 PCS)',price:138.33,qty:0},
+  sp06:{name:'30 CM CRACKLING SPARKLERS (5 PCS)',price:183.73,qty:0},
+  sp07:{name:'30 CM GOLD SPARKLERS (5 PCS)',price:163.99,qty:0},
+  sp08:{name:'9 CM CRACKLING SPARKLERS (10 PCS)',price:51.32,qty:0},
+  sp09:{name:'10 CM 5 IN 1 (50 PCS)',price:422.53,qty:0},
+  sp10:{name:'10 CM SONATA GOLD (10 PCS)',price:82.95,qty:0},
+  sp11:{name:'RAINBOW SIX - MULTICOLOR ROTATING UMBRELLA (1 PCE)',price:485.12,qty:0},
+  sp12:{name:'ECO 12 CM GREEN SPARKLERS (10 PCS)',price:66.77,qty:0},
+  sp13:{name:'ECO 12 CM RED SPARKLERS (10 PCS)',price:75.11,qty:0},
+  sp14:{name:'ECO 12 CM ELECTRIC SPARKLERS (10 PCS)',price:55.19,qty:0},
+  sp15:{name:'ECO 12 CM GLITTERING SPARKLERS (10 PCS)',price:62.79,qty:0},
+  sp16:{name:'ECO 15 CM ELECTRIC SPARKLERS (10 PCS)',price:87.36,qty:0},
+  sp17:{name:'ECO 15 CM GLITTERING SPARKLERS (10 PCS)',price:97.50,qty:0},
+  sp18:{name:'ECO 15 CM GREEN SPARKLERS (10 PCS)',price:111.93,qty:0},
+  sp19:{name:'ECO 15 CM RED SPARKLERS (10 PCS)',price:125.58,qty:0},
+  sp20:{name:'ECO 30 CM CRACKLING SPARKLERS (5 PCS)',price:97.50,qty:0},
+  sp21:{name:'ECO 30 CM ELECTRIC SPARKLERS (5 PCS)',price:87.36,qty:0},
+  sp22:{name:'ECO 30 CM GREEN SPARKLERS (5 PCS)',price:111.93,qty:0},
+  sp23:{name:'ECO 30 CM RED SPARKLERS (5 PCS)',price:125.58,qty:0},
+  sp24:{name:'ECO 50 CM CRACKLING SPARKLERS (5 PCS)',price:409.50,qty:0},
+  sp25:{name:'ECO 50 CM ELECTRIC SPARKLERS (5 PCS)',price:354.90,qty:0}
 };
 
 function changeComboQty(id,delta){
@@ -255,40 +435,78 @@ function refreshComboSummary(){
   document.getElementById('samplePayBtn').disabled=totalQty===0;
 }
 
-function openProductImage(src,alt){
+function getFullProductImage(src){
+  const marker='/plain/';
+  if(src && src.includes(marker)){
+    try{return decodeURIComponent(src.substring(src.indexOf(marker)+marker.length));}catch(err){}
+  }
+  return src;
+}
+function openProductImage(src,alt,fullSrc){
   const modal=document.getElementById('productImageModal');
+  const inner=modal.querySelector('.img-modal-inner');
   const large=document.getElementById('productImageLarge');
-  large.src=src;
-  large.alt=alt||'Cracker product image';
   large.classList.remove('zoom2x');
+  inner.classList.remove('is-zoomed','dragging');
+  inner.scrollLeft=0; inner.scrollTop=0;
+  large.src=fullSrc||getFullProductImage(src);
+  large.alt=alt||'Cracker product image';
   modal.classList.add('open');
   document.body.style.overflow='hidden';
 }
 function setProductZoom(zoomIn,e){
   if(e){e.preventDefault();e.stopPropagation();}
+  const modal=document.getElementById('productImageModal');
+  const inner=modal.querySelector('.img-modal-inner');
   const large=document.getElementById('productImageLarge');
   large.classList.toggle('zoom2x',!!zoomIn);
+  inner.classList.toggle('is-zoomed',!!zoomIn);
+  requestAnimationFrame(()=>{
+    if(zoomIn){
+      inner.scrollLeft=Math.max(0,(inner.scrollWidth-inner.clientWidth)/2);
+      inner.scrollTop=Math.max(0,(inner.scrollHeight-inner.clientHeight)/2);
+    }else{
+      inner.scrollLeft=0; inner.scrollTop=0;
+    }
+  });
 }
 function toggleProductZoom(e){
   if(e){e.preventDefault();e.stopPropagation();}
   const large=document.getElementById('productImageLarge');
-  large.classList.toggle('zoom2x');
+  setProductZoom(!large.classList.contains('zoom2x'),e);
 }
 function closeProductImage(e){
-  if(e && e.target && e.target.id==='productImageLarge') return;
-  document.getElementById('productImageModal').classList.remove('open');
+  if(e && (e.target.id==='productImageLarge' || e.target.closest?.('.zoom-tools'))) return;
+  const modal=document.getElementById('productImageModal');
+  const inner=modal.querySelector('.img-modal-inner');
+  modal.classList.remove('open');
   document.getElementById('productImageLarge').classList.remove('zoom2x');
+  inner.classList.remove('is-zoomed','dragging');
   document.body.style.overflow='';
 }
+let imageDrag={active:false,x:0,y:0,left:0,top:0};
 document.addEventListener('DOMContentLoaded',()=>{
-  document.querySelectorAll('.product-row img').forEach(img=>{
-    img.setAttribute('title','Click to enlarge');
-    img.addEventListener('click',()=>openProductImage(img.src,img.alt));
+  document.querySelectorAll('.product-row img').forEach(img=>img.setAttribute('title','Click to enlarge'));
+  const modal=document.getElementById('productImageModal');
+  const inner=modal.querySelector('.img-modal-inner');
+  const large=document.getElementById('productImageLarge');
+  inner.addEventListener('mousedown',e=>{
+    if(!large.classList.contains('zoom2x') || e.target.closest('.zoom-tools') || e.target.closest('.img-modal-close')) return;
+    imageDrag={active:true,x:e.clientX,y:e.clientY,left:inner.scrollLeft,top:inner.scrollTop};
+    inner.classList.add('dragging');
+    e.preventDefault();
+  });
+  window.addEventListener('mousemove',e=>{
+    if(!imageDrag.active) return;
+    inner.scrollLeft=imageDrag.left-(e.clientX-imageDrag.x);
+    inner.scrollTop=imageDrag.top-(e.clientY-imageDrag.y);
+  });
+  window.addEventListener('mouseup',()=>{
+    imageDrag.active=false;
+    inner.classList.remove('dragging');
   });
 });
-document.addEventListener('keydown',e=>{
-  if(e.key==='Escape') closeProductImage();
-});
+document.addEventListener('keydown',e=>{if(e.key==='Escape') closeProductImage();});
 
 function comboReadyToPay(){
   const chosen=Object.values(comboProducts).filter(p=>p.qty>0);
