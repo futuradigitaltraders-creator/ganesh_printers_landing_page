@@ -583,3 +583,88 @@
         transform: translateX(-100%);
     }
 }
+
+
+/* MOBILE HEADER OVERLAP FIX - 2026-10-01
+   Keeps the brand on the first row and the navigation on a clean second row. */
+@media (max-width: 900px) {
+    .header-section-3,
+    .header-section-3 #header-sticky,
+    .header-section-3 #header-sticky.sticky,
+    .header-section-3 .header-main {
+        height: 118px !important;
+        min-height: 118px !important;
+    }
+
+    .header-section-3 .header-left {
+        left: 14px !important;
+        top: 8px !important;
+        transform: none !important;
+        max-width: calc(100% - 28px) !important;
+    }
+
+    .header-section-3 .professional-brand {
+        gap: 10px !important;
+    }
+
+    .header-section-3 .brand-logo {
+        width: 54px !important;
+        height: 54px !important;
+    }
+
+    .header-section-3 .brand-divider {
+        height: 46px !important;
+    }
+
+    .header-section-3 .brand-name-main {
+        font-size: 20px !important;
+        letter-spacing: .5px !important;
+        line-height: 1 !important;
+    }
+
+    .header-section-3 .brand-name-sub {
+        font-size: 11px !important;
+        letter-spacing: 1.1px !important;
+        margin-top: 4px !important;
+        line-height: 1.1 !important;
+    }
+
+    .header-section-3 .brand-tagline {
+        display: none !important;
+    }
+
+    .header-section-3 .mean__menu-wrapper {
+        left: 10px !important;
+        right: 10px !important;
+        bottom: 8px !important;
+        width: auto !important;
+        justify-content: flex-start !important;
+        overflow: hidden !important;
+    }
+
+    .header-section-3 .main-menu {
+        width: 100% !important;
+    }
+
+    .header-section-3 #mobile-menu {
+        width: 100% !important;
+    }
+
+    .header-section-3 #mobile-menu > ul {
+        width: 100% !important;
+        justify-content: space-between !important;
+        gap: 6px !important;
+    }
+
+    .header-section-3 #mobile-menu > ul > li > a {
+        font-size: 10px !important;
+        padding: 6px 2px !important;
+        letter-spacing: 0 !important;
+    }
+}
+
+@media (max-width: 520px) {
+    .header-section-3 #mobile-menu > ul > li > a {
+        font-size: 9px !important;
+    }
+}
