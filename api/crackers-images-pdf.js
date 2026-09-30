@@ -80,10 +80,13 @@ function imageUrlFromRow($, tr) {
   }
   return result;
 }
+function stripPriceText(s) {
+  return cleanText(String(s || '').replace(/₹\s*[\d,]+(?:\.\d+)?/g, ' '));
+}
 function productNameFromRow($, tr) {
   const tds = $(tr).find('td');
   if (!tds.length) return '';
-  const texts = tds.map((_, td) => cleanText($(td).text())).get();
+  const texts = tds.map((_, td) => stripPriceText($(td).text())).get();
   if (texts.length >= 3) {
     const likely = texts[2];
     if (likely && !/^₹/.test(likely)) return likely;
