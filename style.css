@@ -772,3 +772,80 @@
         letter-spacing: .7px !important;
     }
 }
+
+
+/* RESTORE MOBILE NAV ROW - 2026-10-01 01:05 */
+@media (max-width: 1199.98px) {
+    .header-section-3,
+    .header-section-3 #header-sticky,
+    .header-section-3 #header-sticky.sticky,
+    .header-section-3 .header-main {
+        height: 122px !important;
+        min-height: 122px !important;
+    }
+
+    .header-section-3 .header-left {
+        top: 34px !important;
+    }
+
+    .header-section-3 .header-right {
+        top: 34px !important;
+    }
+
+    .header-section-3 .mean__menu-wrapper {
+        display: flex !important;
+        position: absolute !important;
+        left: 8px !important;
+        right: 8px !important;
+        bottom: 5px !important;
+        width: auto !important;
+        height: 34px !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        z-index: 5 !important;
+    }
+
+    .header-section-3 .mean__menu-wrapper::-webkit-scrollbar {
+        display: none !important;
+    }
+
+    .header-section-3 .main-menu,
+    .header-section-3 #mobile-menu {
+        display: block !important;
+        width: max-content !important;
+        min-width: 100% !important;
+    }
+
+    .header-section-3 #mobile-menu > ul {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 12px !important;
+        width: max-content !important;
+        min-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 2px !important;
+    }
+
+    .header-section-3 #mobile-menu > ul > li {
+        flex: 0 0 auto !important;
+    }
+
+    .header-section-3 #mobile-menu > ul > li > a {
+        font-size: 10px !important;
+        line-height: 1 !important;
+        padding: 7px 1px !important;
+        white-space: nowrap !important;
+    }
+}
+
+@media (max-width: 520px) {
+    .header-section-3 #mobile-menu > ul > li > a {
+        font-size: 9px !important;
+    }
+}
