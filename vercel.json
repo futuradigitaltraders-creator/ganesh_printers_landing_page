@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/crackers-images-pdf.js": {
+      "maxDuration": 60
+    }
+  }
+}
