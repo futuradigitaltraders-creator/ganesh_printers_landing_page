@@ -23,7 +23,12 @@ main{max-width:1100px;margin:auto;padding:38px 20px}.notice{background:#fff;bord
 .sample-shop{margin:0 auto 28px;background:#fff;border-radius:18px;padding:22px;box-shadow:0 8px 28px #5b220d1c}
 .sample-title{text-align:center;margin:0 0 18px;color:#8c1b0f;font-size:26px}
 .product-row{display:grid;grid-template-columns:150px 1fr 150px 190px;gap:18px;align-items:center;border:1px solid #eadfd6;border-radius:14px;padding:16px}.product-row + .product-row{margin-top:12px}.combo-note{text-align:center;margin:-8px 0 18px;font-weight:800;color:#8c1b0f}.summary-counts{font-size:13px;font-weight:700;color:#6e4a26;margin-bottom:4px}
-.product-row img{width:130px;height:130px;object-fit:contain;border-radius:10px;background:#fff}
+.product-row img{width:130px;height:130px;object-fit:contain;border-radius:10px;background:#fff;cursor:zoom-in;transition:transform .18s ease}.product-row img:hover{transform:scale(1.04)}
+.img-modal{display:none;position:fixed;z-index:99999;inset:0;background:rgba(0,0,0,.82);align-items:center;justify-content:center;padding:20px}
+.img-modal.open{display:flex}
+.img-modal-inner{position:relative;max-width:92vw;max-height:92vh;background:#fff;border-radius:14px;padding:12px;box-shadow:0 20px 60px rgba(0,0,0,.45)}
+.img-modal img{display:block;max-width:86vw;max-height:82vh;object-fit:contain}
+.img-modal-close{position:absolute;right:-12px;top:-12px;width:38px;height:38px;border-radius:50%;border:0;background:#e1122c;color:#fff;font-size:24px;font-weight:900;cursor:pointer}
 .product-name{font-size:20px;font-weight:800;margin-bottom:6px}.product-meta{font-size:13px;color:#73584a}
 .price-label{font-size:12px;color:#74594b;text-transform:uppercase;font-weight:700}.our-price{font-size:26px;font-weight:900;color:#e30062;margin-top:4px}
 .qty-wrap{display:flex;align-items:center;justify-content:center;gap:10px}.qty-btn{width:38px;height:38px;border:0;border-radius:8px;background:#24105f;color:#fff;font-size:22px;font-weight:900;cursor:pointer}.qty-num{min-width:36px;text-align:center;font-size:20px;font-weight:800}
@@ -140,6 +145,12 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
 </section>
 <section class="notice"><h2>Full Product Catalogue Updating</h2><p>Combo Packs are now live. Remaining cracker categories and products will be added next.</p><p class="terms">UP TO 70% Discount on eligible products · Packing &amp; Shipping Charges Extra</p></section>
 </main>
+<div class="img-modal" id="productImageModal" onclick="closeProductImage(event)">
+  <div class="img-modal-inner">
+    <button class="img-modal-close" type="button" onclick="closeProductImage(event)">×</button>
+    <img id="productImageLarge" src="" alt="">
+  </div>
+</div>
 <footer>© 2026 FUTURA - Sivakasi</footer>
 <script>
 const comboProducts={
@@ -170,6 +181,29 @@ function refreshComboSummary(){
   document.getElementById('sampleNetTotal').textContent=total.toLocaleString('en-IN');
   document.getElementById('samplePayBtn').disabled=totalQty===0;
 }
+
+function openProductImage(src,alt){
+  const modal=document.getElementById('productImageModal');
+  const large=document.getElementById('productImageLarge');
+  large.src=src;
+  large.alt=alt||'Cracker product image';
+  modal.classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeProductImage(e){
+  if(e && e.target && e.target.id==='productImageLarge') return;
+  document.getElementById('productImageModal').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('.product-row img').forEach(img=>{
+    img.setAttribute('title','Click to enlarge');
+    img.addEventListener('click',()=>openProductImage(img.src,img.alt));
+  });
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape') closeProductImage();
+});
 
 function comboReadyToPay(){
   const chosen=Object.values(comboProducts).filter(p=>p.qty>0);
