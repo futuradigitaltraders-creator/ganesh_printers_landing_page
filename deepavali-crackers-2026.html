@@ -67,6 +67,82 @@ main{max-width:1100px;margin:auto;padding:38px 20px}.notice{background:#fff;bord
 .pay-btn{border:0;border-radius:10px;background:#19a447;color:white;padding:14px 22px;font-size:16px;font-weight:900;cursor:pointer}.pay-btn:disabled{opacity:.45;cursor:not-allowed}
 @media(max-width:760px){.product-row{grid-template-columns:44px 90px 1fr}.product-row .serial-col{grid-column:1;grid-row:1;padding:6px 2px!important;font-size:14px}.product-row img{grid-column:2;grid-row:1;width:82px;height:82px}.price-box,.qty-col,.subtotal-col{grid-column:3}.subtotal{text-align:center}.sample-title{font-size:22px}}
 footer{text-align:center;padding:25px;color:#6c4b3b}
+
+/* MOBILE CATALOGUE SAFE LAYOUT - 2026-10-01 */
+@media(max-width:760px){
+  main{padding:22px 8px}
+  header{padding:14px 12px;gap:10px}
+  .brand{font-size:17px}
+  nav{width:100%;display:flex;gap:10px;overflow-x:auto;white-space:nowrap;padding-bottom:2px}
+  nav a{margin:0;font-size:12px;flex:0 0 auto}
+  .sample-shop{padding:12px 8px;border-radius:12px;margin-bottom:18px}
+  .sample-title{font-size:19px;line-height:1.25;margin-bottom:12px}
+  .product-row{
+    grid-template-columns:84px minmax(0,1fr) 92px;
+    grid-template-rows:auto auto;
+    align-items:stretch;
+    overflow:hidden;
+  }
+  .product-row>img{
+    grid-column:1;
+    grid-row:1;
+    width:74px;
+    height:74px;
+    margin:7px 5px;
+    align-self:center;
+    justify-self:center;
+  }
+  .product-row>div{padding:9px 7px}
+  .product-row>div+div{border-left:0}
+  .product-row>div:first-of-type{
+    grid-column:2 / 4;
+    grid-row:1;
+    border-left:1px solid #777;
+    min-width:0;
+  }
+  .product-name{
+    font-size:15px;
+    line-height:1.22;
+    margin-bottom:4px;
+    overflow-wrap:anywhere;
+  }
+  .product-meta{font-size:11px;line-height:1.3}
+  .price-box{
+    grid-column:1;
+    grid-row:2;
+    border-top:1px solid #777;
+    align-items:center;
+    text-align:center;
+  }
+  .price-label{font-size:9px;line-height:1.15}
+  .mrp-price{font-size:11px;margin:2px 0}
+  .our-price{font-size:18px;margin-top:2px}
+  .qty-col{
+    grid-column:2;
+    grid-row:2;
+    border-left:1px solid #777!important;
+    border-top:1px solid #777;
+    padding:8px 4px!important;
+  }
+  .qty-wrap{gap:5px}
+  .qty-btn{width:32px;height:32px;border-radius:7px;font-size:19px}
+  .qty-num{min-width:24px;font-size:16px}
+  .subtotal-col{
+    grid-column:3;
+    grid-row:2;
+    border-left:1px solid #777!important;
+    border-top:1px solid #777;
+    padding:8px 4px!important;
+  }
+  .subtotal strong{font-size:17px;margin-top:0;overflow-wrap:anywhere}
+  .urgency{padding:16px 12px}
+  .urgency .ta{font-size:15px;line-height:1.55}
+  .urgency .en{font-size:13px;line-height:1.5}
+  .cart-summary{padding:12px;gap:10px}
+  .net-total strong{font-size:22px}
+  .pay-btn{width:100%}
+}
+
 </style>
 </head>
 <body>
