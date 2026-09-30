@@ -1252,3 +1252,12 @@
         animation: none !important;
     }
 }
+
+/* SHIPPING POLICY NAV YELLOW */
+.header-section-3 #mobile-menu > ul > li > a.shipping-policy-nav{
+  color:#ffd84a !important;
+  font-weight:900 !important;
+}
+.header-section-3 #mobile-menu > ul > li > a.shipping-policy-nav:hover{
+  color:#fff3a0 !important;
+}
