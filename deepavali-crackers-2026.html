@@ -30,7 +30,7 @@ main{max-width:1100px;margin:auto;padding:38px 20px}.notice{background:#fff;bord
 .img-modal img{display:block;max-width:86vw;max-height:82vh;object-fit:contain}
 .img-modal-close{position:absolute;right:-12px;top:-12px;width:38px;height:38px;border-radius:50%;border:0;background:#e1122c;color:#fff;font-size:24px;font-weight:900;cursor:pointer}
 .product-name{font-size:20px;font-weight:800;margin-bottom:6px}.product-meta{font-size:13px;color:#73584a}
-.price-label{font-size:12px;color:#74594b;text-transform:uppercase;font-weight:700}.our-price{font-size:26px;font-weight:900;color:#e30062;margin-top:4px}
+.price-label{font-size:12px;color:#74594b;text-transform:uppercase;font-weight:700}.mrp-price{font-size:14px;color:#777;margin:2px 0 4px}.our-price{font-size:26px;font-weight:900;color:#e30062;margin-top:4px}
 .qty-wrap{display:flex;align-items:center;justify-content:center;gap:10px}.qty-btn{width:38px;height:38px;border:0;border-radius:8px;background:#24105f;color:#fff;font-size:22px;font-weight:900;cursor:pointer}.qty-num{min-width:36px;text-align:center;font-size:20px;font-weight:800}
 .subtotal{text-align:right;font-size:14px}.subtotal strong{display:block;font-size:23px;color:#151047;margin-top:4px}
 .cart-summary{margin-top:16px;padding:16px;border-radius:14px;background:#fff3cd;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}.net-total{font-size:16px;font-weight:700}.net-total strong{font-size:27px;color:#8c1b0f;margin-left:8px}.shipping-note{font-size:13px;color:#6e4a26;margin-top:4px}
@@ -134,16 +134,70 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
     </div>
   </div>
 
-  <div class="cart-summary">
-    <div>
-      <div class="summary-counts">Selected Products: <span id="selectedProducts">0</span> &nbsp; | &nbsp; Total Qty: <span id="totalQty">0</span></div>
-      <div class="net-total">NET PRODUCT TOTAL <strong>₹<span id="sampleNetTotal">0</span></strong></div>
-      <div class="shipping-note">Packing &amp; Shipping Charges Extra</div>
-    </div>
-    <button class="pay-btn" id="samplePayBtn" type="button" onclick="comboReadyToPay()" disabled>READY TO PAY – WHATSAPP</button>
+
+</section>
+<section class="sample-shop" aria-label="Single and double sound crackers">
+  <h2 class="sample-title">SINGLE / DOUBLE SOUND CRACKERS – 70% OFF</h2>
+
+  <div class="product-row">
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/IiyZDa3/HERCULESSTD.jpeg" alt="10 CM HERCULES DELUXE (5 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt)">
+    <div><div class="product-name">10 CM HERCULES DELUXE (5 PCS)</div><div class="product-meta">Brand: Standard · Category: Sound Crackers</div></div>
+    <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹344.24</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹103.27</div></div>
+    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('shercules',-1)">−</button><span class="qty-num" id="qty-shercules">0</span><button class="qty-btn" type="button" onclick="changeComboQty('shercules',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-shercules">0.00</span></strong></div></div>
+  </div>
+
+  <div class="product-row">
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/t1tbq5H/9CMLAKSHMICRACKERS.jpeg" alt="9 CM LAKSHMI CRACKERS (5 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt)">
+    <div><div class="product-name">9 CM LAKSHMI CRACKERS (5 PCS)</div><div class="product-meta">Brand: Standard · Category: Sound Crackers</div></div>
+    <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹187.85</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹56.36</div></div>
+    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('slakshmi9',-1)">−</button><span class="qty-num" id="qty-slakshmi9">0</span><button class="qty-btn" type="button" onclick="changeComboQty('slakshmi9',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-slakshmi9">0.00</span></strong></div></div>
+  </div>
+
+  <div class="product-row">
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/dYhgTaE/Eco5Lakshmi.jpeg" alt="ECO 5 INCH LAKSHMI CRACKERS (5 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt)">
+    <div><div class="product-name">ECO 5&quot; LAKSHMI CRACKERS (5 PCS)</div><div class="product-meta">Brand: Budget · Category: Sound Crackers</div></div>
+    <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹306.02</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹91.81</div></div>
+    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('seco5',-1)">−</button><span class="qty-num" id="qty-seco5">0</span><button class="qty-btn" type="button" onclick="changeComboQty('seco5',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-seco5">0.00</span></strong></div></div>
+  </div>
+
+  <div class="product-row">
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/HWA0CTU/Eco6Lakshmi.jpeg" alt="ECO 6 INCH LAKSHMI CRACKERS (5 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt)">
+    <div><div class="product-name">ECO 6&quot; LAKSHMI CRACKERS (5 PCS)</div><div class="product-meta">Brand: Budget · Category: Sound Crackers</div></div>
+    <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹424.97</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹127.49</div></div>
+    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('seco6',-1)">−</button><span class="qty-num" id="qty-seco6">0</span><button class="qty-btn" type="button" onclick="changeComboQty('seco6',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-seco6">0.00</span></strong></div></div>
+  </div>
+
+  <div class="product-row">
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/5h7qNpO/2.75KURUVICRACKERSECO.jpeg" alt="ECO 2.75 INCH KURUVI CRACKERS (5 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt)">
+    <div><div class="product-name">ECO 2.75&quot; KURUVI CRACKERS (5 PCS)</div><div class="product-meta">Brand: Budget · Category: Sound Crackers</div></div>
+    <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹83.46</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹25.04</div></div>
+    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('skuruvi',-1)">−</button><span class="qty-num" id="qty-skuruvi">0</span><button class="qty-btn" type="button" onclick="changeComboQty('skuruvi',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-skuruvi">0.00</span></strong></div></div>
+  </div>
+
+  <div class="product-row">
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/c0Zd8k0/Eco4Lakshmi.jpeg" alt="ECO 4 INCH DELUXE LAKSHMI CRACKERS (5 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt)">
+    <div><div class="product-name">ECO 4&quot; DELUXE LAKSHMI CRACKERS (5 PCS)</div><div class="product-meta">Brand: Budget · Category: Sound Crackers</div></div>
+    <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹208.65</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹62.60</div></div>
+    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('seco4deluxe',-1)">−</button><span class="qty-num" id="qty-seco4deluxe">0</span><button class="qty-btn" type="button" onclick="changeComboQty('seco4deluxe',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-seco4deluxe">0.00</span></strong></div></div>
+  </div>
+
+  <div class="product-row">
+    <img src="https://imgcdn.iar.net.in/d992d54ae97874fee83cbb29d41bcf80044a7a395512a9c73246fe9af44c990dfddf8fba12f8c072ddec1161af02121a138355a054b5cb9acce0f61ff442a697/fit/270/270/sm/1/plain/https%3A//assetv2.iar.net.in/trial700.iar.net.in/12_9_2026/q7kTvoa/3.5LAKSHMICRACKERSECO.jpeg" alt="ECO 3.5 INCH LAKSHMI CRACKERS (5 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt)">
+    <div><div class="product-name">ECO 3.5&quot; LAKSHMI CRACKERS (5 PCS)</div><div class="product-meta">Brand: Budget · Category: Sound Crackers</div></div>
+    <div class="price-box"><div class="price-label">OUR MRP</div><div class="mrp-price"><s>₹125.45</s></div><div class="price-label">70% OFF PRICE</div><div class="our-price">₹37.64</div></div>
+    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('seco35',-1)">−</button><span class="qty-num" id="qty-seco35">0</span><button class="qty-btn" type="button" onclick="changeComboQty('seco35',1)">+</button></div><div class="subtotal">Sub-total <strong>₹<span id="sub-seco35">0.00</span></strong></div></div>
   </div>
 </section>
-<section class="notice"><h2>Full Product Catalogue Updating</h2><p>Combo Packs are now live. Remaining cracker categories and products will be added next.</p><p class="terms">UP TO 70% Discount on eligible products · Packing &amp; Shipping Charges Extra</p></section>
+
+<div class="cart-summary">
+  <div>
+    <div class="summary-counts">Selected Products: <span id="selectedProducts">0</span> &nbsp; | &nbsp; Total Qty: <span id="totalQty">0</span></div>
+    <div class="net-total">NET PRODUCT TOTAL <strong>₹<span id="sampleNetTotal">0.00</span></strong></div>
+    <div class="shipping-note">Packing &amp; Shipping Charges Extra</div>
+  </div>
+  <button class="pay-btn" id="samplePayBtn" type="button" onclick="comboReadyToPay()" disabled>READY TO PAY – WHATSAPP</button>
+</div>
+<section class="notice"><h2>Full Product Catalogue Updating</h2><p>Combo Packs and Single / Double Sound Crackers are now live. Remaining cracker categories will be added next.</p><p class="terms">UP TO 70% Discount on eligible products · Packing &amp; Shipping Charges Extra</p></section>
 </main>
 <div class="img-modal" id="productImageModal" onclick="closeProductImage(event)">
   <div class="img-modal-inner">
@@ -158,14 +212,21 @@ const comboProducts={
   p3000:{name:'3000 COMBO PACK',price:3900,qty:0},
   p5000:{name:'5000 COMBO PACK',price:6500,qty:0},
   pchildren:{name:"CHILDREN'S FANCY COMBO",price:13000,qty:0},
-  pstarvell:{name:"STARVELL CHILDREN'S FANCY COMBO",price:6110,qty:0}
+  pstarvell:{name:"STARVELL CHILDREN'S FANCY COMBO",price:6110,qty:0},
+  shercules:{name:'10 CM HERCULES DELUXE (5 PCS)',price:103.27,qty:0},
+  slakshmi9:{name:'9 CM LAKSHMI CRACKERS (5 PCS)',price:56.36,qty:0},
+  seco5:{name:'ECO 5" LAKSHMI CRACKERS (5 PCS)',price:91.81,qty:0},
+  seco6:{name:'ECO 6" LAKSHMI CRACKERS (5 PCS)',price:127.49,qty:0},
+  skuruvi:{name:'ECO 2.75" KURUVI CRACKERS (5 PCS)',price:25.04,qty:0},
+  seco4deluxe:{name:'ECO 4" DELUXE LAKSHMI CRACKERS (5 PCS)',price:62.60,qty:0},
+  seco35:{name:'ECO 3.5" LAKSHMI CRACKERS (5 PCS)',price:37.64,qty:0}
 };
 
 function changeComboQty(id,delta){
   const p=comboProducts[id];
   p.qty=Math.max(0,p.qty+delta);
   document.getElementById('qty-'+id).textContent=p.qty;
-  document.getElementById('sub-'+id).textContent=(p.qty*p.price).toLocaleString('en-IN');
+  document.getElementById('sub-'+id).textContent=(p.qty*p.price).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
   refreshComboSummary();
 }
 
@@ -178,7 +239,7 @@ function refreshComboSummary(){
   });
   document.getElementById('selectedProducts').textContent=selected;
   document.getElementById('totalQty').textContent=totalQty;
-  document.getElementById('sampleNetTotal').textContent=total.toLocaleString('en-IN');
+  document.getElementById('sampleNetTotal').textContent=total.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
   document.getElementById('samplePayBtn').disabled=totalQty===0;
 }
 
@@ -214,10 +275,10 @@ function comboReadyToPay(){
     const sub=p.qty*p.price;
     total+=sub;
     lines.push((i+1)+'. '+p.name);
-    lines.push('Qty: '+p.qty+' | Unit Price: ₹'+p.price.toLocaleString('en-IN')+' | Sub Total: ₹'+sub.toLocaleString('en-IN'));
+    lines.push('Qty: '+p.qty+' | Unit Price: ₹'+p.price.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2})+' | Sub Total: ₹'+sub.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2}));
     lines.push('');
   });
-  lines.push('NET PRODUCT TOTAL: ₹'+total.toLocaleString('en-IN'));
+  lines.push('NET PRODUCT TOTAL: ₹'+total.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2}));
   lines.push('Packing & Shipping Charges Extra');
   lines.push('');
   lines.push('I am ready to make payment. Please confirm availability and send payment details.');
