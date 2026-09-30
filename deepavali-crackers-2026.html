@@ -11,6 +11,18 @@ header{background:#68110d;color:#fff;padding:18px 5%;display:flex;align-items:ce
 .brand{font-weight:800;font-size:20px}.brand small{display:block;font-size:12px;font-weight:500;margin-top:3px}
 nav a{color:#fff;text-decoration:none;margin:0 8px;font-weight:700;font-size:14px}
 nav a.active{color:#ffd54a}
+.site-header{background:#68110d;color:#fff;padding:14px 4%;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:nowrap}
+.site-header .brand{flex:0 0 auto}
+.site-nav{display:flex;align-items:center;justify-content:flex-end;gap:14px;flex-wrap:wrap}
+.site-nav a{margin:0;font-size:13px;white-space:nowrap}
+@media(max-width:900px){
+  .site-header{padding:12px;display:block}
+  .site-header .brand{font-size:18px;margin-bottom:10px}
+  .site-header .brand small{font-size:10px}
+  .site-nav{width:100%;justify-content:flex-start;gap:14px;overflow-x:auto;flex-wrap:nowrap;padding:2px 0 4px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .site-nav::-webkit-scrollbar{display:none}
+  .site-nav a{font-size:11px;flex:0 0 auto}
+}
 .hero{padding:32px 16px 36px;background:radial-gradient(circle at top,#28166f 0,#09052f 58%,#05031d 100%);display:flex;justify-content:center;align-items:center}
 .hero-poster-link{display:block;width:min(100%,512px);text-decoration:none}.hero-poster{width:100%;height:auto;display:block;border-radius:18px;box-shadow:0 18px 50px rgba(0,0,0,.38);cursor:pointer}.hero-cta{margin-top:14px;display:inline-block;padding:13px 26px;border-radius:10px;background:#d71920;color:#fff;font-size:16px;font-weight:900;text-decoration:none;box-shadow:0 6px 18px rgba(0,0,0,.28)}.hero-cta:hover{transform:translateY(-1px)}
 @media(max-width:600px){.hero{padding:16px 10px 24px}.hero-poster{border-radius:12px}}
@@ -146,8 +158,18 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
 </style>
 </head>
 <body>
-<header><div class="brand">FUTURA TRADERS</div>
-<nav><a href="index.html">Home</a><a class="active" href="deepavali-crackers-2026.html">DEEPAVALI CRACKERS 2026</a><a href="calendar.html">2027 Calendars</a></nav></header>
+<header class="site-header">
+  <div class="brand">FUTURA TRADERS<small>SRI GANESH PRINTERS</small></div>
+  <nav class="site-nav" aria-label="Main navigation">
+    <a href="index.html">Home</a>
+    <a class="active" href="deepavali-crackers-2026.html">DEEPAVALI CRACKERS 2026</a>
+    <a href="calendar.html">2027 Calendars</a>
+    <a href="coming-soon.html">Multi Colour Printing</a>
+    <a href="coming-soon.html">Other Services</a>
+    <a href="about.html">About Us</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
 <section class="hero" aria-label="Deepavali Crackers 2026 promotion" style="flex-direction:column">
   <a class="hero-poster-link" href="#liveSummaryBar" aria-label="Open Deepavali Crackers 2026 price list">
     <img class="hero-poster" src="images/crackers/ChatGPT%20Image%20Sep%2030,%202026,%2011_05_07%20PM.png?v=7" alt="FUTURA Traders Deepavali Crackers Price List 2026 - Maximum 80% Discount">
