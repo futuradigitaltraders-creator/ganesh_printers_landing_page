@@ -3016,7 +3016,7 @@ async function hydrateCatalogueImages(){
   const targets=[...document.querySelectorAll('.product-row img[data-source-product]')];
   if(!targets.length) return;
   try{
-    const res=await fetch('/api/catalog-images',{headers:{'Accept':'application/json'}});
+    const res=await fetch('/api/catalog-images?v=20261001-clean-product-images',{headers:{'Accept':'application/json','Cache-Control':'no-cache'}});
     if(!res.ok) return;
     const data=await res.json();
     const items=Array.isArray(data.items)?data.items:[];
