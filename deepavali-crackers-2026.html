@@ -68,9 +68,9 @@ main{max-width:1100px;margin:auto;padding:38px 20px}.notice{background:#fff;bord
 .zoom-btn{width:40px;height:40px;border:0;border-radius:8px;background:#24105f;color:#fff;font-size:24px;font-weight:900;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.28)}
 .product-row{position:relative}
 .product-row img{cursor:pointer}.product-row img.image-fallback{cursor:default;opacity:.92;background:#faf7f2}
-.product-logo-cover{position:absolute;z-index:4;pointer-events:none;background-repeat:no-repeat;border-radius:3px;box-shadow:0 0 5px rgba(255,255,255,.55);filter:saturate(.98) brightness(1.01)}
+.product-logo-cover{position:absolute!important;z-index:25!important;display:block!important;pointer-events:none!important;background-repeat:no-repeat!important;border-radius:4px!important;background-color:rgba(248,248,248,.88)!important;backdrop-filter:blur(7px) saturate(.9)!important;-webkit-backdrop-filter:blur(7px) saturate(.9)!important;box-shadow:0 0 7px rgba(255,255,255,.75)!important;filter:saturate(.96) brightness(1.02)!important}
 .product-row img[data-logo-clean="1"]:hover{transform:none}
-.modal-logo-cover{position:absolute;z-index:4;pointer-events:none;background-repeat:no-repeat;border-radius:4px;display:none;box-shadow:0 0 8px rgba(255,255,255,.5);filter:saturate(.98) brightness(1.01)}
+.modal-logo-cover{position:absolute!important;z-index:25!important;pointer-events:none!important;background-repeat:no-repeat!important;border-radius:5px!important;display:none;background-color:rgba(248,248,248,.88)!important;backdrop-filter:blur(9px) saturate(.9)!important;-webkit-backdrop-filter:blur(9px) saturate(.9)!important;box-shadow:0 0 9px rgba(255,255,255,.75)!important;filter:saturate(.96) brightness(1.02)!important}
 .image-hand{display:none!important}
 @media(max-width:760px){.img-modal{padding:6px}.img-modal-inner{width:96vw;height:84vh;padding:50px 8px 8px}.zoom-btn{width:38px;height:38px}}
 .img-modal-close{position:absolute;right:-12px;top:-12px;width:38px;height:38px;border-radius:50%;border:0;background:#e1122c;color:#fff;font-size:24px;font-weight:900;cursor:pointer}
@@ -235,7 +235,7 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
 .site-nav a.shipping-policy-nav:hover{
   color:#fff3a0 !important;
 }
-/* AUTO PYROBAZAAR LOGO CLEANER - FIRST 7: CSS+JS, no crop, full image preserved */
+/* AUTO PYROBAZAAR LOGO CLEANER V2 - FIRST 7: measured placement, no crop, full image preserved */
 </style>
 </head>
 <body>
@@ -3082,25 +3082,32 @@ function ensureProductLogoCover(img){
     row.appendChild(cover);
   }
 
-  const w=img.clientWidth||0,h=img.clientHeight||0;
+  const imgRect=img.getBoundingClientRect();
+  const rowRect=row.getBoundingClientRect();
+  const w=imgRect.width||0,h=imgRect.height||0;
   if(!w||!h) return;
 
-  // Same method as the successful trial: cover only the small top-left logo
-  // with a nearby clean part of the same product image.
-  const patchW=Math.max(12,Math.round(w*0.22));
-  const patchH=Math.max(9,Math.round(h*0.15));
-  const insetX=Math.round(w*0.015);
-  const insetY=Math.round(h*0.015);
-  const sampleX=Math.round(w*0.22);
-  const sampleY=Math.round(h*0.02);
+  // PyroBazaar mark occupies roughly the top-left third on these seven images.
+  // Use a comfortably larger patch so no part of the mark remains visible.
+  const patchW=Math.max(26,Math.round(w*0.38));
+  const patchH=Math.max(18,Math.round(h*0.20));
+  const insetX=Math.max(1,Math.round(w*0.008));
+  const insetY=Math.max(1,Math.round(h*0.008));
 
-  cover.style.left=(img.offsetLeft+insetX)+'px';
-  cover.style.top=(img.offsetTop+insetY)+'px';
+  // Clone a clean nearby top area from the same image; translucent blur underneath
+  // prevents harsh seams when the individual background differs.
+  const sampleX=Math.min(Math.round(w*0.44),Math.max(0,Math.round(w-patchW-2)));
+  const sampleY=Math.round(h*0.01);
+
+  cover.style.left=(imgRect.left-rowRect.left+insetX)+'px';
+  cover.style.top=(imgRect.top-rowRect.top+insetY)+'px';
   cover.style.width=patchW+'px';
   cover.style.height=patchH+'px';
   cover.style.backgroundImage='url("'+(img.currentSrc||img.src).replace(/"/g,'%22')+'")';
   cover.style.backgroundSize=w+'px '+h+'px';
   cover.style.backgroundPosition=(-sampleX)+'px '+(-sampleY)+'px';
+  cover.style.backgroundColor='rgba(248,248,248,.88)';
+  cover.style.opacity='1';
 }
 function refreshAllProductLogoCovers(){
   document.querySelectorAll('img[data-logo-target="1"]').forEach(ensureProductLogoCover);
@@ -3124,20 +3131,25 @@ function layoutModalLogoCover(){
     cover.style.display='none';
     return;
   }
-  const w=large.clientWidth,h=large.clientHeight;
-  const patchW=Math.max(28,Math.round(w*0.22));
-  const patchH=Math.max(20,Math.round(h*0.15));
-  const insetX=Math.round(w*0.015),insetY=Math.round(h*0.015);
-  const sampleX=Math.round(w*0.22),sampleY=Math.round(h*0.02);
+  const largeRect=large.getBoundingClientRect();
+  const innerRect=large.closest('.img-modal-inner').getBoundingClientRect();
+  const w=largeRect.width,h=largeRect.height;
+  const patchW=Math.max(42,Math.round(w*0.38));
+  const patchH=Math.max(28,Math.round(h*0.20));
+  const insetX=Math.max(2,Math.round(w*0.008)),insetY=Math.max(2,Math.round(h*0.008));
+  const sampleX=Math.min(Math.round(w*0.44),Math.max(0,Math.round(w-patchW-2)));
+  const sampleY=Math.round(h*0.01);
 
   cover.style.display='block';
-  cover.style.left=(large.offsetLeft+insetX)+'px';
-  cover.style.top=(large.offsetTop+insetY)+'px';
+  cover.style.left=(largeRect.left-innerRect.left+inner.scrollLeft+insetX)+'px';
+  cover.style.top=(largeRect.top-innerRect.top+inner.scrollTop+insetY)+'px';
   cover.style.width=patchW+'px';
   cover.style.height=patchH+'px';
   cover.style.backgroundImage='url("'+(large.currentSrc||large.src).replace(/"/g,'%22')+'")';
   cover.style.backgroundSize=w+'px '+h+'px';
   cover.style.backgroundPosition=(-sampleX)+'px '+(-sampleY)+'px';
+  cover.style.backgroundColor='rgba(248,248,248,.88)';
+  cover.style.opacity='1';
 }
 function openProductImage(src,alt,fullSrc,sourceImg){
   if(!fullSrc && String(src||'').includes('product-image-fallback.svg')) return;
@@ -3246,6 +3258,8 @@ document.addEventListener('DOMContentLoaded',()=>{
   }
 
   refreshAllProductLogoCovers();
+  requestAnimationFrame(refreshAllProductLogoCovers);
+  setTimeout(refreshAllProductLogoCovers,400);
   document.querySelectorAll('.product-row img').forEach(img=>img.setAttribute('title','Click to enlarge'));
   const modal=document.getElementById('productImageModal');
   const inner=modal.querySelector('.img-modal-inner');
