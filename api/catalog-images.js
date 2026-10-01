@@ -34,13 +34,35 @@ module.exports=async function handler(req,res){
     while((m=rowRe.exec(page))){
       var body=m[1];
       var tags=body.match(/<img\b[^>]*>/gi)||[];
-      var src='';
+      var src='',bestScore=-999;
       for(var i=0;i<tags.length;i++){
         var tag=tags[i];
+        var alt=normalize(attr(tag,'alt'));
+        var title=normalize(attr(tag,'title'));
+        var cls=normalize(attr(tag,'class'));
         var candidates=[attr(tag,'data-src'),attr(tag,'data-original'),attr(tag,'src')].map(absoluteUrl).filter(Boolean);
+
         for(var j=0;j<candidates.length;j++){
           var u=candidates[j];
-          if((/imgcdn\.iar\.net\.in|assetv2\.iar\.net\.in/i.test(u))&&!/placeholder\.png/i.test(u)) src=u;
+          if(!(/imgcdn\.iar\.net\.in|assetv2\.iar\.net\.in/i.test(u))) continue;
+          if(/placeholder\.png/i.test(u)) continue;
+
+          var meta=(u+' '+alt+' '+title+' '+cls).toUpperCase();
+
+          // Never use website/brand UI artwork as a product photo.
+          if(/PYRO\s*BAZAAR|PYROBAZAAR|LOGO|WISHLIST|COMPARE|REVIEW|RATING|ICON|BADGE/.test(meta)) continue;
+
+          var score=0;
+          if(alt && alt.length>5 && normalize(body).indexOf(alt)!==-1) score+=8;
+          if(title && title.length>5 && normalize(body).indexOf(title)!==-1) score+=4;
+          if(/\.(JPE?G|PNG|WEBP)(\?|$)/i.test(u)) score+=2;
+          if(/PRODUCT|CRACKER|SPARKLER|SHOT|POT|CHAKKAR|ROCKET|BOMB|FOUNTAIN|FANCY|GIFT/i.test(meta)) score+=2;
+
+          // Prefer the first equally good product image instead of the last image in the row.
+          if(score>bestScore){
+            bestScore=score;
+            src=u;
+          }
         }
       }
       if(!src) continue;
