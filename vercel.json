@@ -2,6 +2,10 @@
   "functions": {
     "api/crackers-images-pdf.js": {
       "maxDuration": 60
+    },
+    "api/crackers-orders.js": {
+      "maxDuration": 60,
+      "includeFiles": "deepavali-crackers-2026.html"
     }
   }
 }
