@@ -3317,14 +3317,67 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 document.addEventListener('keydown',e=>{if(e.key==='Escape') closeProductImage();});
 
+
+let pendingSheetOrder=null;
+let sheetOrderBusy=false;
+function orderSaveStatus(text, retry){
+  let status=document.getElementById('orderSaveStatus');
+  if(!status){
+    status=document.createElement('div');
+    status.id='orderSaveStatus';
+    status.setAttribute('role','status');
+    status.style.cssText='padding:12px;text-align:center;font-size:15px;background:#fff;color:#222';
+    const button=document.querySelector('[onclick="comboReadyToPay()"]');
+    (button ? button.parentElement : document.body).appendChild(status);
+  }
+  status.replaceChildren(document.createTextNode(text));
+  if(retry){
+    const button=document.createElement('button');
+    button.type='button';
+    button.textContent='Retry saving / மீண்டும் சேமிக்க';
+    button.style.cssText='margin:8px;padding:8px;cursor:pointer';
+    button.onclick=()=>saveCrackersOrder(pendingSheetOrder);
+    status.appendChild(button);
+  }
+}
+function getCrackersOrder(chosen){
+  const items=chosen.map(p=>({serial:Number(p.serial),name:p.name,qty:p.qty,price:p.price}));
+  const fingerprint=JSON.stringify(items);
+  let cached;
+  try{cached=JSON.parse(sessionStorage.getItem('futuraCrackersOrder') || 'null');}catch(e){}
+  const orderId=cached && cached.fingerprint===fingerprint ? cached.orderId :
+    'FUT26-'+(window.crypto && crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12));
+  try{sessionStorage.setItem('futuraCrackersOrder',JSON.stringify({fingerprint,orderId}));}catch(e){}
+  return {orderId,items};
+}
+async function saveCrackersOrder(order){
+  if(!order || sheetOrderBusy) return;
+  sheetOrderBusy=true;
+  pendingSheetOrder=order;
+  orderSaveStatus('Saving order '+order.orderId+' / ஆர்டர் சேமிக்கப்படுகிறது…',false);
+  try{
+    const response=await fetch('/api/crackers-orders',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(order),keepalive:true
+    });
+    const result=await response.json();
+    if(!response.ok || result.ok!==true || result.orderId!==order.orderId) throw new Error('Save failed');
+    orderSaveStatus('Order '+order.orderId+' saved / ஆர்டர் பதிவு செய்யப்பட்டது. Payment confirmation pending.',false);
+  }catch(error){
+    orderSaveStatus('Order '+order.orderId+': saving could not be confirmed / சேமிப்பை உறுதி செய்ய முடியவில்லை. WhatsApp-ல் விவரங்களை அனுப்புங்கள்.',true);
+  }finally{sheetOrderBusy=false;}
+}
+
 function comboReadyToPay(){
+  if(sheetOrderBusy) return;
   syncCatalogueProducts();
   const chosen=Object.values(comboProducts).filter(p=>p.qty>0);
   if(!chosen.length) return;
   chosen.sort((a,b)=>Number(a.serial)-Number(b.serial));
+  const order=getCrackersOrder(chosen);
   let total=0,totalQty=0;
   const money=value=>value.toFixed(2);
-  const lines=['*DEEPAVALI CRACKERS 2026*','*ORDER DETAILS*',''];
+  const lines=['*DEEPAVALI CRACKERS 2026*','*ORDER DETAILS*','Order ID: '+order.orderId,''];
   chosen.forEach(p=>{
     const sub=p.qty*p.price;
     total+=sub;
@@ -3347,6 +3400,7 @@ function comboReadyToPay(){
     ? 'https://wa.me/919488917786?text='+message
     : 'https://web.whatsapp.com/send?phone=919488917786&text='+message;
   window.open(whatsappUrl,'_blank','noopener,noreferrer');
+  saveCrackersOrder(order);
 }
 </script>
 </body><!-- deployment-refresh -->
