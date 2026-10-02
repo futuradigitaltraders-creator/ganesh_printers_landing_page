@@ -15,6 +15,7 @@ function doPost(e) {
   try {
     const data = JSON.parse(e.postData.contents);
     if (data.action === 'paymentProof') return savePaymentProof(data, lock);
+    if (data.action === 'customerDetails') return saveCustomerDetails(data, lock);
     if (!/^[A-Za-z0-9_-]{8,80}$/.test(data.orderId || '') ||
         !Array.isArray(data.items) || !data.items.length ||
         data.items.length > 300) throw new Error('Invalid order');
@@ -105,4 +106,72 @@ function savePaymentProof(data, lock) {
     sheet.deleteRow(row);
     throw error;
   }
+}
+
+
+function safeSheetText(value) {
+  const text = String(value || '').trim();
+  return /^[=+@-]/.test(text) ? "'" + text : text;
+}
+
+function saveCustomerDetails(data, lock) {
+  const orderId = String(data.orderId || '').trim();
+  const name = String(data.name || '').trim();
+  const mobile = String(data.mobile || '').trim();
+  const address = String(data.address || '').trim();
+  const city = String(data.city || '').trim();
+
+  if (!/^[A-Za-z0-9_-]{8,80}$/.test(orderId) ||
+      name.length < 2 || name.length > 100 ||
+      !/^[0-9+()\-\s]{8,20}$/.test(mobile) ||
+      address.length < 5 || address.length > 300 ||
+      city.length < 2 || city.length > 100) {
+    throw new Error('Invalid customer details');
+  }
+
+  lock.waitLock(20000);
+  const book = SpreadsheetApp.openById(SHEET_ID);
+  const orders = book.getSheetByName(TAB_NAME);
+  if (!orders || orders.getLastRow() < 2 ||
+      !orders.getRange(2, 1, orders.getLastRow() - 1, 1)
+        .createTextFinder(orderId).matchEntireCell(true).findNext()) {
+    throw new Error('Order not found');
+  }
+
+  const sheet = book.getSheetByName('Customer Details 2026') || book.insertSheet('Customer Details 2026');
+  if (sheet.getLastRow() === 0) {
+    sheet.appendRow(['Order ID', 'Saved at', 'Client Name', 'Mobile No.', 'Address', 'City', 'Status']);
+    sheet.setFrozenRows(1);
+    sheet.getRange(1, 1, 1, 7).setFontWeight('bold');
+    sheet.setColumnWidth(1, 330);
+    sheet.setColumnWidth(2, 170);
+    sheet.setColumnWidth(3, 190);
+    sheet.setColumnWidth(4, 150);
+    sheet.setColumnWidth(5, 360);
+    sheet.setColumnWidth(6, 170);
+    sheet.setColumnWidth(7, 180);
+  }
+
+  const rowData = [
+    orderId,
+    new Date(),
+    safeSheetText(name),
+    safeSheetText(mobile),
+    safeSheetText(address),
+    safeSheetText(city),
+    'Booking Details Received'
+  ];
+
+  let existing = null;
+  if (sheet.getLastRow() > 1) {
+    existing = sheet.getRange(2, 1, sheet.getLastRow() - 1, 1)
+      .createTextFinder(orderId).matchEntireCell(true).findNext();
+  }
+
+  const row = existing ? existing.getRow() : sheet.getLastRow() + 1;
+  sheet.getRange(row, 1, 1, 7).setValues([rowData]);
+  sheet.getRange(row, 2).setNumberFormat('dd/MM/yyyy HH:mm:ss');
+  sheet.getRange(row, 4).setNumberFormat('@');
+
+  return jsonReply({ok: true, orderId: orderId, customerSaved: true, updated: !!existing});
 }
