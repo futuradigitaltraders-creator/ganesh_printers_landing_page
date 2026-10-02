@@ -6,6 +6,10 @@
     "api/crackers-orders.js": {
       "maxDuration": 60,
       "includeFiles": "deepavali-crackers-2026.html"
+    },
+    "api/crackers-payment-proof.js": {
+      "maxDuration": 60,
+      "includeFiles": "deepavali-crackers-2026.html"
     }
   }
 }
