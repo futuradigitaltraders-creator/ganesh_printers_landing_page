@@ -140,7 +140,7 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
     padding:8px 4px!important;
   }
   .qty-wrap{gap:5px}
-  .qty-btn{width:32px;height:32px;border-radius:7px;font-size:19px}
+  .qty-btn{width:46px;height:46px;border-radius:9px;font-size:24px;line-height:1;touch-action:manipulation}
   .qty-num{min-width:24px;font-size:16px}
   .subtotal-col{
     grid-column:3;
@@ -249,6 +249,77 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
 .order-review tfoot{background:#fff4d1;font-weight:bold}
 @media(max-width:600px){.order-review th,.order-review td{padding:10px 6px;font-size:12px}.order-review h2{font-size:18px}.order-review .order-product{min-width:150px;overflow-wrap:anywhere}.order-review table{min-width:620px}}
 .payment-proof-panel{margin:16px 0;padding:18px;background:#fff;border:1px solid #ded6e8;border-radius:12px}.payment-proof-panel h2{margin:0 0 10px;color:#391864;font-size:20px}.payment-proof-panel p{font-size:14px;line-height:1.6}.payment-proof-panel label{display:block;margin:12px 0 6px;font-weight:bold}.payment-proof-panel input{max-width:100%}#paymentProofPreview{display:block;max-width:100%;max-height:280px;margin:14px 0;border:1px solid #ddd}#paymentProofPreview[hidden],#paymentProofWhatsApp[hidden]{display:none}.proof-upload-btn{padding:12px 16px;border:0;border-radius:7px;background:#391864;color:white;font-weight:bold;cursor:pointer}.proof-upload-btn:disabled{opacity:.5;cursor:default}#paymentProofWhatsApp{display:inline-block;margin:12px;color:#185abc;text-decoration:underline}
+
+/* CLIENT CATALOGUE FINDER + ORDER POLICY - 2026-10-02 */
+.order-policy-note{
+  margin:12px 0 18px;
+  padding:13px 16px;
+  border:1px solid #f0bd39;
+  border-radius:12px;
+  background:#fff8dc;
+  color:#563b12;
+  font-size:14px;
+  font-weight:800;
+  line-height:1.55;
+  text-align:center;
+}
+.order-policy-note strong{color:#8c1b0f}
+.catalog-tools{
+  margin:0 0 20px;
+  padding:14px;
+  background:#fff;
+  border:1px solid #ddd7e9;
+  border-radius:14px;
+  display:grid;
+  grid-template-columns:minmax(220px,1.5fr) minmax(220px,1fr) auto;
+  gap:10px;
+  align-items:center;
+  box-shadow:0 5px 18px rgba(35,16,95,.06);
+}
+.catalog-tools input,
+.catalog-tools select{
+  width:100%;
+  min-height:46px;
+  border:1px solid #bcb5c9;
+  border-radius:9px;
+  padding:10px 12px;
+  background:#fff;
+  color:#24105f;
+  font-size:15px;
+  font-weight:700;
+  outline:none;
+}
+.catalog-tools input:focus,
+.catalog-tools select:focus{
+  border-color:#7000fe;
+  box-shadow:0 0 0 3px rgba(112,0,254,.10);
+}
+.catalog-clear-btn{
+  min-height:46px;
+  border:0;
+  border-radius:9px;
+  padding:10px 16px;
+  background:#24105f;
+  color:#fff;
+  font-size:14px;
+  font-weight:900;
+  cursor:pointer;
+}
+.catalog-filter-status{
+  grid-column:1 / -1;
+  color:#6b5b77;
+  font-size:13px;
+  font-weight:700;
+  min-height:18px;
+}
+.catalog-filter-hidden{display:none!important}
+@media(max-width:760px){
+  .catalog-tools{grid-template-columns:1fr;padding:12px;gap:9px}
+  .catalog-clear-btn{width:100%}
+  .catalog-filter-status{grid-column:1}
+  .order-policy-note{font-size:13px;text-align:left}
+}
+
 </style>
 </head>
 <body>
@@ -291,6 +362,18 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
   <div class="sum-box sum-items"><div class="sum-label">NUMBER OF ITEMS</div><div class="sum-value" id="liveItems">0</div></div>
   <div class="sum-box sum-total"><div class="sum-label">TOTAL AMOUNT</div><div class="sum-value">₹<span id="liveAmount">0.00</span></div></div>
   <div class="sum-box sum-save"><div class="sum-label">YOU SAVE</div><div class="sum-value">₹<span id="liveSave">0.00</span></div></div>
+</div>
+<div class="order-policy-note" role="note" aria-label="Order charges">
+  <strong>MINIMUM ORDER ₹3,000</strong> &nbsp;|&nbsp; PACKING &amp; FORWARDING ₹300 EXTRA &nbsp;|&nbsp; TRANSPORT: TOPAY
+  <br><span>குறைந்தபட்ச ஆர்டர் ₹3,000 · பேக்கிங் ₹300 கூடுதல் · டிரான்ஸ்போர்ட் கட்டணம் உங்கள் ஊரில் செலுத்த வேண்டும்</span>
+</div>
+<div class="catalog-tools" id="catalogTools" aria-label="Product search and category filter">
+  <input id="productSearch" type="search" autocomplete="off" placeholder="Search Product / பொருள் தேடுங்கள்" aria-label="Search products">
+  <select id="categoryFilter" aria-label="Choose category">
+    <option value="">All Categories / அனைத்து வகைகளும்</option>
+  </select>
+  <button class="catalog-clear-btn" id="catalogClearBtn" type="button">CLEAR</button>
+  <div class="catalog-filter-status" id="catalogFilterStatus" aria-live="polite"></div>
 </div>
 
 <section class="sample-shop" aria-label="Single and double sound crackers">
@@ -2670,11 +2753,10 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
   <div>
     <div class="summary-counts">Selected Products: <span id="selectedProducts">0</span> &nbsp; | &nbsp; Total Qty: <span id="totalQty">0</span></div>
     <div class="net-total">NET PRODUCT TOTAL <strong>₹<span id="sampleNetTotal">0.00</span></strong></div>
-    <div class="shipping-note">Packing &amp; Shipping Charges Extra</div>
+    <div class="shipping-note"><strong>Minimum Order ₹3,000</strong> · Packing &amp; Forwarding ₹300 Extra · Transport TOPAY</div>
   </div>
   <button class="pay-btn" id="samplePayBtn" type="button" onclick="comboReadyToPay()" disabled>READY TO PAY – WHATSAPP</button>
 </div>
-<section class="notice"><h2>Full Product Catalogue Updating</h2><p>Combo Packs, Single / Double Sound Crackers, Sparklers, Ground Chakkars, Flower Pots, Twinkling Stars / Pencils / Torches, Rockets / Mega Rockets, Atom Bombs, Colour Fog / Confetti, Premium Magic Crackers, Premium Magic Fancy Crackers and Loose Crackers are now live. Children Ground Functions and Mini Sky Function and Multiple Shots (10 to 500) and Premium Multiple Shots and Aerial Fancy and Gift Boxes and Roll Caps / Toy Guns and Colour Matches / Snake Tablets are now live. Remaining cracker categories will be added next.</p><p class="terms">UP TO 80% Discount on eligible products · Packing &amp; Shipping Charges Extra</p></section>
 </main>
 <div class="img-modal" id="productImageModal" onclick="closeProductImage(event)">
   <div class="img-modal-inner">
@@ -3319,6 +3401,67 @@ function closeProductImage(e){
   document.body.style.overflow='';
 }
 let imageDrag={active:false,x:0,y:0,left:0,top:0};
+
+function setupCatalogueFilter(){
+  const search=document.getElementById('productSearch');
+  const select=document.getElementById('categoryFilter');
+  const clear=document.getElementById('catalogClearBtn');
+  if(!search || !select || !clear) return;
+
+  document.querySelectorAll('.sample-shop').forEach((section,index)=>{
+    const label=(section.getAttribute('aria-label') || section.querySelector('.sample-title')?.textContent || ('Category '+(index+1))).trim();
+    section.dataset.catalogCategory=label;
+    const option=document.createElement('option');
+    option.value=label;
+    option.textContent=label;
+    select.appendChild(option);
+  });
+
+  const apply=()=>{
+    const query=search.value.trim().toLocaleLowerCase();
+    const category=select.value;
+    let shownProducts=0;
+    let totalProducts=0;
+
+    document.querySelectorAll('.sample-shop').forEach(section=>{
+      const rows=[...section.querySelectorAll('.product-row')];
+      const categoryMatch=!category || section.dataset.catalogCategory===category;
+      let sectionVisibleRows=0;
+
+      rows.forEach(row=>{
+        totalProducts++;
+        const searchable=((row.querySelector('.product-name')?.textContent || '')+' '+
+          (row.querySelector('.product-meta')?.textContent || '')+' '+
+          (row.querySelector('img')?.alt || '')).toLocaleLowerCase();
+        const visible=categoryMatch && (!query || searchable.includes(query));
+        row.classList.toggle('catalog-filter-hidden',!visible);
+        if(visible){sectionVisibleRows++;shownProducts++;}
+      });
+
+      const head=section.querySelector('.catalog-head');
+      if(head) head.classList.toggle('catalog-filter-hidden',sectionVisibleRows===0);
+      section.classList.toggle('catalog-filter-hidden',rows.length ? sectionVisibleRows===0 : !categoryMatch);
+    });
+
+    const status=document.getElementById('catalogFilterStatus');
+    if(status){
+      status.textContent=(query || category)
+        ? (shownProducts+' product'+(shownProducts===1?'':'s')+' found')
+        : ('Showing all '+totalProducts+' products');
+    }
+  };
+
+  search.addEventListener('input',apply);
+  select.addEventListener('change',apply);
+  clear.addEventListener('click',()=>{
+    search.value='';
+    select.value='';
+    apply();
+    search.focus();
+  });
+  apply();
+}
+
 document.addEventListener('DOMContentLoaded',()=>{
   markPyroLogoTargets();
 
@@ -3347,6 +3490,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     if(img.complete && img.naturalWidth===0) productImageError(img);
     if(img.complete && img.naturalWidth>0) ensureProductLogoCover(img);
   });
+  setupCatalogueFilter();
   syncCatalogueProducts();
   restoreCrackersCart();
   refreshComboSummary();
@@ -3622,7 +3766,7 @@ function comboReadyToPay(){
   lines.push('```','');
   lines.push('*Products: '+chosen.length+' | Total Qty: '+totalQty+'*');
   lines.push('*NET PRODUCT TOTAL: ₹'+total.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2})+'*');
-  lines.push('Packing & Shipping Charges Extra');
+  lines.push('Minimum Order: ₹3,000 | Packing & Forwarding: ₹300 Extra | Transport: TOPAY');
   lines.push('');
   lines.push('Please confirm availability and send payment details.');
   const message=encodeURIComponent(lines.join('\n'));
