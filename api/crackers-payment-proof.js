@@ -7,7 +7,7 @@ module.exports = async function handler(req, res) {
   if (req.headers.origin && !allowedOrigins.includes(req.headers.origin)) return res.status(403).json({ok:false,error:'Invalid origin'});
   if (req.method === 'GET') {
     try {
-      const reply = await fetch(SHEETS_URL, {signal:AbortSignal.timeout(10000)});
+      const reply = await fetch(SHEETS_URL, {signal:AbortSignal.timeout(25000)});
       const result = await reply.json();
       return res.status(200).json({ok:true,available:result.ok===true && result.paymentProofUpload===true});
     } catch(e) {return res.status(503).json({ok:false,available:false});}
@@ -30,7 +30,7 @@ module.exports = async function handler(req, res) {
     const reply=await fetch(SHEETS_URL,{
       method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},
       body:JSON.stringify({action:'paymentProof',orderId:data.orderId,proofId:data.proofId,imageBase64:data.imageBase64,mimeType:data.mimeType}),
-      signal:AbortSignal.timeout(10000)
+      signal:AbortSignal.timeout(25000)
     });
     const saved=await reply.json();
     if(!reply.ok || saved.ok!==true || saved.proofSaved!==true || saved.orderId!==data.orderId || saved.proofId!==data.proofId) throw Error('Proof unconfirmed');
