@@ -269,7 +269,7 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
 .site-nav a.shipping-policy-nav:hover{
   color:#fff3a0 !important;
 }
-/* AUTO PYROBAZAAR LOGO CLEANER V2 - FIRST 7: measured placement, no crop, full image preserved */
+/* AUTO SOURCE LOGO CLEANER V2 - FIRST 7: measured placement, no crop, full image preserved */
 
 .order-review{margin:22px 0 12px;background:#fff;border:1px solid #ddd;border-radius:12px;overflow:hidden}
 .order-review[hidden]{display:none}
@@ -3481,8 +3481,8 @@ function getFullProductImage(src){
   }
   return src;
 }
-function markPyroLogoTargets(){
-  // Only the first seven Sound Crackers product images contain the top-left PyroBazaar mark.
+function markSourceLogoTargets(){
+  // Only the first seven Sound Crackers product images may contain a top-left source mark.
   // Targeting is automatic by catalogue position — no manual per-image editing.
   const firstSection=document.querySelector('.sample-shop');
   if(!firstSection) return;
@@ -3523,7 +3523,7 @@ function ensureProductLogoCover(img){
   const w=imgRect.width||0,h=imgRect.height||0;
   if(!w||!h) return;
 
-  // PyroBazaar mark occupies roughly the top-left third on these seven images.
+  // The source mark occupies roughly the top-left third on these seven images.
   // Use a comfortably larger patch so no part of the mark remains visible.
   const patchW=Math.max(26,Math.round(w*0.38));
   const patchH=Math.max(18,Math.round(h*0.20));
@@ -3696,7 +3696,7 @@ function setupCatalogueFilter(){
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
-  markPyroLogoTargets();
+  markSourceLogoTargets();
 
   // Add S.No header to every category and number all products continuously.
   document.querySelectorAll('.catalog-head').forEach(head=>{
