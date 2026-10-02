@@ -2978,9 +2978,42 @@ function syncCatalogueProducts(){
   });
 }
 
+
+function rememberCrackersCart(){
+  try{localStorage.setItem('futuraCrackersCart2026',JSON.stringify(Object.fromEntries(Object.entries(comboProducts).filter(([,p])=>p.qty>0).map(([id,p])=>[id,p.qty]))));}catch(e){}
+}
+function restoreCrackersCart(){
+  try{
+    const cart=JSON.parse(localStorage.getItem('futuraCrackersCart2026') || '{}');
+    Object.entries(comboProducts).forEach(([id,p])=>{
+      const qty=Number(cart[id] || 0);
+      p.qty=Number.isInteger(qty) && qty>=0 && qty<=10000 ? qty : 0;
+      const qtyEl=document.getElementById('qty-'+id), subEl=document.getElementById('sub-'+id);
+      if(qtyEl) qtyEl.textContent=p.qty;
+      if(subEl) subEl.textContent=(p.qty*p.price).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
+    });
+  }catch(e){}
+}
+function rememberOrderReceipt(order, state){
+  try{localStorage.setItem('futuraCrackersReceipt2026',JSON.stringify({order,state}));}catch(e){}
+}
+function restoreOrderReceipt(){
+  try{
+    const receipt=JSON.parse(localStorage.getItem('futuraCrackersReceipt2026') || 'null');
+    if(!receipt || !receipt.order || !Array.isArray(receipt.order.items)) return;
+    pendingSheetOrder=receipt.order;
+    if(receipt.state==='saved'){
+      orderSaveStatus('Order received / ஆர்டர் பதிவு செய்யப்பட்டது. Order ID: '+receipt.order.orderId+'. Payment confirmation pending.',false);
+    }else{
+      orderSaveStatus('Order ID: '+receipt.order.orderId+' — சேமிப்பை உறுதி செய்ய மீண்டும் முயற்சிக்கவும் / Retry to confirm saving.',true);
+    }
+  }catch(e){}
+}
+
 function changeComboQty(id,delta){
   const p=comboProducts[id];
-  p.qty=Math.max(0,p.qty+delta);
+  p.qty=Math.min(10000,Math.max(0,p.qty+delta));
+  rememberCrackersCart();
   document.getElementById('qty-'+id).textContent=p.qty;
   document.getElementById('sub-'+id).textContent=(p.qty*p.price).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
   refreshComboSummary();
@@ -3255,7 +3288,9 @@ document.addEventListener('DOMContentLoaded',()=>{
     if(img.complete && img.naturalWidth>0) ensureProductLogoCover(img);
   });
   syncCatalogueProducts();
+  restoreCrackersCart();
   refreshComboSummary();
+  restoreOrderReceipt();
   hydrateCatalogueImages();
   // Automatic re-application when catalogue images are replaced/loaded dynamically.
   const catalogueRoot=document.querySelector('main');
@@ -3344,16 +3379,17 @@ function getCrackersOrder(chosen){
   const items=chosen.map(p=>({serial:Number(p.serial),name:p.name,qty:p.qty,price:p.price}));
   const fingerprint=JSON.stringify(items);
   let cached;
-  try{cached=JSON.parse(sessionStorage.getItem('futuraCrackersOrder') || 'null');}catch(e){}
+  try{cached=JSON.parse(localStorage.getItem('futuraCrackersOrder') || 'null');}catch(e){}
   const orderId=cached && cached.fingerprint===fingerprint ? cached.orderId :
     'FUT26-'+(window.crypto && crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12));
-  try{sessionStorage.setItem('futuraCrackersOrder',JSON.stringify({fingerprint,orderId}));}catch(e){}
+  try{localStorage.setItem('futuraCrackersOrder',JSON.stringify({fingerprint,orderId}));}catch(e){}
   return {orderId,items};
 }
 async function saveCrackersOrder(order){
   if(!order || sheetOrderBusy) return;
   sheetOrderBusy=true;
   pendingSheetOrder=order;
+  rememberOrderReceipt(order, 'pending');
   orderSaveStatus('Saving order '+order.orderId+' / ஆர்டர் சேமிக்கப்படுகிறது…',false);
   try{
     const response=await fetch('/api/crackers-orders',{
@@ -3362,8 +3398,10 @@ async function saveCrackersOrder(order){
     });
     const result=await response.json();
     if(!response.ok || result.ok!==true || result.orderId!==order.orderId) throw new Error('Save failed');
-    orderSaveStatus('Order '+order.orderId+' saved / ஆர்டர் பதிவு செய்யப்பட்டது. Payment confirmation pending.',false);
+    rememberOrderReceipt(order, 'saved');
+    orderSaveStatus('Order received / ஆர்டர் பதிவு செய்யப்பட்டது. Order ID: '+order.orderId+'. Payment confirmation pending.',false);
   }catch(error){
+    rememberOrderReceipt(order, 'retry');
     orderSaveStatus('Order '+order.orderId+': saving could not be confirmed / சேமிப்பை உறுதி செய்ய முடியவில்லை. WhatsApp-ல் விவரங்களை அனுப்புங்கள்.',true);
   }finally{sheetOrderBusy=false;}
 }
