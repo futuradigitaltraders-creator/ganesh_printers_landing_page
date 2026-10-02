@@ -247,7 +247,8 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
 .order-review .order-number{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
 .order-review tbody tr:nth-child(even){background:#faf8fc}
 .order-review tfoot{background:#fff4d1;font-weight:bold}
-@media(max-width:600px){.order-review th,.order-review td{padding:10px 6px;font-size:12px}.order-review h2{font-size:18px}.order-review .order-product{min-width:120px;overflow-wrap:anywhere}}
+@media(max-width:600px){.order-review th,.order-review td{padding:10px 6px;font-size:12px}.order-review h2{font-size:18px}.order-review .order-product{min-width:150px;overflow-wrap:anywhere}.order-review table{min-width:620px}}
+.order-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}.estimate-btn{padding:12px 16px;border:1px solid #391864;border-radius:7px;background:#fff;color:#391864;font-weight:bold;cursor:pointer}.estimate-btn:disabled{opacity:.5;cursor:default}#estimatePdfStatus{flex-basis:100%;font-size:14px}.order-review .order-number{font-variant-numeric:tabular-nums}
 </style>
 </head>
 <body>
@@ -2650,9 +2651,9 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
 <section class="order-review" id="orderReview" hidden aria-labelledby="orderReviewHeading">
 <h2 id="orderReviewHeading">Your Order / உங்கள் ஆர்டர்</h2>
 <div class="order-review-scroll"><table>
-<thead><tr><th scope="col">S.No</th><th scope="col">Product</th><th scope="col" class="order-number">Qty</th><th scope="col" class="order-number">Rate (₹)</th><th scope="col" class="order-number">Amount (₹)</th></tr></thead>
+<thead><tr><th scope="col">S.No</th><th scope="col">Product</th><th scope="col" class="order-number">Qty</th><th scope="col" class="order-number">MRP Rate (₹)</th><th scope="col" class="order-number">80% Discount<br>Rate (₹)</th><th scope="col" class="order-number">Amount (₹)</th></tr></thead>
 <tbody id="orderReviewRows"></tbody>
-<tfoot><tr><td colspan="2">Product Total</td><td id="orderReviewQty" class="order-number"></td><td></td><td id="orderReviewTotal" class="order-number"></td></tr></tfoot>
+<tfoot><tr><td colspan="2">Product Total</td><td id="orderReviewQty" class="order-number"></td><td colspan="2"></td><td id="orderReviewTotal" class="order-number"></td></tr></tfoot>
 </table></div></section>
 <div class="cart-summary">
   <div>
@@ -2660,7 +2661,7 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
     <div class="net-total">NET PRODUCT TOTAL <strong>₹<span id="sampleNetTotal">0.00</span></strong></div>
     <div class="shipping-note">Packing &amp; Shipping Charges Extra</div>
   </div>
-  <button class="pay-btn" id="samplePayBtn" type="button" onclick="comboReadyToPay()" disabled>READY TO PAY – WHATSAPP</button>
+  <div class="order-actions"><button class="estimate-btn" id="estimatePdfBtn" type="button" onclick="downloadCrackersEstimate()" disabled>DOWNLOAD ESTIMATE PDF</button><button class="pay-btn" id="samplePayBtn" type="button" onclick="comboReadyToPay()" disabled>READY TO PAY – WHATSAPP</button></div>
 </div>
 <section class="notice"><h2>Full Product Catalogue Updating</h2><p>Combo Packs, Single / Double Sound Crackers, Sparklers, Ground Chakkars, Flower Pots, Twinkling Stars / Pencils / Torches, Rockets / Mega Rockets, Atom Bombs, Colour Fog / Confetti, Premium Magic Crackers, Premium Magic Fancy Crackers and Loose Crackers are now live. Children Ground Functions and Mini Sky Function and Multiple Shots (10 to 500) and Premium Multiple Shots and Aerial Fancy and Gift Boxes and Roll Caps / Toy Guns and Colour Matches / Snake Tablets are now live. Remaining cracker categories will be added next.</p><p class="terms">UP TO 80% Discount on eligible products · Packing &amp; Shipping Charges Extra</p></section>
 </main>
@@ -2992,6 +2993,9 @@ function syncCatalogueProducts(){
     if(product && Number.isFinite(price)){
       product.name=nameEl.textContent.trim();
       product.price=price;
+      const mrpText=row.querySelector('.mrp-price')?.textContent || '';
+      const mrp=Number(mrpText.replace(/[^0-9.]/g,''));
+      product.mrp=mrpText && Number.isFinite(mrp) && mrp>0 ? mrp : null;
       product.serial=row.querySelector('.serial-col')?.textContent.trim() || '';
     }
   });
@@ -3048,7 +3052,7 @@ function renderCrackersOrderReview(){
   const money=value=>value.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
   chosen.forEach(p=>{
     const row=document.createElement('tr'),amount=p.qty*p.price;
-    [p.serial,p.name,p.qty,money(p.price),money(amount)].forEach((value,index)=>{
+    [p.serial,p.name,p.qty,p.mrp===null?'—':money(p.mrp),money(p.price)+(p.mrp===null?' (Special)':''),money(amount)].forEach((value,index)=>{
       const cell=document.createElement('td');
       cell.textContent=value;
       cell.className=index===1?'order-product':index>=2?'order-number':'';
@@ -3084,6 +3088,8 @@ function refreshComboSummary(){
   document.getElementById('totalQty').textContent=totalQty;
   document.getElementById('sampleNetTotal').textContent=total.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
   document.getElementById('samplePayBtn').disabled=totalQty===0;
+  const estimateBtn=document.getElementById('estimatePdfBtn');
+  if(estimateBtn && !estimatePdfBusy) estimateBtn.disabled=totalQty===0;
 
   const lp=document.getElementById('liveProducts');
   const li=document.getElementById('liveItems');
@@ -3449,6 +3455,30 @@ async function saveCrackersOrder(order){
   }finally{sheetOrderBusy=false;}
 }
 
+let estimatePdfBusy=false;
+async function downloadCrackersEstimate(){
+  if(estimatePdfBusy) return;
+  syncCatalogueProducts();
+  const chosen=Object.values(comboProducts).filter(p=>p.qty>0).sort((a,b)=>Number(a.serial)-Number(b.serial));
+  if(!chosen.length) return;
+  const order=getCrackersOrder(chosen),button=document.getElementById('estimatePdfBtn');
+  let status=document.getElementById('estimatePdfStatus');
+  if(!status){
+    status=document.createElement('div');status.id='estimatePdfStatus';status.setAttribute('role','status');
+    button.parentElement.appendChild(status);
+  }
+  estimatePdfBusy=true;button.disabled=true;status.textContent='Preparing estimate PDF / PDF தயாராகிறது…';
+  try{
+    const reply=await fetch('/api/crackers-estimate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(order)});
+    if(!reply.ok || !(reply.headers.get('Content-Type') || '').includes('application/pdf')) throw Error('PDF failed');
+    const blob=await reply.blob(),url=URL.createObjectURL(blob),link=document.createElement('a');
+    link.href=url;link.download=order.orderId+'-Estimate.pdf';document.body.appendChild(link);link.click();link.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),60000);
+    status.textContent='Estimate PDF ready. Order ID: '+order.orderId+'. Downloaded PDF-ஐ WhatsApp-ல் attach செய்து அனுப்பலாம்.';
+  }catch(e){status.textContent='PDF தயாரிக்க முடியவில்லை. DOWNLOAD ESTIMATE PDF-ஐ மீண்டும் அழுத்துங்கள்.';}
+  finally{estimatePdfBusy=false;button.disabled=!Object.values(comboProducts).some(p=>p.qty>0);}
+}
+
 function comboReadyToPay(){
   if(sheetOrderBusy) return;
   syncCatalogueProducts();
@@ -3459,9 +3489,9 @@ function comboReadyToPay(){
   let total=0,totalQty=0;
   const money=value=>value.toFixed(2);
   const lines=['*FUTURA — DEEPAVALI CRACKERS 2026*','*ORDER DETAILS*','Order ID: '+order.orderId,'','Rate & Amount in Rs','```'];
-  const widths=[4,5,8,10];
+  const widths=[4,5,9,10];
   const numericRow=values=>values.map((value,index)=>String(value).padStart(widths[index])).join(' ');
-  const divider='-'.repeat(30);
+  const divider='-'.repeat(31);
   const wrapName=name=>{
     const wrapped=[];
     let line='';
@@ -3477,12 +3507,14 @@ function comboReadyToPay(){
     if(line) wrapped.push(line);
     return wrapped;
   };
-  lines.push(numericRow(['S.No','Qty','Rate','Amount']),divider);
+  lines.push(numericRow(['S.No','Qty','80% Rate','Subtotal']),divider);
+  lines.push('Combo items: Special Rate',divider);
   chosen.forEach(p=>{
     const sub=p.qty*p.price;
     total+=sub;
     totalQty+=p.qty;
     lines.push(...wrapName(p.name));
+    lines.push(p.mrp===null?'MRP: - | Special Rate':'MRP Rate: Rs '+money(p.mrp));
     lines.push(numericRow([p.serial,p.qty,money(p.price),money(sub)]),divider);
   });
   lines.push('```','');
