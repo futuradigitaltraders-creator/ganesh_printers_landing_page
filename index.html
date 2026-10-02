@@ -995,165 +995,262 @@
     </section>
 
     <!-- Footer Section Start -->
-    <footer class="footer-section section-bg">
+    <footer class="footer-section section-bg final-company-footer">
+        <style>
+            .final-company-footer .footer-widgets-wrapper {
+                padding: 72px 0 76px;
+            }
+            .final-company-footer .final-footer-row {
+                align-items: stretch;
+            }
+            .final-company-footer .final-footer-col {
+                padding: 0 40px;
+                min-height: 430px;
+            }
+            .final-company-footer .final-footer-col + .final-footer-col {
+                border-left: 1px solid #dfe3f2;
+            }
+            .final-company-footer .anniversary-col {
+                text-align: center;
+            }
+            .final-company-footer .anniversary-logo {
+                width: 178px;
+                height: 178px;
+                object-fit: contain;
+                display: block;
+                margin: 0 auto 20px;
+            }
+            .final-company-footer .anniversary-small {
+                color: #09052F;
+                font-weight: 800;
+                font-size: 21px;
+                line-height: 1.2;
+                margin: 0;
+            }
+            .final-company-footer .anniversary-title {
+                color: #09052F;
+                font-weight: 800;
+                font-size: 29px;
+                line-height: 1.18;
+                margin: 4px 0 0;
+            }
+            .final-company-footer .anniversary-brand {
+                color: #7000fe;
+                font-size: 21px;
+                font-weight: 800;
+                margin: 18px 0 0;
+            }
+            .final-company-footer .anniversary-since {
+                color: #687799;
+                font-size: 14px;
+                font-weight: 600;
+                margin-top: 5px;
+            }
+            .final-company-footer .footer-company-title {
+                color: #09052F;
+                font-size: 23px;
+                line-height: 1.2;
+                font-weight: 800;
+                text-align: center;
+                margin: 0;
+            }
+            .final-company-footer .footer-tagline {
+                color: #687799;
+                font-size: 17px;
+                font-style: italic;
+                text-align: center;
+                margin: 7px 0 15px;
+                line-height: 1.3;
+            }
+            .final-company-footer .footer-service-line {
+                color: #7000fe;
+                font-size: 17px;
+                line-height: 1.55;
+                font-weight: 800;
+                text-align: center;
+                margin: 0 auto 28px;
+                max-width: 440px;
+            }
+            .final-company-footer .footer-contact-list {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+            .final-company-footer .footer-contact-list li {
+                display: flex;
+                align-items: flex-start;
+                gap: 15px;
+                margin-bottom: 28px;
+            }
+            .final-company-footer .footer-contact-list li:last-child {
+                margin-bottom: 0;
+            }
+            .final-company-footer .footer-contact-icon {
+                width: 42px;
+                height: 42px;
+                min-width: 42px;
+                border-radius: 50%;
+                background: #7000fe;
+                color: #fff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 16px;
+                margin-top: 1px;
+            }
+            .final-company-footer .footer-contact-content {
+                min-width: 0;
+            }
+            .final-company-footer .footer-contact-content span {
+                display: block;
+                color: #687799;
+                font-size: 14px;
+                font-weight: 500;
+                margin-bottom: 3px;
+            }
+            .final-company-footer .footer-contact-content h3 {
+                color: #09052F;
+                font-size: 18px;
+                line-height: 1.38;
+                font-weight: 600;
+                margin: 0;
+                overflow-wrap: anywhere;
+            }
+            .final-company-footer .footer-contact-content h3 a {
+                color: #09052F;
+            }
+            .final-company-footer .footer-bottom {
+                background-color: rgba(44, 63, 70, 0.05);
+            }
+            @media (max-width: 1199px) {
+                .final-company-footer .final-footer-col {
+                    padding: 0 24px;
+                }
+                .final-company-footer .footer-service-line {
+                    font-size: 15px;
+                }
+                .final-company-footer .footer-contact-content h3 {
+                    font-size: 16px;
+                }
+            }
+            @media (max-width: 991px) {
+                .final-company-footer .footer-widgets-wrapper {
+                    padding: 50px 0 55px;
+                }
+                .final-company-footer .final-footer-col {
+                    min-height: 0;
+                    padding: 35px 24px;
+                }
+                .final-company-footer .final-footer-col + .final-footer-col {
+                    border-left: 0;
+                    border-top: 1px solid #dfe3f2;
+                }
+                .final-company-footer .footer-service-line {
+                    max-width: 520px;
+                }
+            }
+            @media (max-width: 575px) {
+                .final-company-footer .anniversary-logo {
+                    width: 150px;
+                    height: 150px;
+                }
+                .final-company-footer .anniversary-title {
+                    font-size: 25px;
+                }
+                .final-company-footer .footer-company-title {
+                    font-size: 21px;
+                }
+                .final-company-footer .footer-service-line {
+                    font-size: 14px;
+                }
+                .final-company-footer .final-footer-col {
+                    padding-left: 18px;
+                    padding-right: 18px;
+                }
+            }
+        </style>
+
         <div class="container">
             <div class="footer-widgets-wrapper">
-                <div class="row">
-                    <div class="col-xl-3 col-sm-6 col-md-6 col-lg-4 wow fadeInUp" data-wow-delay=".2s">
-                        <div class="single-footer-widget">
-                            <!-- <div class="widget-head">
-                                <a href="index.html">
-                                    <img src="assets/img/logo/logo.svg" alt="logo-img">
-                                </a>
-                            </div> -->
-                            <div class="footer-content">
-                                <h2 style="color: #000000; font-weight: 700;">FUTURA TRADERS</h2>
-                                <p>
-                                    Your trusted partner for high-quality printing services. From business cards to
-                                    large format flex printing, we deliver excellence in every print.
-                                </p>
-                                <!-- <div class="social-icon style-2 d-flex align-items-center">
-                                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                    <a href="#"><i class="fab fa-twitter"></i></a>
-                                    <a href="#"><i class="fab fa-vimeo-v"></i></a>
-                                    <a href="#"><i class="fab fa-pinterest-p"></i></a>
-                                </div> -->
-                            </div>
-                        </div>
+                <div class="row g-0 final-footer-row">
+                    <div class="col-lg-4 final-footer-col anniversary-col wow fadeInUp" data-wow-delay=".2s">
+                        <img
+                            src="images/crackers/2026%20crackers%20new/50%20Years%20Excellent%20Experience%20Gold%20Badge.png"
+                            alt="50 Years Excellent Experience - Sri Ganesh Printers"
+                            class="anniversary-logo">
+                        <p class="anniversary-small">50 YEARS OF</p>
+                        <h2 class="anniversary-title">PRINTING<br>EXCELLENCE</h2>
+                        <h3 class="anniversary-brand">SRI GANESH PRINTERS</h3>
+                        <p class="anniversary-since">SINCE 1976</p>
                     </div>
-                    <!-- <div class="col-xl-3 col-sm-6 col-md-6 col-lg-4 ps-lg-5 wow fadeInUp" data-wow-delay=".4s">
-                        <div class="single-footer-widget">
-                            <div class="widget-head">
-                                <h3>Usefull Links</h3>
-                            </div>
-                            <ul class="list-items">
-                                <li>
-                                    <a href="about.html">
-                                        How It Works
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="service.html">
-                                        Our Services
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="contact.html">
-                                        Terms & Services
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div> -->
-                    <div class="col-xl-3 col-sm-6 col-md-6 col-lg-4 wow fadeInUp" data-wow-delay=".6s">
-                        <div class="single-footer-widget">
-                            <div class="widget-head">
-                                <h3>Contact Futura Traders</h3>
-                            </div>
-                            <ul class="contact-list-2">
-                                <li>
-                                    <div class="icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21"
-                                            viewBox="0 0 21 21" fill="none">
-                                            <g clip-path="url(#clip0_15_32)">
-                                                <path
-                                                    d="M16.5059 20.75C15.6931 20.5298 14.8643 20.3536 14.0635 20.0854C11.4289 19.2005 9.07861 17.8071 6.99658 15.9693C4.62226 13.8753 2.78047 11.3889 1.50723 8.48203C0.986719 7.28887 0.582324 6.05967 0.310059 4.78242C0.290039 4.68633 0.27002 4.58623 0.25 4.49014C0.25 4.2499 0.25 4.00967 0.25 3.76943C0.262012 3.72539 0.282031 3.68135 0.290039 3.6373C0.454199 2.59229 0.962695 1.74746 1.85557 1.1709C2.47217 0.774512 3.1248 0.422168 3.85351 0.25C4.01367 0.25 4.17383 0.25 4.33398 0.25C4.56621 0.330078 4.80644 0.390137 5.02266 0.494238C5.38701 0.666406 5.64726 0.962695 5.85547 1.30703C6.42803 2.25996 7.00459 3.21289 7.57314 4.16982C8.19775 5.21484 7.90146 6.39199 6.86045 7.02461C6.64023 7.16074 6.41601 7.29287 6.1918 7.425C5.83945 7.63721 5.79541 7.77334 5.95156 8.14971C6.84443 10.2437 8.21377 11.9694 9.99951 13.3708C10.8884 14.0715 11.8573 14.64 12.9063 15.0725C13.2106 15.1966 13.3668 15.1485 13.543 14.8643C13.7191 14.576 13.8873 14.2757 14.0755 13.9954C14.616 13.1786 15.7291 12.8383 16.5819 13.3067C17.711 13.9313 18.8081 14.616 19.9092 15.2967C20.3656 15.581 20.6099 16.0334 20.714 16.5579C20.722 16.5939 20.742 16.63 20.754 16.666C20.754 16.8262 20.754 16.9863 20.754 17.1465C20.71 17.3066 20.6819 17.4748 20.6139 17.6229C20.4217 18.0394 20.2255 18.4558 20.0093 18.8602C19.6009 19.6289 18.9803 20.1814 18.1675 20.4937C17.8672 20.6099 17.5429 20.6659 17.2306 20.75C16.9863 20.75 16.7461 20.75 16.5059 20.75ZM6.1918 6.48809C6.2999 6.42402 6.38799 6.37598 6.47207 6.32393C7.10469 5.92754 7.28086 5.25488 6.90049 4.61025C6.31992 3.62129 5.72734 2.64033 5.13076 1.65938C4.77441 1.07881 4.1498 0.898633 3.5332 1.18691C3.18486 1.35107 2.83652 1.52324 2.5002 1.70742C1.41914 2.304 0.85459 3.54121 1.11885 4.74639C1.42314 6.13975 1.88359 7.48105 2.52021 8.7543C5.2709 14.2517 9.56308 17.9393 15.4809 19.685C16.0694 19.8571 16.662 20.0173 17.2906 19.9052C18.1314 19.753 18.7721 19.3166 19.2405 18.5799C17.5148 17.5469 15.8052 16.5179 14.0915 15.4889C13.615 15.9934 13.0865 16.0254 12.4779 15.7611C10.8684 15.0604 9.45098 14.0795 8.20976 12.8463C6.90449 11.549 5.87148 10.0636 5.1708 8.35391C4.95459 7.82539 5.04668 7.36494 5.45107 6.96055C5.46709 6.94453 5.4831 6.92051 5.50312 6.89648C5.46709 6.83643 5.43506 6.77637 5.39902 6.72031C4.8625 5.82344 4.32197 4.92656 3.78545 4.02969C3.74541 3.96162 3.70137 3.89355 3.67334 3.81748C3.60127 3.62529 3.66934 3.4291 3.8375 3.33301C4.00166 3.23691 4.20986 3.27295 4.34199 3.4291C4.39004 3.48516 4.42607 3.54922 4.46611 3.60928C4.81045 4.18184 5.15478 4.75039 5.49512 5.32295C5.72334 5.70732 5.95156 6.0917 6.1918 6.48809ZM19.6129 17.8672C19.6729 17.7511 19.725 17.651 19.777 17.5509C20.1254 16.8502 19.9412 16.2256 19.2726 15.8252C18.3316 15.2606 17.3907 14.6921 16.4458 14.1315C16.3217 14.0555 16.1855 13.9874 16.0494 13.9514C15.4088 13.7792 14.8242 14.1155 14.5319 14.8202C16.2136 15.8292 17.9032 16.8462 19.6129 17.8672Z"
-                                                    fill="white" />
-                                                <path
-                                                    d="M3.54648 2.34416C3.54248 2.56437 3.36631 2.73654 3.1501 2.73254C2.93389 2.72853 2.76172 2.54836 2.76172 2.33215C2.76572 2.11593 2.9499 1.93576 3.15811 1.93976C3.37031 1.94377 3.54648 2.12795 3.54648 2.34416Z"
-                                                    fill="white" />
-                                            </g>
-                                            <defs>
-                                                <clipPath id="clip0_15_32">
-                                                    <rect width="20.5" height="20.5" fill="white"
-                                                        transform="translate(0.25 0.25)" />
-                                                </clipPath>
-                                            </defs>
-                                        </svg>
-                                    </div>
-                                    <div class="content">
-                                        <span>Call Us</span>
-                                        <h3><a href="tel:+919488917786">+91 94889 17786</a></h3>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21"
-                                            viewBox="0 0 21 21" fill="none">
-                                            <g clip-path="url(#clip0_15_42)">
-                                                <path
-                                                    d="M18.9482 3.29297H2.05176C1.06031 3.29297 0.25 4.09972 0.25 5.09473V15.9053C0.25 16.9006 1.06083 17.707 2.05176 17.707H18.9482C19.9397 17.707 20.75 16.9003 20.75 15.9053V5.09473C20.75 4.09948 19.9393 3.29297 18.9482 3.29297ZM18.6716 4.49414C18.089 5.07859 11.2465 11.9434 10.9654 12.2254C10.7306 12.461 10.2695 12.4611 10.0346 12.2254L2.32843 4.49414H18.6716ZM1.45117 15.6845V5.31554L6.61881 10.5L1.45117 15.6845ZM2.32843 16.5059L7.4668 11.3507L9.18388 13.0734C9.88752 13.7794 11.1128 13.7791 11.8162 13.0734L13.5332 11.3508L18.6716 16.5059H2.32843ZM19.5488 15.6845L14.3812 10.5L19.5488 5.31554V15.6845Z"
-                                                    fill="white" />
-                                            </g>
-                                            <defs>
-                                                <clipPath id="clip0_15_42">
-                                                    <rect width="20.5" height="20.5" fill="white"
-                                                        transform="translate(0.25 0.25)" />
-                                                </clipPath>
-                                            </defs>
-                                        </svg>
-                                    </div>
-                                    <div class="content">
-                                        <span>Mail Us</span>
-                                        <h3> <a href="mailto:futuradigitaltraders@gmail.com"
-                                                class="link">futuradigitaltraders@gmail.com</a>
-                                        </h3>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                            viewBox="0 0 20 20" fill="none">
-                                            <path
-                                                d="M10 17.4162L14.1248 13.2914C16.4028 11.0134 16.4028 7.31992 14.1248 5.04186C11.8468 2.76381 8.15327 2.76381 5.87521 5.04186C3.59715 7.31992 3.59715 11.0134 5.87521 13.2914L10 17.4162ZM10 19.7732L4.6967 14.47C1.76777 11.541 1.76777 6.79229 4.6967 3.86336C7.62563 0.934423 12.3743 0.934423 15.3033 3.86336C18.2323 6.79229 18.2323 11.541 15.3033 14.47L10 19.7732ZM10 10.8333C10.9205 10.8333 11.6667 10.0872 11.6667 9.16666C11.6667 8.24618 10.9205 7.49999 10 7.49999C9.0795 7.49999 8.33333 8.24618 8.33333 9.16666C8.33333 10.0872 9.0795 10.8333 10 10.8333ZM10 12.5C8.15905 12.5 6.66667 11.0076 6.66667 9.16666C6.66667 7.32571 8.15905 5.83332 10 5.83332C11.8409 5.83332 13.3333 7.32571 13.3333 9.16666C13.3333 11.0076 11.8409 12.5 10 12.5Z"
-                                                fill="white" />
-                                        </svg>
-                                    </div>
-                                    <div class="content">
-                                        <span>Location</span>
-                                        <h3>HAJIYAR COMPLEX, Bazaar Rd, Kodaikanal, Tamil Nadu 624101</h3>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
+
+                    <div class="col-lg-4 final-footer-col wow fadeInUp" data-wow-delay=".4s">
+                        <h3 class="footer-company-title">SRI GANESH PRINTERS</h3>
+                        <p class="footer-tagline">The Trend Changers</p>
+                        <p class="footer-service-line">
+                            OFFSET PRINTING | DIGITAL COLOUR PRINTING | FLEX BOARDS | L.E.D. BOARDS | T-SHIRTS PRINITNG
+                        </p>
+
+                        <ul class="footer-contact-list">
+                            <li>
+                                <div class="footer-contact-icon"><i class="fas fa-phone-alt"></i></div>
+                                <div class="footer-contact-content">
+                                    <span>Call Us</span>
+                                    <h3><a href="tel:+919488917786">+91 94889 17786</a></h3>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="footer-contact-icon"><i class="fas fa-envelope"></i></div>
+                                <div class="footer-contact-content">
+                                    <span>Mail Us</span>
+                                    <h3><a href="mailto:ganeshprint.kodai1976@gmail.com">ganeshprint.kodai1976@gmail.com</a></h3>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="footer-contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                                <div class="footer-contact-content">
+                                    <span>Location</span>
+                                    <h3>HAJIYAR COMPLEX, Bazaar Rd, Kodaikanal, Tamil Nadu 624101</h3>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
-                    <!-- <div class="col-xl-3 col-sm-6 col-md-6 col-lg-4 ps-lg-5 wow fadeInUp" data-wow-delay=".8s">
-                        <div class="single-footer-widget">
-                            <div class="widget-head">
-                                <h3>Our Services</h3>
-                            </div>
-                            <ul class="list-items">
-                                <li>
-                                    <a href="service-details.html">
-                                        Business Card Printing
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="service-details.html">
-                                        Digital Printing
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="service-details.html">
-                                        Ofset Printing
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="service-details.html">
-                                        Logo Design & Printing
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="service-details.html">
-                                        T-Shirt Printing
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div> -->
+
+                    <div class="col-lg-4 final-footer-col wow fadeInUp" data-wow-delay=".6s">
+                        <h3 class="footer-company-title">FUTURA TRADERS</h3>
+                        <p class="footer-tagline">Trustable Your Printing Partner</p>
+                        <p class="footer-service-line">
+                            CALENDARS | DIARY | NOTE BOOKS | MULTI COLOUR PRINTING | CRACKERS
+                        </p>
+
+                        <ul class="footer-contact-list">
+                            <li>
+                                <div class="footer-contact-icon"><i class="fas fa-phone-alt"></i></div>
+                                <div class="footer-contact-content">
+                                    <span>Call Us</span>
+                                    <h3><a href="tel:+919443241776">+91 94432 41776</a></h3>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="footer-contact-icon"><i class="fas fa-envelope"></i></div>
+                                <div class="footer-contact-content">
+                                    <span>Mail Us</span>
+                                    <h3><a href="mailto:futuradigitaltraders@gmail.com">futuradigitaltraders@gmail.com</a></h3>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="footer-contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                                <div class="footer-contact-content">
+                                    <span>Location</span>
+                                    <h3>P.S.R. Road,<br>SIVAKASI - 626 123</h3>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
+
         <div class="footer-bottom">
             <div class="container">
                 <div class="footer-bottom-wrapper justify-content-center">
