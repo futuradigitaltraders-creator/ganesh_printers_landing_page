@@ -320,6 +320,124 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
   .order-policy-note{font-size:13px;text-align:left}
 }
 
+
+/* DEEPAVALI URGENCY SIDE PROMOS - 2026-10-02 */
+.english-offer-row{
+  margin-top:14px;
+  padding-top:14px;
+  border-top:1px solid #e2c36a;
+  display:grid;
+  grid-template-columns:150px minmax(0,1fr) 170px;
+  gap:18px;
+  align-items:center;
+}
+.english-offer-row .en{
+  margin:0;
+  padding:0;
+  border-top:0;
+}
+.limited-offer-badge{
+  min-height:94px;
+  border-radius:14px;
+  padding:13px 12px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(145deg,#811000,#d81b0c 55%,#8e1200);
+  border:2px solid #ffd34c;
+  box-shadow:0 8px 20px rgba(126,18,0,.22), inset 0 0 0 2px rgba(255,255,255,.10);
+  color:#fff;
+  text-align:center;
+  animation:limitedOfferPulse 1.25s ease-in-out infinite;
+}
+.limited-offer-badge .limited-small{
+  font-size:14px;
+  line-height:1;
+  letter-spacing:1.8px;
+  font-weight:900;
+}
+.limited-offer-badge .limited-big{
+  margin-top:6px;
+  font-size:25px;
+  line-height:1;
+  font-weight:1000;
+  color:#ffe45c;
+  text-shadow:0 2px 6px rgba(0,0,0,.32);
+}
+.booking-deadline{
+  min-height:112px;
+  border-radius:14px;
+  padding:10px 12px 12px;
+  background:linear-gradient(145deg,#25105e,#6810b7);
+  border:2px solid #dfc8ff;
+  box-shadow:0 8px 20px rgba(51,16,104,.20);
+  color:#fff;
+  text-align:center;
+  font-weight:900;
+}
+.booking-line{
+  font-size:13px;
+  line-height:1.18;
+  letter-spacing:1px;
+}
+.booking-date-blink{
+  margin:7px 0 2px;
+  font-size:15px;
+  line-height:1;
+  color:#ffd84a;
+  animation:bookingDateBlink 1.05s steps(2,end) infinite;
+}
+.booking-date-blink strong{
+  display:inline-block;
+  margin-left:3px;
+  font-size:34px;
+  line-height:.88;
+  color:#ffed75;
+  text-shadow:0 2px 8px rgba(0,0,0,.35);
+}
+.booking-year{
+  font-size:15px;
+  line-height:1.1;
+  letter-spacing:2px;
+}
+@keyframes limitedOfferPulse{
+  0%,100%{opacity:1;transform:scale(1);filter:brightness(1)}
+  50%{opacity:.68;transform:scale(1.025);filter:brightness(1.15)}
+}
+@keyframes bookingDateBlink{
+  0%,45%{opacity:1;filter:brightness(1.18)}
+  46%,75%{opacity:.28;filter:brightness(.82)}
+  76%,100%{opacity:1;filter:brightness(1.18)}
+}
+@media(max-width:760px){
+  .english-offer-row{
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+  .english-offer-row .english-copy{
+    grid-column:1 / -1;
+    grid-row:1;
+    margin-bottom:2px;
+  }
+  .limited-offer-badge{
+    grid-column:1;
+    grid-row:2;
+    min-height:82px;
+  }
+  .booking-deadline{
+    grid-column:2;
+    grid-row:2;
+    min-height:82px;
+  }
+  .limited-offer-badge .limited-big{font-size:22px}
+  .booking-date-blink strong{font-size:30px}
+}
+@media(prefers-reduced-motion:reduce){
+  .limited-offer-badge,
+  .booking-date-blink{animation:none}
+}
+
 </style>
 </head>
 <body>
@@ -337,24 +455,38 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
   </nav>
 </header>
 <section class="hero" aria-label="Deepavali Crackers 2026 promotion" style="flex-direction:column">
-  <a class="hero-poster-link" href="#liveSummaryBar" aria-label="Open Deepavali Crackers 2026 price list">
+  <a class="hero-poster-link" href="#liveSummaryBar" aria-label="Open Deepavali Crackers 2026 catalogue">
     <img class="hero-poster" src="images/crackers/ChatGPT%20Image%20Sep%2030,%202026,%2011_05_07%20PM.png?v=7" alt="FUTURA Traders Deepavali Crackers Price List 2026 - Maximum 80% Discount">
   </a>
-  <a class="hero-cta" href="#liveSummaryBar">VIEW PRICE LIST</a>
 </section>
 <main>
-<section class="urgency" aria-label="Festival stock and delivery notice">
+<section class="urgency" aria-label="Crackers stock and delivery notice">
   <div class="ta" lang="ta">
-    <div><strong>மிகக் குறைந்த பண்டிகை ஸ்டாக் மட்டுமே உள்ளது – முதலில் வருபவர்களுக்கு முன்னுரிமை.</strong></div>
+    <div><strong>மிகக் குறைந்த பட்டாசு ஸ்டாக் மட்டுமே உள்ளது – முதலில் வருபவர்களுக்கு முன்னுரிமை.</strong></div>
     <div>பணம் செலுத்திய பிறகே ஆர்டர் உறுதி செய்யப்படும்.</div>
     <div>சிவகாசியிலிருந்து நேரடி அனுப்புதல் | மதிப்பிடப்பட்ட டெலிவரி நேரம்: 3–5 நாட்கள்.</div>
     <div>கடைசி நேரம் வரை காத்திருக்க வேண்டாம் – இப்போதே ஆர்டர் செய்து உங்கள் ஸ்டாக்கை உறுதி செய்யுங்கள்.</div>
   </div>
-  <div class="en" lang="en">
-    <div><strong>VERY LIMITED FESTIVAL STOCK – FIRST COME, FIRST SERVED</strong></div>
-    <div>Orders will be confirmed only after payment.</div>
-    <div>Direct dispatch from Sivakasi | Estimated delivery time: 3–5 days.</div>
-    <div>Don’t wait until the last minute — place your order now and secure your stock.</div>
+
+  <div class="english-offer-row" lang="en">
+    <div class="limited-offer-badge" aria-label="Limited Offer">
+      <span class="limited-small">LIMITED</span>
+      <span class="limited-big">OFFER</span>
+    </div>
+
+    <div class="en english-copy">
+      <div><strong>VERY LIMITED CRACKERS STOCK – FIRST COME, FIRST SERVED</strong></div>
+      <div>Orders will be confirmed only after payment.</div>
+      <div>Direct dispatch from Sivakasi | Estimated delivery time: 3–5 days.</div>
+      <div>Don’t wait until the last minute — place your order now and secure your stock.</div>
+    </div>
+
+    <div class="booking-deadline" aria-label="Booking last date October 10 2026">
+      <div class="booking-line">BOOKING</div>
+      <div class="booking-line">LAST DATE</div>
+      <div class="booking-date-blink"><span>OCTOBER</span> <strong>10</strong></div>
+      <div class="booking-year">2026</div>
+    </div>
   </div>
 </section>
 <div class="live-summary" id="liveSummaryBar" aria-label="Live order summary">
