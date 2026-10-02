@@ -236,6 +236,18 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
   color:#fff3a0 !important;
 }
 /* AUTO PYROBAZAAR LOGO CLEANER V2 - FIRST 7: measured placement, no crop, full image preserved */
+
+.order-review{margin:22px 0 12px;background:#fff;border:1px solid #ddd;border-radius:12px;overflow:hidden}
+.order-review[hidden]{display:none}
+.order-review h2{margin:0;padding:16px;color:#391864;font-size:20px}
+.order-review-scroll{overflow-x:auto}
+.order-review table{width:100%;border-collapse:collapse;font-size:14px}
+.order-review th{background:#391864;color:white;text-align:left}
+.order-review th,.order-review td{padding:12px 10px;border-bottom:1px solid #e7e2ec}
+.order-review .order-number{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.order-review tbody tr:nth-child(even){background:#faf8fc}
+.order-review tfoot{background:#fff4d1;font-weight:bold}
+@media(max-width:600px){.order-review th,.order-review td{padding:10px 6px;font-size:12px}.order-review h2{font-size:18px}.order-review .order-product{min-width:120px;overflow-wrap:anywhere}}
 </style>
 </head>
 <body>
@@ -2635,6 +2647,13 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
 
 </section>
 
+<section class="order-review" id="orderReview" hidden aria-labelledby="orderReviewHeading">
+<h2 id="orderReviewHeading">Your Order / உங்கள் ஆர்டர்</h2>
+<div class="order-review-scroll"><table>
+<thead><tr><th scope="col">S.No</th><th scope="col">Product</th><th scope="col" class="order-number">Qty</th><th scope="col" class="order-number">Rate (₹)</th><th scope="col" class="order-number">Amount (₹)</th></tr></thead>
+<tbody id="orderReviewRows"></tbody>
+<tfoot><tr><td colspan="2">Product Total</td><td id="orderReviewQty" class="order-number"></td><td></td><td id="orderReviewTotal" class="order-number"></td></tr></tfoot>
+</table></div></section>
 <div class="cart-summary">
   <div>
     <div class="summary-counts">Selected Products: <span id="selectedProducts">0</span> &nbsp; | &nbsp; Total Qty: <span id="totalQty">0</span></div>
@@ -3019,7 +3038,31 @@ function changeComboQty(id,delta){
   refreshComboSummary();
 }
 
+function renderCrackersOrderReview(){
+  const chosen=Object.values(comboProducts).filter(p=>p.qty>0).sort((a,b)=>Number(a.serial)-Number(b.serial));
+  const panel=document.getElementById('orderReview'),body=document.getElementById('orderReviewRows');
+  if(!panel || !body) return;
+  panel.hidden=chosen.length===0;
+  body.replaceChildren();
+  let total=0,qty=0;
+  const money=value=>value.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
+  chosen.forEach(p=>{
+    const row=document.createElement('tr'),amount=p.qty*p.price;
+    [p.serial,p.name,p.qty,money(p.price),money(amount)].forEach((value,index)=>{
+      const cell=document.createElement('td');
+      cell.textContent=value;
+      cell.className=index===1?'order-product':index>=2?'order-number':'';
+      row.appendChild(cell);
+    });
+    body.appendChild(row);
+    total+=amount;qty+=p.qty;
+  });
+  document.getElementById('orderReviewQty').textContent=qty;
+  document.getElementById('orderReviewTotal').textContent=money(total);
+}
+
 function refreshComboSummary(){
+  renderCrackersOrderReview();
   let selected=0,totalQty=0,total=0,saved=0;
   Object.entries(comboProducts).forEach(([id,p])=>{
     if(p.qty>0) selected++;
@@ -3415,17 +3458,34 @@ function comboReadyToPay(){
   const order=getCrackersOrder(chosen);
   let total=0,totalQty=0;
   const money=value=>value.toFixed(2);
-  const lines=['*DEEPAVALI CRACKERS 2026*','*ORDER DETAILS*','Order ID: '+order.orderId,''];
+  const lines=['*FUTURA — DEEPAVALI CRACKERS 2026*','*ORDER DETAILS*','Order ID: '+order.orderId,'','Rate & Amount in Rs','```'];
+  const widths=[4,5,8,10];
+  const numericRow=values=>values.map((value,index)=>String(value).padStart(widths[index])).join(' ');
+  const divider='-'.repeat(30);
+  const wrapName=name=>{
+    const wrapped=[];
+    let line='';
+    String(name).split(/\s+/).forEach(word=>{
+      while(word.length>30){
+        if(line){wrapped.push(line);line='';}
+        wrapped.push(word.slice(0,30));word=word.slice(30);
+      }
+      if(!word) return;
+      if(line && (line+' '+word).length>30){wrapped.push(line);line=word;}
+      else line=line?line+' '+word:word;
+    });
+    if(line) wrapped.push(line);
+    return wrapped;
+  };
+  lines.push(numericRow(['S.No','Qty','Rate','Amount']),divider);
   chosen.forEach(p=>{
     const sub=p.qty*p.price;
     total+=sub;
     totalQty+=p.qty;
-    lines.push('*S.No '+p.serial+' — '+p.name+'*');
-    lines.push('```');
-    lines.push('Qty   Rate (Rs)    Amount (Rs)');
-    lines.push(String(p.qty).padEnd(6)+money(p.price).padStart(9)+'    '+money(sub).padStart(11));
-    lines.push('```','');
+    lines.push(...wrapName(p.name));
+    lines.push(numericRow([p.serial,p.qty,money(p.price),money(sub)]),divider);
   });
+  lines.push('```','');
   lines.push('*Products: '+chosen.length+' | Total Qty: '+totalQty+'*');
   lines.push('*NET PRODUCT TOTAL: ₹'+total.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2})+'*');
   lines.push('Packing & Shipping Charges Extra');
