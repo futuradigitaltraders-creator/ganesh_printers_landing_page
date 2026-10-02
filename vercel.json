@@ -6,10 +6,6 @@
     "api/crackers-orders.js": {
       "maxDuration": 60,
       "includeFiles": "deepavali-crackers-2026.html"
-    },
-    "api/crackers-estimate.js": {
-      "maxDuration": 60,
-      "includeFiles": "deepavali-crackers-2026.html"
     }
   }
 }
