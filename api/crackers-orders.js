@@ -23,7 +23,7 @@ module.exports = async function handler(req, res) {
     res.setHeader('Allow', 'POST');
     return res.status(405).json({ok:false, error:'Use POST'});
   }
-  if (req.headers.origin && !['https://www.futuraonlineprint.in', 'https://futuraonlineprint.in'].includes(req.headers.origin)) {
+  if (req.headers.origin && !['https://www.futuraonlineprint.in', 'https://futuraonlineprint.in', 'https://ganesh-printers-landing-page.vercel.app'].includes(req.headers.origin)) {
     return res.status(403).json({ok:false, error:'Invalid origin'});
   }
   let data, items;
