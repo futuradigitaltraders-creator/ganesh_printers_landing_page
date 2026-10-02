@@ -529,6 +529,73 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
   .seo-highlight{justify-content:center;text-align:center;border-radius:9px}
 }
 
+
+/* CUSTOMER BOOKING DETAILS - 2026-10-02 */
+.checkout-tools-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1.55fr) minmax(260px,.75fr);
+  gap:16px;
+  align-items:stretch;
+  margin:16px 0 10px;
+}
+.checkout-tools-grid .payment-proof-panel{margin:0}
+.customer-details-card{
+  margin:0;
+  padding:20px 18px;
+  border:1px solid #ded6e8;
+  border-radius:12px;
+  background:linear-gradient(145deg,#fff,#f8f3ff);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  text-align:center;
+}
+.customer-details-card h2{margin:0 0 8px;color:#391864;font-size:20px}
+.customer-details-card p{margin:0 0 14px;color:#5b496b;font-size:13px;line-height:1.55}
+.customer-details-open-btn{
+  border:0;border-radius:9px;background:#391864;color:#fff;
+  padding:14px 16px;font-size:14px;font-weight:900;cursor:pointer;
+}
+.customer-details-open-btn:hover{filter:brightness(1.08)}
+#customerDetailsQuickStatus{margin:10px 0 0;font-size:12px;font-weight:700;color:#5b496b;min-height:18px}
+.customer-modal[hidden]{display:none}
+.customer-modal{
+  position:fixed;inset:0;z-index:10020;background:rgba(18,8,35,.72);
+  display:flex;align-items:center;justify-content:center;padding:18px;
+}
+.customer-modal-card{
+  width:min(560px,100%);max-height:92vh;overflow:auto;background:#fff;
+  border-radius:16px;padding:22px;box-shadow:0 24px 70px rgba(0,0,0,.32);position:relative;
+}
+.customer-modal-close{
+  position:absolute;right:14px;top:12px;width:36px;height:36px;border:0;border-radius:50%;
+  background:#eee7f7;color:#391864;font-size:22px;font-weight:900;cursor:pointer;
+}
+.customer-modal-card h2{margin:0 42px 4px 0;color:#391864;font-size:23px}
+.customer-modal-sub{margin:0 0 14px;color:#6b5b77;font-size:13px;line-height:1.5}
+.customer-order-id{padding:9px 11px;border-radius:8px;background:#fff4d1;color:#563b12;font-size:12px;font-weight:800;margin-bottom:14px;overflow-wrap:anywhere}
+.customer-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.customer-field{display:flex;flex-direction:column;gap:6px;text-align:left}
+.customer-field.full{grid-column:1/-1}
+.customer-field label{font-size:13px;font-weight:900;color:#391864}
+.customer-field input,.customer-field textarea{
+  width:100%;box-sizing:border-box;border:1px solid #c8bfd4;border-radius:8px;
+  padding:11px 12px;font:inherit;font-size:14px;outline:none;background:#fff;
+}
+.customer-field textarea{min-height:86px;resize:vertical}
+.customer-field input:focus,.customer-field textarea:focus{border-color:#7000fe;box-shadow:0 0 0 3px rgba(112,0,254,.10)}
+.customer-submit-btn{
+  width:100%;margin-top:14px;border:0;border-radius:9px;background:#19a447;color:#fff;
+  padding:14px 16px;font-size:15px;font-weight:900;cursor:pointer;
+}
+.customer-submit-btn:disabled{opacity:.55;cursor:not-allowed}
+#customerDetailsStatus{margin:12px 0 0;font-size:13px;font-weight:700;line-height:1.45}
+@media(max-width:760px){
+  .checkout-tools-grid{grid-template-columns:1fr}
+  .customer-form-grid{grid-template-columns:1fr}
+  .customer-field.full{grid-column:1}
+}
+
 </style>
 </head>
 <body>
@@ -2971,6 +3038,7 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
 <tbody id="orderReviewRows"></tbody>
 <tfoot><tr><td colspan="2">Product Total</td><td id="orderReviewQty" class="order-number"></td><td colspan="2"></td><td id="orderReviewTotal" class="order-number"></td></tr></tfoot>
 </table></div><p style="padding:0 16px 12px;margin:12px 0 0;font-size:13px;color:#5b496b">Payment உறுதி செய்யப்பட்ட பிறகு bill PDF வழங்கப்படும் / Bill PDF will be provided after payment confirmation.</p></section>
+<div class="checkout-tools-grid">
 <section class="payment-proof-panel" aria-labelledby="paymentProofHeading">
 <h2 id="paymentProofHeading">Payment Screenshot / பணம் செலுத்திய Screenshot</h2>
 <p>பணம் செலுத்திய பிறகு screenshot தேர்வு செய்து upload செய்யுங்கள். உங்கள் Order ID-உடன் பதிவு செய்யப்படும். Payment சரிபார்த்த பிறகே ஆர்டர் உறுதி செய்யப்படும்.</p>
@@ -2982,6 +3050,45 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
 <a id="paymentProofWhatsApp" hidden target="_blank" rel="noopener noreferrer">Send screenshot on WhatsApp</a>
 <p id="paymentProofStatus" role="status" aria-live="polite"></p>
 </section>
+
+<aside class="customer-details-card" aria-label="Customer booking details">
+  <h2>Customer Details / வாடிக்கையாளர் விவரம்</h2>
+  <p>Booking-க்கு Name, Mobile, Address &amp; City பதிவு செய்யுங்கள். உங்கள் Order ID-உடன் Google Sheet-ல் சேமிக்கப்படும்.</p>
+  <button class="customer-details-open-btn" type="button" onclick="openCustomerDetailsForm()">BOOKING DETAILS FORM</button>
+  <p id="customerDetailsQuickStatus" role="status" aria-live="polite"></p>
+</aside>
+</div>
+
+<div class="customer-modal" id="customerDetailsModal" hidden onclick="customerModalBackdrop(event)">
+  <div class="customer-modal-card" role="dialog" aria-modal="true" aria-labelledby="customerDetailsHeading">
+    <button class="customer-modal-close" type="button" onclick="closeCustomerDetailsForm()" aria-label="Close">×</button>
+    <h2 id="customerDetailsHeading">Booking Details / ஆர்டர் விவரம்</h2>
+    <p class="customer-modal-sub">இந்த விவரங்கள் உங்கள் crackers order booking-க்காக மட்டும் பதிவு செய்யப்படும்.</p>
+    <div class="customer-order-id" id="customerDetailsOrderId">Order ID: —</div>
+    <form id="customerDetailsForm" onsubmit="submitCustomerDetails(event)">
+      <div class="customer-form-grid">
+        <div class="customer-field">
+          <label for="customerName">Client Name / பெயர் *</label>
+          <input id="customerName" name="name" type="text" maxlength="100" autocomplete="name" required>
+        </div>
+        <div class="customer-field">
+          <label for="customerMobile">Mobile No. / மொபைல் *</label>
+          <input id="customerMobile" name="mobile" type="tel" maxlength="20" inputmode="tel" autocomplete="tel" placeholder="10 digit mobile number" required>
+        </div>
+        <div class="customer-field full">
+          <label for="customerAddress">Address / முகவரி *</label>
+          <textarea id="customerAddress" name="address" maxlength="300" autocomplete="street-address" required></textarea>
+        </div>
+        <div class="customer-field full">
+          <label for="customerCity">City / நகரம் *</label>
+          <input id="customerCity" name="city" type="text" maxlength="100" autocomplete="address-level2" required>
+        </div>
+      </div>
+      <button class="customer-submit-btn" id="customerDetailsSubmitBtn" type="submit">SAVE BOOKING DETAILS</button>
+      <p id="customerDetailsStatus" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</div>
 <div class="cart-summary">
   <div>
     <div class="summary-counts">Selected Products: <span id="selectedProducts">0</span> &nbsp; | &nbsp; Total Qty: <span id="totalQty">0</span></div>
@@ -3787,7 +3894,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     inner.classList.remove('dragging');
   });
 });
-document.addEventListener('keydown',e=>{if(e.key==='Escape') closeProductImage();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeProductImage();if(!document.getElementById('customerDetailsModal')?.hidden) closeCustomerDetailsForm();}});
 
 
 let pendingSheetOrder=null;
@@ -3893,6 +4000,87 @@ function saveCrackersOrder(order){
   queueCrackersOrder(order);
   orderSaveStatus('உங்கள் ஆர்டர் பெறப்படுகிறது… / Processing your order…');
   processCrackersOrderQueue();
+}
+
+
+let customerDetailsBusy=false;
+function getCurrentCrackersOrderForDetails(){
+  syncCatalogueProducts();
+  const chosen=Object.values(comboProducts).filter(p=>p.qty>0).sort((a,b)=>Number(a.serial)-Number(b.serial));
+  if(!chosen.length) return null;
+  return getCrackersOrder(chosen);
+}
+function openCustomerDetailsForm(){
+  const order=getCurrentCrackersOrderForDetails();
+  const quick=document.getElementById('customerDetailsQuickStatus');
+  if(!order){
+    quick.textContent='முதலில் products தேர்வு செய்யுங்கள் / Please select products first.';
+    return;
+  }
+  quick.textContent='';
+  document.getElementById('customerDetailsOrderId').textContent='Order ID: '+order.orderId;
+  try{
+    const saved=JSON.parse(localStorage.getItem('futuraCrackersCustomerDetails2026') || 'null');
+    if(saved){
+      document.getElementById('customerName').value=saved.name || '';
+      document.getElementById('customerMobile').value=saved.mobile || '';
+      document.getElementById('customerAddress').value=saved.address || '';
+      document.getElementById('customerCity').value=saved.city || '';
+    }
+  }catch(e){}
+  document.getElementById('customerDetailsStatus').textContent='';
+  document.getElementById('customerDetailsModal').hidden=false;
+  document.body.style.overflow='hidden';
+  setTimeout(()=>document.getElementById('customerName').focus(),0);
+}
+function closeCustomerDetailsForm(){
+  document.getElementById('customerDetailsModal').hidden=true;
+  document.body.style.overflow='';
+}
+function customerModalBackdrop(event){
+  if(event.target===document.getElementById('customerDetailsModal')) closeCustomerDetailsForm();
+}
+async function submitCustomerDetails(event){
+  event.preventDefault();
+  if(customerDetailsBusy) return;
+  const order=getCurrentCrackersOrderForDetails();
+  const status=document.getElementById('customerDetailsStatus');
+  const quick=document.getElementById('customerDetailsQuickStatus');
+  const button=document.getElementById('customerDetailsSubmitBtn');
+  if(!order){status.textContent='Products தேர்வு செய்த பிறகு booking details save செய்யுங்கள்.';return;}
+
+  const name=document.getElementById('customerName').value.trim();
+  const mobile=document.getElementById('customerMobile').value.trim();
+  const address=document.getElementById('customerAddress').value.trim();
+  const city=document.getElementById('customerCity').value.trim();
+  const phoneDigits=mobile.replace(/\D/g,'');
+
+  if(name.length<2){status.textContent='Client Name சரியாக உள்ளிடுங்கள்.';return;}
+  if(phoneDigits.length<10 || phoneDigits.length>15){status.textContent='சரியான Mobile Number உள்ளிடுங்கள்.';return;}
+  if(address.length<5){status.textContent='முழு Address உள்ளிடுங்கள்.';return;}
+  if(city.length<2){status.textContent='City / நகரம் உள்ளிடுங்கள்.';return;}
+
+  customerDetailsBusy=true;
+  button.disabled=true;
+  status.textContent='Booking details save ஆகிறது…';
+  try{
+    const response=await fetch('/api/crackers-customer-details',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({orderId:order.orderId,items:order.items,name,mobile,address,city})
+    });
+    const result=await response.json();
+    if(!response.ok || result.ok!==true || result.orderId!==order.orderId) throw Error(result.error || 'Save failed');
+    try{localStorage.setItem('futuraCrackersCustomerDetails2026',JSON.stringify({name,mobile,address,city}));}catch(e){}
+    status.textContent='Saved ✓ உங்கள் booking details பதிவு செய்யப்பட்டது.';
+    quick.textContent='Booking details saved ✓';
+    setTimeout(closeCustomerDetailsForm,900);
+  }catch(e){
+    status.textContent='Booking details save ஆகவில்லை. மீண்டும் முயற்சி செய்யுங்கள்.';
+  }finally{
+    customerDetailsBusy=false;
+    button.disabled=false;
+  }
 }
 
 let selectedPaymentProof=null, paymentProofBusy=false, paymentPreviewUrl=null, proofSelectionVersion=0;
