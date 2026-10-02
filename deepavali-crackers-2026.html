@@ -3315,7 +3315,13 @@ function comboReadyToPay(){
   lines.push('Packing & Shipping Charges Extra');
   lines.push('');
   lines.push('I am ready to make payment. Please confirm availability and send payment details.');
-  window.open('https://wa.me/919488917786?text='+encodeURIComponent(lines.join('\n')),'_blank');
+  const message=encodeURIComponent(lines.join('\n'));
+  const isMobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+    (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);
+  const whatsappUrl=isMobile
+    ? 'https://wa.me/919488917786?text='+message
+    : 'https://web.whatsapp.com/send?phone=919488917786&text='+message;
+  window.open(whatsappUrl,'_blank','noopener,noreferrer');
 }
 </script>
 </body><!-- deployment-refresh -->
