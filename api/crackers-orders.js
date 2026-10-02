@@ -42,17 +42,21 @@ module.exports = async function handler(req, res) {
   } catch (error) {
     return res.status(400).json({ok:false, error:'Please refresh the catalogue and retry.'});
   }
-  try {
-    const reply = await fetch(SHEETS_URL, {
-      method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'},
-      body:JSON.stringify({orderId:data.orderId, items}),
-      signal:AbortSignal.timeout(45000)
-    });
-    if (!reply.ok) throw new Error('Sheets request failed');
-    const result = await reply.json();
-    if (result.ok !== true || result.orderId !== data.orderId) throw new Error('Sheets did not confirm saving');
-    return res.status(200).json({ok:true, orderId:data.orderId, items:items.length, duplicate:!!result.duplicate});
-  } catch (error) {
-    return res.status(502).json({ok:false, error:'Could not confirm saving. Retry with the same Order ID.'});
+  for (let attempt=0; attempt<3; attempt++) {
+    try {
+      const reply = await fetch(SHEETS_URL, {
+        method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'},
+        body:JSON.stringify({orderId:data.orderId, items}),
+        signal:AbortSignal.timeout(30000)
+      });
+      if (!reply.ok) throw new Error('Sheets request failed');
+      const result = await reply.json();
+      if (result.ok !== true || result.orderId !== data.orderId) throw new Error('Sheets did not confirm saving');
+      return res.status(200).json({ok:true, orderId:data.orderId, items:items.length, duplicate:!!result.duplicate});
+    } catch (error) {
+      console.warn('Order sync attempt failed', {orderId:data.orderId, attempt:attempt+1});
+      if(attempt<2) await new Promise(resolve=>setTimeout(resolve,1000*(attempt+1)));
+    }
   }
+  return res.status(503).json({ok:false, retryable:true});
 };
