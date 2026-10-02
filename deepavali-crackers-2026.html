@@ -248,6 +248,7 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
 .order-review tbody tr:nth-child(even){background:#faf8fc}
 .order-review tfoot{background:#fff4d1;font-weight:bold}
 @media(max-width:600px){.order-review th,.order-review td{padding:10px 6px;font-size:12px}.order-review h2{font-size:18px}.order-review .order-product{min-width:150px;overflow-wrap:anywhere}.order-review table{min-width:620px}}
+.payment-proof-panel{margin:16px 0;padding:18px;background:#fff;border:1px solid #ded6e8;border-radius:12px}.payment-proof-panel h2{margin:0 0 10px;color:#391864;font-size:20px}.payment-proof-panel p{font-size:14px;line-height:1.6}.payment-proof-panel label{display:block;margin:12px 0 6px;font-weight:bold}.payment-proof-panel input{max-width:100%}#paymentProofPreview{display:block;max-width:100%;max-height:280px;margin:14px 0;border:1px solid #ddd}#paymentProofPreview[hidden],#paymentProofWhatsApp[hidden]{display:none}.proof-upload-btn{padding:12px 16px;border:0;border-radius:7px;background:#391864;color:white;font-weight:bold;cursor:pointer}.proof-upload-btn:disabled{opacity:.5;cursor:default}#paymentProofWhatsApp{display:inline-block;margin:12px;color:#185abc;text-decoration:underline}
 </style>
 </head>
 <body>
@@ -2654,6 +2655,17 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
 <tbody id="orderReviewRows"></tbody>
 <tfoot><tr><td colspan="2">Product Total</td><td id="orderReviewQty" class="order-number"></td><td colspan="2"></td><td id="orderReviewTotal" class="order-number"></td></tr></tfoot>
 </table></div><p style="padding:0 16px 12px;margin:12px 0 0;font-size:13px;color:#5b496b">Payment உறுதி செய்யப்பட்ட பிறகு bill PDF வழங்கப்படும் / Bill PDF will be provided after payment confirmation.</p></section>
+<section class="payment-proof-panel" aria-labelledby="paymentProofHeading">
+<h2 id="paymentProofHeading">Payment Screenshot / பணம் செலுத்திய Screenshot</h2>
+<p>பணம் செலுத்திய பிறகு screenshot தேர்வு செய்து upload செய்யுங்கள். உங்கள் Order ID-உடன் பதிவு செய்யப்படும். Payment சரிபார்த்த பிறகே ஆர்டர் உறுதி செய்யப்படும்.</p>
+<label for="paymentProofFile">Select screenshot (JPG / PNG)</label>
+<input id="paymentProofFile" type="file" accept="image/jpeg,image/png" onchange="selectCrackersPaymentProof(this)">
+<img id="paymentProofPreview" alt="Selected payment screenshot preview" hidden>
+<p id="paymentProofOrderId"></p>
+<button class="proof-upload-btn" id="paymentProofUploadBtn" type="button" onclick="uploadCrackersPaymentProof()" disabled>UPLOAD PAYMENT SCREENSHOT</button>
+<a id="paymentProofWhatsApp" hidden target="_blank" rel="noopener noreferrer">Send screenshot on WhatsApp</a>
+<p id="paymentProofStatus" role="status" aria-live="polite"></p>
+</section>
 <div class="cart-summary">
   <div>
     <div class="summary-counts">Selected Products: <span id="selectedProducts">0</span> &nbsp; | &nbsp; Total Qty: <span id="totalQty">0</span></div>
@@ -3450,6 +3462,70 @@ async function saveCrackersOrder(order){
     rememberOrderReceipt(order, 'retry');
     orderSaveStatus('Order '+order.orderId+': saving could not be confirmed / சேமிப்பை உறுதி செய்ய முடியவில்லை. WhatsApp-ல் விவரங்களை அனுப்புங்கள்.',true);
   }finally{sheetOrderBusy=false;}
+}
+
+let selectedPaymentProof=null, paymentProofBusy=false, paymentPreviewUrl=null, proofSelectionVersion=0;
+async function selectCrackersPaymentProof(input){
+  if(paymentProofBusy) return;
+  const version=++proofSelectionVersion;
+  selectedPaymentProof=null;
+  const status=document.getElementById('paymentProofStatus'),button=document.getElementById('paymentProofUploadBtn');
+  const preview=document.getElementById('paymentProofPreview'),whatsapp=document.getElementById('paymentProofWhatsApp');
+  button.disabled=true;preview.hidden=true;whatsapp.hidden=true;document.getElementById('paymentProofOrderId').textContent='';
+  if(paymentPreviewUrl){URL.revokeObjectURL(paymentPreviewUrl);paymentPreviewUrl=null;}
+  const file=input.files[0];
+  if(!file){status.textContent='';return;}
+  syncCatalogueProducts();
+  const chosen=Object.values(comboProducts).filter(p=>p.qty>0).sort((a,b)=>Number(a.serial)-Number(b.serial));
+  if(!chosen.length){status.textContent='முதலில் உங்கள் order products தேர்வு செய்யுங்கள்.';input.value='';return;}
+  if(!['image/jpeg','image/png'].includes(file.type) || file.size>10000000){status.textContent='10 MB-க்குள் உள்ள JPG / PNG screenshot தேர்வு செய்யுங்கள்.';input.value='';return;}
+  const order=getCrackersOrder(chosen);
+  status.textContent='Screenshot தயாராகிறது…';
+  try{
+    const source=URL.createObjectURL(file),picture=new Image();
+    try{
+      await new Promise((resolve,reject)=>{picture.onload=resolve;picture.onerror=reject;picture.src=source;});
+      if(!picture.naturalWidth || !picture.naturalHeight) throw Error('Invalid image');
+      const scale=Math.min(1,1600/Math.max(picture.naturalWidth,picture.naturalHeight)),canvas=document.createElement('canvas');
+      canvas.width=Math.max(1,Math.round(picture.naturalWidth*scale));canvas.height=Math.max(1,Math.round(picture.naturalHeight*scale));
+      const context=canvas.getContext('2d');context.fillStyle='#fff';context.fillRect(0,0,canvas.width,canvas.height);
+      context.drawImage(picture,0,0,canvas.width,canvas.height);
+      const imageBase64=canvas.toDataURL('image/jpeg',0.88).split(',')[1];
+      if(imageBase64.length>1600000) throw Error('Image too large');
+      if(version!==proofSelectionVersion) return;
+      selectedPaymentProof={...order,proofId:'FUP26-'+(crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)),imageBase64,mimeType:'image/jpeg'};
+    }finally{URL.revokeObjectURL(source);}
+    paymentPreviewUrl=URL.createObjectURL(file);preview.src=paymentPreviewUrl;preview.hidden=false;
+    document.getElementById('paymentProofOrderId').textContent='Order ID: '+order.orderId;
+    const mobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+    const text=encodeURIComponent('Payment screenshot for Order ID: '+order.orderId+'. Please verify payment. (Screenshot attached separately)');
+    whatsapp.href=mobile?'https://wa.me/919488917786?text='+text:'https://web.whatsapp.com/send?phone=919488917786&text='+text;
+    const response=await fetch('/api/crackers-payment-proof'),ready=await response.json();
+    if(version!==proofSelectionVersion) return;
+    if(!response.ok || ready.available!==true){
+      status.textContent='Screenshot upload தற்போது கிடைக்கவில்லை. WhatsApp-ல் screenshot attach செய்து அனுப்புங்கள்.';whatsapp.hidden=false;return;
+    }
+    button.disabled=false;status.textContent='Screenshot தேர்வு செய்யப்பட்டது. UPLOAD அழுத்தினால் payment verification-க்காக அனுப்பப்படும்.';
+  }catch(e){
+    if(version!==proofSelectionVersion) return;
+    status.textContent='Screenshot தயாரிக்க முடியவில்லை. மீண்டும் JPG / PNG தேர்வு செய்யுங்கள்.';
+  }
+}
+async function uploadCrackersPaymentProof(){
+  if(paymentProofBusy || !selectedPaymentProof) return;
+  paymentProofBusy=true;
+  const button=document.getElementById('paymentProofUploadBtn'),input=document.getElementById('paymentProofFile'),status=document.getElementById('paymentProofStatus');
+  button.disabled=true;input.disabled=true;status.textContent='Screenshot upload ஆகிறது…';
+  try{
+    const reply=await fetch('/api/crackers-payment-proof',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(selectedPaymentProof)});
+    const result=await reply.json();
+    if(!reply.ok || result.ok!==true || result.orderId!==selectedPaymentProof.orderId || result.proofId!==selectedPaymentProof.proofId) throw Error('Upload unconfirmed');
+    status.textContent='Screenshot received / Screenshot பதிவு செய்யப்பட்டது. Payment verification pending. Order ID: '+result.orderId;
+    selectedPaymentProof=null;
+  }catch(e){
+    status.textContent='Screenshot சேமிப்பை உறுதி செய்ய முடியவில்லை. மீண்டும் upload செய்யுங்கள் அல்லது WhatsApp-ல் attach செய்து அனுப்புங்கள்.';
+    document.getElementById('paymentProofWhatsApp').hidden=false;
+  }finally{paymentProofBusy=false;input.disabled=false;button.disabled=!selectedPaymentProof;}
 }
 
 function comboReadyToPay(){
