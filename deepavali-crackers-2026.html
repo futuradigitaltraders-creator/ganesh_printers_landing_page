@@ -3020,11 +3020,22 @@ async function hydrateCatalogueImages(){
   const targets=[...document.querySelectorAll('.product-row img[data-source-product]')];
   if(!targets.length) return;
   try{
-    const res=await fetch('/api/catalog-images?v=20261001-clean-product-images',{headers:{'Accept':'application/json','Cache-Control':'no-cache'}});
+    const res=await fetch('/api/catalog-images?v=20261002-fallback-only',{headers:{'Accept':'application/json','Cache-Control':'no-cache'}});
     if(!res.ok) return;
     const data=await res.json();
     const items=Array.isArray(data.items)?data.items:[];
     for(const img of targets){
+      // IMPORTANT: Never overwrite an image explicitly set in the HTML.
+      // The catalogue API is only a fallback for rows whose image is missing.
+      const currentSrc=String(img.getAttribute('src')||'');
+      if(currentSrc && !/product-image-fallback\.svg/i.test(currentSrc)){
+        img.dataset.fallbackApplied='';
+        img.classList.remove('image-fallback');
+        if(!img.dataset.full) img.dataset.full=currentSrc;
+        img.title='Click to enlarge';
+        continue;
+      }
+
       const key=normalizeCatalogueName(img.dataset.sourceProduct||img.alt);
       const match=items.find(x=>x&&x.key&&(x.key.includes(key)||key.includes(x.key)));
       if(match&&match.src){
