@@ -2961,6 +2961,23 @@ const comboProducts={
   cm05:{name:'ANACONDA TABLET (10 PCS)',price:156.00,qty:0}
 };
 
+function syncCatalogueProducts(){
+  document.querySelectorAll('.product-row').forEach(row=>{
+    const qtyEl=row.querySelector('.qty-num[id^="qty-"]');
+    const priceEl=row.querySelector('.our-price');
+    const nameEl=row.querySelector('.product-name');
+    if(!qtyEl || !priceEl || !nameEl) return;
+    const id=qtyEl.id.slice(4);
+    const product=comboProducts[id];
+    const price=Number(priceEl.textContent.replace(/[^0-9.]/g,''));
+    if(product && Number.isFinite(price)){
+      product.name=nameEl.textContent.trim();
+      product.price=price;
+      product.serial=row.querySelector('.serial-col')?.textContent.trim() || '';
+    }
+  });
+}
+
 function changeComboQty(id,delta){
   const p=comboProducts[id];
   p.qty=Math.max(0,p.qty+delta);
@@ -3237,6 +3254,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     if(img.complete && img.naturalWidth===0) productImageError(img);
     if(img.complete && img.naturalWidth>0) ensureProductLogoCover(img);
   });
+  syncCatalogueProducts();
   refreshComboSummary();
   hydrateCatalogueImages();
   // Automatic re-application when catalogue images are replaced/loaded dynamically.
@@ -3300,21 +3318,28 @@ document.addEventListener('DOMContentLoaded',()=>{
 document.addEventListener('keydown',e=>{if(e.key==='Escape') closeProductImage();});
 
 function comboReadyToPay(){
+  syncCatalogueProducts();
   const chosen=Object.values(comboProducts).filter(p=>p.qty>0);
   if(!chosen.length) return;
-  let total=0;
-  const lines=['DEEPAVALI CRACKERS 2026 – READY TO PAY',''];
-  chosen.forEach((p,i)=>{
+  chosen.sort((a,b)=>Number(a.serial)-Number(b.serial));
+  let total=0,totalQty=0;
+  const money=value=>value.toFixed(2);
+  const lines=['*DEEPAVALI CRACKERS 2026*','*ORDER DETAILS*',''];
+  chosen.forEach(p=>{
     const sub=p.qty*p.price;
     total+=sub;
-    lines.push((i+1)+'. '+p.name);
-    lines.push('Qty: '+p.qty+' | Unit Price: ₹'+p.price.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2})+' | Sub Total: ₹'+sub.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2}));
-    lines.push('');
+    totalQty+=p.qty;
+    lines.push('*S.No '+p.serial+' — '+p.name+'*');
+    lines.push('```');
+    lines.push('Qty   Rate (Rs)    Amount (Rs)');
+    lines.push(String(p.qty).padEnd(6)+money(p.price).padStart(9)+'    '+money(sub).padStart(11));
+    lines.push('```','');
   });
-  lines.push('NET PRODUCT TOTAL: ₹'+total.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2}));
+  lines.push('*Products: '+chosen.length+' | Total Qty: '+totalQty+'*');
+  lines.push('*NET PRODUCT TOTAL: ₹'+total.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2})+'*');
   lines.push('Packing & Shipping Charges Extra');
   lines.push('');
-  lines.push('I am ready to make payment. Please confirm availability and send payment details.');
+  lines.push('Please confirm availability and send payment details.');
   const message=encodeURIComponent(lines.join('\n'));
   const isMobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
     (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);
