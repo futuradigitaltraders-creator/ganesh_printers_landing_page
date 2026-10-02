@@ -7,13 +7,14 @@ function jsonReply(data) {
 }
 
 function doGet() {
-  return jsonReply({ok: true, service: 'Futura 2026 Crackers Orders'});
+  return jsonReply({ok: true, service: 'Futura 2026 Crackers Orders', paymentProofUpload: true});
 }
 
 function doPost(e) {
   const lock = LockService.getScriptLock();
   try {
     const data = JSON.parse(e.postData.contents);
+    if (data.action === 'paymentProof') return savePaymentProof(data, lock);
     if (!/^[A-Za-z0-9_-]{8,80}$/.test(data.orderId || '') ||
         !Array.isArray(data.items) || !data.items.length ||
         data.items.length > 300) throw new Error('Invalid order');
@@ -55,5 +56,53 @@ function doPost(e) {
     return jsonReply({ok: false, error: 'Order could not be saved'});
   } finally {
     if (lock.hasLock()) lock.releaseLock();
+  }
+}
+
+function savePaymentProof(data, lock) {
+  if (!/^[A-Za-z0-9_-]{8,80}$/.test(data.orderId || '') ||
+      !/^[A-Za-z0-9_-]{8,80}$/.test(data.proofId || '') ||
+      typeof data.imageBase64 !== 'string' || data.imageBase64.length > 1800000 ||
+      !['image/jpeg', 'image/png'].includes(data.mimeType)) throw new Error('Invalid proof');
+  const bytes = Utilities.base64Decode(data.imageBase64);
+  if (bytes.length < 16 || bytes.length > 1200000) throw new Error('Invalid image size');
+  const signature = bytes.slice(0, 8).map(b => (b + 256) % 256);
+  if (data.mimeType === 'image/jpeg' && (signature[0] !== 255 || signature[1] !== 216)) throw new Error('Invalid JPEG');
+  if (data.mimeType === 'image/png' && signature.join(',') !== '137,80,78,71,13,10,26,10') throw new Error('Invalid PNG');
+  lock.waitLock(20000);
+  const book = SpreadsheetApp.openById(SHEET_ID);
+  const orders = book.getSheetByName(TAB_NAME);
+  if (!orders || orders.getLastRow() < 2 ||
+      !orders.getRange(2, 1, orders.getLastRow() - 1, 1).createTextFinder(data.orderId).matchEntireCell(true).findNext()) throw new Error('Order not found');
+  const sheet = book.getSheetByName('Payment Proofs 2026') || book.insertSheet('Payment Proofs 2026');
+  if (sheet.getLastRow() === 0) {
+    sheet.appendRow(['Proof ID', 'Order ID', 'Uploaded at', 'Status', 'Payment screenshot']);
+    sheet.setFrozenRows(1);
+    sheet.getRange(1, 1, 1, 5).setFontWeight('bold');
+    sheet.setColumnWidth(1, 330); sheet.setColumnWidth(2, 330);
+    sheet.setColumnWidth(3, 170); sheet.setColumnWidth(4, 170); sheet.setColumnWidth(5, 240);
+  }
+  if (sheet.getLastRow() > 1 &&
+      sheet.getRange(2, 1, sheet.getLastRow() - 1, 1).createTextFinder(data.proofId).matchEntireCell(true).findNext()) {
+    return jsonReply({ok: true, proofSaved: true, orderId: data.orderId, proofId: data.proofId, duplicate: true});
+  }
+  const row = sheet.getLastRow() + 1;
+  sheet.getRange(row, 1, 1, 5).setValues([[data.proofId, data.orderId, new Date(), 'Receiving', '']]);
+  let picture;
+  try {
+    const blob = Utilities.newBlob(bytes, data.mimeType, data.orderId + '-payment.' + (data.mimeType === 'image/png' ? 'png' : 'jpg'));
+    picture = sheet.insertImage(blob, 5, row);
+    const ratio = Math.min(220 / picture.getWidth(), 280 / picture.getHeight(), 1);
+    const height = Math.round(picture.getHeight() * ratio);
+    picture.setWidth(Math.round(picture.getWidth() * ratio)).setHeight(height);
+    picture.setAltTextTitle('Payment proof - ' + data.orderId);
+    sheet.setRowHeight(row, Math.max(50, height + 12));
+    sheet.getRange(row, 3).setNumberFormat('dd/MM/yyyy HH:mm:ss');
+    sheet.getRange(row, 4).setValue('Pending verification');
+    return jsonReply({ok: true, proofSaved: true, orderId: data.orderId, proofId: data.proofId});
+  } catch (error) {
+    if (picture) picture.remove();
+    sheet.deleteRow(row);
+    throw error;
   }
 }
