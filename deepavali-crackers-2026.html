@@ -3101,10 +3101,6 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
           <label for="customerCity">City / நகரம் *</label>
           <input id="customerCity" name="city" type="text" maxlength="100" autocomplete="address-level2" required>
         </div>
-        <div class="customer-field full">
-          <label for="customerRequirement">Client Requirement / சிறப்பு விவரம் (Optional)</label>
-          <textarea id="customerRequirement" name="requirement" maxlength="300" placeholder="Delivery request or other requirements"></textarea>
-        </div>
       </div>
       <button class="customer-submit-btn" id="customerDetailsSubmitBtn" type="submit">SAVE BOOKING DETAILS</button>
       <p id="customerDetailsStatus" role="status" aria-live="polite"></p>
@@ -4039,7 +4035,7 @@ function getSavedCrackersCustomer(){
   try{
     const saved=JSON.parse(localStorage.getItem('futuraCrackersCustomerDetails2026') || 'null');
     const digits=String(saved?.mobile || '').replace(/\D/g,'');
-    if(saved?.name?.trim().length>=2 && saved?.address?.trim().length>=5 && saved?.city?.trim().length>=2 && digits.length>=10 && digits.length<=15) return saved;
+    if(saved?.name?.trim().length>=2 && saved?.address?.trim().length>=5 && saved?.city?.trim().length>=2 && digits.length>=10 && digits.length<=15) return {name:saved.name,mobile:saved.mobile,address:saved.address,city:saved.city};
   }catch(e){}
   return null;
 }
@@ -4069,7 +4065,6 @@ function openCustomerDetailsForm(mode='save'){
       document.getElementById('customerMobile').value=saved.mobile || '';
       document.getElementById('customerAddress').value=saved.address || '';
       document.getElementById('customerCity').value=saved.city || '';
-      document.getElementById('customerRequirement').value=saved.requirement || '';
     }
   }catch(e){}
   document.getElementById('customerDetailsStatus').textContent='';
@@ -4097,7 +4092,6 @@ async function submitCustomerDetails(event){
   const mobile=document.getElementById('customerMobile').value.trim();
   const address=document.getElementById('customerAddress').value.trim();
   const city=document.getElementById('customerCity').value.trim();
-  const requirement=document.getElementById('customerRequirement').value.trim();
   const phoneDigits=mobile.replace(/\D/g,'');
 
   if(name.length<2){status.textContent='Client Name சரியாக உள்ளிடுங்கள்.';return;}
@@ -4105,9 +4099,11 @@ async function submitCustomerDetails(event){
   if(address.length<5){status.textContent='முழு Address உள்ளிடுங்கள்.';return;}
   if(city.length<2){status.textContent='City / நகரம் உள்ளிடுங்கள்.';return;}
 
+  const customer={name,mobile,address,city};
+  // Keep entered details available after a refresh or failed network request.
+  try{localStorage.setItem('futuraCrackersCustomerDetails2026',JSON.stringify(customer));}catch(e){}
   if(customerDetailsMode==='pdf' || customerDetailsMode==='whatsapp'){
-    const mode=customerDetailsMode,customer={name,mobile,address,city,requirement};
-    try{localStorage.setItem('futuraCrackersCustomerDetails2026',JSON.stringify(customer));}catch(e){}
+    const mode=customerDetailsMode;
     closeCustomerDetailsForm();
     if(mode==='pdf') downloadClientRequestPdf(customer);
     else comboReadyToPay(customer);
@@ -4123,13 +4119,14 @@ async function submitCustomerDetails(event){
       body:JSON.stringify({orderId:order.orderId,items:order.items,name,mobile,address,city})
     });
     const result=await response.json();
-    if(!response.ok || result.ok!==true || result.orderId!==order.orderId) throw Error(result.error || 'Save failed');
-    try{localStorage.setItem('futuraCrackersCustomerDetails2026',JSON.stringify({name,mobile,address,city,requirement}));}catch(e){}
+    if(!response.ok || result.ok!==true || result.customerSaved!==true || result.orderId!==order.orderId) throw Error(result.error || 'Booking details save ஆகவில்லை. மீண்டும் முயற்சி செய்யுங்கள்.');
+    rememberOrderReceipt(order,'saved');
+    showCrackersOrderReceived(order);
     status.textContent='Saved ✓ உங்கள் booking details பதிவு செய்யப்பட்டது.';
     quick.textContent='Booking details saved ✓';
     setTimeout(closeCustomerDetailsForm,900);
   }catch(e){
-    status.textContent='Booking details save ஆகவில்லை. மீண்டும் முயற்சி செய்யுங்கள்.';
+    status.textContent=e.message || 'Booking details save ஆகவில்லை. மீண்டும் முயற்சி செய்யுங்கள்.';
   }finally{
     customerDetailsBusy=false;
     button.disabled=false;
@@ -4233,7 +4230,7 @@ function comboReadyToPay(customer=getSavedCrackersCustomer()){
   const money=value=>value.toFixed(2);
   const lines=['*FUTURA — DEEPAVALI CRACKERS 2026*','*CLIENT ORDER REQUEST*','Order ID: '+order.orderId,'',
     'Name: '+customer.name,'Mobile: '+customer.mobile,'City: '+customer.city,'Delivery Address: '+customer.address,
-    'Client Requirement: '+(customer.requirement || '-'),'','Rate & Amount in Rs','```'];
+    '','Rate & Amount in Rs','```'];
   const widths=[4,5,9,10];
   const numericRow=values=>values.map((value,index)=>String(value).padStart(widths[index])).join(' ');
   const divider='-'.repeat(31);

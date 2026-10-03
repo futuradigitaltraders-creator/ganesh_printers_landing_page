@@ -7,10 +7,28 @@ function clean(value, max) {
   return String(value == null ? '' : value).trim().slice(0, max);
 }
 
+async function bookingServerReady() {
+  const reply = await fetch(SHEETS_URL,{signal:AbortSignal.timeout(15000)});
+  const result = await reply.json();
+  return reply.ok && result.ok===true && result.customerDetails===true;
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
+  if (req.method === 'GET') {
+    let products;
+    try {
+      products = saveOrder.getCatalogue().size;
+    } catch (error) {
+      console.error('Booking catalogue unavailable', {message:error.message});
+      return res.status(503).json({ok:false,catalogueReady:false,error:'Please refresh the catalogue and retry.'});
+    }
+    let ready=false;
+    try {ready=await bookingServerReady();} catch {}
+    return res.status(ready?200:503).json({ok:ready,catalogueReady:true,products,customerDetailsAvailable:ready});
+  }
   if (req.method !== 'POST') {
-    res.setHeader('Allow', 'POST');
+    res.setHeader('Allow', 'GET, POST');
     return res.status(405).json({ok:false,error:'Use POST'});
   }
   if (req.headers.origin && !allowedOrigins.includes(req.headers.origin)) {
@@ -31,8 +49,9 @@ module.exports = async function handler(req, res) {
       address:clean(data.address,300),
       city:clean(data.city,100)
     };
+    const digits=data.mobile.replace(/\D/g,'');
     if (data.name.length < 2 ||
-        !/^[0-9+()\-\s]{8,20}$/.test(data.mobile) ||
+        !/^[0-9+()\-\s]{8,20}$/.test(data.mobile) || digits.length < 10 || digits.length > 15 ||
         data.address.length < 5 ||
         data.city.length < 2) throw new Error('Invalid customer details');
   } catch (e) {
@@ -40,10 +59,13 @@ module.exports = async function handler(req, res) {
   }
 
   try {
+    if (!await bookingServerReady()) {
+      return res.status(503).json({ok:false,error:'Booking save தற்போது கிடைக்கவில்லை. உங்கள் விவரங்களுடன் WhatsApp request அனுப்புங்கள்.'});
+    }
     const orderResult = {setHeader(){},status(code){this.code=code;return this;},json(body){this.body=body;return this;}};
     await saveOrder({method:'POST',headers:req.headers,body:{orderId:data.orderId,items:data.items}},orderResult);
     if (orderResult.code !== 200 || orderResult.body?.ok !== true) {
-      return res.status(orderResult.code || 502).json({ok:false,error:'Order saving could not be confirmed.'});
+      return res.status(orderResult.code || 502).json({ok:false,error:orderResult.code===400?'Catalogue மாறியுள்ளது. Page refresh செய்து மீண்டும் முயற்சி செய்யுங்கள்.':'Order சேமிக்க முடியவில்லை. மீண்டும் முயற்சி செய்யுங்கள்.'});
     }
 
     const reply = await fetch(SHEETS_URL,{
@@ -65,6 +87,7 @@ module.exports = async function handler(req, res) {
     }
     return res.status(200).json({ok:true,orderId:data.orderId,customerSaved:true,updated:!!result.updated});
   } catch (e) {
+    console.warn('Booking details saving unconfirmed', {orderId:data.orderId,message:e.message});
     return res.status(502).json({ok:false,error:'Booking details could not be saved. Please retry.'});
   }
 };

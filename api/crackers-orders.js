@@ -60,3 +60,4 @@ module.exports = async function handler(req, res) {
   }
   return res.status(503).json({ok:false, retryable:true});
 };
+module.exports.getCatalogue = getCatalogue;

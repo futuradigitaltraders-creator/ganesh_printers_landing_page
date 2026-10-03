@@ -40,8 +40,7 @@ function validateRequest(input) {
     name: clean(input.customer?.name, 100),
     mobile: clean(input.customer?.mobile, 20),
     city: clean(input.customer?.city, 100),
-    address: clean(input.customer?.address, 300),
-    requirement: clean(input.customer?.requirement, 300)
+    address: clean(input.customer?.address, 300)
   };
   const digits = customer.mobile.replace(/\D/g, '');
   if (customer.name.length < 2 || digits.length < 10 || digits.length > 15 ||
@@ -135,7 +134,7 @@ function buildPdf(order) {
     function header(first) {
       doc.roundedRect(left, 20, width, 53, 9).fill('#087DCF');
       text('1. CLIENT WHATSAPP ORDER FORM', left + 9, 28, width - 18, 19, true, '#FFFFFF', 'center');
-      text('(Only Selected Products & Client Requirements)', left + 9, 53, width - 18, 11, true, '#FFFFFF', 'center');
+      text('(Only Selected Products & Client Details)', left + 9, 53, width - 18, 11, true, '#FFFFFF', 'center');
       doc.image(path.join(ASSETS, 'header.png'), left, 79, {width, height: 85});
       text('Order ID: ' + order.orderId, left + 4, 172, width - 8, 9, false, '#35116B');
       return first ? 197 : 195;
@@ -148,8 +147,7 @@ function buildPdf(order) {
         ['Name / பெயர்', order.customer.name],
         ['Mobile No. / மொபைல் எண்', order.customer.mobile],
         ['City / நகரம்', order.customer.city],
-        ['Delivery Address / முகவரி', order.customer.address],
-        ['Client Requirement / சிறப்பு விவரம்', order.customer.requirement || '-']
+        ['Delivery Address / முகவரி', order.customer.address]
       ];
       for (const [label, value] of fields) {
         const labelWidth = 190;

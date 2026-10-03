@@ -7,7 +7,7 @@ function jsonReply(data) {
 }
 
 function doGet() {
-  return jsonReply({ok: true, service: 'Futura 2026 Crackers Orders', paymentProofUpload: true});
+  return jsonReply({ok: true, service: 'Futura 2026 Crackers Orders', paymentProofUpload: true, customerDetails: true, version: '2026-10-03-booking'});
 }
 
 function doPost(e) {
