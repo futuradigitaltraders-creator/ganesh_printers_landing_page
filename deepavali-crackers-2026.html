@@ -116,8 +116,7 @@ main{max-width:1100px;margin:auto;padding:38px 20px}.notice{background:#fff;bord
 .pay-btn{border:0;border-radius:10px;background:#19a447;color:white;padding:14px 22px;font-size:16px;font-weight:900;cursor:pointer}.pay-btn:disabled{opacity:.45;cursor:not-allowed}
 .request-order-actions{display:grid;gap:10px;flex:1 1 300px;max-width:430px}
 .request-order-actions .pay-btn{width:100%}
-.request-download-btn{background:#087dcf}
-.request-order-actions p{margin:0;font-size:12px;line-height:1.55;color:#563b12}
+.request-order-actions p{margin:0;font-size:14px;line-height:1.55;color:#563b12}
 #requestPdfQuickStatus:empty{display:none}
 @media(max-width:760px){.request-order-actions{flex-basis:100%;max-width:none}}
 @media(max-width:760px){.product-row{grid-template-columns:44px 90px 1fr}.product-row .serial-col{grid-column:1;grid-row:1;padding:6px 2px!important;font-size:14px}.product-row img{grid-column:2;grid-row:1;width:82px;height:82px}.price-box,.qty-col,.subtotal-col{grid-column:3}.subtotal{text-align:center}.sample-title{font-size:22px}}
@@ -297,10 +296,8 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
 .order-review .order-image img{width:64px;height:64px;object-fit:contain;background:#fff;border-radius:6px}
 .request-pdf-tools{padding:16px;background:#f0f8ff}
 .request-pdf-tools p{margin:10px 0 0;font-size:13px;line-height:1.5;color:#4b3b62}
-.request-pdf-btn{border:0;border-radius:9px;padding:14px 18px;background:#087dcf;color:#fff;font-weight:900;font-size:14px;cursor:pointer}
-.request-pdf-btn:disabled{opacity:.55;cursor:not-allowed}
 #clientRequestPdfStatus{min-height:20px;font-weight:700}
-@media(max-width:600px){.order-review th,.order-review td{padding:10px 6px;font-size:12px}.order-review h2{font-size:18px}.request-pdf-btn{width:100%}}
+@media(max-width:600px){.order-review th,.order-review td{padding:10px 6px;font-size:12px}.order-review h2{font-size:18px}}
 .payment-proof-panel{margin:16px 0;padding:18px;background:#fff;border:1px solid #ded6e8;border-radius:12px}.payment-proof-panel h2{margin:0 0 10px;color:#391864;font-size:20px}.payment-proof-panel p{font-size:14px;line-height:1.6}.payment-proof-panel label{display:block;margin:12px 0 6px;font-weight:bold}.payment-proof-panel input{max-width:100%}#paymentProofPreview{display:block;max-width:100%;max-height:280px;margin:14px 0;border:1px solid #ddd}#paymentProofPreview[hidden],#paymentProofWhatsApp[hidden]{display:none}.proof-upload-btn{padding:12px 16px;border:0;border-radius:7px;background:#391864;color:white;font-weight:bold;cursor:pointer}.proof-upload-btn:disabled{opacity:.5;cursor:default}#paymentProofWhatsApp{display:inline-block;margin:12px;color:#185abc;text-decoration:underline}
 
 /* CLIENT CATALOGUE FINDER + ORDER POLICY - 2026-10-02 */
@@ -3058,8 +3055,6 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
 <tfoot><tr><td colspan="4">NET PRODUCT TOTAL</td><td id="orderReviewQty" class="order-number"></td><td></td><td id="orderReviewTotal" class="order-number"></td></tr></tfoot>
 </table></div>
 <div class="request-pdf-tools">
-  <button class="request-pdf-btn" id="clientRequestPdfBtn" type="button" onclick="downloadClientRequestPdf()" disabled>1. DOWNLOAD COLOURFUL REQUEST PDF</button>
-  <p>முதலில் படங்களுடன் PDF download செய்யுங்கள். பிறகு கீழே உள்ள WhatsApp button → 📎 Document → PDF தேர்வு செய்து Send செய்யுங்கள்.</p>
   <p id="clientRequestPdfStatus" role="status" aria-live="polite"></p>
 </div></section>
 <div class="checkout-tools-grid">
@@ -3120,9 +3115,8 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
     <div class="shipping-note"><strong>Minimum Order ₹3,000</strong> · Packing &amp; Forwarding ₹300 Extra · Transport TOPAY</div>
   </div>
   <div class="request-order-actions">
-    <button class="pay-btn request-download-btn" id="samplePayBtn" type="button" onclick="downloadClientRequestPdf()" disabled>1. DOWNLOAD REQUEST PDF</button>
-    <button class="pay-btn" id="requestWhatsAppBtn" type="button" onclick="comboReadyToPay()" disabled>2. OPEN WHATSAPP &amp; ATTACH PDF</button>
-    <p>WhatsApp-ல் 📎 → Document → download செய்த PDF-ஐத் தேர்வு செய்து Send செய்யுங்கள்.</p>
+    <button class="pay-btn" id="samplePayBtn" type="button" onclick="comboReadyToPay()" disabled>ORDER REQUEST ON WHATSAPP</button>
+    <p>படங்களுடன் PDF share screen-ல் வரும். WhatsApp → FUTURA (9488917786) → Send தேர்வு செய்யுங்கள்.</p>
     <p id="requestPdfQuickStatus"></p>
   </div>
 </div>
@@ -3559,13 +3553,18 @@ function refreshComboSummary(){
   document.getElementById('selectedProducts').textContent=selected;
   document.getElementById('totalQty').textContent=totalQty;
   document.getElementById('sampleNetTotal').textContent=total.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
-  document.getElementById('samplePayBtn').disabled=totalQty===0 || clientRequestPdfBusy;
-  document.getElementById('clientRequestPdfBtn').disabled=totalQty===0 || clientRequestPdfBusy;
   const chosen=Object.values(comboProducts).filter(p=>p.qty>0).sort((a,b)=>Number(a.serial)-Number(b.serial));
   const currentOrder=chosen.length ? getCrackersOrder(chosen) : null;
   const currentPdf=currentOrder && hasCurrentRequestPdf(currentOrder);
-  document.getElementById('requestWhatsAppBtn').disabled=clientRequestPdfBusy || !currentPdf;
-  if(downloadedRequestPdf && !currentPdf) setRequestPdfStatus('Products அல்லது client details மாறியுள்ளன. புதிதாக DOWNLOAD REQUEST PDF அழுத்துங்கள்.');
+  if(preparedRequestPdf && !currentPdf){
+    preparedRequestPdf=null;
+    setRequestPdfStatus('Products அல்லது client details மாறியுள்ளன. Order Request button புதிய PDF-ஐ உருவாக்கும்.');
+  }
+  const requestButton=document.getElementById('samplePayBtn');
+  requestButton.disabled=totalQty===0 || clientRequestPdfBusy;
+  requestButton.textContent=clientRequestPdfBusy
+    ? (requestSharePhase==='sharing'?'OPENING PDF SHARE…':'CREATING REQUEST PDF…')
+    : currentPdf?'SHARE PDF ON WHATSAPP':'ORDER REQUEST ON WHATSAPP';
 
   const lp=document.getElementById('liveProducts');
   const li=document.getElementById('liveItems');
@@ -3941,6 +3940,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeProductImage()
 
 
 let pendingSheetOrder=null;
+let currentCrackersOrderCache=null;
 let sheetOrderBusy=false;
 let orderQueueTimer=null;
 let orderQueue=[];
@@ -4023,11 +4023,12 @@ document.addEventListener('visibilitychange',()=>{
 function getCrackersOrder(chosen){
   const items=chosen.map(p=>({serial:Number(p.serial),name:p.name,qty:p.qty,price:p.price}));
   const fingerprint=JSON.stringify(items);
-  let cached;
-  try{cached=JSON.parse(localStorage.getItem('futuraCrackersOrder') || 'null');}catch(e){}
-  const orderId=cached && cached.fingerprint===fingerprint ? cached.orderId :
+  let cached=currentCrackersOrderCache;
+  try{cached=JSON.parse(localStorage.getItem('futuraCrackersOrder') || 'null') || cached;}catch(e){}
+  const orderId=cached && cached.fingerprint===fingerprint && /^[A-Za-z0-9_-]{8,80}$/.test(cached.orderId || '') ? cached.orderId :
     'FUT26-'+(window.crypto && crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12));
-  try{localStorage.setItem('futuraCrackersOrder',JSON.stringify({fingerprint,orderId}));}catch(e){}
+  currentCrackersOrderCache={fingerprint,orderId};
+  try{localStorage.setItem('futuraCrackersOrder',JSON.stringify(currentCrackersOrderCache));}catch(e){}
   return {orderId,items};
 }
 function saveCrackersOrder(order){
@@ -4046,9 +4047,18 @@ function saveCrackersOrder(order){
 }
 
 
-let customerDetailsBusy=false,customerDetailsMode='save',clientRequestPdfBusy=false,downloadedRequestPdf=null;
+let customerDetailsBusy=false,customerDetailsMode='save',clientRequestPdfBusy=false,preparedRequestPdf=null,requestSharePhase='',requestCustomer=null;
+function requestPdfKey(order,customer){
+  return JSON.stringify({orderId:order.orderId,items:order.items,customer,
+    images:Object.values(comboProducts).filter(p=>p.qty>0).sort((a,b)=>Number(a.serial)-Number(b.serial)).map(p=>p.imageUrl)});
+}
 function hasCurrentRequestPdf(order,customer=getSavedCrackersCustomer()){
-  return !!customer && downloadedRequestPdf?.orderId===order.orderId && downloadedRequestPdf.customer===JSON.stringify(customer);
+  return !!customer && preparedRequestPdf?.key===requestPdfKey(order,customer);
+}
+function supportsRequestPdfSharing(){
+  if(typeof File!=='function' || typeof navigator.share!=='function' || typeof navigator.canShare!=='function') return false;
+  try{return navigator.canShare({files:[new File(['%PDF-1.7\n'],'FUTURA_Request.pdf',{type:'application/pdf'})]});}
+  catch(e){return false;}
 }
 function setRequestPdfStatus(message){
   document.getElementById('clientRequestPdfStatus').textContent=message;
@@ -4060,7 +4070,7 @@ function getSavedCrackersCustomer(){
     const digits=String(saved?.mobile || '').replace(/\D/g,'');
     if(saved?.name?.trim().length>=2 && saved?.address?.trim().length>=5 && saved?.city?.trim().length>=2 && digits.length>=10 && digits.length<=15) return {name:saved.name,mobile:saved.mobile,address:saved.address,city:saved.city};
   }catch(e){}
-  return null;
+  return requestCustomer;
 }
 function getCurrentCrackersOrderForDetails(){
   syncCatalogueProducts();
@@ -4079,7 +4089,7 @@ function openCustomerDetailsForm(mode='save'){
   customerDetailsMode=mode;
   document.getElementById('customerDetailsHeading').textContent=mode==='save'?'Booking Details / ஆர்டர் விவரம்':'Client Request Details / வாடிக்கையாளர் விவரம்';
   document.querySelector('.customer-modal-sub').textContent=mode==='save'?'இந்த விவரங்கள் உங்கள் crackers order booking-க்காக பதிவு செய்யப்படும்.':'இந்த விவரங்கள் உங்கள் request PDF மற்றும் WhatsApp கோரிக்கையில் வரும்.';
-  document.getElementById('customerDetailsSubmitBtn').textContent=mode==='pdf'?'DOWNLOAD REQUEST PDF':mode==='whatsapp'?'OPEN WHATSAPP REQUEST':'SAVE BOOKING DETAILS';
+  document.getElementById('customerDetailsSubmitBtn').textContent=mode==='share'?'CREATE & SHARE REQUEST PDF':'SAVE BOOKING DETAILS';
   document.getElementById('customerDetailsOrderId').textContent='Order ID: '+order.orderId;
   try{
     const saved=JSON.parse(localStorage.getItem('futuraCrackersCustomerDetails2026') || 'null');
@@ -4123,13 +4133,12 @@ async function submitCustomerDetails(event){
   if(city.length<2){status.textContent='City / நகரம் உள்ளிடுங்கள்.';return;}
 
   const customer={name,mobile,address,city};
+  requestCustomer=customer;
   // Keep entered details available after a refresh or failed network request.
   try{localStorage.setItem('futuraCrackersCustomerDetails2026',JSON.stringify(customer));}catch(e){}
-  if(customerDetailsMode==='pdf' || customerDetailsMode==='whatsapp'){
-    const mode=customerDetailsMode;
+  if(customerDetailsMode==='share'){
     closeCustomerDetailsForm();
-    if(mode==='pdf') downloadClientRequestPdf(customer);
-    else comboReadyToPay(customer);
+    comboReadyToPay(customer);
     return;
   }
   customerDetailsBusy=true;
@@ -4155,30 +4164,6 @@ async function submitCustomerDetails(event){
     button.disabled=false;
     refreshComboSummary();
   }
-}
-
-async function downloadClientRequestPdf(customer=getSavedCrackersCustomer()){
-  if(clientRequestPdfBusy) return;
-  syncCatalogueProducts();
-  const chosen=Object.values(comboProducts).filter(p=>p.qty>0).sort((a,b)=>Number(a.serial)-Number(b.serial));
-  if(!chosen.length) return;
-  if(!customer){openCustomerDetailsForm('pdf');return;}
-  const order=getCrackersOrder(chosen);
-  clientRequestPdfBusy=true;downloadedRequestPdf=null;refreshComboSummary();
-  setRequestPdfStatus('படங்களுடன் request PDF தயாராகிறது… / Creating your request PDF…');
-  try{
-    const response=await fetch('/api/crackers-request-pdf',{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({...order,items:order.items.map((item,index)=>({...item,imageUrl:chosen[index].imageUrl})),customer})
-    });
-    if(!response.ok || !response.headers.get('Content-Type')?.includes('application/pdf')) throw Error('PDF creation failed');
-    const blob=await response.blob(),url=URL.createObjectURL(blob),link=document.createElement('a');
-    link.href=url;link.download='FUTURA_Request_'+order.orderId+'.pdf';document.body.appendChild(link);link.click();link.remove();
-    downloadedRequestPdf={orderId:order.orderId,customer:JSON.stringify(customer)};
-    setTimeout(()=>URL.revokeObjectURL(url),60000);
-    setRequestPdfStatus('PDF downloaded ✓. அடுத்து 2. OPEN WHATSAPP & ATTACH PDF → 📎 Document → PDF-ஐ இணைத்து Send செய்யுங்கள்.');
-  }catch(e){setRequestPdfStatus('PDF உருவாக்க முடியவில்லை. மீண்டும் DOWNLOAD REQUEST PDF அழுத்துங்கள்.');}
-  finally{clientRequestPdfBusy=false;refreshComboSummary();}
 }
 
 let selectedPaymentProof=null, paymentProofBusy=false, paymentPreviewUrl=null, proofSelectionVersion=0;
@@ -4245,33 +4230,68 @@ async function uploadCrackersPaymentProof(){
   }finally{paymentProofBusy=false;input.disabled=false;button.disabled=!selectedPaymentProof;}
 }
 
-function comboReadyToPay(customer=getSavedCrackersCustomer()){
+async function comboReadyToPay(customer=getSavedCrackersCustomer()){
+  if(clientRequestPdfBusy) return;
   syncCatalogueProducts();
   const chosen=Object.values(comboProducts).filter(p=>p.qty>0).sort((a,b)=>Number(a.serial)-Number(b.serial));
   if(!chosen.length) return;
-  if(!customer){openCustomerDetailsForm('pdf');return;}
-  const order=getCrackersOrder(chosen);
-  if(!hasCurrentRequestPdf(order,customer)){
-    setRequestPdfStatus('முதலில் 1. DOWNLOAD REQUEST PDF அழுத்தி தற்போதைய order PDF-ஐ download செய்யுங்கள்.');
-    refreshComboSummary();
+  if(!supportsRequestPdfSharing()){
+    setRequestPdfStatus('இந்த browser PDF file sharing-ஐ ஆதரிக்கவில்லை. Mobile Chrome / Safari browser-ல் இந்தப் பக்கத்தைத் திறந்து Order Request அனுப்புங்கள்.');
     return;
   }
-  const total=chosen.reduce((sum,p)=>sum+p.qty*p.price,0);
-  const totalQty=chosen.reduce((sum,p)=>sum+p.qty,0);
-  const lines=['*FUTURA — DEEPAVALI CRACKERS 2026*','*CLIENT ORDER REQUEST — PDF*',
-    'Order ID: '+order.orderId,
-    'Products: '+chosen.length+' | Total Qty: '+totalQty,
-    'NET PRODUCT TOTAL: ₹'+total.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2}),
-    '', 'Please review the attached client request PDF and confirm product availability.'];
-  const message=encodeURIComponent(lines.join('\n'));
-  const isMobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
-    (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);
-  const whatsappUrl=isMobile
-    ? 'https://wa.me/919488917786?text='+message
-    : 'https://web.whatsapp.com/send?phone=919488917786&text='+message;
-  window.open(whatsappUrl,'_blank','noopener,noreferrer');
-  setRequestPdfStatus('WhatsApp-ல் 📎 → Document → FUTURA_Request_'+order.orderId+'.pdf தேர்வு செய்து Send செய்யுங்கள்.');
-  saveCrackersOrder(order);
+  if(!customer){openCustomerDetailsForm('share');return;}
+  const order=getCrackersOrder(chosen);
+  const key=requestPdfKey(order,customer);
+  clientRequestPdfBusy=true;
+  try{
+    if(!hasCurrentRequestPdf(order,customer)){
+      preparedRequestPdf=null;
+      requestSharePhase='generating';refreshComboSummary();
+      setRequestPdfStatus('படங்கள் மற்றும் code numbers உடன் உங்கள் order request PDF தயாராகிறது…');
+      const response=await fetch('/api/crackers-request-pdf',{
+        method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({...order,items:order.items.map((item,index)=>({...item,imageUrl:chosen[index].imageUrl})),customer})
+      });
+      if(!response.ok || !response.headers.get('Content-Type')?.includes('application/pdf')) throw Error('PDF_CREATION_FAILED');
+      const blob=await response.blob();
+      if(!blob.size) throw Error('PDF_CREATION_FAILED');
+      // Keep the PDF in memory. No download or file picker is needed.
+      const file=new File([blob],'FUTURA_Request_'+order.orderId+'.pdf',{type:'application/pdf'});
+      const latestOrder=getCurrentCrackersOrderForDetails(),latestCustomer=getSavedCrackersCustomer();
+      if(!latestOrder || !latestCustomer || requestPdfKey(latestOrder,latestCustomer)!==key){
+        setRequestPdfStatus('Products அல்லது client details மாறியுள்ளன. மீண்டும் Order Request அழுத்துங்கள்.');
+        return;
+      }
+      preparedRequestPdf={key,file};
+    }
+    const file=preparedRequestPdf.file;
+    if(!navigator.canShare({files:[file]})){
+      setRequestPdfStatus('இந்த browser உங்கள் PDF-ஐ share செய்ய முடியவில்லை. Mobile Chrome / Safari browser-ல் முயற்சி செய்யுங்கள்.');
+      return;
+    }
+    // A slow PDF response can outlast the original tap. Use the same button
+    // for a fresh tap instead of opening a blocked share sheet or downloading.
+    if(navigator.userActivation && !navigator.userActivation.isActive){
+      setRequestPdfStatus('PDF தயார் ✓. SHARE PDF ON WHATSAPP அழுத்தி WhatsApp → FUTURA (9488917786) → Send தேர்வு செய்யுங்கள்.');
+      return;
+    }
+    requestSharePhase='sharing';refreshComboSummary();
+    setRequestPdfStatus('PDF attachment உடன் share screen திறக்கிறது. WhatsApp → FUTURA (9488917786) → Send தேர்வு செய்யுங்கள்.');
+    await navigator.share({files:[file],title:'FUTURA Client Order Request',text:'Client Order Request — '+order.orderId});
+    // Native sharing confirms a handoff, not delivery to a WhatsApp contact.
+    setRequestPdfStatus('PDF share screen-க்கு கொடுக்கப்பட்டது. WhatsApp-ல் FUTURA (9488917786) தேர்வு செய்து Send செய்தால் உங்கள் request செல்லும்.');
+    saveCrackersOrder(order);
+  }catch(e){
+    if(e.name==='AbortError') setRequestPdfStatus('Share ரத்து செய்யப்பட்டது. PDF தயார்; மீண்டும் SHARE PDF ON WHATSAPP அழுத்தலாம்.');
+    else if(e.name==='NotAllowedError') setRequestPdfStatus('PDF தயார். SHARE PDF ON WHATSAPP button-ஐ மீண்டும் அழுத்துங்கள்.');
+    else if(requestSharePhase==='generating'){
+      preparedRequestPdf=null;
+      setRequestPdfStatus('PDF உருவாக்க முடியவில்லை. மீண்டும் ORDER REQUEST ON WHATSAPP அழுத்துங்கள்.');
+    }else setRequestPdfStatus('PDF share screen திறக்கவில்லை. மீண்டும் SHARE PDF ON WHATSAPP அழுத்துங்கள் அல்லது mobile browser-ல் முயற்சி செய்யுங்கள்.');
+  }finally{
+    clientRequestPdfBusy=false;requestSharePhase='';
+    refreshComboSummary();
+  }
 }
 </script>
 </body><!-- deployment-refresh -->
