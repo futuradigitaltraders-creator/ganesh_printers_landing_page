@@ -7,7 +7,7 @@ function jsonReply(data) {
 }
 
 function doGet() {
-  return jsonReply({ok: true, service: 'Futura 2026 Crackers Orders', paymentProofUpload: true, customerDetails: true, sequentialOrderIds: true, nextOrderId: peekNextOrderId(), version: '2026-10-03-sequential-0101'});
+  return jsonReply({ok: true, service: 'Futura 2026 Crackers Orders', paymentProofUpload: true, customerDetails: true, sequentialOrderIds: true, nextOrderId: peekNextOrderId(), invoiceEmail: PropertiesService.getScriptProperties().getProperty('INVOICE_EMAIL_ENABLED') === 'true', version: '2026-10-03-invoice-email'});
 }
 
 function doPost(e) {
@@ -32,14 +32,14 @@ function doPost(e) {
           !name || name.length > 250) throw new Error('Invalid item');
       const safeName = /^[=+@-]/.test(name) ? "'" + name : name;
       return [data.orderId, now, serial, safeName, qty, price,
-              Math.round(qty * price * 100) / 100, 'Enquiry'];
+              Math.round(qty * price * 100) / 100, 'Enquiry', safeSheetText(String(item.companyCode || '').slice(0,40))];
     });
     lock.waitLock(20000);
     const book = SpreadsheetApp.openById(SHEET_ID);
     const sheet = book.getSheetByName(TAB_NAME) || book.insertSheet(TAB_NAME);
     if (sheet.getLastRow() === 0) {
       sheet.appendRow(['Order ID', 'Date', 'S.No', 'Product',
-                       'Qty', 'Unit Price', 'Amount', 'Status']);
+                       'Qty', 'Unit Price', 'Amount', 'Status', 'Code No']);
       sheet.setFrozenRows(1);
       sheet.getRange(1, 1, 1, 8).setFontWeight('bold');
     }
@@ -50,7 +50,8 @@ function doPost(e) {
     }
     const start = sheet.getLastRow() + 1;
     sheet.getRange(start, 1, rows.length, 1).setNumberFormat('@');
-    sheet.getRange(start, 1, rows.length, 8).setValues(rows);
+    sheet.getRange(1, 9).setValue('Code No');
+    sheet.getRange(start, 1, rows.length, 9).setValues(rows);
     sheet.getRange(start, 2, rows.length, 1)
       .setNumberFormat('dd/MM/yyyy HH:mm:ss');
     sheet.getRange(start, 6, rows.length, 2).setNumberFormat('0.00');
@@ -87,7 +88,7 @@ function savePaymentProof(data, lock) {
   }
   if (sheet.getLastRow() > 1 &&
       sheet.getRange(2, 1, sheet.getLastRow() - 1, 1).createTextFinder(data.proofId).matchEntireCell(true).findNext()) {
-    return jsonReply({ok: true, proofSaved: true, orderId: data.orderId, proofId: data.proofId, duplicate: true});
+    return jsonReply({ok: true, proofSaved: true, orderId: data.orderId, proofId: data.proofId, duplicate: true, invoiceEmail: deliverOrderInvoice(data.orderId)});
   }
   const row = sheet.getLastRow() + 1;
   sheet.getRange(row, 2).setNumberFormat('@');
@@ -103,7 +104,7 @@ function savePaymentProof(data, lock) {
     sheet.setRowHeight(row, Math.max(50, height + 12));
     sheet.getRange(row, 3).setNumberFormat('dd/MM/yyyy HH:mm:ss');
     sheet.getRange(row, 4).setValue('Pending verification');
-    return jsonReply({ok: true, proofSaved: true, orderId: data.orderId, proofId: data.proofId});
+    return jsonReply({ok: true, proofSaved: true, orderId: data.orderId, proofId: data.proofId, invoiceEmail: deliverOrderInvoice(data.orderId)});
   } catch (error) {
     if (picture) picture.remove();
     sheet.deleteRow(row);
@@ -123,6 +124,8 @@ function saveCustomerDetails(data, lock) {
   const mobile = String(data.mobile || '').trim();
   const address = String(data.address || '').trim();
   const city = String(data.city || '').trim();
+  const email = String(data.email || '').trim();
+  if (email && (email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))) throw new Error('Invalid email');
 
   if (!/^(?:[0-9]{4,12}|[A-Za-z0-9_-]{8,80})$/.test(orderId) ||
       name.length < 2 || name.length > 100 ||
@@ -162,7 +165,8 @@ function saveCustomerDetails(data, lock) {
     safeSheetText(mobile),
     safeSheetText(address),
     safeSheetText(city),
-    'Booking Details Received'
+    'Booking Details Received',
+    safeSheetText(email)
   ];
 
   let existing = null;
@@ -173,7 +177,8 @@ function saveCustomerDetails(data, lock) {
 
   const row = existing ? existing.getRow() : sheet.getLastRow() + 1;
   sheet.getRange(row, 1).setNumberFormat('@');
-  sheet.getRange(row, 1, 1, 7).setValues([rowData]);
+  if (sheet.getRange(1, 8).getValue() !== 'Email') sheet.getRange(1, 8).setValue('Email');
+  sheet.getRange(row, 1, 1, 8).setValues([rowData]);
   sheet.getRange(row, 2).setNumberFormat('dd/MM/yyyy HH:mm:ss');
   sheet.getRange(row, 4).setNumberFormat('@');
 
@@ -215,3 +220,4 @@ function allocateOrderId(data, lock) {
   SpreadsheetApp.flush();
   return jsonReply({ok: true, requestKey, orderId});
 }
+

@@ -1,4 +1,6 @@
 const saveOrder = require('./crackers-orders');
+const saveCustomer = require('./crackers-customer-details');
+const {validateInvoiceOrder,buildInvoicePdf} = require('../lib/crackers-invoice');
 const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbx6mOgt3AvJ189x4Amiy80XU2ood4aa864e8MIEwFrkIswD2I1N6uKTfpzbM_LEDlFS3w/exec';
 const allowedOrigins = ['https://www.futuraonlineprint.in', 'https://futuraonlineprint.in', 'https://ganesh-printers-landing-page.vercel.app'];
 
@@ -13,9 +15,10 @@ module.exports = async function handler(req, res) {
     } catch(e) {return res.status(503).json({ok:false,available:false});}
   }
   if (req.method !== 'POST') {res.setHeader('Allow','GET, POST');return res.status(405).json({ok:false,error:'Use POST'});}
-  let data, image;
+  let data, image, order;
   try {
     data = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
+    order=validateInvoiceOrder(data);
     if (!data || !/^[A-Za-z0-9_-]{8,80}$/.test(data.proofId||'') || typeof data.imageBase64!=='string' || data.imageBase64.length>1800000 || !/^[A-Za-z0-9+/]+={0,2}$/.test(data.imageBase64) || !['image/jpeg','image/png'].includes(data.mimeType)) throw Error('Invalid proof');
     image=Buffer.from(data.imageBase64,'base64');
     if(image.length<16 || image.length>1200000) throw Error('Image too large');
@@ -27,13 +30,17 @@ module.exports = async function handler(req, res) {
     const result = {setHeader(){},status(code){this.code=code;return this;},json(body){this.body=body;return this;}};
     await saveOrder({method:'POST',headers:req.headers,body:{orderId:data.orderId,items:data.items}},result);
     if(result.code!==200 || result.body?.ok!==true) return res.status(result.code||502).json({ok:false,error:'Order saving could not be confirmed. Please retry.'});
+    const booking={setHeader(){},status(code){this.code=code;return this;},json(body){this.body=body;return this;}};
+    await saveCustomer({method:'POST',headers:req.headers,body:{orderId:order.orderId,items:data.items,...order.customer}},booking);
+    if(booking.code!==200 || booking.body?.customerSaved!==true) return res.status(booking.code||502).json({ok:false,error:'Booking details could not be saved. Please retry.'});
+    const invoice=await buildInvoicePdf(order);
     const reply=await fetch(SHEETS_URL,{
       method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},
       body:JSON.stringify({action:'paymentProof',orderId:data.orderId,proofId:data.proofId,imageBase64:data.imageBase64,mimeType:data.mimeType}),
-      signal:AbortSignal.timeout(25000)
+      signal:AbortSignal.timeout(90000)
     });
     const saved=await reply.json();
     if(!reply.ok || saved.ok!==true || saved.proofSaved!==true || saved.orderId!==data.orderId || saved.proofId!==data.proofId) throw Error('Proof unconfirmed');
-    return res.status(200).json({ok:true,orderId:data.orderId,proofId:data.proofId,status:'Pending verification'});
+    return res.status(200).json({ok:true,orderId:data.orderId,proofId:data.proofId,status:'Pending verification',invoiceBase64:invoice.toString('base64'),invoiceEmail:['sent','no_email','failed','sending'].includes(saved.invoiceEmail)?saved.invoiceEmail:'pending_setup'});
   } catch(e) {return res.status(502).json({ok:false,error:'Screenshot saving could not be confirmed. Please retry or send it on WhatsApp.'});}
 };

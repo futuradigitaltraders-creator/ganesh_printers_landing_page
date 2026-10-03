@@ -298,7 +298,7 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
 .request-pdf-tools p{margin:10px 0 0;font-size:13px;line-height:1.5;color:#4b3b62}
 #clientRequestPdfStatus{min-height:20px;font-weight:700}
 @media(max-width:600px){.order-review th,.order-review td{padding:10px 6px;font-size:12px}.order-review h2{font-size:18px}}
-.payment-proof-panel{margin:16px 0;padding:18px;background:#fff;border:1px solid #ded6e8;border-radius:12px}.payment-proof-panel h2{margin:0 0 10px;color:#391864;font-size:20px}.payment-proof-panel p{font-size:14px;line-height:1.6}.payment-proof-panel label{display:block;margin:12px 0 6px;font-weight:bold}.payment-proof-panel input{max-width:100%}#paymentProofPreview{display:block;max-width:100%;max-height:280px;margin:14px 0;border:1px solid #ddd}#paymentProofPreview[hidden],#paymentProofWhatsApp[hidden]{display:none}.proof-upload-btn{padding:12px 16px;border:0;border-radius:7px;background:#391864;color:white;font-weight:bold;cursor:pointer}.proof-upload-btn:disabled{opacity:.5;cursor:default}#paymentProofWhatsApp{display:inline-block;margin:12px;color:#185abc;text-decoration:underline}
+@font-face{font-family:FuturaTamil;src:url('/assets/crackers/request-form/NotoSansTamil-Regular.ttf') format('truetype');font-display:swap}.payment-proof-panel,.customer-details-modal{font-family:Arial,FuturaTamil,sans-serif}.payment-proof-panel{margin:16px 0;padding:18px;background:#fff;border:1px solid #ded6e8;border-radius:12px}.payment-proof-panel h2{margin:0 0 10px;color:#391864;font-size:20px}.payment-proof-panel p{font-size:14px;line-height:1.6}.payment-proof-panel label{display:block;margin:12px 0 6px;font-weight:bold}.payment-proof-panel input{max-width:100%}#paymentProofPreview{display:block;max-width:100%;max-height:280px;margin:14px 0;border:1px solid #ddd}#paymentProofPreview[hidden],#paymentProofWhatsApp[hidden],#paymentInvoiceDownload[hidden]{display:none}#paymentInvoiceDownload{display:inline-block;padding:12px 16px;background:#34136e;color:white;border-radius:7px;text-decoration:none;font-weight:bold}.proof-upload-btn{padding:12px 16px;border:0;border-radius:7px;background:#391864;color:white;font-weight:bold;cursor:pointer}.proof-upload-btn:disabled{opacity:.5;cursor:default}#paymentProofWhatsApp{display:inline-block;margin:12px;color:#185abc;text-decoration:underline}
 
 /* CLIENT CATALOGUE FINDER + ORDER POLICY - 2026-10-02 */
 .order-policy-note{
@@ -3068,6 +3068,8 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
 <button class="proof-upload-btn" id="paymentProofUploadBtn" type="button" onclick="uploadCrackersPaymentProof()" disabled>UPLOAD PAYMENT SCREENSHOT</button>
 <a id="paymentProofWhatsApp" hidden target="_blank" rel="noopener noreferrer">Send screenshot on WhatsApp</a>
 <p id="paymentProofStatus" role="status" aria-live="polite"></p>
+<a id="paymentInvoiceDownload" hidden download>DOWNLOAD INVOICE PDF</a>
+<p id="paymentInvoiceEmailStatus" role="status" aria-live="polite"></p>
 </section>
 
 <aside class="customer-details-card" aria-label="Customer booking details">
@@ -3101,6 +3103,11 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
         <div class="customer-field full">
           <label for="customerCity">City / நகரம் *</label>
           <input id="customerCity" name="city" type="text" maxlength="100" autocomplete="address-level2" required>
+        </div>
+        <div class="customer-field">
+          <label for="customerEmail">Email / மின்னஞ்சல் (Optional)</label>
+          <input id="customerEmail" name="email" type="email" maxlength="254" autocomplete="email" placeholder="name@example.com">
+          <small>Invoice PDF இந்த email-க்கு அனுப்பப்படும். Email இல்லையெனில் website-ல் download செய்யலாம்.</small>
         </div>
       </div>
       <button class="customer-submit-btn" id="customerDetailsSubmitBtn" type="submit">SAVE BOOKING DETAILS</button>
@@ -4097,7 +4104,7 @@ function getSavedCrackersCustomer(){
   try{
     const saved=JSON.parse(localStorage.getItem('futuraCrackersCustomerDetails2026') || 'null');
     const digits=String(saved?.mobile || '').replace(/\D/g,'');
-    if(saved?.name?.trim().length>=2 && saved?.address?.trim().length>=5 && saved?.city?.trim().length>=2 && digits.length>=10 && digits.length<=15) return {name:saved.name,mobile:saved.mobile,address:saved.address,city:saved.city};
+    if(saved?.name?.trim().length>=2 && saved?.address?.trim().length>=5 && saved?.city?.trim().length>=2 && digits.length>=10 && digits.length<=15) return {name:saved.name,mobile:saved.mobile,address:saved.address,city:saved.city,email:saved.email || ''};
   }catch(e){}
   return requestCustomer;
 }
@@ -4127,6 +4134,7 @@ function openCustomerDetailsForm(mode='save'){
       document.getElementById('customerMobile').value=saved.mobile || '';
       document.getElementById('customerAddress').value=saved.address || '';
       document.getElementById('customerCity').value=saved.city || '';
+      document.getElementById('customerEmail').value=saved.email || '';
     }
   }catch(e){}
   document.getElementById('customerDetailsStatus').textContent='';
@@ -4154,6 +4162,8 @@ async function submitCustomerDetails(event){
   const mobile=document.getElementById('customerMobile').value.trim();
   const address=document.getElementById('customerAddress').value.trim();
   const city=document.getElementById('customerCity').value.trim();
+  const email=document.getElementById('customerEmail').value.trim();
+  if(email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){status.textContent='சரியான Email address உள்ளிடுங்கள்.';return;}
   const phoneDigits=mobile.replace(/\D/g,'');
 
   if(name.length<2){status.textContent='Client Name சரியாக உள்ளிடுங்கள்.';return;}
@@ -4161,7 +4171,7 @@ async function submitCustomerDetails(event){
   if(address.length<5){status.textContent='முழு Address உள்ளிடுங்கள்.';return;}
   if(city.length<2){status.textContent='City / நகரம் உள்ளிடுங்கள்.';return;}
 
-  const customer={name,mobile,address,city};
+  const customer={name,mobile,address,city,email};
   requestCustomer=customer;
   // Keep entered details available after a refresh or failed network request.
   try{localStorage.setItem('futuraCrackersCustomerDetails2026',JSON.stringify(customer));}catch(e){}
@@ -4179,7 +4189,7 @@ async function submitCustomerDetails(event){
     const response=await fetch('/api/crackers-customer-details',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({orderId:order.orderId,items:order.items,name,mobile,address,city})
+      body:JSON.stringify({orderId:order.orderId,items:order.items,name,mobile,address,city,email})
     });
     const result=await response.json();
     if(!response.ok || result.ok!==true || result.customerSaved!==true || result.orderId!==order.orderId) throw Error(result.error || 'Booking details save ஆகவில்லை. மீண்டும் முயற்சி செய்யுங்கள்.');
@@ -4197,7 +4207,7 @@ async function submitCustomerDetails(event){
   }
 }
 
-let selectedPaymentProof=null, paymentProofBusy=false, paymentPreviewUrl=null, proofSelectionVersion=0;
+let selectedPaymentProof=null, paymentProofBusy=false, paymentPreviewUrl=null, proofSelectionVersion=0, paymentInvoiceUrl=null;
 async function selectCrackersPaymentProof(input){
   if(paymentProofBusy) return;
   const version=++proofSelectionVersion;
@@ -4205,6 +4215,8 @@ async function selectCrackersPaymentProof(input){
   const status=document.getElementById('paymentProofStatus'),button=document.getElementById('paymentProofUploadBtn');
   const preview=document.getElementById('paymentProofPreview'),whatsapp=document.getElementById('paymentProofWhatsApp');
   button.disabled=true;preview.hidden=true;whatsapp.hidden=true;document.getElementById('paymentProofOrderId').textContent='';
+  document.getElementById('paymentInvoiceDownload').hidden=true;document.getElementById('paymentInvoiceEmailStatus').textContent='';
+  if(paymentInvoiceUrl){URL.revokeObjectURL(paymentInvoiceUrl);paymentInvoiceUrl=null;}
   if(paymentPreviewUrl){URL.revokeObjectURL(paymentPreviewUrl);paymentPreviewUrl=null;}
   const file=input.files[0];
   if(!file){status.textContent='';return;}
@@ -4212,6 +4224,8 @@ async function selectCrackersPaymentProof(input){
   const chosen=Object.values(comboProducts).filter(p=>p.qty>0).sort((a,b)=>Number(a.serial)-Number(b.serial));
   if(!chosen.length){status.textContent='முதலில் உங்கள் order products தேர்வு செய்யுங்கள்.';input.value='';return;}
   if(!['image/jpeg','image/png'].includes(file.type) || file.size>10000000){status.textContent='10 MB-க்குள் உள்ள JPG / PNG screenshot தேர்வு செய்யுங்கள்.';input.value='';return;}
+  const customer=getSavedCrackersCustomer();
+  if(!customer){status.textContent='Invoice-க்கு முதலில் booking details நிரப்பி save செய்யுங்கள்.';input.value='';openCustomerDetailsForm();return;}
   let order=getCrackersOrder(chosen);
   status.textContent='Screenshot தயாராகிறது…';
   try{
@@ -4227,7 +4241,7 @@ async function selectCrackersPaymentProof(input){
       const imageBase64=canvas.toDataURL('image/jpeg',0.88).split(',')[1];
       if(imageBase64.length>1600000) throw Error('Image too large');
       if(version!==proofSelectionVersion) return;
-      selectedPaymentProof={...order,proofId:'FUP26-'+(crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)),imageBase64,mimeType:'image/jpeg'};
+      selectedPaymentProof={...order,customer,proofId:'FUP26-'+(crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)),imageBase64,mimeType:'image/jpeg'};
     }finally{URL.revokeObjectURL(source);}
     paymentPreviewUrl=URL.createObjectURL(file);preview.src=paymentPreviewUrl;preview.hidden=false;
     document.getElementById('paymentProofOrderId').textContent='Order ID: '+order.orderId;
@@ -4255,7 +4269,17 @@ async function uploadCrackersPaymentProof(){
     const result=await reply.json();
     if(!reply.ok || result.ok!==true || result.orderId!==selectedPaymentProof.orderId || result.proofId!==selectedPaymentProof.proofId) throw Error('Upload unconfirmed');
     status.textContent='Screenshot received / Screenshot பதிவு செய்யப்பட்டது. Payment verification pending. Order ID: '+result.orderId;
-    selectedPaymentProof=null;
+    const invoice=document.getElementById('paymentInvoiceDownload');
+    const emailStatus=document.getElementById('paymentInvoiceEmailStatus');
+    if(result.invoiceBase64){
+      try{const bytes=Uint8Array.from(atob(result.invoiceBase64),c=>c.charCodeAt(0));paymentInvoiceUrl=URL.createObjectURL(new Blob([bytes],{type:'application/pdf'}));invoice.href=paymentInvoiceUrl;invoice.download='FUTURA_Invoice_'+result.orderId+'.pdf';invoice.hidden=false;}
+      catch(e){emailStatus.textContent='Invoice PDF உருவாக்க முடியவில்லை. மீண்டும் upload செய்யுங்கள்.';}
+    }
+    if(result.invoiceEmail==='sent')emailStatus.textContent='Invoice PDF email-க்கு அனுப்பப்பட்டது. Inbox / Spam folder பார்க்கவும்.';
+    else if(result.invoiceEmail==='no_email')emailStatus.textContent='Invoice PDF தயார். கீழே download செய்யலாம்.';
+    else if(result.invoiceEmail==='sending')emailStatus.textContent='Invoice email அனுப்புவது உறுதிப்படுத்தப்படுகிறது. PDF-ஐ இங்கே download செய்யலாம்.';
+    else emailStatus.textContent='Invoice PDF தயார். Email அனுப்பப்படவில்லை; இங்கே download செய்யலாம்.';
+    selectedPaymentProof=null;input.value='';
   }catch(e){
     status.textContent='Screenshot சேமிப்பை உறுதி செய்ய முடியவில்லை. மீண்டும் upload செய்யுங்கள் அல்லது WhatsApp-ல் attach செய்து அனுப்புங்கள்.';
     document.getElementById('paymentProofWhatsApp').hidden=false;
@@ -4331,3 +4355,4 @@ async function comboReadyToPay(customer=getSavedCrackersCustomer()){
 </body><!-- deployment-refresh -->
 </html>
 <!-- summary-dashboard-deploy-refresh -->
+

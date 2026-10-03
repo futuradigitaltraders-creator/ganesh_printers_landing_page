@@ -47,9 +47,11 @@ module.exports = async function handler(req, res) {
       name:clean(data.name,100),
       mobile:clean(data.mobile,20),
       address:clean(data.address,300),
-      city:clean(data.city,100)
+      city:clean(data.city,100),
+      email:clean(data.email,254)
     };
     const digits=data.mobile.replace(/\D/g,'');
+    if(data.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) throw Error('Invalid email');
     if (data.name.length < 2 ||
         !/^[0-9+()\-\s]{8,20}$/.test(data.mobile) || digits.length < 10 || digits.length > 15 ||
         data.address.length < 5 ||
@@ -77,7 +79,8 @@ module.exports = async function handler(req, res) {
         name:data.name,
         mobile:data.mobile,
         address:data.address,
-        city:data.city
+        city:data.city,
+        email:data.email
       }),
       signal:AbortSignal.timeout(25000)
     });
@@ -91,3 +94,4 @@ module.exports = async function handler(req, res) {
     return res.status(502).json({ok:false,error:'Booking details could not be saved. Please retry.'});
   }
 };
+

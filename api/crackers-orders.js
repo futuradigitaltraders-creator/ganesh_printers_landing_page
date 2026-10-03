@@ -12,7 +12,7 @@ function getCatalogue() {
     const serial = index + 1;
     const name = $(row).find('.product-name').text().trim();
     const price = Number($(row).find('.our-price').text().replace(/[^0-9.]/g, ''));
-    if (name && Number.isFinite(price) && price > 0) catalogue.set(serial, {serial, name, price});
+    if (name && Number.isFinite(price) && price > 0) catalogue.set(serial, {serial, name, price, companyCode:$(row).attr('data-company-code') || ''});
   });
   return catalogue;
 }
