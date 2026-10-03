@@ -29,7 +29,7 @@ module.exports = async function handler(req, res) {
   let data, items;
   try {
     data = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
-    if (!data || !/^[A-Za-z0-9_-]{8,80}$/.test(data.orderId || '') || !Array.isArray(data.items) || !data.items.length || data.items.length > 300) throw new Error('Invalid order');
+    if (!data || !/^(?:[0-9]{4,12}|[A-Za-z0-9_-]{8,80})$/.test(data.orderId || '') || !Array.isArray(data.items) || !data.items.length || data.items.length > 300) throw new Error('Invalid order');
     const products = getCatalogue();
     const seen = new Set();
     items = data.items.map(item => {

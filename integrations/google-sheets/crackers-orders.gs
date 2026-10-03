@@ -7,16 +7,17 @@ function jsonReply(data) {
 }
 
 function doGet() {
-  return jsonReply({ok: true, service: 'Futura 2026 Crackers Orders', paymentProofUpload: true, customerDetails: true, version: '2026-10-03-booking'});
+  return jsonReply({ok: true, service: 'Futura 2026 Crackers Orders', paymentProofUpload: true, customerDetails: true, sequentialOrderIds: true, nextOrderId: peekNextOrderId(), version: '2026-10-03-sequential-0101'});
 }
 
 function doPost(e) {
   const lock = LockService.getScriptLock();
   try {
     const data = JSON.parse(e.postData.contents);
+    if (data.action === 'allocateOrderId') return allocateOrderId(data, lock);
     if (data.action === 'paymentProof') return savePaymentProof(data, lock);
     if (data.action === 'customerDetails') return saveCustomerDetails(data, lock);
-    if (!/^[A-Za-z0-9_-]{8,80}$/.test(data.orderId || '') ||
+    if (!/^(?:[0-9]{4,12}|[A-Za-z0-9_-]{8,80})$/.test(data.orderId || '') ||
         !Array.isArray(data.items) || !data.items.length ||
         data.items.length > 300) throw new Error('Invalid order');
     const now = new Date();
@@ -48,6 +49,7 @@ function doPost(e) {
       return jsonReply({ok: true, orderId: data.orderId, duplicate: true});
     }
     const start = sheet.getLastRow() + 1;
+    sheet.getRange(start, 1, rows.length, 1).setNumberFormat('@');
     sheet.getRange(start, 1, rows.length, 8).setValues(rows);
     sheet.getRange(start, 2, rows.length, 1)
       .setNumberFormat('dd/MM/yyyy HH:mm:ss');
@@ -61,7 +63,7 @@ function doPost(e) {
 }
 
 function savePaymentProof(data, lock) {
-  if (!/^[A-Za-z0-9_-]{8,80}$/.test(data.orderId || '') ||
+  if (!/^(?:[0-9]{4,12}|[A-Za-z0-9_-]{8,80})$/.test(data.orderId || '') ||
       !/^[A-Za-z0-9_-]{8,80}$/.test(data.proofId || '') ||
       typeof data.imageBase64 !== 'string' || data.imageBase64.length > 1800000 ||
       !['image/jpeg', 'image/png'].includes(data.mimeType)) throw new Error('Invalid proof');
@@ -88,6 +90,7 @@ function savePaymentProof(data, lock) {
     return jsonReply({ok: true, proofSaved: true, orderId: data.orderId, proofId: data.proofId, duplicate: true});
   }
   const row = sheet.getLastRow() + 1;
+  sheet.getRange(row, 2).setNumberFormat('@');
   sheet.getRange(row, 1, 1, 5).setValues([[data.proofId, data.orderId, new Date(), 'Receiving', '']]);
   let picture;
   try {
@@ -121,7 +124,7 @@ function saveCustomerDetails(data, lock) {
   const address = String(data.address || '').trim();
   const city = String(data.city || '').trim();
 
-  if (!/^[A-Za-z0-9_-]{8,80}$/.test(orderId) ||
+  if (!/^(?:[0-9]{4,12}|[A-Za-z0-9_-]{8,80})$/.test(orderId) ||
       name.length < 2 || name.length > 100 ||
       !/^[0-9+()\-\s]{8,20}$/.test(mobile) ||
       address.length < 5 || address.length > 300 ||
@@ -169,9 +172,46 @@ function saveCustomerDetails(data, lock) {
   }
 
   const row = existing ? existing.getRow() : sheet.getLastRow() + 1;
+  sheet.getRange(row, 1).setNumberFormat('@');
   sheet.getRange(row, 1, 1, 7).setValues([rowData]);
   sheet.getRange(row, 2).setNumberFormat('dd/MM/yyyy HH:mm:ss');
   sheet.getRange(row, 4).setNumberFormat('@');
 
   return jsonReply({ok: true, orderId: orderId, customerSaved: true, updated: !!existing});
+}
+
+
+// One shared sequence for all clients. Reservations are separate from orders.
+const NUMBER_TAB_NAME = 'Order Numbers 2026';
+function readOrderNumbers(book) {
+  const sheet = book.getSheetByName(NUMBER_TAB_NAME);
+  return sheet && sheet.getLastRow() > 1 ? sheet.getRange(2, 1, sheet.getLastRow() - 1, 3).getValues() : [];
+}
+function nextOrderNumber(rows) {
+  return rows.reduce((max, row) => Math.max(max, Number(row[1]) || 0), 100) + 1;
+}
+function peekNextOrderId() {
+  return String(nextOrderNumber(readOrderNumbers(SpreadsheetApp.openById(SHEET_ID)))).padStart(4, '0');
+}
+function allocateOrderId(data, lock) {
+  const requestKey = String(data.requestKey || '');
+  if (!/^[A-Za-z0-9_-]{8,80}$/.test(requestKey)) throw new Error('Invalid request key');
+  lock.waitLock(20000);
+  const book = SpreadsheetApp.openById(SHEET_ID);
+  const rows = readOrderNumbers(book);
+  const existing = rows.find(row => String(row[0]) === requestKey);
+  if (existing) return jsonReply({ok: true, requestKey, orderId: String(existing[1]).padStart(4, '0'), duplicate: true});
+  const orderId = String(nextOrderNumber(rows)).padStart(4, '0');
+  const sheet = book.getSheetByName(NUMBER_TAB_NAME) || book.insertSheet(NUMBER_TAB_NAME);
+  if (sheet.getLastRow() === 0) {
+    sheet.appendRow(['Request Key', 'Order ID', 'Reserved at']);
+    sheet.setFrozenRows(1);
+    sheet.getRange(1, 1, 1, 3).setFontWeight('bold');
+  }
+  const row = sheet.getLastRow() + 1;
+  sheet.getRange(row, 1, 1, 2).setNumberFormat('@');
+  sheet.getRange(row, 1, 1, 3).setValues([[requestKey, orderId, new Date()]]);
+  sheet.getRange(row, 3).setNumberFormat('dd/MM/yyyy HH:mm:ss');
+  SpreadsheetApp.flush();
+  return jsonReply({ok: true, requestKey, orderId});
 }

@@ -38,7 +38,7 @@ module.exports = async function handler(req, res) {
   let data;
   try {
     data = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
-    if (!data || !/^[A-Za-z0-9_-]{8,80}$/.test(data.orderId || '') || !Array.isArray(data.items) || !data.items.length) {
+    if (!data || !/^(?:[0-9]{4,12}|[A-Za-z0-9_-]{8,80})$/.test(data.orderId || '') || !Array.isArray(data.items) || !data.items.length) {
       throw new Error('Invalid order');
     }
     data = {

@@ -3946,7 +3946,7 @@ let orderQueueTimer=null;
 let orderQueue=[];
 try{
   const stored=JSON.parse(localStorage.getItem('futuraCrackersPendingOrders2026') || '[]');
-  if(Array.isArray(stored)) orderQueue=stored.filter(entry=>entry.order && /^[A-Za-z0-9_-]{8,80}$/.test(entry.order.orderId || '') && Array.isArray(entry.order.items));
+  if(Array.isArray(stored)) orderQueue=stored.filter(entry=>entry.order && /^(?:[0-9]{4,12}|[A-Za-z0-9_-]{8,80})$/.test(entry.order.orderId || '') && Array.isArray(entry.order.items));
 }catch(e){}
 function orderSaveStatus(text){
   let status=document.getElementById('orderSaveStatus');
@@ -4025,11 +4025,40 @@ function getCrackersOrder(chosen){
   const fingerprint=JSON.stringify(items);
   let cached=currentCrackersOrderCache;
   try{cached=JSON.parse(localStorage.getItem('futuraCrackersOrder') || 'null') || cached;}catch(e){}
-  const orderId=cached && cached.fingerprint===fingerprint && /^[A-Za-z0-9_-]{8,80}$/.test(cached.orderId || '') ? cached.orderId :
+  const orderId=cached && cached.fingerprint===fingerprint && /^(?:[0-9]{4,12}|[A-Za-z0-9_-]{8,80})$/.test(cached.orderId || '') ? cached.orderId :
     'FUT26-'+(window.crypto && crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12));
-  currentCrackersOrderCache={fingerprint,orderId};
+  currentCrackersOrderCache={fingerprint,orderId,requestKey:cached?.fingerprint===fingerprint ? cached.requestKey : null};
   try{localStorage.setItem('futuraCrackersOrder',JSON.stringify(currentCrackersOrderCache));}catch(e){}
   return {orderId,items};
+}
+function clientOrderIdLabel(order) {
+  return /^[0-9]{4,12}$/.test(order.orderId) ? 'Order ID: '+order.orderId : 'Order ID: விவரங்களை submit செய்ததும் கிடைக்கும்';
+}
+const orderNumberRequests=new Map();
+async function ensureCrackersOrderId(order){
+  if(/^[0-9]{4,12}$/.test(order.orderId)) return order;
+  // An already registered older booking keeps its reference.
+  try{
+    const receipt=JSON.parse(localStorage.getItem('futuraCrackersReceipt2026') || 'null');
+    if(receipt?.state==='saved' && receipt.order?.orderId===order.orderId) return order;
+  }catch(e){}
+  const requestKey=order.orderId;
+  if(!orderNumberRequests.has(requestKey)){
+    orderNumberRequests.set(requestKey,(async()=>{
+      const response=await fetch('/api/crackers-order-id',{
+        method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({requestKey})
+      });
+      const result=await response.json();
+      if(!response.ok || result.ok!==true || result.requestKey!==requestKey || !/^[0-9]{4,12}$/.test(result.orderId || '')) throw Error('Order ID உருவாக்க முடியவில்லை. மீண்டும் முயற்சி செய்யுங்கள்.');
+      const latest=getCurrentCrackersOrderForDetails();
+      if(!latest || latest.orderId!==requestKey) throw Error('Products மாறியுள்ளன. மீண்டும் முயற்சி செய்யுங்கள்.');
+      currentCrackersOrderCache={fingerprint:JSON.stringify(order.items),orderId:result.orderId,requestKey};
+      try{localStorage.setItem('futuraCrackersOrder',JSON.stringify(currentCrackersOrderCache));}catch(e){}
+      return {...order,orderId:result.orderId};
+    })());
+  }
+  try{return await orderNumberRequests.get(requestKey);}
+  finally{orderNumberRequests.delete(requestKey);}
 }
 function saveCrackersOrder(order){
   if(!order) return;
@@ -4090,7 +4119,7 @@ function openCustomerDetailsForm(mode='save'){
   document.getElementById('customerDetailsHeading').textContent=mode==='save'?'Booking Details / ஆர்டர் விவரம்':'Client Request Details / வாடிக்கையாளர் விவரம்';
   document.querySelector('.customer-modal-sub').textContent=mode==='save'?'இந்த விவரங்கள் உங்கள் crackers order booking-க்காக பதிவு செய்யப்படும்.':'இந்த விவரங்கள் உங்கள் request PDF மற்றும் WhatsApp கோரிக்கையில் வரும்.';
   document.getElementById('customerDetailsSubmitBtn').textContent=mode==='share'?'CREATE & SHARE REQUEST PDF':'SAVE BOOKING DETAILS';
-  document.getElementById('customerDetailsOrderId').textContent='Order ID: '+order.orderId;
+  document.getElementById('customerDetailsOrderId').textContent=clientOrderIdLabel(order);
   try{
     const saved=JSON.parse(localStorage.getItem('futuraCrackersCustomerDetails2026') || 'null');
     if(saved){
@@ -4115,7 +4144,7 @@ function customerModalBackdrop(event){
 async function submitCustomerDetails(event){
   event.preventDefault();
   if(customerDetailsBusy) return;
-  const order=getCurrentCrackersOrderForDetails();
+  let order=getCurrentCrackersOrderForDetails();
   const status=document.getElementById('customerDetailsStatus');
   const quick=document.getElementById('customerDetailsQuickStatus');
   const button=document.getElementById('customerDetailsSubmitBtn');
@@ -4145,6 +4174,8 @@ async function submitCustomerDetails(event){
   button.disabled=true;
   status.textContent='Booking details save ஆகிறது…';
   try{
+    order=await ensureCrackersOrderId(order);
+    document.getElementById('customerDetailsOrderId').textContent=clientOrderIdLabel(order);
     const response=await fetch('/api/crackers-customer-details',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
@@ -4181,9 +4212,10 @@ async function selectCrackersPaymentProof(input){
   const chosen=Object.values(comboProducts).filter(p=>p.qty>0).sort((a,b)=>Number(a.serial)-Number(b.serial));
   if(!chosen.length){status.textContent='முதலில் உங்கள் order products தேர்வு செய்யுங்கள்.';input.value='';return;}
   if(!['image/jpeg','image/png'].includes(file.type) || file.size>10000000){status.textContent='10 MB-க்குள் உள்ள JPG / PNG screenshot தேர்வு செய்யுங்கள்.';input.value='';return;}
-  const order=getCrackersOrder(chosen);
+  let order=getCrackersOrder(chosen);
   status.textContent='Screenshot தயாராகிறது…';
   try{
+    order=await ensureCrackersOrderId(order);
     const source=URL.createObjectURL(file),picture=new Image();
     try{
       await new Promise((resolve,reject)=>{picture.onload=resolve;picture.onerror=reject;picture.src=source;});
@@ -4240,10 +4272,12 @@ async function comboReadyToPay(customer=getSavedCrackersCustomer()){
     return;
   }
   if(!customer){openCustomerDetailsForm('share');return;}
-  const order=getCrackersOrder(chosen);
-  const key=requestPdfKey(order,customer);
+  let order=getCrackersOrder(chosen);
   clientRequestPdfBusy=true;
   try{
+    requestSharePhase='generating';refreshComboSummary();
+    order=await ensureCrackersOrderId(order);
+    const key=requestPdfKey(order,customer);
     if(!hasCurrentRequestPdf(order,customer)){
       preparedRequestPdf=null;
       requestSharePhase='generating';refreshComboSummary();

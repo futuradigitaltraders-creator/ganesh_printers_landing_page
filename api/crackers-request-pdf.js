@@ -32,7 +32,7 @@ function clean(value, max) {
 }
 
 function validateRequest(input) {
-  if (!input || !/^[A-Za-z0-9_-]{8,80}$/.test(input.orderId || '') ||
+  if (!input || !/^(?:[0-9]{4,12}|[A-Za-z0-9_-]{8,80})$/.test(input.orderId || '') ||
       !Array.isArray(input.items) || !input.items.length || input.items.length > 300) {
     throw new Error('Please select products and retry.');
   }
