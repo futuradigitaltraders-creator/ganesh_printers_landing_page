@@ -1,5 +1,9 @@
 {
   "functions": {
+    "api/crackers-request-pdf.js": {
+      "maxDuration": 180,
+      "includeFiles": "{deepavali-crackers-2026.html,assets/crackers/request-form/**}"
+    },
     "api/crackers-images-pdf.js": {
       "maxDuration": 60
     },
