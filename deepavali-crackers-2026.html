@@ -3081,9 +3081,10 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
 <img id="paymentProofPreview" alt="Selected payment screenshot preview" hidden>
 <p id="paymentProofOrderId"></p>
 <button class="proof-upload-btn" id="paymentProofUploadBtn" type="button" onclick="uploadCrackersPaymentProof()" disabled>UPLOAD PAYMENT SCREENSHOT</button>
-<a id="paymentProofWhatsApp" hidden target="_blank" rel="noopener noreferrer">OPEN WHATSAPP — PAYMENT SCREENSHOT</a>
-<small id="paymentWhatsAppHint" hidden>WhatsApp chat opens with your Order ID. Attach the screenshot in that chat and press Send.<br><span lang="ta">Order ID உடன் WhatsApp chat திறக்கும். அதில் screenshot-ஐ attach செய்து Send அழுத்துங்கள்.</span></small>
+<a id="paymentProofWhatsApp" hidden target="_blank" rel="noopener noreferrer" onclick="sendPaymentProofWhatsApp(event)">SEND SCREENSHOT EMAIL + WHATSAPP</a>
+<small id="paymentWhatsAppHint" hidden>Uploads and emails your screenshot to FUTURA, then opens a WhatsApp message. Press Send. Payment will be verified separately.<br><span lang="ta">Screenshot upload ஆகி FUTURA email-க்கு அனுப்பப்படும். பிறகு WhatsApp message திறக்கும்; Send அழுத்துங்கள். பணம் தனியாகச் சரிபார்க்கப்படும்.</span></small>
 <p id="paymentProofStatus" role="status" aria-live="polite"></p>
+<p id="paymentOwnerEmailStatus" role="status" aria-live="polite"></p>
 <a id="paymentInvoiceDownload" hidden download>DOWNLOAD INVOICE PDF</a>
 <p id="paymentInvoiceEmailStatus" role="status" aria-live="polite"></p>
 <div id="confirmedOrderTracking" hidden>
@@ -3167,8 +3168,8 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
     <h2 id="orderSendTitle">Send your order / ஆர்டரை அனுப்புங்கள்</h2>
     <p id="orderSendReference"></p>
     <p id="orderSendClientEmail"></p>
-    <a id="orderWhatsAppDirect" hidden target="_blank" rel="noopener noreferrer">WhatsApp — 9488917786</a>
-    <p id="orderWhatsAppDirectHint" hidden>Opens your saved Order ID and summary. Press Send in WhatsApp. PDF is sent through the email option below.<br><span lang="ta">Order ID மற்றும் விவரங்களுடன் WhatsApp திறக்கும். Send அழுத்துங்கள். PDF அனுப்ப கீழே Email option பயன்படுத்துங்கள்.</span></p>
+    <a id="orderWhatsAppDirect" hidden target="_blank" rel="noopener noreferrer" onclick="sendOrderWhatsApp(event)">WhatsApp — 9488917786</a>
+    <p id="orderWhatsAppDirectHint" hidden>Emails your order PDF to FUTURA, then opens WhatsApp with your Order ID. Press Send in WhatsApp.<br><span lang="ta">உங்கள் order PDF முதலில் FUTURA email-க்கு அனுப்பப்படும். பிறகு Order ID உடன் WhatsApp திறக்கும்; Send அழுத்துங்கள்.</span></p>
     <button id="orderRequestEmailBtn" type="button" class="proof-upload-btn" style="width:100%;overflow-wrap:anywhere" onclick="emailCrackersOrderRequest()">Send PDF to ganeshprint.kodai1976@gmail.com</button>
     <p>PDF is attached automatically. No email app or download needed.<br><span lang="ta">PDF தானாக email attachment-ஆக அனுப்பப்படும். Download தேவையில்லை.</span></p>
     <p id="orderRequestEmailStatus" role="status" aria-live="polite"></p>
@@ -3549,11 +3550,11 @@ function startNewCrackersOrder(newOrder=true){
   });
   currentCrackersOrderCache=null;pendingSheetOrder=null;preparedRequestPdf=null;requestCustomer=null;
   document.getElementById('customerDetailsForm').reset();
-  proofSelectionVersion++;selectedPaymentProof=null;
+  proofSelectionVersion++;selectedPaymentProof=null;completedPaymentProof=null;
   document.getElementById('paymentProofFile').value='';
   document.getElementById('paymentProofUploadBtn').disabled=true;
   for(const id of ['paymentProofPreview','paymentProofWhatsApp','paymentWhatsAppHint','paymentInvoiceDownload']) document.getElementById(id).hidden=true;
-  for(const id of ['paymentProofOrderId','paymentProofStatus','paymentInvoiceEmailStatus','customerDetailsStatus','orderSaveStatus']){
+  for(const id of ['paymentProofOrderId','paymentProofStatus','paymentOwnerEmailStatus','paymentInvoiceEmailStatus','customerDetailsStatus','orderSaveStatus']){
     const el=document.getElementById(id);if(el) el.textContent='';
   }
   if(paymentInvoiceUrl){URL.revokeObjectURL(paymentInvoiceUrl);paymentInvoiceUrl=null;}
@@ -4341,13 +4342,15 @@ async function submitCustomerDetails(event){
   }
 }
 
-let selectedPaymentProof=null, paymentProofBusy=false, paymentPreviewUrl=null, proofSelectionVersion=0, paymentInvoiceUrl=null;
+let selectedPaymentProof=null, completedPaymentProof=null, paymentProofBusy=false, paymentPreviewUrl=null, proofSelectionVersion=0, paymentInvoiceUrl=null;
 async function selectCrackersPaymentProof(input){
   if(paymentProofBusy) return;
   const version=++proofSelectionVersion;
-  selectedPaymentProof=null;
+  selectedPaymentProof=null;completedPaymentProof=null;
+  document.getElementById('paymentOwnerEmailStatus').textContent='';
   const status=document.getElementById('paymentProofStatus'),button=document.getElementById('paymentProofUploadBtn');
   const preview=document.getElementById('paymentProofPreview'),whatsapp=document.getElementById('paymentProofWhatsApp');
+  whatsapp.onclick=sendPaymentProofWhatsApp;
   button.disabled=true;preview.hidden=true;whatsapp.hidden=true;document.getElementById('paymentWhatsAppHint').hidden=true;document.getElementById('paymentProofOrderId').textContent='';
   document.getElementById('paymentInvoiceDownload').hidden=true;document.getElementById('paymentInvoiceEmailStatus').textContent='';
   if(paymentInvoiceUrl){URL.revokeObjectURL(paymentInvoiceUrl);paymentInvoiceUrl=null;}
@@ -4375,11 +4378,14 @@ async function selectCrackersPaymentProof(input){
       const imageBase64=canvas.toDataURL('image/jpeg',0.88).split(',')[1];
       if(imageBase64.length>1600000) throw Error('Image too large');
       if(version!==proofSelectionVersion) return;
-      selectedPaymentProof={...order,customer,proofId:'FUP26-'+(crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)),imageBase64,mimeType:'image/jpeg'};
+      const digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(order.orderId+'\n'+imageBase64));
+      if(version!==proofSelectionVersion)return;
+      const proofId='FUP26-'+Array.from(new Uint8Array(digest),byte=>byte.toString(16).padStart(2,'0')).join('');
+      selectedPaymentProof={...order,requestKey:savedCrackersRequestKey(order),customer,proofId,imageBase64,mimeType:'image/jpeg'};
     }finally{URL.revokeObjectURL(source);}
     paymentPreviewUrl=URL.createObjectURL(file);preview.src=paymentPreviewUrl;preview.hidden=false;
     document.getElementById('paymentProofOrderId').textContent='Order ID: '+order.orderId;
-    whatsapp.href=crackersWhatsAppChatUrl('Payment screenshot for Order ID: '+order.orderId+'. Please verify payment. (Screenshot attached separately)');
+    whatsapp.href=crackersWhatsAppChatUrl('Payment screenshot for Order ID: '+order.orderId+'. I would like to submit my screenshot for payment verification.');
     whatsapp.hidden=false;document.getElementById('paymentWhatsAppHint').hidden=false;
     const response=await fetch('/api/crackers-payment-proof'),ready=await response.json();
     if(version!==proofSelectionVersion) return;
@@ -4401,7 +4407,15 @@ async function uploadCrackersPaymentProof(){
     const reply=await fetch('/api/crackers-payment-proof',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(selectedPaymentProof)});
     const result=await reply.json();
     if(!reply.ok || result.ok!==true || result.orderId!==selectedPaymentProof.orderId || result.proofId!==selectedPaymentProof.proofId) throw Error(result.error || 'Screenshot upload could not be confirmed. Please retry.');
+    completedPaymentProof={orderId:result.orderId,proofId:result.proofId,ownerScreenshotEmail:result.ownerScreenshotEmail};
     status.textContent='Screenshot received / Screenshot பதிவு செய்யப்பட்டது. Payment verification pending. Order ID: '+result.orderId;
+    const ownerEmailStatus=document.getElementById('paymentOwnerEmailStatus');
+    ownerEmailStatus.textContent=result.ownerScreenshotEmail==='sent'
+      ? 'Screenshot emailed to ganeshprint.kodai1976@gmail.com ✓ / Screenshot email அனுப்பப்பட்டது ✓'
+      : result.ownerScreenshotEmail==='sending'
+        ? 'Screenshot email delivery is awaiting confirmation. / Screenshot email உறுதி காத்திருக்கிறது.'
+        : 'Screenshot saved, but its email was not sent. Retry upload to send the same screenshot. / Screenshot சேமிக்கப்பட்டது; email அனுப்ப மீண்டும் UPLOAD அழுத்துங்கள்.';
+    document.getElementById('paymentProofWhatsApp').href=crackersWhatsAppChatUrl(paymentScreenshotMessage(completedPaymentProof));
     const invoice=document.getElementById('paymentInvoiceDownload');
     const emailStatus=document.getElementById('paymentInvoiceEmailStatus');
     if(result.invoiceBase64){
@@ -4416,10 +4430,12 @@ async function uploadCrackersPaymentProof(){
       try{localStorage.setItem('futuraCrackersTracking2026',JSON.stringify({orderId:result.orderId,token:result.trackingToken}));}catch(e){}
       refreshConfirmedOrderTracking();
     }
-    selectedPaymentProof=null;input.value='';
+    if(['sent','sending'].includes(result.ownerScreenshotEmail)){selectedPaymentProof=null;input.value='';}
+    return result;
   }catch(e){
     status.textContent='Screenshot சேமிப்பை உறுதி செய்ய முடியவில்லை. '+(e.message || '')+' மீண்டும் upload செய்யுங்கள் அல்லது WhatsApp-ல் attach செய்து அனுப்புங்கள்.';
     document.getElementById('paymentProofWhatsApp').hidden=false;
+    return null;
   }finally{paymentProofBusy=false;input.disabled=false;button.disabled=!selectedPaymentProof;}
 }
 
@@ -4455,6 +4471,7 @@ async function comboReadyToPay(customer=getSavedCrackersCustomer()){
   if(!order)return;
   if(!customer || !isCrackersOrderConfirmed(order)){openCustomerDetailsForm('share');return;}
   updateDirectOrderWhatsApp(order);
+  document.getElementById('orderWhatsAppDirect').onclick=sendOrderWhatsApp;
   document.getElementById('orderSendReference').textContent='Order ID: '+order.orderId;
   document.getElementById('orderSendClientEmail').textContent='Client Email / வாடிக்கையாளர் Email: '+(customer.email || 'Not provided / குறிப்பிடப்படவில்லை');
   document.getElementById('orderRequestEmailStatus').textContent='';
@@ -4476,8 +4493,7 @@ async function emailCrackersOrderRequest(){
   if(!order || !customer || !isCrackersOrderConfirmed(order)){
     status.textContent='Please confirm your current order first / முதலில் ஆர்டரை உறுதி செய்யுங்கள்.';return;
   }
-  let requestKey=order.requestKey;
-  if(!requestKey){try{const receipt=JSON.parse(localStorage.getItem('futuraCrackersReceipt2026')||'null');if(receipt?.order?.orderId===order.orderId)requestKey=receipt.order.requestKey;}catch(e){}}
+  const requestKey=savedCrackersRequestKey(order);
   if(!requestKey){status.textContent='Saved order verification is unavailable. Use WhatsApp 9488917786.';return;}
   clientRequestPdfBusy=true;button.disabled=true;requestSharePhase='email';refreshComboSummary();
   status.textContent='Creating and emailing your PDF… / PDF தயாரித்து email அனுப்புகிறது…';
@@ -4491,8 +4507,69 @@ async function emailCrackersOrderRequest(){
     }else if(result.emailStatus==='sending'){
       status.textContent='Email is processing or awaiting confirmation. No duplicate copy will be sent. / Email உறுதி காத்திருக்கிறது; duplicate அனுப்பப்படாது.';
     }else throw Error('Email sending could not be confirmed.');
-  }catch(e){status.textContent=e.message || 'Email failed. Retry or use WhatsApp 9488917786.';}
+    return result;
+  }catch(e){status.textContent=e.message || 'Email failed. Retry or use WhatsApp 9488917786.';return null;}
   finally{clientRequestPdfBusy=false;requestSharePhase='';button.disabled=false;refreshComboSummary();}
+}
+function savedCrackersRequestKey(order){
+  if(order?.requestKey)return order.requestKey;
+  try{const receipt=JSON.parse(localStorage.getItem('futuraCrackersReceipt2026')||'null');if(receipt?.order?.orderId===order?.orderId)return receipt.order.requestKey;}catch(e){}
+  return null;
+}
+function reserveWhatsAppWindow(){
+  const popup=window.open('about:blank','_blank');
+  if(popup){
+    popup.opener=null;popup.document.title='Preparing your WhatsApp message…';
+    popup.document.body.textContent='Sending your attachment to FUTURA… WhatsApp will open automatically. Please wait. / உங்கள் attachment அனுப்பப்படுகிறது… WhatsApp தானாகத் திறக்கும். காத்திருக்கவும்.';
+    popup.document.body.style.cssText='font:18px Arial,sans-serif;padding:32px;color:#391864;line-height:1.7';
+  }
+  return popup;
+}
+function finishWhatsAppWindow(popup,link,message){
+  const url=crackersWhatsAppChatUrl(message);link.href=url;
+  if(popup&&!popup.closed){popup.location.replace(url);return true;}
+  return false;
+}
+async function sendOrderWhatsApp(event){
+  event.preventDefault();
+  if(clientRequestPdfBusy)return;
+  const order=getCurrentCrackersOrderForDetails(),link=document.getElementById('orderWhatsAppDirect');
+  if(!order||!isCrackersOrderConfirmed(order))return;
+  const popup=reserveWhatsAppWindow();
+  updateDirectOrderWhatsApp(order);
+  const original=new URL(link.href).searchParams.get('text');
+  const result=await emailCrackersOrderRequest();
+  const delivery=result?.emailStatus==='sent'
+    ? 'Order PDF emailed to ganeshprint.kodai1976@gmail.com. Please check the PDF for this Order ID.'
+    : result?.emailStatus==='sending'
+      ? 'Order PDF email is awaiting confirmation. Please check the website order record.'
+      : 'Order PDF email could not be confirmed. Please check the website order record.';
+  if(!finishWhatsAppWindow(popup,link,original+'\n\n'+delivery)){
+    const status=document.getElementById('orderRequestEmailStatus');
+    status.textContent+=' WhatsApp popup was blocked. Click WhatsApp once more to open the prepared message.';
+    link.onclick=null;
+  }
+}
+function paymentScreenshotMessage(proof){
+  const delivery=proof.ownerScreenshotEmail==='sent'
+    ? 'Screenshot emailed to ganeshprint.kodai1976@gmail.com. Please check the attachment for this Order ID.'
+    : proof.ownerScreenshotEmail==='sending'
+      ? 'Screenshot email is awaiting confirmation. Please check the order sheet.'
+      : 'Screenshot is saved in the order sheet, but its email was not confirmed.';
+  return 'PAYMENT SCREENSHOT SUBMITTED\nOrder ID: '+proof.orderId+'\n'+delivery+'\nPlease verify the payment. This message does not confirm receipt of money.';
+}
+async function sendPaymentProofWhatsApp(event){
+  event.preventDefault();
+  if(paymentProofBusy)return;
+  const order=getCurrentCrackersOrderForDetails();
+  if(!order||!isCrackersOrderConfirmed(order))return;
+  const popup=reserveWhatsAppWindow(),link=document.getElementById('paymentProofWhatsApp');
+  const result=selectedPaymentProof?await uploadCrackersPaymentProof():completedPaymentProof;
+  const message=result?paymentScreenshotMessage(result):'Payment screenshot upload for Order ID: '+order.orderId+' could not be confirmed. Please help me submit the screenshot for verification.';
+  if(!finishWhatsAppWindow(popup,link,message)){
+    document.getElementById('paymentProofStatus').textContent+=' WhatsApp popup was blocked. Click WhatsApp once more to open the prepared message.';
+    link.onclick=null;
+  }
 }
 document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!document.getElementById('orderSendModal').hidden)closeOrderSendOptions();});
 

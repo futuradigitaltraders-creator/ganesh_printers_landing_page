@@ -10,7 +10,7 @@ module.exports = async function handler(req, res) {
     try {
       const reply = await fetch(SHEETS_URL, {signal:AbortSignal.timeout(25000)});
       const result = await reply.json();
-      return res.status(200).json({ok:true,available:result.ok===true && result.paymentProofUpload===true});
+      return res.status(200).json({ok:true,available:result.ok===true && result.paymentProofUpload===true,ownerScreenshotEmailAvailable:result.paymentScreenshotEmail===true});
     } catch(e) {return res.status(503).json({ok:false,available:false});}
   }
   if (req.method !== 'POST') {res.setHeader('Allow','GET, POST');return res.status(405).json({ok:false,error:'Use POST'});}
@@ -41,7 +41,7 @@ module.exports = async function handler(req, res) {
     });
     const saved=await reply.json();
     if(!reply.ok || saved.ok!==true || saved.proofSaved!==true || saved.orderId!==data.orderId || saved.proofId!==data.proofId) throw Error('Proof unconfirmed');
-    return res.status(200).json({ok:true,orderId:data.orderId,proofId:data.proofId,status:'Pending verification',trackingToken:/^[a-f0-9]{64}$/.test(saved.trackingToken||'')?saved.trackingToken:undefined,invoiceBase64:invoice.toString('base64'),invoiceEmail:['sent','no_email','failed','sending'].includes(saved.invoiceEmail)?saved.invoiceEmail:'pending_setup'});
+    return res.status(200).json({ok:true,orderId:data.orderId,proofId:data.proofId,status:'Pending verification',trackingToken:/^[a-f0-9]{64}$/.test(saved.trackingToken||'')?saved.trackingToken:undefined,invoiceBase64:invoice.toString('base64'),invoiceEmail:['sent','no_email','failed','sending'].includes(saved.invoiceEmail)?saved.invoiceEmail:'pending_setup',ownerScreenshotEmail:['sent','failed','sending','unverified'].includes(saved.ownerScreenshotEmail)?saved.ownerScreenshotEmail:'pending_setup'});
   } catch(e) {
     console.warn('Payment screenshot processing unconfirmed',{orderId:data.orderId,phase,message:e.message});
     return res.status(502).json({ok:false,error:phase==='invoice'?'Invoice preparation failed. Please retry the screenshot upload.':'Screenshot saving could not be confirmed. Please retry or send it on WhatsApp.'});

@@ -8,7 +8,7 @@ function jsonReply(data) {
 
 function doGet(e) {
   if(e && e.parameter && e.parameter.action==='trackOrder')return readOrderFollowup(e.parameter);
-  return jsonReply({ok: true, service: 'Futura 2026 Crackers Orders', paymentProofUpload: true, customerDetails: true, sequentialOrderIds: true, nextOrderId: peekNextOrderId(), invoiceEmail: PropertiesService.getScriptProperties().getProperty('INVOICE_EMAIL_ENABLED') === 'true', orderTracking: true, requestEmailPDF: PropertiesService.getScriptProperties().getProperty('INVOICE_EMAIL_ENABLED') === 'true', paymentConfirmation: PropertiesService.getScriptProperties().getProperty('PAYMENT_CONFIRMATION_ENABLED') === 'true', version: '2026-10-04-order-tracking'});
+  return jsonReply({ok: true, service: 'Futura 2026 Crackers Orders', paymentProofUpload: true, customerDetails: true, sequentialOrderIds: true, nextOrderId: peekNextOrderId(), invoiceEmail: PropertiesService.getScriptProperties().getProperty('INVOICE_EMAIL_ENABLED') === 'true', orderTracking: true, paymentScreenshotEmail: PropertiesService.getScriptProperties().getProperty('INVOICE_EMAIL_ENABLED') === 'true', requestEmailPDF: PropertiesService.getScriptProperties().getProperty('INVOICE_EMAIL_ENABLED') === 'true', paymentConfirmation: PropertiesService.getScriptProperties().getProperty('PAYMENT_CONFIRMATION_ENABLED') === 'true', version: '2026-10-04-order-tracking'});
 }
 
 function doPost(e) {
@@ -91,7 +91,7 @@ function savePaymentProof(data, lock) {
   if (sheet.getLastRow() > 1 &&
       sheet.getRange(2, 1, sheet.getLastRow() - 1, 1).createTextFinder(data.proofId).matchEntireCell(true).findNext()) {
     const followup=ensureOrderFollowup(book,data.orderId);
-    return jsonReply({ok: true, proofSaved: true, orderId: data.orderId, proofId: data.proofId, duplicate: true, trackingToken: ownsOrderReservation(book,data.orderId,data.requestKey)?followup.token:undefined, invoiceEmail: deliverOrderInvoice(data.orderId)});
+    return jsonReply({ok: true, proofSaved: true, orderId: data.orderId, proofId: data.proofId, duplicate: true, trackingToken: ownsOrderReservation(book,data.orderId,data.requestKey)?followup.token:undefined, invoiceEmail: deliverOrderInvoice(data.orderId), ownerScreenshotEmail: deliverOwnerPaymentScreenshot(book,data,bytes)});
   }
   const row = sheet.getLastRow() + 1;
   sheet.getRange(row, 2).setNumberFormat('@');
@@ -109,7 +109,7 @@ function savePaymentProof(data, lock) {
     sheet.getRange(row, 4).setValue('Pending verification');
     configurePaymentApprovalRow(sheet,row);
     const followup=ensureOrderFollowup(book,data.orderId);
-    return jsonReply({ok: true, proofSaved: true, orderId: data.orderId, proofId: data.proofId, trackingToken: ownsOrderReservation(book,data.orderId,data.requestKey)?followup.token:undefined, invoiceEmail: deliverOrderInvoice(data.orderId)});
+    return jsonReply({ok: true, proofSaved: true, orderId: data.orderId, proofId: data.proofId, trackingToken: ownsOrderReservation(book,data.orderId,data.requestKey)?followup.token:undefined, invoiceEmail: deliverOrderInvoice(data.orderId), ownerScreenshotEmail: deliverOwnerPaymentScreenshot(book,data,bytes)});
   } catch (error) {
     if (picture) picture.remove();
     sheet.deleteRow(row);
