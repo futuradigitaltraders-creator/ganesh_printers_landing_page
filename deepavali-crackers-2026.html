@@ -591,6 +591,10 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
 }
 .customer-modal-card h2{margin:0 42px 4px 0;color:#391864;font-size:23px}
 .customer-modal-sub{margin:0 0 14px;color:#6b5b77;font-size:13px;line-height:1.5}
+.booking-policy-note{padding:12px;border:1px solid #e7d9b2;border-radius:8px;background:#fffaf0;color:#563b12;font-size:14px;line-height:1.6;text-align:left}
+.booking-policy-note p{margin:0 0 8px}
+.booking-policy-note p:last-child{margin-bottom:0}
+.gift-bulk-note{margin:0 0 14px}
 .customer-order-id{padding:9px 11px;border-radius:8px;background:#fff4d1;color:#563b12;font-size:12px;font-weight:800;margin-bottom:14px;overflow-wrap:anywhere}
 .customer-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .customer-field{display:flex;flex-direction:column;gap:6px;text-align:left}
@@ -688,8 +692,8 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
   <button class="catalog-clear-btn" id="startNewOrderBtn" type="button" onclick="startNewCrackersOrder()">START NEW ORDER / புதிய ஆர்டர்</button>
 </div>
 <div class="order-policy-note" role="note" aria-label="Order charges">
-  <strong>MINIMUM ORDER ₹3,000</strong> &nbsp;|&nbsp; PACKING &amp; FORWARDING ₹300 EXTRA &nbsp;|&nbsp; TRANSPORT: TOPAY
-  <br><span>குறைந்தபட்ச ஆர்டர் ₹3,000 · பேக்கிங் ₹300 கூடுதல் · டிரான்ஸ்போர்ட் கட்டணம் உங்கள் ஊரில் செலுத்த வேண்டும்</span>
+  <strong>MINIMUM ORDER ₹3,000</strong> &nbsp;|&nbsp; PACKING &amp; FORWARDING EXTRA &nbsp;|&nbsp; TRANSPORT: TOPAY
+  <br><span>குறைந்தபட்ச ஆர்டர் ₹3,000 · பேக்கிங் மற்றும் பார்சல் அனுப்பும் கட்டணம் தனி · டிரான்ஸ்போர்ட் கட்டணம் உங்கள் ஊரில் செலுத்த வேண்டும்</span>
 </div>
 <div class="catalog-tools" id="catalogTools" aria-label="Product search and category filter">
   <input id="productSearch" type="search" autocomplete="off" placeholder="Search Product / பொருள் தேடுங்கள்" aria-label="Search products">
@@ -2775,6 +2779,7 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
 
 <section class="sample-shop" aria-label="Gift Boxes">
   <h2 class="sample-title">GIFT BOXES – 80% OFF</h2>
+  <p class="booking-policy-note gift-bulk-note"><strong>Gift Boxes: Bulk orders only.</strong> Small quantities such as 1, 2, 3 or 5 boxes are not accepted.<br><span lang="ta">கிஃப்ட் பாக்ஸ்கள் மொத்த எண்ணிக்கையில் மட்டுமே ஆர்டர் செய்யலாம். 1, 2, 3, 5 போன்ற சிறிய எண்ணிக்கை ஆர்டர்கள் ஏற்கப்படாது.</span><br><strong>MOQ: Rs. 3,000/- / <span lang="ta">குறைந்தபட்ச ஆர்டர்: ரூ. 3,000/-</span></strong></p>
   <div class="catalog-head">
   <div>IMAGE</div>
   <div class="head-product">PRODUCT NAME</div>
@@ -3123,7 +3128,12 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
         </div>
       </div>
       <p id="finalOrderSummary" style="padding:12px;background:#fff3cd;border-radius:8px;line-height:1.6"></p>
-      <label style="display:flex;gap:10px;align-items:flex-start;margin:14px 0;line-height:1.6"><input id="finalOrderCheckpoint" type="checkbox" required style="margin-top:5px;width:20px;height:20px;flex-shrink:0"> <span>Items, Qty மற்றும் விவரங்களை சரிபார்த்துவிட்டேன். இந்த order-ஐ இறுதியாக பதிவு செய்ய விரும்புகிறேன். / I have checked my items, quantities and details and confirm this order.</span></label>
+      <div class="booking-policy-note" aria-label="Order notes">
+        <p><strong>Minimum order: Rs. 3,000/-.</strong><br><span lang="ta">குறைந்தபட்ச ஆர்டர் தொகை: ரூ. 3,000/-.</span></p>
+        <p><strong>Packing &amp; Forwarding Extra.</strong><br><span lang="ta">பேக்கிங் மற்றும் பார்சல் அனுப்பும் கட்டணம் தனியாகச் செலுத்த வேண்டும்.</span></p>
+        <p><strong>Gift Boxes: Bulk orders only.</strong> Small quantities such as 1, 2, 3 or 5 boxes are not accepted.<br><span lang="ta">கிஃப்ட் பாக்ஸ்கள் மொத்த எண்ணிக்கையில் மட்டுமே ஆர்டர் செய்யலாம். 1, 2, 3, 5 போன்ற சிறிய எண்ணிக்கை ஆர்டர்கள் ஏற்கப்படாது.</span></p>
+      </div>
+      <label style="display:flex;gap:10px;align-items:flex-start;margin:14px 0;line-height:1.6"><input id="finalOrderCheckpoint" type="checkbox" required style="margin-top:5px;width:20px;height:20px;flex-shrink:0"> <span><span lang="ta">தேர்வு செய்த பொருட்கள், எண்ணிக்கை மற்றும் எனது விவரங்களைச் சரிபார்த்துவிட்டேன். நான் பணம் செலுத்தத் தயாராக இருக்கிறேன். உங்கள் ஸ்டாக் இருப்பைச் சரிபார்த்து, பணம் செலுத்தும் விவரங்களை அனுப்புங்கள்.</span><br>I have checked my items, quantities and details. I am ready to make payment. Please check stock availability and send me the payment details.</span></label>
       <button class="customer-submit-btn" id="customerDetailsSubmitBtn" type="submit">FINAL CONFIRM ORDER</button>
       <p id="customerDetailsStatus" role="status" aria-live="polite"></p>
     </form>
@@ -3133,7 +3143,7 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
   <div>
     <div class="summary-counts">Selected Products: <span id="selectedProducts">0</span> &nbsp; | &nbsp; Total Qty: <span id="totalQty">0</span></div>
     <div class="net-total">NET PRODUCT TOTAL <strong>₹<span id="sampleNetTotal">0.00</span></strong></div>
-    <div class="shipping-note"><strong>Minimum Order ₹3,000</strong> · Packing &amp; Forwarding ₹300 Extra · Transport TOPAY</div>
+    <div class="shipping-note"><strong>Minimum Order: Rs. 3,000/- / குறைந்தபட்ச ஆர்டர்: ரூ. 3,000/-</strong><br>Packing &amp; Forwarding Extra / பேக்கிங் மற்றும் பார்சல் அனுப்பும் கட்டணம் தனி.<br>Transport: TOPAY / போக்குவரத்துக் கட்டணம் பெறும்போது செலுத்த வேண்டும்.</div>
   </div>
   <div class="request-order-actions">
     <button class="pay-btn" id="samplePayBtn" type="button" onclick="comboReadyToPay()" disabled>ORDER REQUEST ON WHATSAPP</button>
@@ -4211,7 +4221,7 @@ function openCustomerDetailsForm(mode='save'){
   document.getElementById('finalOrderCheckpoint').checked=false;
   const total=order.items.reduce((sum,item)=>sum+item.qty*item.price,0),qty=order.items.reduce((sum,item)=>sum+item.qty,0);
   const money=value=>'₹'+value.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
-  document.getElementById('finalOrderSummary').textContent=order.items.length+' products · '+qty+' items · Product total '+money(total)+' + Packing & Parcel Forwarding ₹300 = '+money(total+300)+' · Transport: TOPAY. Order ID உருவாக இந்த order-ஐ confirm செய்யுங்கள்.';
+  document.getElementById('finalOrderSummary').textContent=order.items.length+' products · '+qty+' items · Product total / பொருட்களின் மொத்தத் தொகை '+money(total);
   document.getElementById('customerDetailsOrderId').textContent=clientOrderIdLabel(order);
   try{
     const saved=JSON.parse(localStorage.getItem('futuraCrackersCustomerDetails2026') || 'null');
