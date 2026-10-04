@@ -21,6 +21,10 @@
     },
     "api/crackers-order-id.js": {
       "maxDuration": 60
+    },
+    "api/crackers-request-email.js": {
+      "maxDuration": 180,
+      "includeFiles": "{deepavali-crackers-2026.html,assets/crackers/request-form/**}"
     }
   }
 }

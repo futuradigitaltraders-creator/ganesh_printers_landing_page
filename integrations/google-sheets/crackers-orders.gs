@@ -8,13 +8,14 @@ function jsonReply(data) {
 
 function doGet(e) {
   if(e && e.parameter && e.parameter.action==='trackOrder')return readOrderFollowup(e.parameter);
-  return jsonReply({ok: true, service: 'Futura 2026 Crackers Orders', paymentProofUpload: true, customerDetails: true, sequentialOrderIds: true, nextOrderId: peekNextOrderId(), invoiceEmail: PropertiesService.getScriptProperties().getProperty('INVOICE_EMAIL_ENABLED') === 'true', orderTracking: true, paymentConfirmation: PropertiesService.getScriptProperties().getProperty('PAYMENT_CONFIRMATION_ENABLED') === 'true', version: '2026-10-04-order-tracking'});
+  return jsonReply({ok: true, service: 'Futura 2026 Crackers Orders', paymentProofUpload: true, customerDetails: true, sequentialOrderIds: true, nextOrderId: peekNextOrderId(), invoiceEmail: PropertiesService.getScriptProperties().getProperty('INVOICE_EMAIL_ENABLED') === 'true', orderTracking: true, requestEmailPDF: PropertiesService.getScriptProperties().getProperty('INVOICE_EMAIL_ENABLED') === 'true', paymentConfirmation: PropertiesService.getScriptProperties().getProperty('PAYMENT_CONFIRMATION_ENABLED') === 'true', version: '2026-10-04-order-tracking'});
 }
 
 function doPost(e) {
   const lock = LockService.getScriptLock();
   try {
     const data = JSON.parse(e.postData.contents);
+    if (data.action === 'requestEmailPDF') return sendOwnerRequestPdf(data, lock);
     if (data.action === 'allocateOrderId') return allocateOrderId(data, lock);
     if (data.action === 'paymentProof') return savePaymentProof(data, lock);
     if (data.action === 'customerDetails') return saveCustomerDetails(data, lock);

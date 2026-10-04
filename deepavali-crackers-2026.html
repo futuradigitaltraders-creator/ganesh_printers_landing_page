@@ -3155,14 +3155,25 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
     <div class="shipping-note"><strong>Minimum Order: Rs. 3,000/- / குறைந்தபட்ச ஆர்டர்: ரூ. 3,000/-</strong><br>Packing &amp; Forwarding Extra / பேக்கிங் மற்றும் பார்சல் அனுப்பும் கட்டணம் தனி.<br>Transport: TOPAY / போக்குவரத்துக் கட்டணம் பெறும்போது செலுத்த வேண்டும்.</div>
   </div>
   <div class="request-order-actions">
-    <button class="pay-btn" id="samplePayBtn" type="button" onclick="comboReadyToPay()" disabled>ORDER REQUEST ON WHATSAPP</button>
-    <a id="orderWhatsAppDirect" hidden target="_blank" rel="noopener noreferrer">OPEN WHATSAPP CHAT</a>
-    <p id="orderWhatsAppDirectHint" hidden>Open WhatsApp with your saved Order ID and total, then press Send. This chat link does not attach the PDF.<br><span lang="ta">சேமித்த Order ID மற்றும் மொத்தத் தொகையுடன் WhatsApp திறக்கும். Send அழுத்துங்கள். இந்த chat link PDF-ஐ attach செய்யாது.</span></p>
-    <p>படங்களுடன் PDF share screen-ல் வரும். WhatsApp → FUTURA (9488917786) → Send தேர்வு செய்யுங்கள்.</p>
+    <button class="pay-btn" id="samplePayBtn" type="button" onclick="comboReadyToPay()" disabled>SEND ORDER REQUEST</button>
+    <p>Send your saved order to FUTURA through WhatsApp or email.<br><span lang="ta">சேமித்த ஆர்டரை WhatsApp அல்லது Email மூலம் FUTURA-க்கு அனுப்புங்கள்.</span></p>
     <p id="requestPdfQuickStatus"></p>
   </div>
 </div>
 </main>
+<div id="orderSendModal" class="customer-details-modal" role="dialog" aria-modal="true" aria-labelledby="orderSendTitle" hidden>
+  <div class="customer-modal-card" style="max-width:540px">
+    <button type="button" class="customer-modal-close" aria-label="Close send options" onclick="closeOrderSendOptions()">×</button>
+    <h2 id="orderSendTitle">Send your order / ஆர்டரை அனுப்புங்கள்</h2>
+    <p id="orderSendReference"></p>
+    <p id="orderSendClientEmail"></p>
+    <a id="orderWhatsAppDirect" hidden target="_blank" rel="noopener noreferrer">WhatsApp — 9488917786</a>
+    <p id="orderWhatsAppDirectHint" hidden>Opens your saved Order ID and summary. Press Send in WhatsApp. PDF is sent through the email option below.<br><span lang="ta">Order ID மற்றும் விவரங்களுடன் WhatsApp திறக்கும். Send அழுத்துங்கள். PDF அனுப்ப கீழே Email option பயன்படுத்துங்கள்.</span></p>
+    <button id="orderRequestEmailBtn" type="button" class="proof-upload-btn" style="width:100%;overflow-wrap:anywhere" onclick="emailCrackersOrderRequest()">Send PDF to ganeshprint.kodai1976@gmail.com</button>
+    <p>PDF is attached automatically. No email app or download needed.<br><span lang="ta">PDF தானாக email attachment-ஆக அனுப்பப்படும். Download தேவையில்லை.</span></p>
+    <p id="orderRequestEmailStatus" role="status" aria-live="polite"></p>
+  </div>
+</div>
 <div class="img-modal" id="productImageModal" onclick="closeProductImage(event)">
   <div class="img-modal-inner">
     <div class="zoom-tools">
@@ -3659,11 +3670,7 @@ function refreshComboSummary(){
   const requestButton=document.getElementById('samplePayBtn');
   for(const id of ['startNewOrderBtn','continueSavedCartBtn','refreshSelectionBtn']) document.getElementById(id).disabled=clientRequestPdfBusy || customerDetailsBusy || paymentProofBusy;
   requestButton.disabled=totalQty===0 || clientRequestPdfBusy;
-  requestButton.textContent=clientRequestPdfBusy
-    ? (requestSharePhase==='sharing'?'OPENING PDF SHARE…':'CREATING REQUEST PDF…')
-    : currentOrder && isCrackersOrderConfirmed(currentOrder) && !crackersWhatsAppIsMobile()
-      ? (currentPdf?'SHARE ORDER PDF':'CREATE & SHARE ORDER PDF')
-      : currentPdf?'SHARE PDF ON WHATSAPP':'ORDER REQUEST ON WHATSAPP';
+  requestButton.textContent=clientRequestPdfBusy?'SENDING PDF EMAIL…':'SEND ORDER REQUEST';
 
   const lp=document.getElementById('liveProducts');
   const li=document.getElementById('liveItems');
@@ -4437,71 +4444,58 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshCon
 setInterval(()=>{if(!document.hidden)refreshConfirmedOrderTracking();},60000);
 refreshConfirmedOrderTracking();
 
-async function comboReadyToPay(customer=getSavedCrackersCustomer()){
-  if(clientRequestPdfBusy) return;
-  syncCatalogueProducts();
-  const chosen=Object.values(comboProducts).filter(p=>p.qty>0).sort((a,b)=>Number(a.serial)-Number(b.serial));
-  if(!chosen.length) return;
-  let order=getCrackersOrder(chosen);
-  if(!customer || !isCrackersOrderConfirmed(order)){openCustomerDetailsForm('share');return;}
-  if(!supportsRequestPdfSharing()){
-    updateDirectOrderWhatsApp(order);
-    setRequestPdfStatus('இந்த browser PDF file sharing-ஐ ஆதரிக்கவில்லை. OPEN WHATSAPP CHAT மூலம் உங்கள் saved Order ID-ஐ அனுப்பலாம். PDF attachment-க்கு mobile share வசதியைப் பயன்படுத்துங்கள்.');
-    return;
-  }
-  clientRequestPdfBusy=true;
-  try{
-    requestSharePhase='generating';refreshComboSummary();
-    const key=requestPdfKey(order,customer);
-    if(!hasCurrentRequestPdf(order,customer)){
-      preparedRequestPdf=null;
-      requestSharePhase='generating';refreshComboSummary();
-      setRequestPdfStatus('படங்கள் மற்றும் code numbers உடன் உங்கள் order request PDF தயாராகிறது…');
-      const response=await fetch('/api/crackers-request-pdf',{
-        method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({...order,items:order.items.map((item,index)=>({...item,imageUrl:chosen[index].imageUrl})),customer})
-      });
-      if(!response.ok || !response.headers.get('Content-Type')?.includes('application/pdf')) throw Error('PDF_CREATION_FAILED');
-      const blob=await response.blob();
-      if(!blob.size) throw Error('PDF_CREATION_FAILED');
-      // Keep the PDF in memory. No download or file picker is needed.
-      const file=new File([blob],'FUTURA_Request_'+order.orderId+'.pdf',{type:'application/pdf'});
-      const latestOrder=getCurrentCrackersOrderForDetails(),latestCustomer=getSavedCrackersCustomer();
-      if(!latestOrder || !latestCustomer || requestPdfKey(latestOrder,latestCustomer)!==key){
-        setRequestPdfStatus('Products அல்லது client details மாறியுள்ளன. மீண்டும் Order Request அழுத்துங்கள்.');
-        return;
-      }
-      preparedRequestPdf={key,file};
-    }
-    const file=preparedRequestPdf.file;
-    if(!navigator.canShare({files:[file]})){
-      setRequestPdfStatus('இந்த browser உங்கள் PDF-ஐ share செய்ய முடியவில்லை. Mobile Chrome / Safari browser-ல் முயற்சி செய்யுங்கள்.');
-      return;
-    }
-    // A slow PDF response can outlast the original tap. Use the same button
-    // for a fresh tap instead of opening a blocked share sheet or downloading.
-    if(navigator.userActivation && !navigator.userActivation.isActive){
-      setRequestPdfStatus('PDF தயார் ✓. SHARE PDF ON WHATSAPP அழுத்தி WhatsApp → FUTURA (9488917786) → Send தேர்வு செய்யுங்கள்.');
-      return;
-    }
-    requestSharePhase='sharing';refreshComboSummary();
-    setRequestPdfStatus('PDF attachment உடன் share screen திறக்கிறது. WhatsApp → FUTURA (9488917786) → Send தேர்வு செய்யுங்கள்.');
-    await navigator.share({files:[file],title:'FUTURA Client Order Request',text:'Client Order Request — '+order.orderId});
-    // Native sharing confirms a handoff, not delivery to a WhatsApp contact.
-    setRequestPdfStatus('PDF share screen-க்கு கொடுக்கப்பட்டது. WhatsApp-ல் FUTURA (9488917786) தேர்வு செய்து Send செய்தால் உங்கள் request செல்லும்.');
-    saveCrackersOrder(order);
-  }catch(e){
-    if(e.name==='AbortError') setRequestPdfStatus('Share ரத்து செய்யப்பட்டது. PDF தயார்; மீண்டும் SHARE PDF ON WHATSAPP அழுத்தலாம்.');
-    else if(e.name==='NotAllowedError') setRequestPdfStatus('PDF தயார். SHARE PDF ON WHATSAPP button-ஐ மீண்டும் அழுத்துங்கள்.');
-    else if(requestSharePhase==='generating'){
-      preparedRequestPdf=null;
-      setRequestPdfStatus('PDF உருவாக்க முடியவில்லை. மீண்டும் ORDER REQUEST ON WHATSAPP அழுத்துங்கள்.');
-    }else setRequestPdfStatus('PDF share screen திறக்கவில்லை. மீண்டும் SHARE PDF ON WHATSAPP அழுத்துங்கள் அல்லது mobile browser-ல் முயற்சி செய்யுங்கள்.');
-  }finally{
-    clientRequestPdfBusy=false;requestSharePhase='';
-    refreshComboSummary();
-  }
+function closeOrderSendOptions(){
+  if(clientRequestPdfBusy)return;
+  document.getElementById('orderSendModal').hidden=true;
+  document.getElementById('samplePayBtn').focus();
 }
+async function comboReadyToPay(customer=getSavedCrackersCustomer()){
+  if(clientRequestPdfBusy)return;
+  const order=getCurrentCrackersOrderForDetails();
+  if(!order)return;
+  if(!customer || !isCrackersOrderConfirmed(order)){openCustomerDetailsForm('share');return;}
+  updateDirectOrderWhatsApp(order);
+  document.getElementById('orderSendReference').textContent='Order ID: '+order.orderId;
+  document.getElementById('orderSendClientEmail').textContent='Client Email / வாடிக்கையாளர் Email: '+(customer.email || 'Not provided / குறிப்பிடப்படவில்லை');
+  document.getElementById('orderRequestEmailStatus').textContent='';
+  document.getElementById('orderSendModal').hidden=false;
+  document.getElementById('orderWhatsAppDirect').focus();
+  const emailButton=document.getElementById('orderRequestEmailBtn'),emailStatus=document.getElementById('orderRequestEmailStatus');
+  emailButton.disabled=true;emailStatus.textContent='Checking PDF email availability… / PDF email வசதி சரிபார்க்கிறது…';
+  try{
+    const response=await fetch('/api/crackers-request-email'),health=await response.json();
+    if(getCurrentCrackersOrderForDetails()?.orderId!==order.orderId)return;
+    emailButton.disabled=!(response.ok && health.available===true);
+    emailStatus.textContent=emailButton.disabled?'PDF email is not active yet. Please use WhatsApp 9488917786. / PDF email இன்னும் செயல்படுத்தப்படவில்லை. WhatsApp பயன்படுத்துங்கள்.':'';
+  }catch(e){emailButton.disabled=false;emailStatus.textContent='Email availability could not be checked. You can retry sending.';}
+}
+async function emailCrackersOrderRequest(){
+  if(clientRequestPdfBusy)return;
+  const order=getCurrentCrackersOrderForDetails(),customer=getSavedCrackersCustomer();
+  const status=document.getElementById('orderRequestEmailStatus'),button=document.getElementById('orderRequestEmailBtn');
+  if(!order || !customer || !isCrackersOrderConfirmed(order)){
+    status.textContent='Please confirm your current order first / முதலில் ஆர்டரை உறுதி செய்யுங்கள்.';return;
+  }
+  let requestKey=order.requestKey;
+  if(!requestKey){try{const receipt=JSON.parse(localStorage.getItem('futuraCrackersReceipt2026')||'null');if(receipt?.order?.orderId===order.orderId)requestKey=receipt.order.requestKey;}catch(e){}}
+  if(!requestKey){status.textContent='Saved order verification is unavailable. Use WhatsApp 9488917786.';return;}
+  clientRequestPdfBusy=true;button.disabled=true;requestSharePhase='email';refreshComboSummary();
+  status.textContent='Creating and emailing your PDF… / PDF தயாரித்து email அனுப்புகிறது…';
+  try{
+    const response=await fetch('/api/crackers-request-email',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...order,requestKey,customer})});
+    const result=await response.json();
+    if(!response.ok || result.ok!==true || result.orderId!==order.orderId)throw Error(result.error || 'Email sending could not be confirmed.');
+    if(result.emailStatus==='sent'){
+      status.textContent=(result.duplicate?'Already sent ✓ / ஏற்கனவே அனுப்பப்பட்டது ✓. ':'PDF email sent ✓ / PDF email அனுப்பப்பட்டது ✓. ')+'Order '+order.orderId+' → ganeshprint.kodai1976@gmail.com';
+      setRequestPdfStatus('Order '+order.orderId+' PDF emailed to FUTURA ✓');
+    }else if(result.emailStatus==='sending'){
+      status.textContent='Email is processing or awaiting confirmation. No duplicate copy will be sent. / Email உறுதி காத்திருக்கிறது; duplicate அனுப்பப்படாது.';
+    }else throw Error('Email sending could not be confirmed.');
+  }catch(e){status.textContent=e.message || 'Email failed. Retry or use WhatsApp 9488917786.';}
+  finally{clientRequestPdfBusy=false;requestSharePhase='';button.disabled=false;refreshComboSummary();}
+}
+document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!document.getElementById('orderSendModal').hidden)closeOrderSendOptions();});
+
 </script>
 </body><!-- deployment-refresh -->
 </html>
