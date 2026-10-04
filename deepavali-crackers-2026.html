@@ -355,6 +355,8 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
   font-weight:900;
   cursor:pointer;
 }
+#cartSessionTools{display:flex;flex-wrap:wrap;gap:10px}
+#continueSavedCartBtn[hidden]{display:none}
 .catalog-filter-status{
   grid-column:1 / -1;
   color:#6b5b77;
@@ -678,6 +680,11 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
   <div class="sum-box sum-items"><div class="sum-label">NUMBER OF ITEMS</div><div class="sum-value" id="liveItems">0</div></div>
   <div class="sum-box sum-total"><div class="sum-label">TOTAL AMOUNT</div><div class="sum-value">₹<span id="liveAmount">0.00</span></div></div>
   <div class="sum-box sum-save"><div class="sum-label">YOU SAVE</div><div class="sum-value">₹<span id="liveSave">0.00</span></div></div>
+</div>
+<div class="catalog-tools" id="cartSessionTools" aria-label="New order and saved selection">
+  <p id="cartSessionMessage" role="status" style="flex:1 1 100%;margin:0;font-size:14px">புதிய ஆர்டர் / New order — select your products to begin.</p>
+  <button class="catalog-clear-btn" id="continueSavedCartBtn" type="button" onclick="continueSavedCrackersCart()" hidden>CONTINUE SAVED SELECTION</button>
+  <button class="catalog-clear-btn" id="startNewOrderBtn" type="button" onclick="startNewCrackersOrder()">START NEW ORDER / புதிய ஆர்டர்</button>
 </div>
 <div class="order-policy-note" role="note" aria-label="Order charges">
   <strong>MINIMUM ORDER ₹3,000</strong> &nbsp;|&nbsp; PACKING &amp; FORWARDING ₹300 EXTRA &nbsp;|&nbsp; TRANSPORT: TOPAY
@@ -3472,6 +3479,54 @@ function syncCatalogueProducts(){
 }
 
 
+let awaitingSavedCartChoice=false;
+function offerSavedCrackersCart(){
+  try{
+    const cart=JSON.parse(localStorage.getItem('futuraCrackersCart2026') || '{}');
+    awaitingSavedCartChoice=Object.keys(comboProducts).some(id=>Number.isInteger(Number(cart[id])) && Number(cart[id])>0 && Number(cart[id])<=10000);
+  }catch(e){awaitingSavedCartChoice=false;}
+  document.getElementById('continueSavedCartBtn').hidden=!awaitingSavedCartChoice;
+  if(awaitingSavedCartChoice) document.getElementById('cartSessionMessage').textContent='பழைய தேர்வு இந்த browser-ல் உள்ளது. தொடர CONTINUE SAVED SELECTION அழுத்துங்கள்; புதிய ஆர்டருக்கு products தேர்வு செய்யுங்கள். / A previous selection is saved. Continue it, or select products for a new order.';
+}
+function continueSavedCrackersCart(){
+  if(!awaitingSavedCartChoice || clientRequestPdfBusy || customerDetailsBusy || paymentProofBusy) return;
+  awaitingSavedCartChoice=false;
+  restoreCrackersCart();
+  document.getElementById('continueSavedCartBtn').hidden=true;
+  document.getElementById('cartSessionMessage').textContent='சேமித்த தேர்வு தொடர்கிறது / Continuing your saved selection.';
+  refreshComboSummary();
+  restoreOrderReceipt();
+}
+function startNewCrackersOrder(){
+  if(clientRequestPdfBusy || customerDetailsBusy || paymentProofBusy) return;
+  awaitingSavedCartChoice=false;
+  // Reset this browser's editable draft only. Submitted orders, pending saves,
+  // payment records and the existing private tracking link remain intact.
+  for(const key of ['futuraCrackersCart2026','futuraCrackersOrder','futuraCrackersReceipt2026','futuraCrackersCustomerDetails2026']){
+    try{localStorage.removeItem(key);}catch(e){}
+  }
+  Object.entries(comboProducts).forEach(([id,p])=>{
+    p.qty=0;
+    const qtyEl=document.getElementById('qty-'+id),subEl=document.getElementById('sub-'+id);
+    if(qtyEl) qtyEl.textContent='0';
+    if(subEl) subEl.textContent='0.00';
+  });
+  currentCrackersOrderCache=null;pendingSheetOrder=null;preparedRequestPdf=null;requestCustomer=null;
+  document.getElementById('customerDetailsForm').reset();
+  proofSelectionVersion++;selectedPaymentProof=null;
+  document.getElementById('paymentProofFile').value='';
+  document.getElementById('paymentProofUploadBtn').disabled=true;
+  for(const id of ['paymentProofPreview','paymentProofWhatsApp','paymentInvoiceDownload']) document.getElementById(id).hidden=true;
+  for(const id of ['paymentProofOrderId','paymentProofStatus','paymentInvoiceEmailStatus','customerDetailsStatus','orderSaveStatus']){
+    const el=document.getElementById(id);if(el) el.textContent='';
+  }
+  if(paymentInvoiceUrl){URL.revokeObjectURL(paymentInvoiceUrl);paymentInvoiceUrl=null;}
+  if(paymentPreviewUrl){URL.revokeObjectURL(paymentPreviewUrl);paymentPreviewUrl=null;}
+  setRequestPdfStatus('');
+  document.getElementById('continueSavedCartBtn').hidden=true;
+  document.getElementById('cartSessionMessage').textContent='புதிய ஆர்டர் / New order — select your products to begin.';
+  refreshComboSummary();
+}
 function rememberCrackersCart(){
   try{localStorage.setItem('futuraCrackersCart2026',JSON.stringify(Object.fromEntries(Object.entries(comboProducts).filter(([,p])=>p.qty>0).map(([id,p])=>[id,p.qty]))));}catch(e){}
 }
@@ -3506,6 +3561,8 @@ function restoreOrderReceipt(){
 }
 
 function changeComboQty(id,delta){
+  if(awaitingSavedCartChoice && (clientRequestPdfBusy || customerDetailsBusy || paymentProofBusy)) return;
+  if(awaitingSavedCartChoice) startNewCrackersOrder();
   const p=comboProducts[id];
   p.qty=Math.min(10000,Math.max(0,p.qty+delta));
   rememberCrackersCart();
@@ -3572,6 +3629,7 @@ function refreshComboSummary(){
     setRequestPdfStatus('Products அல்லது client details மாறியுள்ளன. Order Request button புதிய PDF-ஐ உருவாக்கும்.');
   }
   const requestButton=document.getElementById('samplePayBtn');
+  for(const id of ['startNewOrderBtn','continueSavedCartBtn']) document.getElementById(id).disabled=clientRequestPdfBusy || customerDetailsBusy || paymentProofBusy;
   requestButton.disabled=totalQty===0 || clientRequestPdfBusy;
   requestButton.textContent=clientRequestPdfBusy
     ? (requestSharePhase==='sharing'?'OPENING PDF SHARE…':'CREATING REQUEST PDF…')
@@ -3885,9 +3943,9 @@ document.addEventListener('DOMContentLoaded',()=>{
   });
   setupCatalogueFilter();
   syncCatalogueProducts();
-  restoreCrackersCart();
+  offerSavedCrackersCart();
   refreshComboSummary();
-  restoreOrderReceipt();
+  processCrackersOrderQueue();
   hydrateCatalogueImages();
   // Automatic re-application when catalogue images are replaced/loaded dynamically.
   const catalogueRoot=document.querySelector('main');
