@@ -118,6 +118,8 @@ main{max-width:1100px;margin:auto;padding:38px 20px}.notice{background:#fff;bord
 .request-order-actions .pay-btn{width:100%}
 .request-order-actions p{margin:0;font-size:14px;line-height:1.55;color:#563b12}
 #requestPdfQuickStatus:empty{display:none}
+#orderWhatsAppDirect{display:block;padding:12px 16px;border-radius:9px;background:#137c3c;color:#fff;text-align:center;text-decoration:none;font-size:14px;font-weight:800}
+#orderWhatsAppDirect[hidden],#orderWhatsAppDirectHint[hidden]{display:none}
 @media(max-width:760px){.request-order-actions{flex-basis:100%;max-width:none}}
 @media(max-width:760px){.product-row{grid-template-columns:44px 90px 1fr}.product-row .serial-col{grid-column:1;grid-row:1;padding:6px 2px!important;font-size:14px}.product-row img{grid-column:2;grid-row:1;width:82px;height:82px}.price-box,.qty-col,.subtotal-col{grid-column:3}.subtotal{text-align:center}.sample-title{font-size:22px}}
 footer{text-align:center;padding:25px;color:#6c4b3b}
@@ -3079,7 +3081,8 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
 <img id="paymentProofPreview" alt="Selected payment screenshot preview" hidden>
 <p id="paymentProofOrderId"></p>
 <button class="proof-upload-btn" id="paymentProofUploadBtn" type="button" onclick="uploadCrackersPaymentProof()" disabled>UPLOAD PAYMENT SCREENSHOT</button>
-<a id="paymentProofWhatsApp" hidden target="_blank" rel="noopener noreferrer">Send screenshot on WhatsApp</a>
+<a id="paymentProofWhatsApp" hidden target="_blank" rel="noopener noreferrer">OPEN WHATSAPP — PAYMENT SCREENSHOT</a>
+<small id="paymentWhatsAppHint" hidden>WhatsApp chat opens with your Order ID. Attach the screenshot in that chat and press Send.<br><span lang="ta">Order ID உடன் WhatsApp chat திறக்கும். அதில் screenshot-ஐ attach செய்து Send அழுத்துங்கள்.</span></small>
 <p id="paymentProofStatus" role="status" aria-live="polite"></p>
 <a id="paymentInvoiceDownload" hidden download>DOWNLOAD INVOICE PDF</a>
 <p id="paymentInvoiceEmailStatus" role="status" aria-live="polite"></p>
@@ -3153,6 +3156,8 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
   </div>
   <div class="request-order-actions">
     <button class="pay-btn" id="samplePayBtn" type="button" onclick="comboReadyToPay()" disabled>ORDER REQUEST ON WHATSAPP</button>
+    <a id="orderWhatsAppDirect" hidden target="_blank" rel="noopener noreferrer">OPEN WHATSAPP CHAT</a>
+    <p id="orderWhatsAppDirectHint" hidden>Open WhatsApp with your saved Order ID and total, then press Send. This chat link does not attach the PDF.<br><span lang="ta">சேமித்த Order ID மற்றும் மொத்தத் தொகையுடன் WhatsApp திறக்கும். Send அழுத்துங்கள். இந்த chat link PDF-ஐ attach செய்யாது.</span></p>
     <p>படங்களுடன் PDF share screen-ல் வரும். WhatsApp → FUTURA (9488917786) → Send தேர்வு செய்யுங்கள்.</p>
     <p id="requestPdfQuickStatus"></p>
   </div>
@@ -3536,7 +3541,7 @@ function startNewCrackersOrder(newOrder=true){
   proofSelectionVersion++;selectedPaymentProof=null;
   document.getElementById('paymentProofFile').value='';
   document.getElementById('paymentProofUploadBtn').disabled=true;
-  for(const id of ['paymentProofPreview','paymentProofWhatsApp','paymentInvoiceDownload']) document.getElementById(id).hidden=true;
+  for(const id of ['paymentProofPreview','paymentProofWhatsApp','paymentWhatsAppHint','paymentInvoiceDownload']) document.getElementById(id).hidden=true;
   for(const id of ['paymentProofOrderId','paymentProofStatus','paymentInvoiceEmailStatus','customerDetailsStatus','orderSaveStatus']){
     const el=document.getElementById(id);if(el) el.textContent='';
   }
@@ -3645,6 +3650,7 @@ function refreshComboSummary(){
   document.getElementById('sampleNetTotal').textContent=total.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
   const chosen=Object.values(comboProducts).filter(p=>p.qty>0).sort((a,b)=>Number(a.serial)-Number(b.serial));
   const currentOrder=chosen.length ? getCrackersOrder(chosen) : null;
+  updateDirectOrderWhatsApp(currentOrder);
   const currentPdf=currentOrder && hasCurrentRequestPdf(currentOrder);
   if(preparedRequestPdf && !currentPdf){
     preparedRequestPdf=null;
@@ -3655,7 +3661,9 @@ function refreshComboSummary(){
   requestButton.disabled=totalQty===0 || clientRequestPdfBusy;
   requestButton.textContent=clientRequestPdfBusy
     ? (requestSharePhase==='sharing'?'OPENING PDF SHARE…':'CREATING REQUEST PDF…')
-    : currentPdf?'SHARE PDF ON WHATSAPP':'ORDER REQUEST ON WHATSAPP';
+    : currentOrder && isCrackersOrderConfirmed(currentOrder) && !crackersWhatsAppIsMobile()
+      ? (currentPdf?'SHARE ORDER PDF':'CREATE & SHARE ORDER PDF')
+      : currentPdf?'SHARE PDF ON WHATSAPP':'ORDER REQUEST ON WHATSAPP';
 
   const lp=document.getElementById('liveProducts');
   const li=document.getElementById('liveItems');
@@ -4183,7 +4191,8 @@ function saveCrackersOrder(order){
 
 let customerDetailsBusy=false,customerDetailsMode='save',clientRequestPdfBusy=false,preparedRequestPdf=null,requestSharePhase='',requestCustomer=null;
 function requestPdfKey(order,customer){
-  return JSON.stringify({orderId:order.orderId,items:order.items,customer,
+  const pdfCustomer={name:customer.name,mobile:customer.mobile,address:customer.address,city:customer.city,email:customer.email || ''};
+  return JSON.stringify({orderId:order.orderId,items:order.items,customer:pdfCustomer,
     images:Object.values(comboProducts).filter(p=>p.qty>0).sort((a,b)=>Number(a.serial)-Number(b.serial)).map(p=>p.imageUrl)});
 }
 function hasCurrentRequestPdf(order,customer=getSavedCrackersCustomer()){
@@ -4197,6 +4206,22 @@ function supportsRequestPdfSharing(){
 function setRequestPdfStatus(message){
   document.getElementById('clientRequestPdfStatus').textContent=message;
   document.getElementById('requestPdfQuickStatus').textContent=message;
+}
+function crackersWhatsAppIsMobile(){
+  return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+}
+function crackersWhatsAppChatUrl(message){
+  const text=encodeURIComponent(message);
+  return crackersWhatsAppIsMobile()?'https://wa.me/919488917786?text='+text:'https://web.whatsapp.com/send?phone=919488917786&text='+text;
+}
+function updateDirectOrderWhatsApp(order){
+  const link=document.getElementById('orderWhatsAppDirect'),hint=document.getElementById('orderWhatsAppDirectHint');
+  const customer=getSavedCrackersCustomer();
+  const ready=!!customer && isCrackersOrderConfirmed(order);
+  link.hidden=!ready;hint.hidden=!ready;
+  if(!ready){link.removeAttribute('href');return;}
+  const total=order.items.reduce((sum,item)=>sum+item.qty*item.price,0),qty=order.items.reduce((sum,item)=>sum+item.qty,0);
+  link.href=crackersWhatsAppChatUrl('FUTURA CLIENT ORDER REQUEST\nOrder ID: '+order.orderId+'\nClient: '+customer.name+'\nCity & Pincode: '+customer.city+'\nProducts: '+order.items.length+' | Total Qty: '+qty+'\nProduct Total: Rs. '+total.toFixed(2)+'\nMy selected items and details are saved under this Order ID.\nI am ready to make payment. Please check stock availability and send me the payment details.');
 }
 function getSavedCrackersCustomer(){
   try{
@@ -4316,7 +4341,7 @@ async function selectCrackersPaymentProof(input){
   selectedPaymentProof=null;
   const status=document.getElementById('paymentProofStatus'),button=document.getElementById('paymentProofUploadBtn');
   const preview=document.getElementById('paymentProofPreview'),whatsapp=document.getElementById('paymentProofWhatsApp');
-  button.disabled=true;preview.hidden=true;whatsapp.hidden=true;document.getElementById('paymentProofOrderId').textContent='';
+  button.disabled=true;preview.hidden=true;whatsapp.hidden=true;document.getElementById('paymentWhatsAppHint').hidden=true;document.getElementById('paymentProofOrderId').textContent='';
   document.getElementById('paymentInvoiceDownload').hidden=true;document.getElementById('paymentInvoiceEmailStatus').textContent='';
   if(paymentInvoiceUrl){URL.revokeObjectURL(paymentInvoiceUrl);paymentInvoiceUrl=null;}
   if(paymentPreviewUrl){URL.revokeObjectURL(paymentPreviewUrl);paymentPreviewUrl=null;}
@@ -4347,9 +4372,8 @@ async function selectCrackersPaymentProof(input){
     }finally{URL.revokeObjectURL(source);}
     paymentPreviewUrl=URL.createObjectURL(file);preview.src=paymentPreviewUrl;preview.hidden=false;
     document.getElementById('paymentProofOrderId').textContent='Order ID: '+order.orderId;
-    const mobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
-    const text=encodeURIComponent('Payment screenshot for Order ID: '+order.orderId+'. Please verify payment. (Screenshot attached separately)');
-    whatsapp.href=mobile?'https://wa.me/919488917786?text='+text:'https://web.whatsapp.com/send?phone=919488917786&text='+text;
+    whatsapp.href=crackersWhatsAppChatUrl('Payment screenshot for Order ID: '+order.orderId+'. Please verify payment. (Screenshot attached separately)');
+    whatsapp.hidden=false;document.getElementById('paymentWhatsAppHint').hidden=false;
     const response=await fetch('/api/crackers-payment-proof'),ready=await response.json();
     if(version!==proofSelectionVersion) return;
     if(!response.ok || ready.available!==true){
@@ -4369,7 +4393,7 @@ async function uploadCrackersPaymentProof(){
   try{
     const reply=await fetch('/api/crackers-payment-proof',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(selectedPaymentProof)});
     const result=await reply.json();
-    if(!reply.ok || result.ok!==true || result.orderId!==selectedPaymentProof.orderId || result.proofId!==selectedPaymentProof.proofId) throw Error('Upload unconfirmed');
+    if(!reply.ok || result.ok!==true || result.orderId!==selectedPaymentProof.orderId || result.proofId!==selectedPaymentProof.proofId) throw Error(result.error || 'Screenshot upload could not be confirmed. Please retry.');
     status.textContent='Screenshot received / Screenshot பதிவு செய்யப்பட்டது. Payment verification pending. Order ID: '+result.orderId;
     const invoice=document.getElementById('paymentInvoiceDownload');
     const emailStatus=document.getElementById('paymentInvoiceEmailStatus');
@@ -4387,7 +4411,7 @@ async function uploadCrackersPaymentProof(){
     }
     selectedPaymentProof=null;input.value='';
   }catch(e){
-    status.textContent='Screenshot சேமிப்பை உறுதி செய்ய முடியவில்லை. மீண்டும் upload செய்யுங்கள் அல்லது WhatsApp-ல் attach செய்து அனுப்புங்கள்.';
+    status.textContent='Screenshot சேமிப்பை உறுதி செய்ய முடியவில்லை. '+(e.message || '')+' மீண்டும் upload செய்யுங்கள் அல்லது WhatsApp-ல் attach செய்து அனுப்புங்கள்.';
     document.getElementById('paymentProofWhatsApp').hidden=false;
   }finally{paymentProofBusy=false;input.disabled=false;button.disabled=!selectedPaymentProof;}
 }
@@ -4421,7 +4445,8 @@ async function comboReadyToPay(customer=getSavedCrackersCustomer()){
   let order=getCrackersOrder(chosen);
   if(!customer || !isCrackersOrderConfirmed(order)){openCustomerDetailsForm('share');return;}
   if(!supportsRequestPdfSharing()){
-    setRequestPdfStatus('இந்த browser PDF file sharing-ஐ ஆதரிக்கவில்லை. Mobile Chrome / Safari browser-ல் இந்தப் பக்கத்தைத் திறந்து Order Request அனுப்புங்கள்.');
+    updateDirectOrderWhatsApp(order);
+    setRequestPdfStatus('இந்த browser PDF file sharing-ஐ ஆதரிக்கவில்லை. OPEN WHATSAPP CHAT மூலம் உங்கள் saved Order ID-ஐ அனுப்பலாம். PDF attachment-க்கு mobile share வசதியைப் பயன்படுத்துங்கள்.');
     return;
   }
   clientRequestPdfBusy=true;
