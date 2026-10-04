@@ -3070,6 +3070,10 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
 <p id="paymentProofStatus" role="status" aria-live="polite"></p>
 <a id="paymentInvoiceDownload" hidden download>DOWNLOAD INVOICE PDF</a>
 <p id="paymentInvoiceEmailStatus" role="status" aria-live="polite"></p>
+<div id="confirmedOrderTracking" hidden>
+<p id="confirmedPaymentMessage"></p>
+<a id="trackConfirmedOrder" class="proof-upload-btn" style="display:inline-block;text-decoration:none" href="/crackers-order-tracking.html">TRACK YOUR ORDER HERE</a>
+</div>
 </section>
 
 <aside class="customer-details-card" aria-label="Customer booking details">
@@ -4036,7 +4040,7 @@ function getCrackersOrder(chosen){
     'FUT26-'+(window.crypto && crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12));
   currentCrackersOrderCache={fingerprint,orderId,requestKey:cached?.fingerprint===fingerprint ? cached.requestKey : null};
   try{localStorage.setItem('futuraCrackersOrder',JSON.stringify(currentCrackersOrderCache));}catch(e){}
-  return {orderId,items};
+  return {orderId,items,requestKey:currentCrackersOrderCache.requestKey};
 }
 function clientOrderIdLabel(order) {
   return /^[0-9]{4,12}$/.test(order.orderId) ? 'Order ID: '+order.orderId : 'Order ID: விவரங்களை submit செய்ததும் கிடைக்கும்';
@@ -4061,7 +4065,7 @@ async function ensureCrackersOrderId(order){
       if(!latest || latest.orderId!==requestKey) throw Error('Products மாறியுள்ளன. மீண்டும் முயற்சி செய்யுங்கள்.');
       currentCrackersOrderCache={fingerprint:JSON.stringify(order.items),orderId:result.orderId,requestKey};
       try{localStorage.setItem('futuraCrackersOrder',JSON.stringify(currentCrackersOrderCache));}catch(e){}
-      return {...order,orderId:result.orderId};
+      return {...order,orderId:result.orderId,requestKey};
     })());
   }
   try{return await orderNumberRequests.get(requestKey);}
@@ -4279,12 +4283,37 @@ async function uploadCrackersPaymentProof(){
     else if(result.invoiceEmail==='no_email')emailStatus.textContent='Invoice PDF தயார். கீழே download செய்யலாம்.';
     else if(result.invoiceEmail==='sending')emailStatus.textContent='Invoice email அனுப்புவது உறுதிப்படுத்தப்படுகிறது. PDF-ஐ இங்கே download செய்யலாம்.';
     else emailStatus.textContent='Invoice PDF தயார். Email அனுப்பப்படவில்லை; இங்கே download செய்யலாம்.';
+    if(/^[a-f0-9]{64}$/.test(result.trackingToken||'')){
+      try{localStorage.setItem('futuraCrackersTracking2026',JSON.stringify({orderId:result.orderId,token:result.trackingToken}));}catch(e){}
+      refreshConfirmedOrderTracking();
+    }
     selectedPaymentProof=null;input.value='';
   }catch(e){
     status.textContent='Screenshot சேமிப்பை உறுதி செய்ய முடியவில்லை. மீண்டும் upload செய்யுங்கள் அல்லது WhatsApp-ல் attach செய்து அனுப்புங்கள்.';
     document.getElementById('paymentProofWhatsApp').hidden=false;
   }finally{paymentProofBusy=false;input.disabled=false;button.disabled=!selectedPaymentProof;}
 }
+
+let confirmedTrackingBusy=false;
+async function refreshConfirmedOrderTracking(){
+  if(confirmedTrackingBusy)return;
+  let saved;try{saved=JSON.parse(localStorage.getItem('futuraCrackersTracking2026')||'null');}catch(e){}
+  if(!saved || !/^[0-9]{4,12}$/.test(saved.orderId||'') || !/^[a-f0-9]{64}$/.test(saved.token||''))return;
+  confirmedTrackingBusy=true;
+  try{
+    const reply=await fetch('/api/crackers-order-tracking',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(saved)}),result=await reply.json();
+    if(!reply.ok || result.ok!==true || result.orderId!==saved.orderId)return;
+    const panel=document.getElementById('confirmedOrderTracking');panel.hidden=!result.paymentConfirmed;
+    if(result.paymentConfirmed){
+      document.getElementById('confirmedPaymentMessage').textContent='Order '+saved.orderId+': Your payment of ₹'+Number(result.receivedAmount).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2})+' has been received. Thank you.';
+      document.getElementById('trackConfirmedOrder').href='/crackers-order-tracking.html#order='+encodeURIComponent(saved.orderId)+'&token='+encodeURIComponent(saved.token);
+    }
+  }catch(e){}finally{confirmedTrackingBusy=false;}
+}
+window.addEventListener('focus',refreshConfirmedOrderTracking);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshConfirmedOrderTracking();});
+setInterval(()=>{if(!document.hidden)refreshConfirmedOrderTracking();},60000);
+refreshConfirmedOrderTracking();
 
 async function comboReadyToPay(customer=getSavedCrackersCustomer()){
   if(clientRequestPdfBusy) return;
@@ -4355,4 +4384,3 @@ async function comboReadyToPay(customer=getSavedCrackersCustomer()){
 </body><!-- deployment-refresh -->
 </html>
 <!-- summary-dashboard-deploy-refresh -->
-

@@ -36,11 +36,11 @@ module.exports = async function handler(req, res) {
     const invoice=await buildInvoicePdf(order);
     const reply=await fetch(SHEETS_URL,{
       method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},
-      body:JSON.stringify({action:'paymentProof',orderId:data.orderId,proofId:data.proofId,imageBase64:data.imageBase64,mimeType:data.mimeType}),
+      body:JSON.stringify({action:'paymentProof',orderId:data.orderId,proofId:data.proofId,imageBase64:data.imageBase64,mimeType:data.mimeType,requestKey:typeof data.requestKey==='string'?data.requestKey.slice(0,80):undefined}),
       signal:AbortSignal.timeout(90000)
     });
     const saved=await reply.json();
     if(!reply.ok || saved.ok!==true || saved.proofSaved!==true || saved.orderId!==data.orderId || saved.proofId!==data.proofId) throw Error('Proof unconfirmed');
-    return res.status(200).json({ok:true,orderId:data.orderId,proofId:data.proofId,status:'Pending verification',invoiceBase64:invoice.toString('base64'),invoiceEmail:['sent','no_email','failed','sending'].includes(saved.invoiceEmail)?saved.invoiceEmail:'pending_setup'});
+    return res.status(200).json({ok:true,orderId:data.orderId,proofId:data.proofId,status:'Pending verification',trackingToken:/^[a-f0-9]{64}$/.test(saved.trackingToken||'')?saved.trackingToken:undefined,invoiceBase64:invoice.toString('base64'),invoiceEmail:['sent','no_email','failed','sending'].includes(saved.invoiceEmail)?saved.invoiceEmail:'pending_setup'});
   } catch(e) {return res.status(502).json({ok:false,error:'Screenshot saving could not be confirmed. Please retry or send it on WhatsApp.'});}
 };
