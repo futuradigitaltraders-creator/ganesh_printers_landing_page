@@ -17,6 +17,7 @@ module.exports = async function handler(req, res) {
     data=typeof req.body==='string'?JSON.parse(req.body):req.body;
     if (!/^[A-Za-z0-9_-]{8,80}$/.test(data?.requestKey || '')) throw Error('Invalid key');
   } catch {return res.status(400).json({ok:false,error:'Invalid request'});}
+  if(data.finalConfirmed !== true) return res.status(409).json({ok:false,error:'Please review your items and confirm the final order before creating an Order ID.'});
   // A retry with the same key returns the original number, even after a lost response.
   for(let attempt=0;attempt<2;attempt++) {
     try {

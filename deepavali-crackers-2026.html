@@ -684,6 +684,7 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
 <div class="catalog-tools" id="cartSessionTools" aria-label="New order and saved selection">
   <p id="cartSessionMessage" role="status" style="flex:1 1 100%;margin:0;font-size:14px">புதிய ஆர்டர் / New order — select your products to begin.</p>
   <button class="catalog-clear-btn" id="continueSavedCartBtn" type="button" onclick="continueSavedCrackersCart()" hidden>CONTINUE SAVED SELECTION</button>
+  <button class="catalog-clear-btn" id="refreshSelectionBtn" type="button" onclick="startNewCrackersOrder(false)">REFRESH / CLEAR SELECTION</button>
   <button class="catalog-clear-btn" id="startNewOrderBtn" type="button" onclick="startNewCrackersOrder()">START NEW ORDER / புதிய ஆர்டர்</button>
 </div>
 <div class="order-policy-note" role="note" aria-label="Order charges">
@@ -3085,8 +3086,8 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
 
 <aside class="customer-details-card" aria-label="Customer booking details">
   <h2>Customer Details / வாடிக்கையாளர் விவரம்</h2>
-  <p>Booking-க்கு Name, Mobile, Address &amp; City பதிவு செய்யுங்கள். உங்கள் Order ID-உடன் Google Sheet-ல் சேமிக்கப்படும்.</p>
-  <button class="customer-details-open-btn" type="button" onclick="openCustomerDetailsForm()">BOOKING DETAILS FORM</button>
+  <p>Items தேர்வு செய்து விவரங்களை நிரப்புங்கள். FINAL CONFIRM ORDER அழுத்திய பிறகே Order ID உருவாகும்.</p>
+  <button class="customer-details-open-btn" type="button" onclick="openCustomerDetailsForm()">REVIEW &amp; CONFIRM ORDER</button>
   <p id="customerDetailsQuickStatus" role="status" aria-live="polite"></p>
 </aside>
 </div>
@@ -3121,7 +3122,9 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
           <small>Invoice PDF இந்த email-க்கு அனுப்பப்படும். Email இல்லையெனில் website-ல் download செய்யலாம்.</small>
         </div>
       </div>
-      <button class="customer-submit-btn" id="customerDetailsSubmitBtn" type="submit">SAVE BOOKING DETAILS</button>
+      <p id="finalOrderSummary" style="padding:12px;background:#fff3cd;border-radius:8px;line-height:1.6"></p>
+      <label style="display:flex;gap:10px;align-items:flex-start;margin:14px 0;line-height:1.6"><input id="finalOrderCheckpoint" type="checkbox" required style="margin-top:5px;width:20px;height:20px;flex-shrink:0"> <span>Items, Qty மற்றும் விவரங்களை சரிபார்த்துவிட்டேன். இந்த order-ஐ இறுதியாக பதிவு செய்ய விரும்புகிறேன். / I have checked my items, quantities and details and confirm this order.</span></label>
+      <button class="customer-submit-btn" id="customerDetailsSubmitBtn" type="submit">FINAL CONFIRM ORDER</button>
       <p id="customerDetailsStatus" role="status" aria-live="polite"></p>
     </form>
   </div>
@@ -3497,9 +3500,10 @@ function continueSavedCrackersCart(){
   refreshComboSummary();
   restoreOrderReceipt();
 }
-function startNewCrackersOrder(){
+function startNewCrackersOrder(newOrder=true){
   if(clientRequestPdfBusy || customerDetailsBusy || paymentProofBusy) return;
   awaitingSavedCartChoice=false;
+  if(newOrder){try{localStorage.removeItem('futuraCrackersOrderSession2026');}catch(e){}crackersConfirmationSession=null;}
   // Reset this browser's editable draft only. Submitted orders, pending saves,
   // payment records and the existing private tracking link remain intact.
   for(const key of ['futuraCrackersCart2026','futuraCrackersOrder','futuraCrackersReceipt2026','futuraCrackersCustomerDetails2026']){
@@ -3524,6 +3528,8 @@ function startNewCrackersOrder(){
   if(paymentPreviewUrl){URL.revokeObjectURL(paymentPreviewUrl);paymentPreviewUrl=null;}
   setRequestPdfStatus('');
   document.getElementById('continueSavedCartBtn').hidden=true;
+  const search=document.getElementById('productSearch'),category=document.getElementById('categoryFilter');
+  search.value='';category.value='';search.dispatchEvent(new Event('input'));category.dispatchEvent(new Event('change'));
   document.getElementById('cartSessionMessage').textContent='புதிய ஆர்டர் / New order — select your products to begin.';
   refreshComboSummary();
 }
@@ -3562,7 +3568,7 @@ function restoreOrderReceipt(){
 
 function changeComboQty(id,delta){
   if(awaitingSavedCartChoice && (clientRequestPdfBusy || customerDetailsBusy || paymentProofBusy)) return;
-  if(awaitingSavedCartChoice) startNewCrackersOrder();
+  if(awaitingSavedCartChoice) startNewCrackersOrder(false);
   const p=comboProducts[id];
   p.qty=Math.min(10000,Math.max(0,p.qty+delta));
   rememberCrackersCart();
@@ -3629,7 +3635,7 @@ function refreshComboSummary(){
     setRequestPdfStatus('Products அல்லது client details மாறியுள்ளன. Order Request button புதிய PDF-ஐ உருவாக்கும்.');
   }
   const requestButton=document.getElementById('samplePayBtn');
-  for(const id of ['startNewOrderBtn','continueSavedCartBtn']) document.getElementById(id).disabled=clientRequestPdfBusy || customerDetailsBusy || paymentProofBusy;
+  for(const id of ['startNewOrderBtn','continueSavedCartBtn','refreshSelectionBtn']) document.getElementById(id).disabled=clientRequestPdfBusy || customerDetailsBusy || paymentProofBusy;
   requestButton.disabled=totalQty===0 || clientRequestPdfBusy;
   requestButton.textContent=clientRequestPdfBusy
     ? (requestSharePhase==='sharing'?'OPENING PDF SHARE…':'CREATING REQUEST PDF…')
@@ -4101,26 +4107,40 @@ function getCrackersOrder(chosen){
   return {orderId,items,requestKey:currentCrackersOrderCache.requestKey};
 }
 function clientOrderIdLabel(order) {
-  return /^[0-9]{4,12}$/.test(order.orderId) ? 'Order ID: '+order.orderId : 'Order ID: விவரங்களை submit செய்ததும் கிடைக்கும்';
+  return /^[0-9]{4,12}$/.test(order.orderId) ? 'Order ID: '+order.orderId : 'Order ID: FINAL CONFIRM ORDER அழுத்திய பிறகே கிடைக்கும்';
 }
 const orderNumberRequests=new Map();
-async function ensureCrackersOrderId(order){
+let crackersConfirmationSession=null;
+async function confirmationRequestKey(order,customer){
+  if(!crackersConfirmationSession){
+    try{crackersConfirmationSession=localStorage.getItem('futuraCrackersOrderSession2026');}catch(e){}
+    if(!crackersConfirmationSession){crackersConfirmationSession=crypto.randomUUID();try{localStorage.setItem('futuraCrackersOrderSession2026',crackersConfirmationSession);}catch(e){}}
+  }
+  const identity={...customer,mobile:customer.mobile.replace(/\D/g,''),email:customer.email.toLowerCase()};
+  const bytes=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(JSON.stringify({session:crackersConfirmationSession,items:order.items,customer:identity})));
+  return 'FUTCONF_'+Array.from(new Uint8Array(bytes),b=>b.toString(16).padStart(2,'0')).join('');
+}
+function isCrackersOrderConfirmed(order){
+  try{const receipt=JSON.parse(localStorage.getItem('futuraCrackersReceipt2026')||'null');return !!order && receipt?.state==='saved' && receipt.order?.orderId===order.orderId && /^[0-9]{4,12}$/.test(order.orderId) && JSON.stringify(receipt.order.items)===JSON.stringify(order.items);}catch(e){return false;}
+}
+async function ensureCrackersOrderId(order,customer,finalConfirmed=false){
+  if(!finalConfirmed) throw Error('முதலில் FINAL CONFIRM ORDER அழுத்துங்கள்.');
   if(/^[0-9]{4,12}$/.test(order.orderId)) return order;
   // An already registered older booking keeps its reference.
   try{
     const receipt=JSON.parse(localStorage.getItem('futuraCrackersReceipt2026') || 'null');
     if(receipt?.state==='saved' && receipt.order?.orderId===order.orderId) return order;
   }catch(e){}
-  const requestKey=order.orderId;
+  const requestKey=await confirmationRequestKey(order,customer);
   if(!orderNumberRequests.has(requestKey)){
     orderNumberRequests.set(requestKey,(async()=>{
       const response=await fetch('/api/crackers-order-id',{
-        method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({requestKey})
+        method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({requestKey,finalConfirmed:true})
       });
       const result=await response.json();
       if(!response.ok || result.ok!==true || result.requestKey!==requestKey || !/^[0-9]{4,12}$/.test(result.orderId || '')) throw Error('Order ID உருவாக்க முடியவில்லை. மீண்டும் முயற்சி செய்யுங்கள்.');
       const latest=getCurrentCrackersOrderForDetails();
-      if(!latest || latest.orderId!==requestKey) throw Error('Products மாறியுள்ளன. மீண்டும் முயற்சி செய்யுங்கள்.');
+      if(!latest || JSON.stringify(latest.items)!==JSON.stringify(order.items)) throw Error('Products மாறியுள்ளன. மீண்டும் முயற்சி செய்யுங்கள்.');
       currentCrackersOrderCache={fingerprint:JSON.stringify(order.items),orderId:result.orderId,requestKey};
       try{localStorage.setItem('futuraCrackersOrder',JSON.stringify(currentCrackersOrderCache));}catch(e){}
       return {...order,orderId:result.orderId,requestKey};
@@ -4187,7 +4207,11 @@ function openCustomerDetailsForm(mode='save'){
   customerDetailsMode=mode;
   document.getElementById('customerDetailsHeading').textContent=mode==='save'?'Booking Details / ஆர்டர் விவரம்':'Client Request Details / வாடிக்கையாளர் விவரம்';
   document.querySelector('.customer-modal-sub').textContent=mode==='save'?'இந்த விவரங்கள் உங்கள் crackers order booking-க்காக பதிவு செய்யப்படும்.':'இந்த விவரங்கள் உங்கள் request PDF மற்றும் WhatsApp கோரிக்கையில் வரும்.';
-  document.getElementById('customerDetailsSubmitBtn').textContent=mode==='share'?'CREATE & SHARE REQUEST PDF':'SAVE BOOKING DETAILS';
+  document.getElementById('customerDetailsSubmitBtn').textContent='FINAL CONFIRM ORDER';
+  document.getElementById('finalOrderCheckpoint').checked=false;
+  const total=order.items.reduce((sum,item)=>sum+item.qty*item.price,0),qty=order.items.reduce((sum,item)=>sum+item.qty,0);
+  const money=value=>'₹'+value.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
+  document.getElementById('finalOrderSummary').textContent=order.items.length+' products · '+qty+' items · Product total '+money(total)+' + Packing & Parcel Forwarding ₹300 = '+money(total+300)+' · Transport: TOPAY. Order ID உருவாக இந்த order-ஐ confirm செய்யுங்கள்.';
   document.getElementById('customerDetailsOrderId').textContent=clientOrderIdLabel(order);
   try{
     const saved=JSON.parse(localStorage.getItem('futuraCrackersCustomerDetails2026') || 'null');
@@ -4219,6 +4243,7 @@ async function submitCustomerDetails(event){
   const quick=document.getElementById('customerDetailsQuickStatus');
   const button=document.getElementById('customerDetailsSubmitBtn');
   if(!order){status.textContent='Products தேர்வு செய்த பிறகு booking details save செய்யுங்கள்.';return;}
+  if(!document.getElementById('finalOrderCheckpoint').checked){status.textContent='Items, Qty மற்றும் விவரங்களை சரிபார்த்து confirmation checkbox தேர்வு செய்யுங்கள்.';return;}
 
   const name=document.getElementById('customerName').value.trim();
   const mobile=document.getElementById('customerMobile').value.trim();
@@ -4237,16 +4262,11 @@ async function submitCustomerDetails(event){
   requestCustomer=customer;
   // Keep entered details available after a refresh or failed network request.
   try{localStorage.setItem('futuraCrackersCustomerDetails2026',JSON.stringify(customer));}catch(e){}
-  if(customerDetailsMode==='share'){
-    closeCustomerDetailsForm();
-    comboReadyToPay(customer);
-    return;
-  }
   customerDetailsBusy=true;
   button.disabled=true;
   status.textContent='Booking details save ஆகிறது…';
   try{
-    order=await ensureCrackersOrderId(order);
+    order=await ensureCrackersOrderId(order,customer,true);
     document.getElementById('customerDetailsOrderId').textContent=clientOrderIdLabel(order);
     const response=await fetch('/api/crackers-customer-details',{
       method:'POST',
@@ -4259,7 +4279,7 @@ async function submitCustomerDetails(event){
     showCrackersOrderReceived(order);
     status.textContent='Saved ✓ உங்கள் booking details பதிவு செய்யப்பட்டது.';
     quick.textContent='Booking details saved ✓';
-    setTimeout(closeCustomerDetailsForm,900);
+    setTimeout(()=>{closeCustomerDetailsForm();if(customerDetailsMode==='share')comboReadyToPay(customer);},900);
   }catch(e){
     status.textContent=e.message || 'Booking details save ஆகவில்லை. மீண்டும் முயற்சி செய்யுங்கள்.';
   }finally{
@@ -4289,9 +4309,9 @@ async function selectCrackersPaymentProof(input){
   const customer=getSavedCrackersCustomer();
   if(!customer){status.textContent='Invoice-க்கு முதலில் booking details நிரப்பி save செய்யுங்கள்.';input.value='';openCustomerDetailsForm();return;}
   let order=getCrackersOrder(chosen);
+  if(!isCrackersOrderConfirmed(order)){status.textContent='முதலில் FINAL CONFIRM ORDER மூலம் order-ஐ பதிவு செய்யுங்கள்.';input.value='';openCustomerDetailsForm();return;}
   status.textContent='Screenshot தயாராகிறது…';
   try{
-    order=await ensureCrackersOrderId(order);
     const source=URL.createObjectURL(file),picture=new Image();
     try{
       await new Promise((resolve,reject)=>{picture.onload=resolve;picture.onerror=reject;picture.src=source;});
@@ -4378,16 +4398,15 @@ async function comboReadyToPay(customer=getSavedCrackersCustomer()){
   syncCatalogueProducts();
   const chosen=Object.values(comboProducts).filter(p=>p.qty>0).sort((a,b)=>Number(a.serial)-Number(b.serial));
   if(!chosen.length) return;
+  let order=getCrackersOrder(chosen);
+  if(!customer || !isCrackersOrderConfirmed(order)){openCustomerDetailsForm('share');return;}
   if(!supportsRequestPdfSharing()){
     setRequestPdfStatus('இந்த browser PDF file sharing-ஐ ஆதரிக்கவில்லை. Mobile Chrome / Safari browser-ல் இந்தப் பக்கத்தைத் திறந்து Order Request அனுப்புங்கள்.');
     return;
   }
-  if(!customer){openCustomerDetailsForm('share');return;}
-  let order=getCrackersOrder(chosen);
   clientRequestPdfBusy=true;
   try{
     requestSharePhase='generating';refreshComboSummary();
-    order=await ensureCrackersOrderId(order);
     const key=requestPdfKey(order,customer);
     if(!hasCurrentRequestPdf(order,customer)){
       preparedRequestPdf=null;
