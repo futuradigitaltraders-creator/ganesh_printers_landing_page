@@ -1,0 +1,37 @@
+name: Fix 11x17 Live Master
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  fix:
+    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Clean 11x17 master code
+        run: |
+          python3 <<'PY'
+          from pathlib import Path
+          import re
+          p=Path('die-cutting-product-test-11x17.html')
+          s=p.read_text(encoding='utf-8')
+          s=s.replace('<label for="specialDesign">Design Number</label>','<label for="specialDesign">Slip Number</label>')
+          s=s.replace('<option value="">Select Design Number</option>','<option value="">Select Slip Number</option>')
+          s=s.replace('<label for="specialColour">Colour</label>','<label for="specialColour">Slip Colour</label>')
+          s=s.replace('<option value="">Select Colour</option>','<option value="">Select Slip Colour</option>')
+          start=s.index('function refresh(){')
+          end=s.index('\nfunction showPage(', start)
+          clean="""function refresh(){const pg=pages[currentIndex],c=readCart(),pageTotal=pg.items.reduce((s,label)=>s+Number(c[label]?.qty||0),0),t=totalOrder(),target=Number(safeRead(REQUIRED_KEY,'0')||0),balance=Math.max(0,target-t),ready=target>0&&t>=target;designRange.textContent=pg.range;requiredQty.disabled=false;qty.disabled=false;const special=pg.id==='204'||pg.id==='206';const reqOpts=special?['0','100','200','300','400','500']:['0','100','200','300','400','500','600','700','800','900','1000'];const qtyOpts=special?['0','100','200','300','400','500']:['0','10','20','25','50','100'];requiredQty.innerHTML=reqOpts.map(v=>`<option value=\"${v}\">${v==='0'?'Select Total Required Quantity':v}</option>`).join('');qty.innerHTML=qtyOpts.map(v=>`<option value=\"${v}\">${v==='0'?'Select Quantity':v}</option>`).join('');requiredQty.value=safeRead(REQUIRED_KEY,'0')||'0';const first=pg.items[0];qty.value=String(c[first]?.qty||0);designQty.textContent=String(pageTotal);subTotal.textContent=String(pageTotal);totalQty.textContent=String(t);balanceQty.textContent=String(balance);balanceBox.classList.toggle('complete',ready);totalBox.classList.toggle('reached',ready);cartBtn.classList.toggle('ready',ready);waBtn.classList.toggle('ready',ready);cartBtn.textContent=ready?'✓ ADD TO CART':'🛒 ADD TO CART';renderRows();configureSpecialControls()}"""
+          s=s[:start]+clean+s[end:]
+          p.write_text(s,encoding='utf-8')
+          PY
+      - name: Commit and push clean master
+        run: |
+          git config user.name 'futuradigitaltraders-creator'
+          git config user.email 'futuradigitaltraders@gmail.com'
+          rm -f _slip_label_update_trigger.txt _slip_text_trigger.txt _rename_special_labels_trigger.txt _special_controls_fix_trigger.txt
+          git add die-cutting-product-test-11x17.html
+          git diff --cached --quiet || git commit -m 'Fix 11x17 live master code [skip ci]'
+          git push

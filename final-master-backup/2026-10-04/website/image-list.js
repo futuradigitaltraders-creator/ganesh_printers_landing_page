@@ -1,0 +1,1 @@
+window.CATALOGUE_IMAGES=[];
