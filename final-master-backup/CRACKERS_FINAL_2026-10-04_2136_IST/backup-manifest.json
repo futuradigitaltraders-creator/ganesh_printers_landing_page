@@ -1,0 +1,2012 @@
+{
+  "name": "DEEPAVALI CRACKERS 2026 — FINAL MASTER BACKUP",
+  "backup_time_ist": "2026-10-04T21:36:46+05:30",
+  "timezone": "Asia/Kolkata",
+  "source_repository": "futuradigitaltraders-creator/ganesh_printers_landing_page",
+  "source_commit": "6e78885e65a4944b820d50205ef1269d26ec6b11",
+  "source_tree": "8c9c96832c25282f2185fcbf189cade66c575b5d",
+  "page": "https://www.futuraonlineprint.in/deepavali-crackers-2026.html",
+  "scope": "Crackers catalogue, local cracker images, request/invoice PDF assets, order/payment/tracking APIs and Google Apps Script source; supporting configuration only.",
+  "file_count": 332,
+  "total_bytes": 40813933,
+  "google_script_deployment": "PENDING: source saved; new deployment for owner payment screenshot email was not completed. Existing deployment version 10 remains active. Google login showed 502 Connection refused.",
+  "live_payment_email_health": {
+    "ok": true,
+    "available": true,
+    "ownerScreenshotEmailAvailable": false
+  },
+  "files": [
+    {
+      "path": ".github/workflows/generate-crackers-catalogue-pdf.yml",
+      "git_blob_sha": "7744a31630a6be51a4f020de091398ebadb8cbb4",
+      "size": 1505,
+      "mode": "100644"
+    },
+    {
+      "path": ".vercelignore",
+      "git_blob_sha": "e300d3be31e66df5bacfd40b8353edce232a2578",
+      "size": 100,
+      "mode": "100644"
+    },
+    {
+      "path": "FUTURA_Deepavali_Crackers_2026_Image_Catalogue.pdf",
+      "git_blob_sha": "d332e30ccdf83bb8d6e2d42bc76d6e58a7af53f9",
+      "size": 4112768,
+      "mode": "100644"
+    },
+    {
+      "path": "api/crackers-customer-details.js",
+      "git_blob_sha": "218a22cba9c4f7c20f7144fdcc0132244ff79518",
+      "size": 4562,
+      "mode": "100644"
+    },
+    {
+      "path": "api/crackers-images-pdf.js",
+      "git_blob_sha": "27879b18fce8eb6f13ab6c66cf28e4aae12116ee",
+      "size": 10910,
+      "mode": "100644"
+    },
+    {
+      "path": "api/crackers-order-id.js",
+      "git_blob_sha": "9a0f56bf5980313a0b4d308aa25f601f58dfd9d6",
+      "size": 2404,
+      "mode": "100644"
+    },
+    {
+      "path": "api/crackers-order-tracking.js",
+      "git_blob_sha": "81ef1cdaa7c8b02ce58b0d8ad38d00a9ddddef2d",
+      "size": 2247,
+      "mode": "100644"
+    },
+    {
+      "path": "api/crackers-orders.js",
+      "git_blob_sha": "0115357e8084b80c9c9c3030f6db56efd598bd81",
+      "size": 3216,
+      "mode": "100644"
+    },
+    {
+      "path": "api/crackers-payment-proof.js",
+      "git_blob_sha": "b3cd89480ccfc58136e4d23cf44d39c198355660",
+      "size": 4241,
+      "mode": "100644"
+    },
+    {
+      "path": "api/crackers-request-email.js",
+      "git_blob_sha": "13ce5740f8e7a3a60fb906ac476f2138cd99fd06",
+      "size": 3699,
+      "mode": "100644"
+    },
+    {
+      "path": "api/crackers-request-pdf.js",
+      "git_blob_sha": "5adc87f3fcd34fcfce5a635b079de5b5b03c2cc9",
+      "size": 13486,
+      "mode": "100644"
+    },
+    {
+      "path": "assets/crackers/request-form/NotoSansTamil-Bold.ttf",
+      "git_blob_sha": "99257417c1f0c25e9a9ccbad0bd9a17201af4930",
+      "size": 82668,
+      "mode": "100644"
+    },
+    {
+      "path": "assets/crackers/request-form/NotoSansTamil-Regular.ttf",
+      "git_blob_sha": "82cea900aba8019d99846486cdbb4828700912de",
+      "size": 82612,
+      "mode": "100644"
+    },
+    {
+      "path": "assets/crackers/request-form/OFL.txt",
+      "git_blob_sha": "f44e2e25998c117f9749600f947909e5a95f657d",
+      "size": 4382,
+      "mode": "100644"
+    },
+    {
+      "path": "assets/crackers/request-form/header.png",
+      "git_blob_sha": "33b38af086b5ef4a3a8d62599f99b91e4b7163d0",
+      "size": 135907,
+      "mode": "100644"
+    },
+    {
+      "path": "crackers-order-tracking.html",
+      "git_blob_sha": "25ed946747893b627f5814094c08d99a675267c6",
+      "size": 8145,
+      "mode": "100644"
+    },
+    {
+      "path": "deepavali-crackers-2026.html",
+      "git_blob_sha": "2329868bd44b720f1203f49303dce5dfb4469151",
+      "size": 518801,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/.gitkeep",
+      "git_blob_sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "size": 0,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/100__1000mmMagic.jpg",
+      "git_blob_sha": "f445b6ae1051401c717ec6f9f1666112005326fa",
+      "size": 101105,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/101__2000mmMagic.jpg",
+      "git_blob_sha": "e5836ede1bee5d0ac5ac21a84d23d5a901dc3426",
+      "size": 106255,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/102__5000mmMagic.jpg",
+      "git_blob_sha": "c2c0b5d5c976ab3539426958c0e516683297713f",
+      "size": 109415,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/103__10000mmMagic.jpg",
+      "git_blob_sha": "268ea4839bdc9714576532c3e36ccb700de793cf",
+      "size": 106559,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/104__100MAGIC.jpg",
+      "git_blob_sha": "951933fbe2c708ab5b3ace21310b1bfbcf77daf6",
+      "size": 8347,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/105__1000MAGIC.jpg",
+      "git_blob_sha": "e03f65b8e25377964666e93a3a75a11c49b234af",
+      "size": 24082,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/106__whatsappimage20220906at1.29.12pm1.jpg",
+      "git_blob_sha": "d74d2cb527570b33a943a60afa96feda0b2cbfe5",
+      "size": 17897,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/107__whatsappimage20220906at1.29.12pm2.jpg",
+      "git_blob_sha": "1910feb706417a3c902195fb04e38851b8c387ed",
+      "size": 18108,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/109__whatsappimage20220906at1.29.13pm.jpg",
+      "git_blob_sha": "2da7738265d438a9d2a4becb5092f79cd92a3d4c",
+      "size": 16623,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/10__Standard15CMGoldSparklers.jpg",
+      "git_blob_sha": "c57084d5367168913b4dfaa097cf09c1833fe6fb",
+      "size": 84698,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/110__BijiliRed.jpg",
+      "git_blob_sha": "0bcd665e32b72cf8bc8542b0f2fc36ef1e206cf8",
+      "size": 128355,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/111__BijiliGaint.jpg",
+      "git_blob_sha": "a794f89b25286014845e4c01f200755b41d58040",
+      "size": 118581,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/112__ChatChat.jpg",
+      "git_blob_sha": "eb815e7349e6826ffdb5a04019ee927d448d3d9c",
+      "size": 124629,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/113__DiamondMine.jpg",
+      "git_blob_sha": "f2a26937e6dcc435dffc715b292b15e51e012c88",
+      "size": 127090,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/114__GOLDENWHISTLEGIANTSTD.jpg",
+      "git_blob_sha": "6465abbbc00c3970436b093ba9b3184cbd9e57e2",
+      "size": 136030,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/115__Happiness.jpg",
+      "git_blob_sha": "06a49cce1985b3e0fef4ae71fcde87fb264b7332",
+      "size": 143418,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/116__JadeFlower.jpg",
+      "git_blob_sha": "78453085665c31cb69c6421f8535f5105d36646d",
+      "size": 134262,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/117__JUMPINGGROGSTD.jpg",
+      "git_blob_sha": "d90652564736b5009182437d987a8c88bd368b98",
+      "size": 101376,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/118__MONEYPENNYSTD.jpg",
+      "git_blob_sha": "d2ee2937f41ce97ebd9691bdf1ea6122cd27b183",
+      "size": 96676,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/119__Sundrops.jpg",
+      "git_blob_sha": "45205160b1ddcf150c6122991412de506013db5d",
+      "size": 119915,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/11__Eco4Lakshmi.jpg",
+      "git_blob_sha": "a0314ab72771ec9dd9d9ad308dbb2dab99cee71b",
+      "size": 79427,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/120__TREASUREBOXSTD.jpg",
+      "git_blob_sha": "f9f2e9d992e45bf519eccb6b9da3c4e07078766c",
+      "size": 103457,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/121__WhatsAppImage20260922at13.44.451.jpg",
+      "git_blob_sha": "7acc1569077d8b7a7882ec86ce2ba11d86f001d8",
+      "size": 105546,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/122__3DPOT.jpg",
+      "git_blob_sha": "47d428e68ea940611267138a21f37ac0c8086173",
+      "size": 142745,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/123__BUBBLE.jpg",
+      "git_blob_sha": "4e31e2dda98c4f809b45f06550075e635b216287",
+      "size": 132893,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/124__CATERPILLAR.jpg",
+      "git_blob_sha": "cd9b0170e24a9e41fe8a1d9464f7fd5b3964905c",
+      "size": 135136,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/125__COLORCHANGINGBUTTERFLYVAN.jpg",
+      "git_blob_sha": "ea47931466d8b95cce1e1ff95baa8870ca8d18f8",
+      "size": 120194,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/126__HARMONY.jpg",
+      "git_blob_sha": "2f24c41a79406a4333717843c7b13a12cdfc3eb8",
+      "size": 117161,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/127__JollyBobby.jpg",
+      "git_blob_sha": "b9c8fb5798ae0a97804db28613548f20e37cde33",
+      "size": 93724,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/128__WeTwoClassicHits5in1.jpg",
+      "git_blob_sha": "98d5bd6a870c7df8e84cbb0d9dd9c707582d4b08",
+      "size": 20100,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/129__WeTwoMysticBurst.jpg",
+      "git_blob_sha": "2430481dc1099b75db0b0b4ec18588bc8fe92150",
+      "size": 14658,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/12__Standard15CMLemonTreeSparklers.jpg",
+      "git_blob_sha": "90f3a87aec86785e0879805cddf8e0829fc88187",
+      "size": 79912,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/130__WeTwoGlitterStream.jpg",
+      "git_blob_sha": "dd7054df455bd31ee800f52500a0fd3a1d30adee",
+      "size": 20208,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/131__WeTwoCelestialBurst.jpg",
+      "git_blob_sha": "f8c9634245dd9575cf665cf69b799c486602fe60",
+      "size": 20041,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/132__WeTwoPeacockBowSeries2.jpg",
+      "git_blob_sha": "b142948717c014a468773d5bafbfefc61d1304f6",
+      "size": 14660,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/133__WeTwoSilverBlaze.jpg",
+      "git_blob_sha": "5f39d523f571fde74e3c0ef889d5d1fce888a4ab",
+      "size": 24322,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/134__WeTwoSizlingFountain.jpg",
+      "git_blob_sha": "b48940b869f34269314fa461755dfcbda5e8ee00",
+      "size": 22478,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/135__WeTwoWingsFountain.jpg",
+      "git_blob_sha": "165ad7e90ef0960d5bec3cb79bb33a0c0f0dd4ef",
+      "size": 20339,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/136__1.75cmfountain.jpg",
+      "git_blob_sha": "339fa0939f8abc48f9c6631fef3093ae38941bee",
+      "size": 134825,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/137__5G.jpg",
+      "git_blob_sha": "f336b27c8acc6be2bbf99f9dd43b23bd9ac5a04c",
+      "size": 89377,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/138__2020.jpg",
+      "git_blob_sha": "c428384c1ebcc7c1f31a8c3c03567c682052f951",
+      "size": 90825,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/139__WaterQueen.jpg",
+      "git_blob_sha": "f38525caf6eb38acb37a51fdd36214057643743a",
+      "size": 89097,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/13__30cmCrackling.jpg",
+      "git_blob_sha": "815166fab365d0efd1eebcfc1d568e389cf7b716",
+      "size": 83584,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/140__90sWatts.jpg",
+      "git_blob_sha": "655d578ca3e4337484dd18214fc89a0b671b495e",
+      "size": 95340,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/141__AsrafiGold.jpg",
+      "git_blob_sha": "ec0d8f28df3b21a9489a35367f84357c62c7d5c4",
+      "size": 115991,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/142__AstroBoy.jpg",
+      "git_blob_sha": "d81fa0c5c102f17588c7f935c957307be4db55db",
+      "size": 114715,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/143__Bada.jpg",
+      "git_blob_sha": "0bf93ba2826499dcb53ef9f567ddd4a4cac220ca",
+      "size": 154563,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/144__BimBom.jpg",
+      "git_blob_sha": "0f5b6dddc0d0a10497446821da0bc4ab77998090",
+      "size": 63265,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/145__BlackForest.jpg",
+      "git_blob_sha": "d61cc8cab5ad31f2b7841b0223dc1078bba36036",
+      "size": 69947,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/146__166.jpg",
+      "git_blob_sha": "4c5a6b43c5c0fdaee6f4254042819db82ee379e5",
+      "size": 23861,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/147__EcoChitPut.jpg",
+      "git_blob_sha": "4ec7bb38b320bfc9ee705d5cbf20f9c23be56aaf",
+      "size": 17219,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/149__ECODANCINGBUTTERFLY.jpg",
+      "git_blob_sha": "c77a3d20165cf55d1ced7ce76af3bc2f22cdc03f",
+      "size": 102008,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/14__Standard30CMGoldSparklers1.jpg",
+      "git_blob_sha": "78ca83060056757c983e6bec77aa748a6e4d151e",
+      "size": 76248,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/150__DoraSinger.jpg",
+      "git_blob_sha": "17c0a81c162ae4c3363b8be70c3ef73bce910e99",
+      "size": 131225,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/151__WhatsAppImage20260922at13.45.35.jpg",
+      "git_blob_sha": "35087b1f0604e51941be7011b21b582dc195740c",
+      "size": 132938,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/152__ECOEMUEGG.webp",
+      "git_blob_sha": "dbbc9679880a04c856b02088f22ad3a2405f0902",
+      "size": 8432,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/153__WhatsAppImage20260922at13.45.36.jpg",
+      "git_blob_sha": "8ecd9a6e374029ed7f9356029b0986217698583c",
+      "size": 140361,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/154__EcoHelicopter.jpg",
+      "git_blob_sha": "01b537a998cc66e3c5f377afb0c9b6c0478b8255",
+      "size": 14835,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/155__Kulfi.jpg",
+      "git_blob_sha": "84c8554d8694f857de489627bb7a02c13869b355",
+      "size": 100012,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/156__Lollipop.jpg",
+      "git_blob_sha": "99da5825a370bba08863cbd9d50f09156af3d326",
+      "size": 6891,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/157__StarvellMaduraiMalli.jpg",
+      "git_blob_sha": "6a429b4c73faa001756a1581a4ec93687f28d500",
+      "size": 17351,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/158__EcoMagicalPeacock.jpg",
+      "git_blob_sha": "93e7775b5f2676372c61a013606bcc9e09a1a3a8",
+      "size": 145328,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/159__EcoMayurFeather.jpg",
+      "git_blob_sha": "dc2425e6de9308c23af65bbc20ed5fb296df7a65",
+      "size": 18820,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/15__Standard9CMCracklingSparklers1.jpg",
+      "git_blob_sha": "c4abb1f3463c3679b30a7c55a8d390e8bfe01445",
+      "size": 79770,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/160__StarvellMotuPatlu.jpg",
+      "git_blob_sha": "b215cb526f4cbd7f7fe07bee64dcf2782da36338",
+      "size": 15947,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/161__PhotoFlash.jpg",
+      "git_blob_sha": "343a309aaa8ee3390c9601b8073ea2a3c06cdfec",
+      "size": 92682,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/162__Spyder.jpg",
+      "git_blob_sha": "0f0a7a7739e843ba99cbea3f1ba4f1ef50bd80db",
+      "size": 104901,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/163__StarPotsMini.jpg",
+      "git_blob_sha": "8a1ace399edc37ee7e9b14182d21dd33cc433580",
+      "size": 142183,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/164__VelFountain.jpg",
+      "git_blob_sha": "17703e7bf2a82f15901bbe8bbee0c9bb17f7f02a",
+      "size": 108322,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/165__AerialOut.jpg",
+      "git_blob_sha": "79536952cae6616d1d9cf821a18780a7db009fd6",
+      "size": 155870,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/166__ClusterBuster.jpg",
+      "git_blob_sha": "96174d9c40fd26f295157819fcd517f3b4cf1986",
+      "size": 132747,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/167__FiveStar.jpg",
+      "git_blob_sha": "95f49c693236f844ee88f1a11b1c5851f7a2d948",
+      "size": 153892,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/168__1.25ARIELSKYSHOTLEAFYLIGHTSHOWSTD.jpg",
+      "git_blob_sha": "641dc9ac4d4e2728456e55645fffc3301b295084",
+      "size": 99907,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/169__PANDAVSTD.jpg",
+      "git_blob_sha": "79a572a84e6a763ae274f9673e26b78ac3ce89db",
+      "size": 127941,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/16__Asok10CM5in1.jpg",
+      "git_blob_sha": "e5d4215a7694eb88ae4a96e92d3f0b1f37d21847",
+      "size": 18043,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/170__SnowVaaly.jpg",
+      "git_blob_sha": "601b01254bf15279c954eb1f11593003a5d5e470",
+      "size": 146712,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/171__SnowVaaly.jpg",
+      "git_blob_sha": "515822a3366bccf77bd2ffaac03d45f55959fabc",
+      "size": 29524,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/172__CHIPMIX.jpg",
+      "git_blob_sha": "8db1d73f7bdfa8e462f19a5e0e4c6722feea70e0",
+      "size": 140862,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/173__DIVINE.jpg",
+      "git_blob_sha": "04ac0a3dd5a1edf5321a80c9c2fdfe8a1b2dda26",
+      "size": 134577,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/174__Flymachine.jpg",
+      "git_blob_sha": "45091f270e4603763076a7d70f6599aae5c91ddb",
+      "size": 132709,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/175__LAZERSHOW.jpg",
+      "git_blob_sha": "b7e4e9f75ccb94f05da99647442d70a35ab31fe9",
+      "size": 123262,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/176__MIRACLE.jpg",
+      "git_blob_sha": "73256e4c77d755f4e7cbac640c7ded0c260f0773",
+      "size": 135100,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/177__Skygel.jpg",
+      "git_blob_sha": "6ffdfb33db1abbdd25ee4a601c9752eb86d1534f",
+      "size": 96457,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/178__TRIXX.jpg",
+      "git_blob_sha": "aff66377c064b5dbb92dc9c4f9c8fd1b6e4c714c",
+      "size": 121526,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/179__WeTwoChottaFancy.jpg",
+      "git_blob_sha": "8bcddd7481829fe7ecd4044820f29117c6877809",
+      "size": 26660,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/17__10cmSonato.jpg",
+      "git_blob_sha": "2d02d4bdd867fdb793b40658065769e86ee393ee",
+      "size": 69865,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/180__7Shot.jpg",
+      "git_blob_sha": "2442d90f9cb6b7b0e695268a5534ceebdbd6ad8c",
+      "size": 132995,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/181__mATRIX100.jpg",
+      "git_blob_sha": "e6f83493f2cb1534dd88667f2e4a79bc3bbdeaed",
+      "size": 136378,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/182__12SHOTSJETMIXSTD.jpg",
+      "git_blob_sha": "b057f0bc1295359732bd3b96ffe4b596844882aa",
+      "size": 115665,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/183__MusicParty.jpg",
+      "git_blob_sha": "99cf8f0843f1131b59bfaf00ff5fce9bbfd02aa9",
+      "size": 131182,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/184__SkyWash.jpg",
+      "git_blob_sha": "034315f1f5139436b096548d62aefcd342f65a4b",
+      "size": 126423,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/185__Meetspot120.jpg",
+      "git_blob_sha": "e08cb7797c22b593cee2a6f08ac1ef1b20616fc1",
+      "size": 148633,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/186__240SHOTSRAINBOWDANCE.jpg",
+      "git_blob_sha": "652aa005330f36c56479e7ab2800a29109dd6af6",
+      "size": 140078,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/187__40SHOTSBLACKGHOST.jpg",
+      "git_blob_sha": "62edfae0a8d5b1e6db92913fbcce52c7969175f3",
+      "size": 131862,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/188_500SHOTSPANORAMASTD.jpg",
+      "git_blob_sha": "b65933dcf6e582aef2ce6e11a4029d8dfc5059fc",
+      "size": 149140,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/189__56ShotsWonder.jpg",
+      "git_blob_sha": "cd1569b2d2c15d09b8463bafb786fc960e77d343",
+      "size": 104758,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/18__RAINBOXSIXASOK.jpg",
+      "git_blob_sha": "99cb21392292d3bac223497aa3a414b3a6acf4fb",
+      "size": 95219,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/190__ParrotsPrattle.jpg",
+      "git_blob_sha": "5e1fa69e2c7f13cb3837e44fd4b3c05ebeff06bf",
+      "size": 104762,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/191__60SHOTSCLIPPER60.jpg",
+      "git_blob_sha": "39c6d6fb90223eb82d26a7988aab0b7e03d1b2ff",
+      "size": 136884,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/192__10Goldwar.jpg",
+      "git_blob_sha": "8514c9ee7bf6f10e01216a2787c2dd1cb0406dec",
+      "size": 100476,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/193__Euphoria120.jpg",
+      "git_blob_sha": "56958c64dd6228b5cac7de9661d5bf7f823beb1d",
+      "size": 139598,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/194__GarbaNight30.jpg",
+      "git_blob_sha": "a1ae4856de72d76f4497330df8b2860ba90dcc34",
+      "size": 107317,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/195__Vivaha60Shot.jpg",
+      "git_blob_sha": "ac679458403e0a65dec31eac99cacfbcf72af922",
+      "size": 142547,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/196__120SHOTSWETWO.jpg",
+      "git_blob_sha": "5271e0d34c76f535152bf983e51a51056e404bf2",
+      "size": 118367,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/197__Wetwo240.jpg",
+      "git_blob_sha": "3c0d42cb374e1254af457eeb1fd58aad5ecc23fd",
+      "size": 102009,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/198__25SHOTSRIDERWETWO.jpg",
+      "git_blob_sha": "39a7fd9492bf1c919041635ab4b14e3746cf6695",
+      "size": 114120,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/199__30SHOTSWETWO.jpg",
+      "git_blob_sha": "3c44d6f350735f0cb8ae91722c7aa380aab97f06",
+      "size": 140786,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/19__Eco12cmGreen.jpg",
+      "git_blob_sha": "9b3f47a2cae718b62cb0743061f78872c0497c31",
+      "size": 55593,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/1__10 CM HERCULES DELUXE.jpg",
+      "git_blob_sha": "5cae593b70a86edc15a4c32f3b689c7b2b7399c1",
+      "size": 716612,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/200__10ShotsDussehra.jpg",
+      "git_blob_sha": "5b99e9b79a7d213093f639abfd1c7ab41bd6dde7",
+      "size": 117175,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/201__12ShotMulticolour.jpg",
+      "git_blob_sha": "ce2ebf04d2dfcb6f2c8df589a20cc4fe59df40af",
+      "size": 113986,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/202__12ShotRaider.jpg",
+      "git_blob_sha": "1072f546170a0b8f27f1d024daa70f1e194dd68b",
+      "size": 111452,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/203__ECO120SHOTS.jpg",
+      "git_blob_sha": "63b89d54bc624d366953d98d972fc0b25104a8bd",
+      "size": 99958,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/204__Eco30shot.jpg",
+      "git_blob_sha": "d87a4fd7581161c741837b50e50e45d9f85d6bdd",
+      "size": 143440,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/205__Eco60shot.jpg",
+      "git_blob_sha": "85f2cac0e236a1f326371ceff9c9fe5936952bc7",
+      "size": 158036,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/206__STDROVERNEW.jpg",
+      "git_blob_sha": "d534980128833456c8a60b8ec18dbf277a0a0ccb",
+      "size": 8461,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/207_JewelOfIndia.jpg",
+      "git_blob_sha": "0eb6694ea7f625f4b17c2dbc18b1cd4b87dbf5fe",
+      "size": 112043,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/208__MysticalNight.jpg",
+      "git_blob_sha": "fd38ac875a105b99391ea1b2700cd2383458598f",
+      "size": 115433,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/209__PEACOCKDANCESTD.jpg",
+      "git_blob_sha": "d6c75388fc1d9db0c34b7e129fe6be313f4f8122",
+      "size": 135380,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/20__Eco12cmRed.jpg",
+      "git_blob_sha": "38f26b64c8433758940b0eb2470885a58e16d588",
+      "size": 62898,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/210__36SHOTSFLAREDANCESTD.jpg",
+      "git_blob_sha": "2d2ba1179276bcf4496cb11307b681be53f03d39",
+      "size": 130279,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/211__CHILLOUT.jpg",
+      "git_blob_sha": "e3ca08a820d9128ace5abb90563c020261d15994",
+      "size": 142662,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/212__CityVibes.jpg",
+      "git_blob_sha": "7189c76ab31d562bf458f37cd96034278099e605",
+      "size": 87675,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/213__LazerCrackling.jpg",
+      "git_blob_sha": "67f194d737b2243156efd443be59abd5950213b2",
+      "size": 92767,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/214__MoreMore.jpg",
+      "git_blob_sha": "e19d971e38613d2d68495bbe29443a643758bcb1",
+      "size": 92761,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/215__Qauntum.jpg",
+      "git_blob_sha": "aff0cfe266bdcf22ce2dc22c6c00b73b4cf3158e",
+      "size": 89739,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/216__SkyHigh.jpg",
+      "git_blob_sha": "8e770d072b7e55ad7c1e0190e6f23c7c64c71baa",
+      "size": 99712,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/217__StarNight.jpg",
+      "git_blob_sha": "59cef0473abe6ab48dc437f9bbfdadef7fcb8136",
+      "size": 92216,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/218__GangBangers.jpg",
+      "git_blob_sha": "623dd58fe48fe5f2b1270dd1b6016d039e1efe26",
+      "size": 112450,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/219__setoutremovebgpreview.png",
+      "git_blob_sha": "7b7235456c118954eb2654a3dc5ae0131dd1cf62",
+      "size": 36057,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/21__12cmElectric.jpg",
+      "git_blob_sha": "5d56f07fc1167fd9b0ed82a5392526268fd0281a",
+      "size": 85117,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/220__WONDERLAND.png",
+      "git_blob_sha": "9ab7dee1469a03f195818ca82d75e53a678bf0a4",
+      "size": 77411,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/221__Beats25Shots.jpg",
+      "git_blob_sha": "ebc05764fd0337bfc5b55ac423fb95e8a01ad594",
+      "size": 114300,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/222__Cocktail40Shots.jpg",
+      "git_blob_sha": "aca22ff18e71c9e2ed05c3026cb2cad78c471d14",
+      "size": 121868,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/223__RajasthanRoyals24Shots.jpg",
+      "git_blob_sha": "84b6ddf0e7a6ba9433bdc54ed00039dc38626ce7",
+      "size": 114336,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/224_WEBNEW_224_starfirecomets_20261002.jpg",
+      "git_blob_sha": "8f1f67bd56dd2e7401fdc3cfe4c416ba682ac15b",
+      "size": 131909,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/225_WEBNEW_225_ICOMET_20261002.jpg",
+      "git_blob_sha": "511da3c9d51356d2cbb42b91e878f12b75c66352",
+      "size": 136653,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/226_WEBNEW_226_Silky_20261002.jpg",
+      "git_blob_sha": "df99616b7c261c3b7fb07a3f93e862712f1d1274",
+      "size": 100482,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/227_WEBNEW_227_1superstar_20261002.jpg",
+      "git_blob_sha": "8b228a4d69818a24b7692a637cc4142a42bc35a5",
+      "size": 96150,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/228_WEBNEW_228_Penuts_20261002.jpg",
+      "git_blob_sha": "3f3a2ea72198513e84aa1c642a59e52eb0b27c39",
+      "size": 97586,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/229_WEBNEW_229_Redcoral_20261002.jpg",
+      "git_blob_sha": "5abd8894171ae12845d9ba6d691fecfdf5d72bf7",
+      "size": 101493,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/22__12cmGlittering.jpg",
+      "git_blob_sha": "163df770e07635753271d7fb9d2b1b3d283a4fa8",
+      "size": 80361,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/230_WEBNEW_230_RoyalGems_20261002.jpg",
+      "git_blob_sha": "6bb799ba5e58f9c9be60591b6ebee169a95b086e",
+      "size": 99112,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/231_WEBNEW_231_2snowball_20261002.jpg",
+      "git_blob_sha": "a2e4f4d9ec792a65dc23a28a52183dcb4e5bced8",
+      "size": 93106,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/232_WEBNEW_232_DANCINGFLOWERS_20261002.jpg",
+      "git_blob_sha": "d77cb2d70d4eb7f05c423c2dca0fe27c846a0a92",
+      "size": 124699,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/233_WEBNEW_233_GOLDENOCTOPUS_20261002.jpg",
+      "git_blob_sha": "f708e8b3175eaef40eecd57f49f4f031a40f0d08",
+      "size": 139973,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/234_WEBNEW_234_AVENGERSSPECIAL_20261002.jpg",
+      "git_blob_sha": "6542a6193cbb2b6349f42565e7f4968b0e9cde04",
+      "size": 127872,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/235_WEBNEW_235_Digital_20261002.jpg",
+      "git_blob_sha": "aab2334f3ed91a1c6bf543c28f934012654b7c4a",
+      "size": 93075,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/236_WEBNEW_236_HiLight_20261002.jpg",
+      "git_blob_sha": "a07cc43e52609ea85c98c2eb73436012c746426b",
+      "size": 114489,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/237_WEBNEW_237_Stardust_20261002.jpg",
+      "git_blob_sha": "4ffd427f8415e44d6590ae0473895f83551b394a",
+      "size": 106443,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/238_WEBNEW_238_Dragon_20261002.jpg",
+      "git_blob_sha": "a82642e1b7af8eed2990a8f4a1fc51405d0db94c",
+      "size": 101100,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/239_WEBNEW_239_new_GoldenSky_20261002.jpg",
+      "git_blob_sha": "e269640cb1588c7ccdfbb6cbed9f54e74ded8379",
+      "size": 678555,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/23__Eco15ElectricSparklers.jpg",
+      "git_blob_sha": "388b6eb8f4bdda70bc646bd366cca2128e01cbda",
+      "size": 15250,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/240_WEBNEW_240_SkyKing_20261002.jpg",
+      "git_blob_sha": "13527c8944f41a8b613544eabe5403a528058432",
+      "size": 102395,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/241_WEBNEW_241_WorldWar_20261002.jpg",
+      "git_blob_sha": "253ca0dcfa7a939c3f74bfbe48b63cc82f042ee0",
+      "size": 102262,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/242_WEBNEW_242_Dark_20261002.jpg",
+      "git_blob_sha": "653ce0b53956d26ef084de6548f4f8ae8b0daefc",
+      "size": 94541,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/243_WEBNEW_243_IWorld_20261002.jpg",
+      "git_blob_sha": "dc954b6bdacc6e3544f152a223567044841cdc5c",
+      "size": 99304,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/244_WEBNEW_244_Pinkout_20261002.jpg",
+      "git_blob_sha": "162ba87f3f37e79d4398348618ce54d3edf6e0c5",
+      "size": 96007,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/245_WEBNEW_245_RedZone_20261002.jpg",
+      "git_blob_sha": "2aa2a6adcb10938a77df963008bde33eae94f648",
+      "size": 79227,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/246_WEBNEW_246_JungleParty_20261002.jpg",
+      "git_blob_sha": "3a3af7debe850e94c79a9f7592ce002fed69942e",
+      "size": 95557,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/247_WEBNEW_247_Orange_20261002.jpg",
+      "git_blob_sha": "65052d761ed00eb6c0bb66fb8253ab36f879aa9c",
+      "size": 98108,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/248_WEBNEW_248_PurpleRain_20261002.jpg",
+      "git_blob_sha": "dbf2e20d6d4ae636e4ad4d5fa43241d6ad94f90c",
+      "size": 92001,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/249_WEBNEW_249_SkyCopter_20261002.jpg",
+      "git_blob_sha": "d611d5a85bc0e4e4aa6e8c6fb304410371c31cad",
+      "size": 20717,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/24__Eco15CMGlitteringCrackers.jpg",
+      "git_blob_sha": "7d51fe7d4bdeea4fd1fd5c3c3b16743303e58b2c",
+      "size": 14792,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/250_WEBNEW_250_OceanBlue2_20261002.jpg",
+      "git_blob_sha": "51de4b715af710c05ef7d1c21ba359e9733dab0a",
+      "size": 103011,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/251_WEBNEW_251_SnkaEye_20261002.jpg",
+      "git_blob_sha": "356459c716338c7cb9c4cdbe4e100491b5f2815f",
+      "size": 91902,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/252_WEBNEW_252_WeTwo1_25Fancy_20261002.jpg",
+      "git_blob_sha": "23f71cf9dc760c3724ca516389098b5c61dcf2ef",
+      "size": 96381,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/253_WEBNEW_253_Wetwo2fancy_20261002.jpg",
+      "git_blob_sha": "6f079411bc5acac3fd6c2708ae88784a24ce4d1a",
+      "size": 134203,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/254_WEBNEW_254_Wetwo23pcs_20261002.jpg",
+      "git_blob_sha": "9c3a6ce70e69a307eaf807aae884c1dfece224ed",
+      "size": 109280,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/255_WEBNEW_255_4SKYSHOTWETWO_20261002.jpg",
+      "git_blob_sha": "b43614a417c482b2f5ff9eb0e5cf0570ea6380b6",
+      "size": 115960,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/256_WEBNEW_256_ECO1_75ALLINONESDS_20261002.jpg",
+      "git_blob_sha": "a76fcace04f023541f29c5d37c1325b71a96adae",
+      "size": 95996,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/257_WEBNEW_257_new_ECO1_75COCKTAILSDS_20261002.jpg",
+      "git_blob_sha": "1761d7b9035043f2e636f17a1643a30c598d7ba4",
+      "size": 764370,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/258_WEBNEW_257_ECO1_75GOLDENFALLSSDS_20261002.jpg",
+      "git_blob_sha": "c219771060bcf5457202809b40bfd30ada0b8f06",
+      "size": 92516,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/259_WEBNEW_259_new_ECO1_75GREENHORNETSDS_20261002.jpg",
+      "git_blob_sha": "89cb0538d3d5c1251cb8a8a40c414a77c9740e71",
+      "size": 626914,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/25__15CMGREENSPARKLERSECO.jpg",
+      "git_blob_sha": "c50d8af8a051f92866b43f39c8f6bc134a04fb84",
+      "size": 23139,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/260_WEBNEW_258_ECO1_75REDCARPETSDS_20261002.jpg",
+      "git_blob_sha": "256047ddaf85efbd634431e0655132425a318537",
+      "size": 96360,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/261_WEBNEW_259_ECO1_75SITARESDS_20261002.jpg",
+      "git_blob_sha": "03c112913f9caeabc254d87ddae33e6054d8b094",
+      "size": 89025,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/262_WEBNEW_260_amazonremovebgpreview_20261002.png",
+      "git_blob_sha": "5801532a27ef34b4e43e479de8e05f65b6a3ae67",
+      "size": 19549,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/263_WEBNEW_261_3_5AerialFancy_20261002.jpg",
+      "git_blob_sha": "d93626da53d687ef8c3c3eef72e4398a7ddb6f7c",
+      "size": 99566,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/264_WEBNEW_262_191MAGICBOX1PCE_20261002.jpg",
+      "git_blob_sha": "f9ad9b3dba589a65c64b252b82fc061c1220b59c",
+      "size": 7586,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/264__colourchangingballs.jpg",
+      "git_blob_sha": "a9bc015e2b480a54e0899b1e4b3fcb702837da6d",
+      "size": 13902,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/265_WEBNEW_263_212VIOLETFALLS1PCE_20261002.jpg",
+      "git_blob_sha": "b068bee0dc805d6991f0bd5a896ca138aee38ec7",
+      "size": 10248,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/267_WEBNEW_265_2_5million_20261002.jpg",
+      "git_blob_sha": "a916fdbc98d92618d9ca98d001635aafb8750883",
+      "size": 95205,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/268_WEBNEW_267_2_5sky_20261002.jpg",
+      "git_blob_sha": "637e0bd5aae181a81715d7c7711ab71c60c8232e",
+      "size": 99926,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/269_WEBNEW_269_Iq_20261002.jpg",
+      "git_blob_sha": "923ac0b4ac9538a14423308f6cd5138ff5c237c2",
+      "size": 101921,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/26__15CMREDSPARKLERSECO.jpg",
+      "git_blob_sha": "e3083c744a916ad412bc439b3fe231ec2ca701da",
+      "size": 21205,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/270_WEBNEW_270_LemonNights_20261002.jpg",
+      "git_blob_sha": "5ca29064189d8681e9f953ca62e68f91d1c5fdac",
+      "size": 101057,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/271_WEBNEW_271_Winner1_20261002.jpg",
+      "git_blob_sha": "d5bf4e13355f99025a51f261fe0b4f01c97e2717",
+      "size": 70853,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/273_WEBNEW_273_NewMetro1_20261002.jpg",
+      "git_blob_sha": "99280e198cf661563caff1bfe47117263eff015a",
+      "size": 92225,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/274_WEBNEW_274_1KFRONTSTD_20261002.jpg",
+      "git_blob_sha": "6e487e7ccf088beacfb12b3a43577c526ba0d7ce",
+      "size": 83939,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/275_WEBNEW_275_AllisWell1_20261002.jpg",
+      "git_blob_sha": "28a3e0f08df1588a923c9a328e7efa9d0598919f",
+      "size": 110601,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/276_WEBNEW_276_TITANGIFTBOXFRONT_20261002.jpg",
+      "git_blob_sha": "290dcc39ed999df1b699eefd7179043b356cbb26",
+      "size": 103089,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/277_WEBNEW_277_Diamond1_20261002.jpg",
+      "git_blob_sha": "70a6bc7a6376abfaf867599d9904de0cb0e49e12",
+      "size": 104965,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/278_WEBNEW_278_KHUSHIGIFTBOXFRONT_20261002.jpg",
+      "git_blob_sha": "a2c183c62a03033384d1dc6a838fb57315506540",
+      "size": 104573,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/279_WEBNEW_279_23ITEMSGIFTBOAXFRONTECO_20261002.jpg",
+      "git_blob_sha": "dfbcadfeb9bbdf19e7f9b4c99f492356695bd446",
+      "size": 98169,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/27__30CMCRACKLINGSPARKLERSECO.jpg",
+      "git_blob_sha": "0e703fbdc5d8e68cd98b453b051a6887cf4ddabf",
+      "size": 105406,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/280_WEBNEW_280_60ITEMSGIFTBOXFRONTECO_20261002.jpg",
+      "git_blob_sha": "839dcb0b0e157bc86fe4cadc71b59c45cb9a6704",
+      "size": 123543,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/281_WEBNEW_281_40items_20261002.jpg",
+      "git_blob_sha": "253f4abb9f32cebe5e1e8feda2c0c0529ac5d46d",
+      "size": 15908,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/282_WEBNEW_282_ZEE5_20261002.jpg",
+      "git_blob_sha": "8085f9fc4cf8e00ea346a281a94c2f9995f6bb27",
+      "size": 14286,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/283_WEBNEW_283_StandardRollCap_20261002.jpg",
+      "git_blob_sha": "c006272877c199ad440b9114baece348a74d466c",
+      "size": 25084,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/284_WEBNEW_284_EcoRollCap_20261002.jpg",
+      "git_blob_sha": "d62a4d26e1d00a490573b35bb6f653057c15b52d",
+      "size": 19316,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/285_WEBNEW_285_RingCaps_20261002.jpg",
+      "git_blob_sha": "b8dc97ba78f0d60fdf217e92cf7edfbf70e1fedd",
+      "size": 105891,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/286_WEBNEW_286_SonyMaxGun_20261002.jpg",
+      "git_blob_sha": "6a37eb4b82759dadd4796da918159a01d852354a",
+      "size": 89983,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/287_WEBNEW_287_ChalangerGun_20261002.jpg",
+      "git_blob_sha": "dbdfc9ed04460eece17350638fbe99113ed314be",
+      "size": 81080,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/288_WEBNEW_288_METALFIGHTERROLLCAPGUN_20261002.jpg",
+      "git_blob_sha": "ef9c0def955e65b018756a9ff40c3487c4fd9d26",
+      "size": 58698,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/289_WEBNEW_289_CbiRingCabGun_20261002.jpg",
+      "git_blob_sha": "6b5bbac63efc3cc703557fb24b4a557b5add03e1",
+      "size": 67553,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/28__30CMELECTRICSPARKLERSECO.jpg",
+      "git_blob_sha": "3eeef03370bd4b236f23d7d5596bb955d37ecdf8",
+      "size": 106091,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/290_WEBNEW_290_Lighter_20261002.jpg",
+      "git_blob_sha": "87c3965b2eaf0aa1e559ac63d1ffc758913c7c9c",
+      "size": 65589,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/291_WEBNEW_291_WhatsAppImage20260921at16_50_031_20261002.jpg",
+      "git_blob_sha": "ba3c11f45177519f32eb4dfc61ce1f15d4e08a92",
+      "size": 108210,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/292_WEBNEW_292_RobinClassic5in1_20261002.jpg",
+      "git_blob_sha": "b1ac4084830c0ca688ba8900ffecf6ef17c5bf05",
+      "size": 111249,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/293_WEBNEW_293_RobinVip10in1_20261002.jpg",
+      "git_blob_sha": "9f8c5ba835d08f663757e8a76790dcf60e00e33e",
+      "size": 113404,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/294_WEBNEW_294_SnakeTablet_20261002.jpg",
+      "git_blob_sha": "e0ee0386c5cbd62acbe16965aa6c8a51ec4b7542",
+      "size": 70594,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/295_WEBNEW_295_ANACONDA_20261002.jpg",
+      "git_blob_sha": "688c1998c68371de7062ea001642b2fa708a9dac",
+      "size": 111040,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/29__30CMGREENSPARKLERSECO.jpg",
+      "git_blob_sha": "f880db78ce1f834230f3208e0f5a92046636e767",
+      "size": 99747,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/2__9CMLAKSHMICRACKERS.jpg",
+      "git_blob_sha": "475fc4ac441840c04d483a78470729cab86953b7",
+      "size": 127392,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/30__30CMREDSPARKLERSECO.jpg",
+      "git_blob_sha": "ae356bfa3361f57e5428f06b2dc44e89ad3404a8",
+      "size": 106169,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/31__50CMCRACKLINGSPARKLERSECO.jpg",
+      "git_blob_sha": "91c821d83e428e9f1d31822e05508a08cacd6e1b",
+      "size": 103808,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/32__50CMELECTRICSPARKLERSECO.jpg",
+      "git_blob_sha": "3563139d55eb712cddf664b9ac24c10ead3ac64e",
+      "size": 98204,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/34__ZAMINCHAKKARSDELUXESTD.jpg",
+      "git_blob_sha": "3c7069f7bf4e5ebbbedab51ae6e26a25280e28d1",
+      "size": 120182,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/35__GROUNDCHAKKARSPECIALSTD.jpg",
+      "git_blob_sha": "4811eb1ceda664b4a7707974e300f26f902d308e",
+      "size": 150253,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/36__WHIZZWHEELSTD.jpg",
+      "git_blob_sha": "c8a9a7d0ee3a9487cbe997d6362fb41c0982fc19",
+      "size": 92219,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/37__WIRESHAKKARSASHOKASTD.jpg",
+      "git_blob_sha": "258ff30edeed7d8a25eddd508268c28a9b6d768b",
+      "size": 123021,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/38__ISPINVAN.jpg",
+      "git_blob_sha": "99fbf818c85723ad2c0a7ced60a96be049a4fd23",
+      "size": 124296,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/39__SpinnerSuperDlx.jpg",
+      "git_blob_sha": "1dc2a81dd09b4050e3e342ad397d25f1e58d568e",
+      "size": 111952,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/3__Eco5Lakshmi.jpg",
+      "git_blob_sha": "84aa6b24d411aac73e6b83924d7ac20a8cde0d26",
+      "size": 125653,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/40__Starvell4X4Wheel.jpg",
+      "git_blob_sha": "0a0c1f4dea7355aaef4428d2f26109b602c1141a",
+      "size": 17806,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/41__EcoGrChakkarAsoka.jpg",
+      "git_blob_sha": "dacbd2628155835061226270041152280cb668e3",
+      "size": 119815,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/42__JenisGroundChakkarBig.jpg",
+      "git_blob_sha": "9f003cc65271d29a59cb0ee4f53ab28a5d7b9fd2",
+      "size": 20325,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/43__GROUNDCHAKKARDELUXEECO.jpg",
+      "git_blob_sha": "6a4c01c0d91b91550aeaa82eb8d198b7f9c64f5e",
+      "size": 93290,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/44__GROUNDCHAKKARSPECIALECO.jpg",
+      "git_blob_sha": "efc888b089efcb1cb3ddb105c8620def517d7fbf",
+      "size": 94412,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/45__EcoPlanet.jpg",
+      "git_blob_sha": "db1e896a42f5e22eb048af71acccbfb3fb9a9925",
+      "size": 134507,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/46__EcoSpinnerBamparam.jpg",
+      "git_blob_sha": "48299c952e556823f9264684c0986eac3e002f25",
+      "size": 16769,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/47__EcoWhizzChakkar.jpg",
+      "git_blob_sha": "bae358914e67ad4bf982cd76eca13f89d1928147",
+      "size": 122387,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/48__COLOURWORLDSTD.jpg",
+      "git_blob_sha": "d8b7040041ec4b850d405bebb59e989b767b5b2d",
+      "size": 107944,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/49__FLOWERPOTSBIGSTD.jpg",
+      "git_blob_sha": "5558639b980d23636d2d06ec3234d8fde8a14d3f",
+      "size": 105828,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/4__Eco6Lakshmi.jpg",
+      "git_blob_sha": "f99acd72322a80993500bca2196fa485087181ab",
+      "size": 126148,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/50 Years Excellent Experience Gold Badge.png",
+      "git_blob_sha": "ff1d196cad744c3717d8f4a1416f3707c62c0aae",
+      "size": 2086178,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/50__FLOWERPOTSDELUXESTD.jpg",
+      "git_blob_sha": "9410dd9303d91053273359281729f02fcf136f82",
+      "size": 110145,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/51__COLORFLOWERSPOTSGIANTSTD.jpg",
+      "git_blob_sha": "5061fcf2bb64fde9daf303ba11d35a681243d4f5",
+      "size": 107444,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/52__FLOWERPOTSSMALLSTD.jpg",
+      "git_blob_sha": "67fbfe1f390516c685cc0f7e6c1da4e6801e92ab",
+      "size": 108790,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/53__FLOWERPOTSSPECIALSTD.jpg",
+      "git_blob_sha": "d17c51b90b540dcbf4cfeb9e6437e393db947a48",
+      "size": 104026,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/54__LAVENDERFOUNTAINSTD.jpg",
+      "git_blob_sha": "2526b427fdb6538aa30526d7adca817437448782",
+      "size": 97125,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/55__REDCINDERELLASTD.jpg",
+      "git_blob_sha": "c3c18f376998085c19c03061ac36e39fe53ef9da",
+      "size": 99958,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/56__COLOURCONEVAN.jpg",
+      "git_blob_sha": "4d8dabba84f4c9a4e1074fa1f256b5db50ef1545",
+      "size": 106509,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/57__FLOWERPOTSDELUXEVAN.jpg",
+      "git_blob_sha": "4697520060aec3cc63ce831dbfcb10418bc7cd8b",
+      "size": 102140,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/58__COLOURWORLDVAN.jpg",
+      "git_blob_sha": "be8be04a40fee1b8a4f74c5b4a9ce1a84ea388c3",
+      "size": 108501,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/59__FLOWERPOTSDELUXEVAN.jpg",
+      "git_blob_sha": "2853b8a78babfc8984906e9b182485c1f705e443",
+      "size": 103393,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/5__2.75KURUVICRACKERSECO.jpg",
+      "git_blob_sha": "34fbd6caa9e188a304af5a6e13ca0a615ed91913",
+      "size": 128167,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/60__WeTwoFlowerPotsColorKoti.jpg",
+      "git_blob_sha": "a89ea223c7cf42a693a46308b842b6c87a5bf696",
+      "size": 16210,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/61__WeTwoFlowerPotsSmall.jpg",
+      "git_blob_sha": "832c4d7491d32c90c4d8ca9859366cd2dcde80c7",
+      "size": 16980,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/62__WeTwoFlowerPotsSpecial.jpg",
+      "git_blob_sha": "c6cead5793e1e9bba9a9aa99063e2a55f5b6fda7",
+      "size": 16700,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/63__WeTwoFlowerPotsSuper.jpg",
+      "git_blob_sha": "66ffdd248a09477789283da9d6b8134e3eef036f",
+      "size": 16882,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/64__ECOFLOWERPOTSASHOKA.jpg",
+      "git_blob_sha": "c9b49f4b95e9ff5a06bbdcd1c8e95d03fa52a270",
+      "size": 110053,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/65__ECOFLOWERPOTSBIG.jpg",
+      "git_blob_sha": "3c2841b1dbcf1783049cd7e7da4c3de24cb89793",
+      "size": 114548,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/67__EcoFPSpl.jpg",
+      "git_blob_sha": "e53927591fe6593876a0bca42b4577a1fe949964",
+      "size": 97562,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/68__FpDlx.jpg",
+      "git_blob_sha": "93f50739650ea7fec7b08d5a62d4398a3c2f7477",
+      "size": 113651,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/69__60cmSilverTwinkling.jpg",
+      "git_blob_sha": "43742d24aca2ca96e09fcb02398e7d343fdb251b",
+      "size": 69703,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/6__Eco4Lakshmi.jpg",
+      "git_blob_sha": "6b3a4e97fd0dad5c82c39262231d11c892795a40",
+      "size": 124257,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/70__120cmSilverTwinkling.jpg",
+      "git_blob_sha": "b21a007a0ed1a26411d7a438d6470297c3054213",
+      "size": 67752,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/71__4DELUXETWINKLINGSTARECO.jpg",
+      "git_blob_sha": "51f497f3ddc577f9d33fb4e1fbd907c009c60626",
+      "size": 100022,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/72__45CMTWINKLINGSTARECO.jpg",
+      "git_blob_sha": "ff74e25cd31203421351b7bd5c98d61985411f36",
+      "size": 92757,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/73__StarvellTopGun.jpg",
+      "git_blob_sha": "e4100859df3389fd8704c758244718424a1f3c5f",
+      "size": 17303,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/74__WaterFalls.jpg",
+      "git_blob_sha": "eda450b87bb790403be8e286c201c5a1c2d4527b",
+      "size": 97580,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/75__StandardRainbowRocket.jpg",
+      "git_blob_sha": "5bcc07f90b809c5e9034d9f26cc28577048ab5cd",
+      "size": 75930,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/76__StandardRohiniRocket.jpg",
+      "git_blob_sha": "61b8d18dcadf578ed96717946632ba20b41c9a49",
+      "size": 86433,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/77__SriVardhanCracklingRocket.jpg",
+      "git_blob_sha": "4714e2b35f403bfb4ee174e7e8cb6cc1ad538377",
+      "size": 18888,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/78__SriVardhanLunikRocket.jpg",
+      "git_blob_sha": "0445e3236aa48b0d6e3492e78f3f3db1e2c27a52",
+      "size": 18601,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/79__StarvellMusicalRocket.jpg",
+      "git_blob_sha": "84ba301e2c59d1e2cb644a7b47149f4049ad12bf",
+      "size": 14996,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/7__3.5LAKSHMICRACKERSECO.jpg",
+      "git_blob_sha": "0ee3685cd75242267231bc600a2f6544dc1eca69",
+      "size": 128341,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/80__BOOMSTD.jpg",
+      "git_blob_sha": "ad8f1f5c725aa24dcbdadf8c44a5894e273c62e5",
+      "size": 103461,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/81__KARGILBULLETSTD.jpg",
+      "git_blob_sha": "071452383b578ef6d7af809c6bc2c728b6ea8d21",
+      "size": 108894,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/82__SILVERBOMBSTD.jpg",
+      "git_blob_sha": "b4dc8a8f493efef8fad050d1b744a2e558822a43",
+      "size": 121673,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/83__CLASSICBOMBECO.jpg",
+      "git_blob_sha": "0263721e47e4fb8e4e07a696303f94e1609f7f8f",
+      "size": 95517,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/84__WhatsAppImage20260926at20.04.14.jpg",
+      "git_blob_sha": "44765fbf4255e6972c27f030efdf53fd15760cb3",
+      "size": 14770,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/85__16SHOTSCOLORMAGICSTD.jpg",
+      "git_blob_sha": "380ba08985c2c1bc8a0d785f93c8501c605c8540",
+      "size": 138029,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/86__LITTLEDRAGONSTD.jpg",
+      "git_blob_sha": "b0673f0cb55666bffb752c98651067108d653704",
+      "size": 107441,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/87__MagicSpray.jpg",
+      "git_blob_sha": "86716ea022216834daeb8d92177b22d1a00eed92",
+      "size": 103810,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/88__StandardRangelaMist.jpg",
+      "git_blob_sha": "89f8c87f5186d45a5a42f12249946cfcce55a6fb",
+      "size": 16699,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/89__WeTwoColorSmokeCandle.jpg",
+      "git_blob_sha": "8389d22f55b24ce4f4a2babf528b386ebcebde54",
+      "size": 16930,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/8__12CMJIMMYCRACKLING.jpg",
+      "git_blob_sha": "f14450ed884eb453082063064bbb4c6693b596b6",
+      "size": 106685,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/91__WhatsAppImage20260922at13.45.351.jpg",
+      "git_blob_sha": "267bd3e0578702f5bbce4528a33d65d4e5013277",
+      "size": 129705,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/92__MONEYINTHEBANK.jpg",
+      "git_blob_sha": "ee9aae3bfa69fb4d363dc25fdc00f5b9b79d9cc0",
+      "size": 150182,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/93__28ELECTRIC.jpg",
+      "git_blob_sha": "021b2c57e2c6394cc0aa89a3c7e899ce587849e7",
+      "size": 20666,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/94__28GIANT.jpg",
+      "git_blob_sha": "d22304ba5d12250aff734e34be460eadafd22ae4",
+      "size": 22104,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/95__28GIANT.jpg",
+      "git_blob_sha": "d22304ba5d12250aff734e34be460eadafd22ae4",
+      "size": 22104,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/96__24DLX.jpg",
+      "git_blob_sha": "26ff518da4649d9e983251e48a4545d173cb13fe",
+      "size": 22479,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/97__Eco50DeluxeCrackers.jpg",
+      "git_blob_sha": "9c546f96cef9cab85c785dcb9e589bcb469bbc33",
+      "size": 16104,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/98__48DELUXEECO.jpg",
+      "git_blob_sha": "7151d932cc40fbd9a640a6cccecf6e6c5d6d31b1",
+      "size": 108018,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/99__100MAGICSTD.jpg",
+      "git_blob_sha": "31074ecb50ee7a8dde7aa76d3e4fa5eef0afae79",
+      "size": 123150,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2026 crackers new/9__Standard15CMCracklingSparklers.jpg",
+      "git_blob_sha": "da0e938fa944b9aa16302665ee521b7018a94d56",
+      "size": 85753,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/2500-combo-soundless-sample.jpg",
+      "git_blob_sha": "d5c002a137355242b4e3237f8871dfa153633c64",
+      "size": 36674,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/3000-combo-pack.jpg",
+      "git_blob_sha": "e0c37b2ac26ba0f14b9ca0b80bb9331b70724218",
+      "size": 18755,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/5000-combo-pack.jpg",
+      "git_blob_sha": "ee9faefdc083ea61340af2f34aca667570847faf",
+      "size": 19170,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/80% discount adv image.png",
+      "git_blob_sha": "27d52259a7fbd053002e1a472d6e993dab2cfc34",
+      "size": 2663447,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/ChatGPT Image Sep 30, 2026, 11_05_07 PM.png",
+      "git_blob_sha": "2c48be6bca8e351d7fe3d2d30b44236702a2f35a",
+      "size": 2141622,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/anaconda-tablet.jpg",
+      "git_blob_sha": "4d4b7177b05716d382440581b68faabcdf86af01",
+      "size": 16447,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/childrens-fancy-combo.jpg",
+      "git_blob_sha": "591bde537298f6df326313edadc7e7dd85b77e12",
+      "size": 14604,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/product-image-fallback.svg",
+      "git_blob_sha": "0cf4a9f2aff5578eabab76b7a314d30ef4c82110",
+      "size": 566,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/robin-classic.jpg",
+      "git_blob_sha": "58d84ec91c7cbd01946b10ef62159fa9e6e626da",
+      "size": 9612,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/robin-super-deluxe.jpg",
+      "git_blob_sha": "39c24860dbb7ad4d50fd1f0d1d33f02283e6da8e",
+      "size": 15644,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/robin-vip.jpg",
+      "git_blob_sha": "d8f8bd79500b73a4cce96d0d9e50da24d28dbe51",
+      "size": 11151,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/snake-tablets-big.jpg",
+      "git_blob_sha": "cb962ade673b1721571cb10d04cf9fd76de6a480",
+      "size": 12713,
+      "mode": "100644"
+    },
+    {
+      "path": "images/crackers/starvell-childrens-fancy-combo.jpg",
+      "git_blob_sha": "b735e96a662b389a4b89cdc62569bfbecfd987af",
+      "size": 14178,
+      "mode": "100644"
+    },
+    {
+      "path": "integrations/google-sheets/FUTURA_COMPLETE_SCRIPT.txt",
+      "git_blob_sha": "6f45177447ec1708500f7821adae990a870a6e4f",
+      "size": 36480,
+      "mode": "100644"
+    },
+    {
+      "path": "integrations/google-sheets/INVOICE_EMAIL_SETUP.md",
+      "git_blob_sha": "4e15f584600bc66e8a02f745ed6d10d0e1b3d2d4",
+      "size": 5229,
+      "mode": "100644"
+    },
+    {
+      "path": "integrations/google-sheets/crackers-orders.gs",
+      "git_blob_sha": "7599a12f17bd6044d8629379bfe0ed94725d3829",
+      "size": 11688,
+      "mode": "100644"
+    },
+    {
+      "path": "integrations/google-sheets/invoice-email.gs",
+      "git_blob_sha": "705eb8209e810ab1e41ded8d37af4648606a37a1",
+      "size": 6462,
+      "mode": "100644"
+    },
+    {
+      "path": "integrations/google-sheets/order-followup.gs",
+      "git_blob_sha": "9be8322eb4e448d3d65bd8826498a695844126b3",
+      "size": 10771,
+      "mode": "100644"
+    },
+    {
+      "path": "integrations/google-sheets/payment-screenshot-email.gs",
+      "git_blob_sha": "2f2f8295823dec2a1776b437c2276c624eec05fc",
+      "size": 3166,
+      "mode": "100644"
+    },
+    {
+      "path": "integrations/google-sheets/request-email.gs",
+      "git_blob_sha": "581d3bdabb16dbfc68a483137a0e2ccfd7e9a600",
+      "size": 4387,
+      "mode": "100644"
+    },
+    {
+      "path": "lib/crackers-invoice.js",
+      "git_blob_sha": "08dc5f187b1d1bb4af322eebe7d7a41a1a8dc710",
+      "size": 4674,
+      "mode": "100644"
+    },
+    {
+      "path": "package.json",
+      "git_blob_sha": "98b6546b0cc5e1c3bb1a99d1da94149e73fcd001",
+      "size": 139,
+      "mode": "100644"
+    },
+    {
+      "path": "style.css",
+      "git_blob_sha": "e3a1ca3782da35860047ddb3814186e2a1b16622",
+      "size": 30263,
+      "mode": "100644"
+    },
+    {
+      "path": "vercel.json",
+      "git_blob_sha": "1886a15a6aec1761b1775f260a388c2ad0f15378",
+      "size": 877,
+      "mode": "100644"
+    }
+  ]
+}
