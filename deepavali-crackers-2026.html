@@ -3115,11 +3115,17 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
         </div>
         <div class="customer-field full">
           <label for="customerAddress">Address / முகவரி *</label>
-          <textarea id="customerAddress" name="address" maxlength="300" autocomplete="street-address" required></textarea>
+          <textarea id="customerAddress" name="address" maxlength="300" autocomplete="street-address" placeholder="Your name or office/company name, door number and street" aria-describedby="customerAddressHint" required></textarea>
+          <small id="customerAddressHint">Mention your name or office/company name in the address.<br><span lang="ta">முகவரியில் உங்கள் பெயர் அல்லது அலுவலகம் / நிறுவனத்தின் பெயரைக் குறிப்பிடுங்கள்.</span></small>
         </div>
         <div class="customer-field full">
-          <label for="customerCity">City / நகரம் *</label>
-          <input id="customerCity" name="city" type="text" maxlength="100" autocomplete="address-level2" required>
+          <label for="customerCity">City &amp; Pincode / நகரம் மற்றும் அஞ்சல் குறியீடு *</label>
+          <input id="customerCity" name="city" type="text" maxlength="100" placeholder="City and 6-digit pincode / நகரம் மற்றும் 6 இலக்க PIN" required>
+        </div>
+        <div class="customer-field full">
+          <label for="customerLorry">Preferred Lorry Service / விருப்பமான லாரி சர்வீஸ் (Optional)</label>
+          <input id="customerLorry" name="preferredLorry" type="text" maxlength="80" placeholder="Your regular local lorry service name" aria-describedby="customerLorryHint">
+          <small id="customerLorryHint">Optional: Suggest your regular local lorry service. If our transport partner does not serve your city, we will consider your suggestion.<br><span lang="ta">விருப்பத் தேர்வு: உங்கள் ஊரில் வழக்கமாகப் பயன்படுத்தும் லாரி சர்வீஸ் பெயரைக் குறிப்பிடலாம். எங்கள் போக்குவரத்து நிறுவனம் உங்கள் ஊரில் சேவை வழங்கவில்லை என்றால், நீங்கள் குறிப்பிடும் லாரி சர்வீஸைப் பரிசீலிப்போம்.</span></small>
         </div>
         <div class="customer-field">
           <label for="customerEmail">Email / மின்னஞ்சல் (Optional)</label>
@@ -4228,8 +4234,9 @@ function openCustomerDetailsForm(mode='save'){
     if(saved){
       document.getElementById('customerName').value=saved.name || '';
       document.getElementById('customerMobile').value=saved.mobile || '';
-      document.getElementById('customerAddress').value=saved.address || '';
+      document.getElementById('customerAddress').value=saved.deliveryAddress || saved.address || '';
       document.getElementById('customerCity').value=saved.city || '';
+      document.getElementById('customerLorry').value=saved.preferredLorry || '';
       document.getElementById('customerEmail').value=saved.email || '';
     }
   }catch(e){}
@@ -4257,7 +4264,9 @@ async function submitCustomerDetails(event){
 
   const name=document.getElementById('customerName').value.trim();
   const mobile=document.getElementById('customerMobile').value.trim();
-  const address=document.getElementById('customerAddress').value.trim();
+  const deliveryAddress=document.getElementById('customerAddress').value.trim();
+  const preferredLorry=document.getElementById('customerLorry').value.trim();
+  const address=deliveryAddress+(preferredLorry?'\nPreferred lorry service (optional): '+preferredLorry:'');
   const city=document.getElementById('customerCity').value.trim();
   const email=document.getElementById('customerEmail').value.trim();
   if(email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){status.textContent='சரியான Email address உள்ளிடுங்கள்.';return;}
@@ -4265,10 +4274,11 @@ async function submitCustomerDetails(event){
 
   if(name.length<2){status.textContent='Client Name சரியாக உள்ளிடுங்கள்.';return;}
   if(phoneDigits.length<10 || phoneDigits.length>15){status.textContent='சரியான Mobile Number உள்ளிடுங்கள்.';return;}
-  if(address.length<5){status.textContent='முழு Address உள்ளிடுங்கள்.';return;}
-  if(city.length<2){status.textContent='City / நகரம் உள்ளிடுங்கள்.';return;}
+  if(deliveryAddress.length<5){status.textContent='முழு Address உள்ளிடுங்கள்.';return;}
+  if(address.length>300){status.textContent='Address மற்றும் Lorry Service பெயரைச் சுருக்கமாக உள்ளிடுங்கள் / Please shorten the address and lorry service name.';return;}
+  if(city.length<2 || !/\b\d{3}\s?\d{3}\b/.test(city)){status.textContent='City மற்றும் 6 இலக்க Pincode உள்ளிடுங்கள் / Please enter your city and 6-digit pincode.';return;}
 
-  const customer={name,mobile,address,city,email};
+  const customer={name,mobile,address,city,email,deliveryAddress,preferredLorry};
   requestCustomer=customer;
   // Keep entered details available after a refresh or failed network request.
   try{localStorage.setItem('futuraCrackersCustomerDetails2026',JSON.stringify(customer));}catch(e){}
