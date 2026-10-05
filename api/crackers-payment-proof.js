@@ -29,7 +29,7 @@ module.exports = async function handler(req, res) {
     // saveCustomer validates and saves this order before its customer details.
     // Avoid saving the same order a second time during each proof upload.
     const booking={setHeader(){},status(code){this.code=code;return this;},json(body){this.body=body;return this;}};
-    await saveCustomer({method:'POST',headers:req.headers,body:{orderId:order.orderId,items:data.items,...order.customer}},booking);
+    await saveCustomer({method:'POST',headers:req.headers,body:{orderId:order.orderId,items:data.items,requestKey:data.requestKey,...order.customer}},booking);
     if(booking.code!==200 || booking.body?.customerSaved!==true) return res.status(booking.code||502).json({ok:false,error:'Booking details could not be saved. Please retry.'});
     phase='invoice';
     const invoice=await buildInvoicePdf(order);
@@ -47,3 +47,4 @@ module.exports = async function handler(req, res) {
     return res.status(502).json({ok:false,error:phase==='invoice'?'Invoice preparation failed. Please retry the screenshot upload.':'Screenshot saving could not be confirmed. Please retry or send it on WhatsApp.'});
   }
 };
+

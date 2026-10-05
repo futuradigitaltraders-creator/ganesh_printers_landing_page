@@ -43,6 +43,7 @@ module.exports = async function handler(req, res) {
     }
     data = {
       orderId:data.orderId,
+      requestKey:clean(data.requestKey,80),
       items:data.items,
       name:clean(data.name,100),
       mobile:clean(data.mobile,20),
@@ -50,6 +51,7 @@ module.exports = async function handler(req, res) {
       city:clean(data.city,100),
       email:clean(data.email,254)
     };
+    if (!/^[A-Za-z0-9_-]{20,80}$/.test(data.requestKey)) throw Error('Order verification required');
     const digits=data.mobile.replace(/\D/g,'');
     if(data.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) throw Error('Invalid email');
     if (data.name.length < 2 ||
@@ -65,7 +67,7 @@ module.exports = async function handler(req, res) {
       return res.status(503).json({ok:false,error:'Booking save தற்போது கிடைக்கவில்லை. உங்கள் விவரங்களுடன் WhatsApp request அனுப்புங்கள்.'});
     }
     const orderResult = {setHeader(){},status(code){this.code=code;return this;},json(body){this.body=body;return this;}};
-    await saveOrder({method:'POST',headers:req.headers,body:{orderId:data.orderId,items:data.items}},orderResult);
+    await saveOrder({method:'POST',headers:req.headers,body:{orderId:data.orderId,items:data.items,requestKey:data.requestKey}},orderResult);
     if (orderResult.code !== 200 || orderResult.body?.ok !== true) {
       return res.status(orderResult.code || 502).json({ok:false,error:orderResult.code===400?'Catalogue மாறியுள்ளது. Page refresh செய்து மீண்டும் முயற்சி செய்யுங்கள்.':'Order சேமிக்க முடியவில்லை. மீண்டும் முயற்சி செய்யுங்கள்.'});
     }
@@ -76,6 +78,7 @@ module.exports = async function handler(req, res) {
       body:JSON.stringify({
         action:'customerDetails',
         orderId:data.orderId,
+        requestKey:data.requestKey,
         name:data.name,
         mobile:data.mobile,
         address:data.address,
@@ -94,4 +97,5 @@ module.exports = async function handler(req, res) {
     return res.status(502).json({ok:false,error:'Booking details could not be saved. Please retry.'});
   }
 };
+
 

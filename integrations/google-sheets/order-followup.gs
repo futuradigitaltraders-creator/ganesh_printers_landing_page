@@ -118,19 +118,34 @@ function sendPaymentConfirmation(book,followup) {
   catch(error){sheet.getRange(row,11).setValue('Sending');return 'Send uncertain - check Gmail before retry';}
 }
 
+function normalizeOrderMobile(value) {
+  const text=String(value||'').replace(/^'/,'').trim();
+  if(text.length>20||!/^[+0-9()\-\s]+$/.test(text))return '';
+  let digits=text.replace(/\D/g,'');
+  if(digits.length===12&&digits.startsWith('91'))digits=digits.slice(2);
+  if(digits.length===11&&digits.startsWith('0'))digits=digits.slice(1);
+  return /^[6-9][0-9]{9}$/.test(digits)?digits:'';
+}
 function readOrderFollowup(params) {
-  const orderId=String(params.orderId||''),token=String(params.token||'');
-  if(!/^[0-9]{4,12}$/.test(orderId) || !/^[a-f0-9]{64}$/.test(token))return jsonReply({ok:false,error:'Order not found'});
-  const sheet=SpreadsheetApp.openById(SHEET_ID).getSheetByName(FOLLOWUP_TAB);
-  const record=sheet && sheet.getLastRow()>1?sheet.getRange(2,1,sheet.getLastRow()-1,14).getValues().find(r=>String(r[0])===orderId && String(r[1])===token):null;
-  if(!record)return jsonReply({ok:false,error:'Order not found'});
-  const confirmed=!!record[3] && Number(record[2])>0;
-  if(!confirmed)return jsonReply({ok:true,orderId,paymentConfirmed:false});
-  const date=value=>value instanceof Date?Utilities.formatDate(value,Session.getScriptTimeZone(),'dd MMM yyyy HH:mm'):String(value||'').replace(/^'/,'').slice(0,120);
-  const book=SpreadsheetApp.openById(SHEET_ID),clients=book.getSheetByName('Customer Details 2026'),orders=book.getSheetByName(TAB_NAME);
-  const client=clients && clients.getLastRow()>1?clients.getRange(2,1,clients.getLastRow()-1,8).getDisplayValues().find(r=>r[0]===orderId):null;
-  const items=orders && orders.getLastRow()>1?orders.getRange(2,1,orders.getLastRow()-1,9).getValues().filter(r=>String(r[0])===orderId):[];
+  const raw=String(params.orderId||'').trim(),mobile=normalizeOrderMobile(params.mobile);
+  const denied=()=>jsonReply({ok:false,accessVersion:'mobile-v1',error:'Order ID and mobile do not match'});
+  if(!/^[0-9]{1,12}$/.test(raw)||Number(raw)<101||!mobile)return denied();
+  const orderId=String(Number(raw)).padStart(4,'0'),cache=CacheService.getScriptCache(),key='order-mobile-fail:'+orderId;
+  const failed=Number(cache.get(key)||0);
+  if(failed>=10)return denied();
+  const book=SpreadsheetApp.openById(SHEET_ID),clients=book.getSheetByName('Customer Details 2026');
+  const client=clients&&clients.getLastRow()>1?clients.getRange(2,1,clients.getLastRow()-1,8).getDisplayValues().find(r=>String(r[0]).padStart(4,'0')===orderId):null;
+  if(!client||normalizeOrderMobile(client[3])!==mobile){cache.put(key,String(failed+1),600);return denied();}
+  const orders=book.getSheetByName(TAB_NAME);
+  const rows=orders&&orders.getLastRow()>1?orders.getRange(2,1,orders.getLastRow()-1,9).getValues().filter(r=>String(r[0]).padStart(4,'0')===orderId):[];
+  if(!rows.length||rows.length>300)return denied();
+  cache.remove(key);
+  const sheet=book.getSheetByName(FOLLOWUP_TAB);
+  const record=sheet&&sheet.getLastRow()>1?sheet.getRange(2,1,sheet.getLastRow()-1,14).getValues().find(r=>String(r[0]).padStart(4,'0')===orderId):null;
+  const confirmed=!!(record&&record[3]&&Number(record[2])>0);
   const clean=value=>String(value||'').replace(/^'/,'').slice(0,160);
-  const orderValue=Math.round(items.reduce((sum,r)=>sum+Number(r[4])*Math.round(Number(r[5])*100),0)+30000)/100;
-  return jsonReply({ok:true,orderId,paymentConfirmed:true,receivedAmount:Number(record[2]),paymentConfirmedAt:date(record[3]),clientName:clean(client && client[2]),city:clean(client && client[5]),maskedMobile:client?'******'+clean(client[3]).replace(/\D/g,'').slice(-4):'',orderValue:Number.isFinite(orderValue)?orderValue:null,paymentMode:clean(record[12]),receiverName:clean(record[13]),status:FOLLOWUP_STATUSES.includes(record[4]) && record[4]!=='Awaiting payment confirmation'?record[4]:'Payment Received',dispatchDate:date(record[5]),transportName:clean(record[6]),parcelNumber:clean(record[7]),deliveredDate:date(record[8]),updatedAt:date(record[9])});
+  const date=value=>value instanceof Date?Utilities.formatDate(value,Session.getScriptTimeZone(),'dd MMM yyyy HH:mm'):clean(value);
+  const items=rows.map(r=>({serial:Number(r[2]),name:String(r[3]||'').replace(/^'/,'').slice(0,250),companyCode:clean(r[8]).slice(0,40),qty:Number(r[4]),price:Number(r[5])}));
+  const productTotal=Math.round(items.reduce((sum,r)=>sum+r.qty*Math.round(r.price*100),0))/100;
+  return jsonReply({ok:true,accessVersion:'mobile-v1',mobileVerified:true,orderId,paymentConfirmed:confirmed,receivedAmount:confirmed?Number(record[2]):undefined,clientName:clean(client[2]),city:clean(client[5]),maskedMobile:'******'+mobile.slice(-4),items,productTotal,orderValue:Math.round(productTotal*100+30000)/100,paymentConfirmedAt:confirmed?date(record[3]):'',paymentMode:confirmed?clean(record[12]):'',receiverName:confirmed?clean(record[13]):'',status:confirmed?(FOLLOWUP_STATUSES.includes(record[4])?record[4]:'Payment Received'):'Awaiting payment confirmation',dispatchDate:confirmed?date(record[5]):'',transportName:confirmed?clean(record[6]):'',parcelNumber:confirmed?clean(record[7]):'',deliveredDate:confirmed?date(record[8]):'',updatedAt:record?date(record[9]):''});
 }

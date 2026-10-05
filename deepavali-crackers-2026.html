@@ -688,6 +688,7 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
   <div class="sum-box sum-save"><div class="sum-label">YOU SAVE</div><div class="sum-value">₹<span id="liveSave">0.00</span></div></div>
 </div>
 <div class="catalog-tools" id="cartSessionTools" aria-label="New order and saved selection">
+  <a class="catalog-clear-btn" id="viewSavedOrderBtn" href="/crackers-order-tracking.html" style="display:inline-flex;align-items:center;text-decoration:none">VIEW MY OLD ORDER / பழைய ஆர்டரைப் பார்க்க</a>
   <p id="cartSessionMessage" role="status" style="flex:1 1 100%;margin:0;font-size:14px">புதிய ஆர்டர் / New order — select your products to begin.</p>
   <button class="catalog-clear-btn" id="continueSavedCartBtn" type="button" onclick="continueSavedCrackersCart()" hidden>CONTINUE SAVED SELECTION</button>
   <button class="catalog-clear-btn" id="refreshSelectionBtn" type="button" onclick="startNewCrackersOrder(false)">REFRESH / CLEAR SELECTION</button>
@@ -3526,6 +3527,7 @@ function offerSavedCrackersCart(){
 }
 function continueSavedCrackersCart(){
   if(!awaitingSavedCartChoice || clientRequestPdfBusy || customerDetailsBusy || paymentProofBusy) return;
+  try{const receipt=JSON.parse(localStorage.getItem('futuraCrackersReceipt2026')||'null');if(receipt?.state==='saved' && /^[0-9]{4,12}$/.test(receipt.order?.orderId||'')){location.href='/crackers-order-tracking.html#order='+encodeURIComponent(receipt.order.orderId);return;}}catch(e){}
   awaitingSavedCartChoice=false;
   restoreCrackersCart();
   document.getElementById('continueSavedCartBtn').hidden=true;
@@ -4324,7 +4326,7 @@ async function submitCustomerDetails(event){
     const response=await fetch('/api/crackers-customer-details',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({orderId:order.orderId,items:order.items,name,mobile,address,city,email})
+      body:JSON.stringify({orderId:order.orderId,requestKey:savedCrackersRequestKey(order),items:order.items,name,mobile,address,city,email})
     });
     const result=await response.json();
     if(!response.ok || result.ok!==true || result.customerSaved!==true || result.orderId!==order.orderId) throw Error(result.error || 'Booking details save ஆகவில்லை. மீண்டும் முயற்சி செய்யுங்கள்.');
@@ -4441,13 +4443,15 @@ async function uploadCrackersPaymentProof(){
 
 let confirmedTrackingBusy=false;
 async function refreshConfirmedOrderTracking(){
-  if(confirmedTrackingBusy)return;
+  if(confirmedTrackingBusy||awaitingSavedCartChoice)return;
+  const customer=getSavedCrackersCustomer(),current=getCurrentCrackersOrderForDetails();
+  if(!customer?.mobile||!current||!isCrackersOrderConfirmed(current))return;
   let saved;try{saved=JSON.parse(localStorage.getItem('futuraCrackersTracking2026')||'null');}catch(e){}
   if(!saved || !/^[0-9]{4,12}$/.test(saved.orderId||'') || !/^[a-f0-9]{64}$/.test(saved.token||''))return;
   confirmedTrackingBusy=true;
   try{
-    const reply=await fetch('/api/crackers-order-tracking',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(saved)}),result=await reply.json();
-    if(!reply.ok || result.ok!==true || result.orderId!==saved.orderId)return;
+    const reply=await fetch('/api/crackers-order-tracking',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...saved,mobile:customer.mobile})}),result=await reply.json();
+    if(!reply.ok || result.ok!==true || result.mobileVerified!==true || result.orderId!==saved.orderId || current.orderId!==saved.orderId)return;
     const panel=document.getElementById('confirmedOrderTracking');panel.hidden=!result.paymentConfirmed;
     if(result.paymentConfirmed){
       document.getElementById('confirmedPaymentMessage').textContent='Order '+saved.orderId+': Your payment of ₹'+Number(result.receivedAmount).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2})+' has been received. Thank you.';
@@ -4577,3 +4581,4 @@ document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!document.g
 </body><!-- deployment-refresh -->
 </html>
 <!-- summary-dashboard-deploy-refresh -->
+

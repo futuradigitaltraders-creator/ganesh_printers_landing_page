@@ -7,49 +7,74 @@
 <style>
 @font-face{font-family:FuturaTamil;src:url('/assets/crackers/request-form/NotoSansTamil-Regular.ttf') format('truetype');font-display:swap}
 *{box-sizing:border-box}body{margin:0;background:#f4f2f8;color:#2e273f;font-family:Arial,FuturaTamil,sans-serif;font-size:16px;line-height:1.6}header{background:#34136e;color:#fff;padding:28px max(20px,calc((100vw - 760px)/2))}header strong{font-size:24px;letter-spacing:.5px}header p{margin:3px 0 0;font-size:14px}main{max-width:800px;margin:28px auto;padding:0 20px}h1{font-size:30px;line-height:1.25;margin:0 0 20px}h2{font-size:20px;margin:0 0 12px}.card{background:#fff;border:1px solid #e2dce9;border-radius:12px;padding:24px;margin-bottom:20px}.payment{background:#eeebf8;border-left:5px solid #34136e}#receivedAmount{font-size:28px;font-weight:bold;color:#34136e;margin:6px 0}.muted{color:#696176;font-size:14px}.order-id{font-size:18px;font-weight:bold;margin:0 0 14px;color:#34136e}ol{list-style:none;padding:0;margin:0}li{display:flex;align-items:center;gap:15px;padding:14px 0;border-bottom:1px solid #eee9f3}li:last-child{border:0}.step{display:grid;place-items:center;width:34px;height:34px;flex-shrink:0;border:2px solid #d7cfdf;border-radius:50%;color:#776c84;font-weight:bold}li.done .step{background:#34136e;color:white;border-color:#34136e}li.current{font-weight:bold}li.current small{color:#986600}.badge{margin-left:auto;font-size:12px;background:#eeebf8;border-radius:20px;padding:3px 8px;white-space:nowrap}li.done{border-left:4px solid #2ba84a;padding-left:12px}li.done .badge{color:#178637;background:#edf8ef}li.current{background:#fffaee;border-left:4px solid #f3ac00;padding-left:12px}li>span:nth-child(2){flex:1}dl{margin:0;display:grid;grid-template-columns:minmax(140px,1fr) 2fr;gap:0}dt,dd{padding:12px 0;border-bottom:1px solid #eee9f3}dt{color:#696176}dd{margin:0;overflow-wrap:anywhere;font-weight:bold}button,.link{display:inline-block;background:#34136e;color:white;border:0;border-radius:8px;padding:13px 20px;font:inherit;font-weight:bold;text-decoration:none;cursor:pointer}button:disabled{opacity:.55}footer{max-width:800px;margin:24px auto;padding:0 20px 30px;color:#696176;font-size:14px}footer a{color:#34136e}.actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap}#message{margin:0 0 16px}[hidden]{display:none!important}button:focus-visible,a:focus-visible{outline:3px solid #d49700;outline-offset:3px}@media(max-width:480px){main{margin-top:22px;padding:0 14px}.card{padding:20px}h1{font-size:26px}dl{grid-template-columns:1fr}dt{border:0;padding-bottom:0}dd{padding-top:4px}header{padding:22px 20px}li{flex-wrap:wrap;gap:8px}.badge{margin-left:42px}}
-</style></head>
+input{display:block;width:100%;border:1px solid #bfb3cd;border-radius:7px;padding:12px;font:inherit;margin:6px 0 16px}label{font-weight:bold}.items-scroll{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:10px 8px;border-bottom:1px solid #eee9f3}td{overflow-wrap:anywhere}th{background:#eeebf8}td:first-child{min-width:70px}#productTotal{font-weight:bold;text-align:right}</style></head>
 <body>
 <header><strong>FUTURA TRADERS</strong><p>Sivakasi Direct Crackers Dispatch · 9488917786</p></header>
 <main>
 <h1>Track your order<br><span style="font-size:18px;font-weight:normal">உங்கள் ஆர்டர் நிலவரம்</span></h1>
-<section class="card" id="notice"><p id="message" role="status" aria-live="polite">Loading your order…</p><button id="refresh" type="button">REFRESH STATUS</button></section>
+<section class="card" id="accessCard">
+<h2>Open your saved order / பழைய ஆர்டரைத் திறக்க</h2>
+<p class="muted">Enter the Order ID and the mobile number you registered for this order.<br>இந்த ஆர்டரில் பதிவு செய்த மொபைல் எண்ணை மட்டும் கொடுக்கவும்.</p>
+<form id="accessForm">
+<label for="accessOrderId">Order ID / ஆர்டர் எண்</label>
+<input id="accessOrderId" name="orderId" type="text" inputmode="numeric" maxlength="12" pattern="[0-9]{1,12}" placeholder="103 or 0103" autocomplete="off" required>
+<label for="accessMobile">Registered mobile number / பதிவு செய்த மொபைல் எண்</label>
+<input id="accessMobile" name="mobile" type="tel" inputmode="tel" maxlength="20" autocomplete="off" placeholder="10-digit mobile number" required>
+<button id="openOrder" type="submit">VERIFY &amp; OPEN MY ORDER</button>
+</form>
+</section>
+<section class="card" id="notice"><p id="message" role="status" aria-live="polite">Enter your Order ID and registered mobile number to continue.</p><button id="refresh" type="button" hidden>REFRESH STATUS</button></section>
 <div id="tracking" hidden>
-<section class="card payment"><p class="order-id" id="orderId"></p><h2>PAYMENT RECEIVED</h2><p id="receivedAmount"></p><p>Your payment has been received. Thank you.</p><p class="muted" id="confirmedAt"></p><p class="muted" id="paymentMode"></p></section>
-<section class="card"><h2>CLIENT / ORDER</h2><dl><dt>Client name</dt><dd id="clientName"></dd><dt>City</dt><dd id="city"></dd><dt>Order value</dt><dd id="orderValue"></dd></dl></section>
+<section class="card payment" id="receivedPayment"><p class="order-id" id="orderId"></p><h2>PAYMENT RECEIVED</h2><p id="receivedAmount"></p><p>Your payment has been received. Thank you.</p><p class="muted" id="confirmedAt"></p><p class="muted" id="paymentMode"></p></section>
+<section class="card"><p class="order-id" id="savedOrderId"></p><h2>CLIENT / ORDER</h2><dl><dt>Client name</dt><dd id="clientName"></dd><dt>City</dt><dd id="city"></dd><dt>Order value</dt><dd id="orderValue"></dd></dl></section>
+<section class="card"><h2>YOUR SAVED ITEMS / ஆர்டர் செய்த பொருட்கள்</h2><div class="items-scroll"><table><thead><tr><th>S.No / Code</th><th>Product</th><th>Qty</th><th>Rate</th><th>Sub-total</th></tr></thead><tbody id="savedItems"></tbody></table></div><p id="productTotal"></p><p class="muted">Packing &amp; forwarding extra / பேக்கிங் மற்றும் அனுப்பும் கட்டணம் தனி.</p></section>
 <section class="card"><h2>ORDER PROGRESS / ஆர்டர் நிலை</h2><ol id="progress"><li><span class="step">1</span><span>Order Placed</span><small class="badge"></small></li><li><span class="step">2</span><span>Payment Received</span><small class="badge"></small></li><li><span class="step">3</span><span>Packing</span><small class="badge"></small></li><li><span class="step">4</span><span>Dispatch</span><small class="badge"></small></li><li><span class="step">5</span><span>Transport / LR Details</span><small class="badge"></small></li><li><span class="step">6</span><span>Delivered / Goods Received</span><small class="badge"></small></li></ol></section>
 <section class="card"><h2>Dispatch & delivery details</h2><dl><dt>Dispatch date</dt><dd id="dispatchDate"></dd><dt>Transport name</dt><dd id="transportName"></dd><dt>LR / Parcel number</dt><dd id="parcelNumber"></dd><dt>Delivered date</dt><dd id="deliveredDate"></dd><dt>Receiver name</dt><dd id="receiverName"></dd><dt>Client mobile</dt><dd id="maskedMobile"></dd></dl><p class="muted">Transport: TOPAY — payable at destination.</p><p class="muted" id="updatedAt"></p></section>
 </div>
-<div class="actions"><a class="link" href="/deepavali-crackers-2026.html">CRACKERS CATALOGUE</a></div>
-</main><footer>Need help? <a href="tel:+919488917786">9488917786</a><br>Keep your personal tracking link for future updates.</footer>
+<div class="actions"><button id="closeOrder" type="button" hidden>CLOSE ORDER / வேறு ஆர்டர்</button><a class="link" href="/deepavali-crackers-2026.html">CRACKERS CATALOGUE</a></div>
+</main><footer>Need help? <a href="tel:+919488917786">9488917786</a><br>Your Order ID and registered mobile number are required each time you reopen this page.</footer>
 <script>
+
 'use strict';
 const params=new URLSearchParams(location.hash.slice(1));
-const orderId=params.get('order')||'',token=params.get('token')||'';
 const message=document.getElementById('message'),button=document.getElementById('refresh'),tracking=document.getElementById('tracking');
-let busy=false;
+const form=document.getElementById('accessForm'),orderInput=document.getElementById('accessOrderId'),mobileInput=document.getElementById('accessMobile'),openButton=document.getElementById('openOrder');
+let busy=false,credentials=null,requestVersion=0;
+if(/^[0-9]{1,12}$/.test(params.get('order')||''))orderInput.value=params.get('order');
+const money=value=>'₹'+Number(value).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
+function clearPrivateView(){tracking.hidden=true;tracking.querySelectorAll('dd,p[id]').forEach(e=>e.textContent='');document.getElementById('savedItems').replaceChildren();button.hidden=true;document.getElementById('closeOrder').hidden=true;}
+function lockOrder(){requestVersion++;credentials=null;clearPrivateView();document.getElementById('accessCard').hidden=false;mobileInput.value='';message.textContent='Enter your Order ID and registered mobile number to continue.';}
 async function refreshOrder(){
-  if(busy)return;
-  if(!/^[0-9]{4,12}$/.test(orderId)||!/^[a-f0-9]{64}$/.test(token)){message.textContent='Please open the TRACK YOUR ORDER HERE link in your payment confirmation email.';button.hidden=true;return;}
-  busy=true;button.disabled=true;message.textContent='Checking your latest order status…';
+  if(busy||!credentials)return;
+  const attempt=++requestVersion,submitted={...credentials};clearPrivateView();busy=true;button.disabled=true;openButton.disabled=true;message.textContent='Verifying your saved order… / ஆர்டர் விவரங்கள் சரிபார்க்கப்படுகின்றன…';
   try{
-    const response=await fetch('/api/crackers-order-tracking',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({orderId,token})});
-    const data=await response.json();
-    if(!response.ok || !data.ok)throw new Error(data.error||'Please retry.');
-    if(!data.paymentConfirmed){tracking.hidden=true;message.textContent='Order '+orderId+': Your payment screenshot is received. You will receive a confirmation email after payment verification.';return;}
+    const response=await fetch('/api/crackers-order-tracking',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(submitted)}),data=await response.json();
+    if(attempt!==requestVersion)return;
+    if(!response.ok||!data.ok||data.mobileVerified!==true||data.orderId!==String(Number(submitted.orderId)).padStart(4,'0'))throw Error(data.error||'Order verification failed.');
+    document.getElementById('savedOrderId').textContent='ORDER ID: '+data.orderId;
+    document.getElementById('receivedPayment').hidden=!data.paymentConfirmed;
     document.getElementById('orderId').textContent='ORDER ID: '+data.orderId;
-    document.getElementById('receivedAmount').textContent='₹'+Number(data.receivedAmount).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
-    document.getElementById('confirmedAt').textContent='Confirmed: '+data.paymentConfirmedAt;
+    document.getElementById('receivedAmount').textContent=data.paymentConfirmed?money(data.receivedAmount):'';
+    document.getElementById('confirmedAt').textContent=data.paymentConfirmed?'Confirmed: '+data.paymentConfirmedAt:'';
     for(const name of ['clientName','city','dispatchDate','transportName','parcelNumber','deliveredDate','receiverName','maskedMobile'])document.getElementById(name).textContent=data[name]||'To be updated';
-    document.getElementById('orderValue').textContent=Number.isFinite(data.orderValue)?'₹'+data.orderValue.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2}):'To be updated';
+    document.getElementById('orderValue').textContent=Number.isFinite(data.orderValue)?money(data.orderValue):'To be updated';
     document.getElementById('paymentMode').textContent=data.paymentMode?'Mode: '+data.paymentMode:'';
     document.getElementById('updatedAt').textContent=data.updatedAt?'Last updated: '+data.updatedAt:'';
-    const stages=['Payment Received','Packing','Dispatched','Delivered'],active=Math.max(0,stages.indexOf(data.status));
-    const completed=[true,true,active>=2,active>=2,!!(data.transportName && data.parcelNumber),active>=3];
-    document.querySelectorAll('#progress li').forEach((li,i)=>{const current=i===2&&active===1;li.classList.toggle('done',completed[i]);li.classList.toggle('current',current);li.querySelector('.badge').textContent=completed[i]?'COMPLETED':current?'IN PROGRESS':'PENDING';});
-    message.textContent='Current status: '+stages[active];tracking.hidden=false;
-  }catch(error){message.textContent=error.message||'Could not load your order. Please retry.';}
-  finally{busy=false;button.disabled=false;}
+    document.getElementById('productTotal').textContent='Product total: '+money(data.productTotal);
+    for(const item of data.items||[]){const row=document.createElement('tr');for(const value of [item.serial+' / '+(item.companyCode||'—'),item.name,item.qty,money(item.price),money(item.subtotal)]){const cell=document.createElement('td');cell.textContent=String(value);row.append(cell);}document.getElementById('savedItems').append(row);}
+    const stages=['Awaiting payment confirmation','Payment Received','Packing','Dispatched','Delivered'],active=Math.max(0,stages.indexOf(data.status));
+    const completed=[true,data.paymentConfirmed,active>=3,active>=3,!!(data.transportName&&data.parcelNumber),active>=4];
+    document.querySelectorAll('#progress li').forEach((li,i)=>{const current=(i===1&&!data.paymentConfirmed)||(i===2&&active===2);li.classList.toggle('done',completed[i]);li.classList.toggle('current',current);li.querySelector('.badge').textContent=completed[i]?'COMPLETED':current?'IN PROGRESS':'PENDING';});
+    message.textContent=data.paymentConfirmed?'Current status: '+data.status:'Order saved. Payment confirmation is pending / ஆர்டர் சேமிக்கப்பட்டுள்ளது. பணம் சரிபார்ப்பு காத்திருக்கிறது.';
+    tracking.hidden=false;button.hidden=false;document.getElementById('closeOrder').hidden=false;document.getElementById('accessCard').hidden=true;mobileInput.value='';
+  }catch(error){if(attempt!==requestVersion)return;credentials=null;clearPrivateView();document.getElementById('accessCard').hidden=false;mobileInput.value='';message.textContent=(error.message||'Could not open your order.')+' / ஆர்டர் எண் மற்றும் பதிவு செய்த மொபைல் எண்ணைச் சரிபார்க்கவும்.';}
+  finally{busy=false;button.disabled=false;openButton.disabled=false;}
 }
-button.addEventListener('click',refreshOrder);refreshOrder();
+form.addEventListener('submit',event=>{event.preventDefault();if(busy)return;credentials={orderId:orderInput.value.trim(),mobile:mobileInput.value.trim()};refreshOrder();});
+button.addEventListener('click',refreshOrder);
+document.getElementById('closeOrder').addEventListener('click',lockOrder);
+window.addEventListener('pagehide',lockOrder);
+window.addEventListener('pageshow',event=>{if(event.persisted)lockOrder();});
 </script>
 </body></html>
+

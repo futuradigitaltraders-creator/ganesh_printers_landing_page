@@ -7,14 +7,15 @@ function jsonReply(data) {
 }
 
 function doGet(e) {
-  if(e && e.parameter && e.parameter.action==='trackOrder')return readOrderFollowup(e.parameter);
-  return jsonReply({ok: true, service: 'Futura 2026 Crackers Orders', paymentProofUpload: true, customerDetails: true, sequentialOrderIds: true, nextOrderId: peekNextOrderId(), invoiceEmail: PropertiesService.getScriptProperties().getProperty('INVOICE_EMAIL_ENABLED') === 'true', orderTracking: true, paymentScreenshotEmail: PropertiesService.getScriptProperties().getProperty('INVOICE_EMAIL_ENABLED') === 'true', requestEmailPDF: PropertiesService.getScriptProperties().getProperty('INVOICE_EMAIL_ENABLED') === 'true', paymentConfirmation: PropertiesService.getScriptProperties().getProperty('PAYMENT_CONFIRMATION_ENABLED') === 'true', version: '2026-10-04-order-tracking'});
+  if(e && e.parameter && e.parameter.action==='trackOrder')return jsonReply({ok:false,accessVersion:'mobile-v1',error:'Use mobile verification by POST'});
+  return jsonReply({ok: true, service: 'Futura 2026 Crackers Orders', paymentProofUpload: true, customerDetails: true, sequentialOrderIds: true, nextOrderId: peekNextOrderId(), invoiceEmail: PropertiesService.getScriptProperties().getProperty('INVOICE_EMAIL_ENABLED') === 'true', orderTracking: true, mobileOrderAccess: true, paymentScreenshotEmail: PropertiesService.getScriptProperties().getProperty('INVOICE_EMAIL_ENABLED') === 'true', requestEmailPDF: PropertiesService.getScriptProperties().getProperty('INVOICE_EMAIL_ENABLED') === 'true', paymentConfirmation: PropertiesService.getScriptProperties().getProperty('PAYMENT_CONFIRMATION_ENABLED') === 'true', version: '2026-10-04-order-tracking'});
 }
 
 function doPost(e) {
   const lock = LockService.getScriptLock();
   try {
     const data = JSON.parse(e.postData.contents);
+    if (data.action === 'trackOrder') return readOrderFollowup(data);
     if (data.action === 'requestEmailPDF') return sendOwnerRequestPdf(data, lock);
     if (data.action === 'allocateOrderId') return allocateOrderId(data, lock);
     if (data.action === 'paymentProof') return savePaymentProof(data, lock);
@@ -38,6 +39,7 @@ function doPost(e) {
     });
     lock.waitLock(20000);
     const book = SpreadsheetApp.openById(SHEET_ID);
+    if (!ownsOrderReservation(book,String(data.orderId),data.requestKey)) throw new Error('Order verification required');
     const sheet = book.getSheetByName(TAB_NAME) || book.insertSheet(TAB_NAME);
     if (sheet.getLastRow() === 0) {
       sheet.appendRow(['Order ID', 'Date', 'S.No', 'Product',
@@ -77,6 +79,7 @@ function savePaymentProof(data, lock) {
   if (data.mimeType === 'image/png' && signature.join(',') !== '137,80,78,71,13,10,26,10') throw new Error('Invalid PNG');
   lock.waitLock(20000);
   const book = SpreadsheetApp.openById(SHEET_ID);
+  if (!ownsOrderReservation(book,String(data.orderId),data.requestKey)) throw new Error('Order verification required');
   const orders = book.getSheetByName(TAB_NAME);
   if (!orders || orders.getLastRow() < 2 ||
       !orders.getRange(2, 1, orders.getLastRow() - 1, 1).createTextFinder(data.orderId).matchEntireCell(true).findNext()) throw new Error('Order not found');
@@ -142,6 +145,7 @@ function saveCustomerDetails(data, lock) {
 
   lock.waitLock(20000);
   const book = SpreadsheetApp.openById(SHEET_ID);
+  if (!ownsOrderReservation(book,orderId,data.requestKey)) throw new Error('Order verification required');
   const orders = book.getSheetByName(TAB_NAME);
   if (!orders || orders.getLastRow() < 2 ||
       !orders.getRange(2, 1, orders.getLastRow() - 1, 1)
@@ -225,3 +229,4 @@ function allocateOrderId(data, lock) {
   SpreadsheetApp.flush();
   return jsonReply({ok: true, requestKey, orderId});
 }
+

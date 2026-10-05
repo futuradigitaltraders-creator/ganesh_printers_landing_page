@@ -46,7 +46,7 @@ module.exports = async function handler(req, res) {
     try {
       const reply = await fetch(SHEETS_URL, {
         method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'},
-        body:JSON.stringify({orderId:data.orderId, items}),
+        body:JSON.stringify({orderId:data.orderId, items, requestKey:data.requestKey}),
         signal:AbortSignal.timeout(30000)
       });
       if (!reply.ok) throw new Error('Sheets request failed');
@@ -61,3 +61,4 @@ module.exports = async function handler(req, res) {
   return res.status(503).json({ok:false, retryable:true});
 };
 module.exports.getCatalogue = getCatalogue;
+
