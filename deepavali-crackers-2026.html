@@ -4582,12 +4582,12 @@ document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!document.g
 
 <!-- FUTURA WhatsApp enquiry: opens chat only -->
 <style>
-.futura-wa-float{position:fixed;right:18px;bottom:90px;z-index:1000;display:flex;align-items:center;gap:9px;padding:13px 18px;border-radius:32px;background:#128c45;color:#fff!important;text-decoration:none!important;font:700 16px/1.3 Arial,sans-serif;box-shadow:0 4px 18px #0003;animation:futura-wa-blink 2s ease-in-out infinite}
-.futura-wa-float svg{width:30px;height:30px;flex-shrink:0}
-.futura-wa-float:hover,.futura-wa-float:focus-visible{animation:none;background:#075e54;outline:3px solid #ffe082;outline-offset:3px}
-@keyframes futura-wa-blink{0%,100%{box-shadow:0 4px 18px #0003,0 0 0 0 #25d36688}50%{box-shadow:0 4px 18px #0003,0 0 0 12px #25d36600;background:#087c3b}}
+.futura-wa-float{position:fixed;right:22px;bottom:90px;z-index:1000;display:flex;align-items:center;justify-content:center;gap:16px;min-height:100px;padding:22px 32px;border:3px solid #fff;border-radius:60px;background:#087c3b;color:#fff!important;text-decoration:none!important;font:900 28px/1.3 Arial,sans-serif;box-shadow:0 6px 24px #0005;animation:futura-wa-blink 1.6s ease-in-out infinite}
+.futura-wa-float svg{width:56px;height:56px;flex-shrink:0}
+.futura-wa-float:hover,.futura-wa-float:focus-visible{animation:none;background:#075e54;outline:4px solid #ffe082;outline-offset:4px}
+@keyframes futura-wa-blink{0%,100%{opacity:1;box-shadow:0 6px 24px #0005,0 0 0 0 #25d366aa;background:#087c3b}50%{opacity:.72;box-shadow:0 6px 24px #0005,0 0 0 20px #25d36600;background:#075e54}}
 @media(prefers-reduced-motion:reduce){.futura-wa-float{animation:none}}
-@media(max-width:600px){.futura-wa-float{right:12px;bottom:82px;padding:11px 14px;font-size:14px}}
+@media(max-width:600px){.futura-wa-float{right:14px;bottom:82px;gap:12px;min-height:82px;max-width:calc(100vw - 28px);padding:16px 22px;font-size:23px;border-radius:48px}.futura-wa-float svg{width:44px;height:44px}}
 </style>
 <a class="futura-wa-float" href="https://wa.me/919488917786" target="_blank" rel="noopener noreferrer" aria-label="Open WhatsApp chat with Sri Ganesh Printers">
 <svg viewBox="0 0 32 32" aria-hidden="true" fill="none"><path d="M27 15.5A11.5 11.5 0 0 1 10 25.6L4 28l1.9-6.1A11.5 11.5 0 1 1 27 15.5Z" stroke="currentColor" stroke-width="2"/><path d="M11 9c-1 0-2 2-2 3 0 4 6 10 10 10 2 0 4-2 3-3l-3-2-2 1c-2-1-4-3-5-5l1-2-2-2Z" fill="currentColor"/></svg>
