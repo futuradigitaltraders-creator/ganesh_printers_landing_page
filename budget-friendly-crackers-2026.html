@@ -372,7 +372,26 @@ body{
 .budget-final-cta .budget-share-order-tip{max-width:unset;margin:9px 0 0;padding:10px 12px}
 #budget-checkout-panel{border:none;padding:0;background:transparent;margin:0}
 @media(max-width:700px){.budget-checkout-tools-grid{grid-template-columns:1fr}.budget-customer-modal .fields{grid-template-columns:1fr}.budget-customer-modal .fields label.full{grid-column:span 1}.budget-customer-modal-card{padding:18px 13px}}
-</style></head>
+</style><style id="budget-approved-red-fireworks-background-2026">
+/* Budget catalogue only; show the approved high-resolution red fireworks file
+   when present. Red fireworks fallback keeps the page usable until asset upload. */
+body{
+ background-color:#c80000!important;
+ background-image:
+   url('/assets/crackers/budget-red-fireworks-bg.png'),
+   linear-gradient(180deg,rgba(255,0,0,.65),rgba(180,0,0,.75)),
+   url('/assets/crackers/fireworks-sky-2026.jpg')!important;
+ background-blend-mode:normal,screen,normal!important;
+ background-position:center center,center center,center center!important;
+ background-size:cover,cover,cover!important;
+ background-repeat:no-repeat,no-repeat,no-repeat!important;
+ background-attachment:fixed,fixed,fixed!important;
+}
+@media(max-width:760px){
+ body{background-attachment:scroll,scroll,scroll!important}
+}
+</style>
+</head>
 <body>
 <header><div><strong>FUTURA TRADERS</strong><small>SRI GANESH PRINTERS</small></div>
 <nav><a href="crackers-catalogue-choose-2026.html">Catalogue தேர்வு</a><a href="deepavali-crackers-2026.html?catalogue=quality">உயர்தர பட்டாசுகள்</a><a href="index.html">Home</a></nav></header>
