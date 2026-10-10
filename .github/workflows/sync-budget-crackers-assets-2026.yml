@@ -1,0 +1,40 @@
+name: Sync Approved Budget Friendly Crackers Poster and PDF
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/sync-budget-crackers-assets-2026.yml'
+permissions:
+  contents: write
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Fetch customer-approved poster and final editable PDF
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p images/crackers
+          curl -fLsS --retry 3 --retry-delay 3 --max-time 200 'https://at.adobe.com/XjkszEgbos4RmYr4' -o 'images/crackers/budget-friendly-crackers-hero.png'
+          curl -fLsS --retry 3 --retry-delay 3 --max-time 200 'https://at.adobe.com/MJ1JVu1aAvUpIYAU' -o 'Vennila_2026_Editable_80_Percent_Order_Catalogue.pdf'
+          file 'images/crackers/budget-friendly-crackers-hero.png' 'Vennila_2026_Editable_80_Percent_Order_Catalogue.pdf'
+          test "$(file --mime-type -b 'images/crackers/budget-friendly-crackers-hero.png')" = 'image/png'
+          test "$(file --mime-type -b 'Vennila_2026_Editable_80_Percent_Order_Catalogue.pdf')" = 'application/pdf'
+          test "$(wc -c < 'images/crackers/budget-friendly-crackers-hero.png')" -gt 100000
+          test "$(wc -c < 'Vennila_2026_Editable_80_Percent_Order_Catalogue.pdf')" -gt 100000
+      - name: Commit unchanged approved image and editable PDF
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add 'images/crackers/budget-friendly-crackers-hero.png' 'Vennila_2026_Editable_80_Percent_Order_Catalogue.pdf'
+          if git diff --cached --quiet; then
+            echo 'Approved files already present; no changes'
+          else
+            git commit -m 'Upload approved low price crackers poster and final 7-page PDF [skip ci]'
+            git push origin HEAD:main
+          fi
