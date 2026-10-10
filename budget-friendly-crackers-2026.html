@@ -338,7 +338,41 @@ body{
 #budget-send-modal-status{white-space:pre-line;color:#11683c;font-size:13px;font-weight:800}
 @media(max-width:620px){.budget-final-cta{grid-template-columns:1fr;gap:12px;padding:12px}.budget-send-card{padding:20px 13px}}
 </style>
-</head>
+<style id="budget-quality-matching-checkout-2026">
+.budget-checkout-tools-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(270px,.75fr);gap:16px;margin:17px 0 10px;align-items:stretch;font-family:Arial,'Noto Sans Tamil',sans-serif}
+.budget-proof-panel,.budget-customer-card{background:white;border:1px solid #ded6e8;border-radius:12px;padding:18px;color:#2e273f}
+.budget-proof-panel h2,.budget-customer-card h2{margin:0 0 10px;font-size:20px;color:#391864}
+.budget-proof-panel p,.budget-customer-card p{font-size:14px;line-height:1.65}
+.budget-proof-panel label{display:block;font-size:14px;font-weight:800;margin:12px 0 6px}
+.budget-proof-panel input{max-width:100%}
+#budget-proof-preview{display:block;max-width:100%;max-height:260px;margin:12px 0;border:1px solid #ddd;border-radius:6px}
+#budget-proof-preview[hidden],#budget-proof-whatsapp[hidden],#budget-proof-invoice[hidden]{display:none!important}
+#budget-proof-upload,.budget-customer-card button,#budget-final-confirm-order{padding:12px 15px;background:#391864;color:white;border:0;border-radius:9px;font-weight:900;cursor:pointer}
+#budget-proof-upload:disabled,#budget-final-confirm-order:disabled{opacity:.5;cursor:not-allowed}
+#budget-proof-invoice{display:inline-block;background:#391864;color:white;padding:12px 15px;border-radius:8px;text-decoration:none;font-weight:800}
+#budget-proof-whatsapp{display:inline-block;color:#116446;font-weight:900;margin:10px 0}
+.budget-proof-track{display:inline-block;margin:10px 0;color:#32126f;font-size:13px;font-weight:900}
+.budget-customer-card{display:flex;flex-direction:column;text-align:center;align-items:stretch;justify-content:center;background:linear-gradient(145deg,#fff,#f9f5ff)}
+.budget-customer-card p{margin:0 0 15px;font-size:13px}
+#budget-review-confirm{font-size:14px}
+.budget-customer-modal[hidden]{display:none!important}
+.budget-customer-modal{position:fixed;inset:0;z-index:2147482500;background:rgba(13,8,34,.78);padding:15px;display:flex;align-items:center;justify-content:center}
+.budget-customer-modal-card{position:relative;width:min(100%,690px);max-height:calc(100vh - 30px);overflow:auto;background:#fff;color:#2e273f;border-radius:14px;padding:22px 20px;border:2px solid #d5c5e6}
+.budget-customer-modal-card h2{color:#391864;margin:0 38px 8px 0}
+.budget-customer-close{position:absolute;top:11px;right:12px;width:35px;height:35px;background:#f4edfb;border:0;border-radius:50%;font-size:26px;color:#391864;cursor:pointer}
+.budget-customer-current-id{background:#f1eaff;padding:8px 12px;border-radius:7px;font-weight:800}
+.budget-customer-modal .fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.budget-customer-modal .fields label{font-size:13px;display:flex;flex-direction:column;gap:4px;font-weight:800}
+.budget-customer-modal .fields label.full{grid-column:span 2}
+.budget-customer-modal .fields input{width:100%;padding:11px;border:1px solid #af9bb8;border-radius:7px;background:white;color:#241a38;font-size:14px}
+.budget-customer-modal .terms{background:#fff2cf;color:#704016;padding:11px;border-radius:8px;font-size:13px;line-height:1.6}
+.budget-customer-order-summary{background:#fff4d1;padding:10px;border-radius:8px;font-weight:800}
+.budget-final-confirm-check{display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.6;margin:13px 0;font-weight:700}
+.budget-final-confirm-check input{width:20px;height:20px;flex-shrink:0;margin-top:4px}
+.budget-final-cta .budget-share-order-tip{max-width:unset;margin:9px 0 0;padding:10px 12px}
+#budget-checkout-panel{border:none;padding:0;background:transparent;margin:0}
+@media(max-width:700px){.budget-checkout-tools-grid{grid-template-columns:1fr}.budget-customer-modal .fields{grid-template-columns:1fr}.budget-customer-modal .fields label.full{grid-column:span 1}.budget-customer-modal-card{padding:18px 13px}}
+</style></head>
 <body>
 <header><div><strong>FUTURA TRADERS</strong><small>SRI GANESH PRINTERS</small></div>
 <nav><a href="crackers-catalogue-choose-2026.html">Catalogue தேர்வு</a><a href="deepavali-crackers-2026.html?catalogue=quality">உயர்தர பட்டாசுகள்</a><a href="index.html">Home</a></nav></header>
@@ -405,8 +439,58 @@ body{
 <div id="budget-lines"></div><div id="budget-empty">No matching products / பொருட்கள் கிடைக்கவில்லை.</div>
 
 <div id="budget-chosen" class="budget-selected-details">Products தேர்வு செய்யவும்.</div>
-<div class="checkout-panel"><h3>Send Order Request / ஆர்டர் விவரங்களை அனுப்புங்கள்</h3>
-<div class="fields">
+<div class="budget-checkout-tools-grid">
+ <section class="budget-proof-panel" aria-labelledby="budget-proof-heading">
+  <h2 id="budget-proof-heading">Payment Screenshot / பணம் செலுத்திய Screenshot</h2>
+  <p>பணம் செலுத்திய பிறகு Screenshot தேர்வு செய்து Upload செய்யுங்கள். உங்கள் சேமிக்கப்பட்ட Order ID-உடன் பதிவு செய்யப்படும். Payment சரிபார்த்த பிறகே ஆர்டர் உறுதி செய்யப்படும்.</p>
+  <label for="budget-proof-file">Select screenshot (JPG / PNG)</label>
+  <input id="budget-proof-file" type="file" accept="image/jpeg,image/png">
+  <img id="budget-proof-preview" alt="Payment screenshot preview" hidden>
+  <p id="budget-proof-orderid"></p>
+  <button type="button" id="budget-proof-upload" disabled>UPLOAD PAYMENT SCREENSHOT</button>
+  <a href="https://wa.me/919488917786" id="budget-proof-whatsapp" target="_blank" rel="noopener noreferrer" hidden>SEND SCREENSHOT EMAIL + WHATSAPP</a>
+  <p id="budget-proof-status" role="status" aria-live="polite">முதலில் FINAL CONFIRM ORDER மூலம் ஆர்டரைப் பதிவு செய்யுங்கள்.</p>
+  <p id="budget-proof-mailstatus" role="status" aria-live="polite"></p>
+  <a id="budget-proof-invoice" hidden download>DOWNLOAD INVOICE PDF</a>
+  <p id="budget-proof-invoice-email" role="status" aria-live="polite"></p>
+  <a class="budget-proof-track" href="/crackers-order-tracking.html">TRACK YOUR ORDER HERE</a>
+ </section>
+ <aside class="budget-customer-card">
+  <h2>Customer Details / வாடிக்கையாளர் விவரம்</h2>
+  <p>Items தேர்வு செய்து விவரங்களை நிரப்புங்கள். FINAL CONFIRM ORDER அழுத்திய பிறகே Order ID உருவாகும்.</p>
+  <button type="button" id="budget-review-confirm">REVIEW &amp; CONFIRM ORDER</button>
+  <p id="budget-customer-quickstatus" role="status" aria-live="polite"></p>
+ </aside>
+</div>
+<div class="checkout-panel" id="budget-checkout-panel">
+ <div class="budget-final-cta">
+  <div class="budget-final-cta-summary">
+   <div>Selected Products: <strong id="budget-cta-products">0</strong> &nbsp; | &nbsp; Total Qty: <strong id="budget-cta-items">0</strong></div>
+   <div class="budget-cta-total">NET PRODUCT TOTAL <strong id="budget-cta-total">Rs. 0</strong></div>
+   <small>Minimum Order: Rs. 3,000/- / குறைந்தபட்ச ஆர்டர்: ரூ. 3,000/-<br>Packing &amp; Forwarding Extra / பேக்கிங் கட்டணம் தனி.<br>Transport: TOPAY / போக்குவரத்துக் கட்டணம் பெறும்போது செலுத்த வேண்டும்.</small>
+   <div class="budget-share-order-tip" lang="ta" role="note">
+  <p>உங்களுக்கு Rs. 1,500-க்கு மட்டும் பட்டாசுகள் வேண்டுமா?</p>
+  <strong class="budget-share-order-title">நண்பருடன் சேர்ந்து சிக்கனமாக ஆர்டர் செய்யுங்கள்! 🎉</strong>
+  <p>நீங்களும் உங்கள் நண்பரும் தலா Rs. 1,500 + Rs. 1,500 மதிப்பில் பட்டாசுகளைத் தேர்வு செய்து, ஒரே ஆர்டராக Rs. 3,000-க்கு பதிவு செய்யலாம்!</p>
+  <p class="budget-share-order-finish">குறைந்த பட்ஜெட்டில் குடும்பத்துடன் தீபாவளியைக் கொண்டாடுங்கள்!</p>
+</div>
+  </div>
+  <div class="budget-final-cta-action">
+   <button id="budget-open-request" type="button" disabled aria-describedby="budget-msg">SEND ORDER REQUEST</button>
+   <p>Send your saved order to FUTURA through WhatsApp or email.<br><span lang="ta">PDF FUTURA Email-க்கு; சுருக்கமான Order Request WhatsApp-க்கு.</span></p>
+  </div>
+ </div>
+ <p id="budget-request-result" role="status" aria-live="polite"></p>
+ <p id="budget-msg" role="status" aria-live="polite">Minimum order Rs. 3,000 — பொருட்களைத் தேர்வு செய்யுங்கள்.</p>
+</div>
+<div class="budget-customer-modal" id="budget-customer-modal" hidden>
+ <div class="budget-customer-modal-card" role="dialog" aria-modal="true" aria-labelledby="budget-customer-modal-heading">
+  <button id="budget-customer-close" type="button" class="budget-customer-close" aria-label="Close">×</button>
+  <h2 id="budget-customer-modal-heading">Booking Details / ஆர்டர் விவரம்</h2>
+  <p>உங்கள் விவரங்கள் இந்த ஆர்டரைப் பதிவு செய்வதற்கு மட்டுமே பயன்படுத்தப்படும்.</p>
+  <p class="budget-customer-current-id" id="budget-customer-order-id">Order ID: FINAL CONFIRM ORDER அழுத்திய பிறகு உருவாகும்.</p>
+  <form id="budget-customer-form">
+   <div class="fields">
 <label>Customer Name / பெயர்<input type="text" id="budget-name" maxlength="90" autocomplete="name" required></label>
 <label>Mobile Number / மொபைல்<input type="tel" id="budget-mobile" maxlength="15" inputmode="tel" required></label>
 <label class="full">City & Pincode / நகரம், PIN Code<input type="text" id="budget-city" maxlength="130" required></label>
@@ -414,26 +498,15 @@ body{
 <label class="full">Email (optional) / மின்னஞ்சல்<input type="email" id="budget-email" maxlength="254" placeholder="For future order updates"></label>
 <label class="full">Preferred Lorry Service (optional)<input type="text" id="budget-lorry" maxlength="100" placeholder="Optional transport preference"></label>
 </div>
-<p class="terms">Minimum Order Rs. 3,000. Packing & Forwarding Rs. 300 extra; Transport TOPAY. Stock check மற்றும் payment confirmation-க்குப் பின்னரே order உறுதி செய்யப்படும். இதுவொரு Order Request மட்டும்; Invoice அல்ல.</p>
-<div class="budget-share-order-tip" lang="ta" role="note">
-  <p>உங்களுக்கு Rs. 1,500-க்கு மட்டும் பட்டாசுகள் வேண்டுமா?</p>
-  <strong class="budget-share-order-title">நண்பருடன் சேர்ந்து சிக்கனமாக ஆர்டர் செய்யுங்கள்! 🎉</strong>
-  <p>நீங்களும் உங்கள் நண்பரும் தலா Rs. 1,500 + Rs. 1,500 மதிப்பில் பட்டாசுகளைத் தேர்வு செய்து, ஒரே ஆர்டராக Rs. 3,000-க்கு பதிவு செய்யலாம்!</p>
-  <p class="budget-share-order-finish">குறைந்த பட்ஜெட்டில் குடும்பத்துடன் தீபாவளியைக் கொண்டாடுங்கள்!</p>
-</div>
-<div class="budget-final-cta">
- <div class="budget-final-cta-summary">
-  <div>Selected Products: <strong id="budget-cta-products">0</strong> &nbsp; | &nbsp; Total Qty: <strong id="budget-cta-items">0</strong></div>
-  <div class="budget-cta-total">NET PRODUCT TOTAL <strong id="budget-cta-total">Rs. 0</strong></div>
-  <small>Minimum Order: Rs. 3,000/- / குறைந்தபட்ச ஆர்டர்: ரூ. 3,000/-<br>Packing &amp; Forwarding Extra / பேக்கிங் கட்டணம் தனி.<br>Transport: TOPAY / போக்குவரத்துக் கட்டணம் பெறும்போது செலுத்த வேண்டும்.</small>
+   <p id="budget-customer-order-summary" class="budget-customer-order-summary"></p>
+   <p class="terms">Minimum Order Rs. 3,000. Packing & Forwarding Rs. 300 extra; Transport TOPAY. Stock check மற்றும் payment confirmation-க்குப் பின்னரே order உறுதி செய்யப்படும். இதுவொரு Order Request மட்டும்; Invoice அல்ல.</p>
+   <label class="budget-final-confirm-check"><input type="checkbox" id="budget-final-confirm-check" required>
+    <span>தேர்வு செய்த பொருட்கள், எண்ணிக்கை மற்றும் எனது விவரங்களைச் சரிபார்த்துவிட்டேன். நான் பணம் செலுத்தத் தயாராக இருக்கிறேன். Stock சரிபார்த்து Payment விவரங்களை அனுப்புங்கள்.<br>I have checked my items and details. Please check stock and send payment details.</span>
+   </label>
+   <button id="budget-final-confirm-order" type="submit">FINAL CONFIRM ORDER</button>
+   <p id="budget-customer-modal-status" role="status" aria-live="polite"></p>
+  </form>
  </div>
- <div class="budget-final-cta-action">
-  <button id="budget-open-request" type="button" disabled aria-describedby="budget-msg">SEND ORDER REQUEST</button>
-  <p>Send your saved order to FUTURA through WhatsApp or email.<br><span lang="ta">PDF FUTURA Email-க்கு; சுருக்கமான Order Request WhatsApp-க்கு.</span></p>
- </div>
-</div>
-<p id="budget-request-result" role="status" aria-live="polite"></p>
-<p id="budget-msg" role="status" aria-live="polite">Minimum order Rs. 3,000 — பொருட்களைத் தேர்வு செய்யுங்கள்.</p>
 </div>
 </section>
 </main>
