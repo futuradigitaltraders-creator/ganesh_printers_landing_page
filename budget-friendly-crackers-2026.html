@@ -249,7 +249,40 @@ body{
 .budget-no-stock-qty .qty-num{color:#aa2830!important}
 @media(max-width:620px){.budget-no-stock-rate{font-size:12px!important;padding:8px 2px!important}}
 </style>
-</head>
+<style id="budget-quality-session-controls-2026">
+/* Same order-session actions as the Quality catalogue; isolated Budget draft. */
+#budget-always-visible-summary{margin-top:10px!important;margin-bottom:13px!important;border-top:2px solid #9a76c3!important;border-radius:12px!important}
+.budget-order-session-tools{background:#fff;color:#281940;border:1px solid #e0d3ea;border-radius:13px;padding:14px 15px;margin:12px 0 18px;box-shadow:0 5px 13px #0002}
+.budget-order-session-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.budget-order-session-tools .budget-order-action,.catalogue-area .catalogue-tools .budget-order-action{
+ display:inline-flex;align-items:center;justify-content:center;min-height:47px;padding:11px 14px;
+ border:1px solid #290b66;border-radius:9px;background:#2c126c;color:#fff!important;
+ text-decoration:none!important;cursor:pointer;font:900 clamp(12px,1.05vw,15px)/1.3 Arial,'Noto Sans Tamil',sans-serif;
+ text-align:center;white-space:normal
+}
+.budget-order-session-tools .budget-order-action:disabled{opacity:.45;cursor:not-allowed}
+.budget-order-session-tools .budget-track-action{background:#137546;border-color:#137546}
+#budget-session-message{flex:1 1 100%;font-size:14px;margin:10px 0;line-height:1.5;color:#4d3262}
+.budget-order-policy{background:#fff4ce;color:#66370d;border:1px solid #edc56a;border-radius:10px;text-align:center;padding:14px 12px;margin:0 0 17px;font-size:clamp(12px,1.1vw,15px);font-weight:800;line-height:1.5}
+.budget-order-policy span{display:block;margin-top:5px}
+.catalogue-area .catalogue-tools{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto auto!important;align-items:center!important;gap:8px!important;border-radius:12px!important;margin:0 0 12px!important}
+.catalogue-area .catalogue-tools #budget-clear-search{min-height:43px;white-space:nowrap}
+.catalogue-area .catalogue-tools #budget-count{font-size:12px!important}
+#budget-filter-status{grid-column:1 / -1;color:#593778;font-size:13px;font-weight:600;padding:1px 4px}
+@media(max-width:760px){
+ .budget-order-session-tools{padding:12px}
+ .budget-order-session-row .budget-order-action{flex:1 1 170px}
+ .catalogue-area .catalogue-tools{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ .catalogue-area .catalogue-tools #budget-search,.catalogue-area .catalogue-tools #budget-category{width:100%;min-width:0}
+ .catalogue-area .catalogue-tools #budget-clear-search{min-height:37px;font-size:12px}
+ .catalogue-area .catalogue-tools #budget-count{justify-self:end}
+ #budget-filter-status{font-size:12px}
+}
+@media(max-width:450px){
+ .budget-order-session-row{gap:8px}
+ .budget-order-session-row .budget-order-action{flex:1 1 100%;min-height:43px}
+}
+</style></head>
 <body>
 <header><div><strong>FUTURA TRADERS</strong><small>SRI GANESH PRINTERS</small></div>
 <nav><a href="crackers-catalogue-choose-2026.html">Catalogue தேர்வு</a><a href="deepavali-crackers-2026.html?catalogue=quality">உயர்தர பட்டாசுகள்</a><a href="index.html">Home</a></nav></header>
@@ -281,11 +314,6 @@ body{
   </nav>
 </div>
 
-<div class="catalogue-tools" id="budget-sticky-tools">
- <input type="search" id="budget-search" aria-label="Search products in English or Tamil" placeholder="Search Products / பொருள் பெயர் தேடுங்கள்">
- <select id="budget-category" aria-label="Choose category"><option value="">All Categories / அனைத்து வகைகளும்</option></select>
- <span class="product-count" id="budget-count">234 PRODUCTS</span>
-</div>
 <div class="budget-sticky-summary" id="budget-always-visible-summary" aria-label="தேர்வு செய்த பொருட்கள், MRP மற்றும் மொத்த விலை" aria-live="polite">
   <div class="summary-counts">
    <div><small>SELECTED PRODUCTS / தேர்வு</small><strong id="budget-products">0</strong></div>
@@ -294,6 +322,28 @@ body{
    <div><small>FINAL TOTAL / மொத்தம்</small><strong id="budget-total">Rs. 0</strong></div>
    <div><small>YOU SAVE / சேமிப்பு</small><strong id="budget-save">Rs. 0</strong></div>
   </div>
+</div>
+<div class="budget-order-session-tools" id="budget-order-session-tools" aria-label="New order and saved order actions">
+ <div class="budget-order-session-row">
+  <a class="budget-order-action" id="budget-view-old-order" href="/crackers-order-tracking.html">VIEW MY OLD ORDER / பழைய ஆர்டரைப் பார்க்க</a>
+  <a class="budget-order-action budget-track-action" id="budget-track-order" href="/crackers-order-tracking.html">TRACK YOUR ORDER / ஆர்டர் நிலவரம்</a>
+ </div>
+ <p id="budget-session-message" role="status" aria-live="polite">புதிய ஆர்டர் / New order — select your products to begin.</p>
+ <div class="budget-order-session-row">
+  <button class="budget-order-action" id="budget-clear-selection" type="button">REFRESH / CLEAR SELECTION</button>
+  <button class="budget-order-action" id="budget-start-new-order" type="button">START NEW ORDER / புதிய ஆர்டர்</button>
+ </div>
+</div>
+<div class="budget-order-policy" role="note" aria-label="Budget order policy and charges">
+ <strong>MINIMUM ORDER Rs. 3,000</strong> &nbsp;|&nbsp; <strong>PACKING &amp; FORWARDING EXTRA</strong> &nbsp;|&nbsp; <strong>TRANSPORT: TOPAY</strong>
+ <span>குறைந்தபட்ச ஆர்டர் Rs. 3,000 · பேக்கிங் மற்றும் அனுப்பும் கட்டணம் தனி · டிரான்ஸ்போர்ட் கட்டணம் உங்கள் ஊரில் செலுத்த வேண்டும்</span>
+</div>
+<div class="catalogue-tools" id="budget-sticky-tools" aria-label="Search products and choose category">
+ <input type="search" id="budget-search" aria-label="Search products in English or Tamil" placeholder="Search Product / பொருள் தேடுங்கள்">
+ <select id="budget-category" aria-label="Choose category"><option value="">All Categories / அனைத்து வகைகளும்</option></select>
+ <button id="budget-clear-search" class="budget-order-action" type="button">CLEAR</button>
+ <span class="product-count" id="budget-count">234 PRODUCTS</span>
+ <div id="budget-filter-status" role="status" aria-live="polite">Showing all 234 products</div>
 </div>
 <div class="tbl-head"><span>S.No<small>வ.எண்</small></span><span>PRODUCT NAME / PACK<small>பட்டாசு பெயர் / பேக்</small></span><span>MRP PRICE<small>அசல் விலை</small></span><span>80% OFF NET RATE<small>தள்ளுபடி விலை</small></span><span>QUANTITY<small>எண்ணிக்கை</small></span><span class="subtotal">SUB TOTAL<small>கூடுதல் தொகை</small></span></div>
 <div id="budget-lines"></div><div id="budget-empty">No matching products / பொருட்கள் கிடைக்கவில்லை.</div>
@@ -366,6 +416,7 @@ function budgetRender(){
   row.append(serial,title,list,rate,qty,subtotal);root.append(row);
  }
  bd('budget-count').textContent=visible+' / '+budgetProducts.length+' PRODUCTS';bd('budget-empty').style.display=visible?'none':'block';
+ bd('budget-filter-status').textContent=(query||category)?'Showing '+visible+' of '+budgetProducts.length+' products':'Showing all '+budgetProducts.length+' products';
  const {sel,items,mrp,total,save}=budgetTotals();
  bd('budget-products').textContent=sel.length;bd('budget-items').textContent=items;bd('budget-mrp').textContent=budgetFmt(mrp);bd('budget-total').textContent=budgetFmt(total);bd('budget-save').textContent=budgetFmt(save);
  bd('budget-chosen').textContent=sel.length?sel.map(p=>p.id+'. '+p.name+' / '+p.tamil+' × '+budgetQty[p.id]+' @ '+budgetFmt(p.rate)+' = '+budgetFmt(p.rate*budgetQty[p.id])).join('\n'):'Products தேர்வு செய்யவும்.';
@@ -375,10 +426,33 @@ function budgetRender(){
  emailButton.disabled=!ready || budgetOrderBusy;
  const title=ready?'Minimum order Rs. 3,000 reached — Ready to submit':'Minimum order Rs. 3,000 — மேலும் '+budgetFmt(minBudgetOrder-total)+' சேர்க்கவும்';
  sendButton.title=title;emailButton.title=title;
+ bd('budget-clear-selection').disabled=budgetOrderBusy;bd('budget-start-new-order').disabled=budgetOrderBusy;
  sendMessage.textContent=ready?'Minimum Order Rs. 3,000 அடைந்துவிட்டது. Customer Details நிரப்பி WhatsApp Order Request அனுப்பலாம்.':'Minimum Order Rs. 3,000 — மேலும் '+budgetFmt(minBudgetOrder-total)+' மதிப்பிற்கு பொருட்களைத் தேர்வு செய்யுங்கள்.';
 }
 bd('budget-search').addEventListener('input',budgetRender);
 bd('budget-category').addEventListener('change',budgetRender);
+bd('budget-clear-search').addEventListener('click',()=>{
+ bd('budget-search').value='';
+ bd('budget-category').value='';
+ budgetRender();
+});
+function budgetStartNewOrder(resetSession){
+ if(budgetOrderBusy)return;
+ const chosen=budgetCart();
+ if(chosen.length && !window.confirm('Clear '+chosen.length+' selected product(s)?\nதேர்வு செய்த பொருட்களை நீக்கவா?'))return;
+ // Clear this browser's unsent Budget draft only. Never delete submitted orders.
+ Object.keys(budgetQty).forEach(id=>delete budgetQty[id]);
+ bd('budget-search').value='';bd('budget-category').value='';
+ for(const id of ['budget-name','budget-mobile','budget-city','budget-address','budget-lorry','budget-email'])bd(id).value='';
+ if(resetSession){try{localStorage.removeItem('futuraBudgetSession2026')}catch(e){}}
+ budgetOrderResult('',false);
+ bd('budget-session-message').textContent=resetSession?
+   'புதிய ஆர்டர் / New order — select your products to begin.':
+   'தேர்வு அழிக்கப்பட்டது / Selection cleared — choose your products again.';
+ budgetRender();
+}
+bd('budget-clear-selection').addEventListener('click',()=>budgetStartNewOrder(false));
+bd('budget-start-new-order').addEventListener('click',()=>budgetStartNewOrder(true));
 function budgetCustomerInputs(){
  return {name:bd('budget-name').value.trim(),mobile:bd('budget-mobile').value.trim(),
     city:bd('budget-city').value.trim(),address:bd('budget-address').value.trim(),
