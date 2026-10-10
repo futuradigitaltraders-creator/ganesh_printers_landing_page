@@ -160,6 +160,7 @@ async function deliverPdf(order){
  if(sent.orderId!==order.orderId||!['sent','sending'].includes(sent.emailStatus))throw Error('PDF email delivery not confirmed.');
  return {status:sent.emailStatus,duplicate:!!sent.duplicate};
 }
+// Reuse the exact approved Budget rate + stock validation for payment proof PDFs.
 module.exports=async function handler(req,res){
  res.setHeader('Cache-Control','no-store');
  if(req.headers.origin&&!ORIGINS.has(req.headers.origin))
@@ -205,3 +206,5 @@ module.exports=async function handler(req,res){
    emailStatus,emailError,recipient:OWNER_EMAIL,items:order.items.length,total:order.total,
    mrp:order.mrp,saving:order.saving});
 };
+
+module.exports.validateBudgetOrder = check;
