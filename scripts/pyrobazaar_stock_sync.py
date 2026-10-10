@@ -29,6 +29,8 @@ def canonical(value):
     v = unicodedata.normalize("NFKC", html.unescape(str(value))).upper()
     v = v.replace("’", "'").replace("‘", "'").replace("″", '"')
     # Names use 10 PCS, 1 PCE, " (10 PCS) ", etc. Preserve pack numbers.
+    # Supplier sometimes writes pack quantity as "1 0 PCS" instead of "10 PCS".
+    v = re.sub(r"(?<!\d)1\s+0(?=\s+PCS\b)", "10", v)
     v = re.sub(r"\bPIECES?\b", "PCS", v)
     v = re.sub(r"\bPACKETS?\b", "PKT", v)
     return " ".join(re.findall(r"[A-Z0-9]+", v))
