@@ -152,12 +152,13 @@ function budgetRender(){
  const root=bd('budget-lines'),query=bd('budget-search').value.trim().toLowerCase(),category=bd('budget-category').value;root.replaceChildren();let last='',visible=0;
  for(const p of budgetProducts){
   if(category&&p.category!==category)continue;
-  if(query&&!([p.name,p.category,p.unit,String(p.id)].join(' ').toLowerCase().includes(query)))continue;
+  if(query&&!([p.name,p.tamil,p.category,p.unit,String(p.id)].join(' ').toLowerCase().includes(query)))continue;
   visible++;
   if(last!==p.category){last=p.category;const heading=document.createElement('h3');heading.className='budget-cat';heading.textContent=last;root.append(heading)}
   const row=document.createElement('div');row.className='budget-line';
   const serial=document.createElement('div');serial.className='n';serial.textContent=p.id;
   const title=document.createElement('div');title.className='product-name';title.textContent=p.name;
+  const tamil=document.createElement('span');tamil.className='budget-tamil-name';tamil.lang='ta';tamil.textContent=p.tamil;title.append(tamil);
   const unit=document.createElement('div');unit.className='unit';unit.textContent=p.unit;title.append(unit);
   const list=document.createElement('div');list.className='list-price';list.textContent=p.discount?budgetFmt(p.list):'—';list.title=p.discount?'PDF List Price':'PDF contains net rate only';
   const rate=document.createElement('div');rate.className='net-rate';rate.textContent=budgetFmt(p.rate);
@@ -172,7 +173,7 @@ function budgetRender(){
  bd('budget-count').textContent=visible+' / 232 PRODUCTS';bd('budget-empty').style.display=visible?'none':'block';
  const {sel,items,total,save}=budgetTotals();
  bd('budget-products').textContent=sel.length;bd('budget-items').textContent=items;bd('budget-total').textContent=budgetFmt(total);bd('budget-save').textContent=budgetFmt(save);
- bd('budget-chosen').textContent=sel.length?sel.map(p=>p.id+'. '+p.name+' × '+budgetQty[p.id]+' @ '+budgetFmt(p.rate)+' = '+budgetFmt(p.rate*budgetQty[p.id])).join('\n'):'Products தேர்வு செய்யவும்.';
+ bd('budget-chosen').textContent=sel.length?sel.map(p=>p.id+'. '+p.name+' / '+p.tamil+' × '+budgetQty[p.id]+' @ '+budgetFmt(p.rate)+' = '+budgetFmt(p.rate*budgetQty[p.id])).join('\n'):'Products தேர்வு செய்யவும்.';
 }
 bd('budget-search').addEventListener('input',budgetRender);
 bd('budget-category').addEventListener('change',budgetRender);
@@ -183,7 +184,7 @@ function budgetOrderRequest(){
  if(!sel.length){msg.textContent='ஒரு பொருளையாவது தேர்வு செய்யுங்கள்.';return}
  if(total<3000){msg.textContent='Minimum Order Amount ₹3,000. மேலும் பொருட்களைத் தேர்வு செய்யுங்கள்.';return}
  if(!name||!/^\+?[0-9\s-]{10,15}$/.test(mobile)||!city){msg.textContent='பெயர், சரியான mobile number, City & Pincode நிரப்புங்கள்.';return}
- const rows=sel.map(p=>p.id+'. '+p.name+' | '+budgetQty[p.id]+' x '+budgetFmt(p.rate)+' = '+budgetFmt(budgetQty[p.id]*p.rate)).join('\n');
+ const rows=sel.map(p=>p.id+'. '+p.name+' / '+p.tamil+' | '+budgetQty[p.id]+' x '+budgetFmt(p.rate)+' = '+budgetFmt(budgetQty[p.id]*p.rate)).join('\n');
  const content=['FUTURA - LOW PRICE CRACKERS ORDER REQUEST','Catalogue: Budget Friendly Vennila 2026','Name: '+name,'Mobile: '+mobile,'City & Pincode: '+city,'Address: '+(address||'-'),'Preferred Lorry: '+(lorry||'-'),'','PRODUCTS',rows,'','Selected Products: '+sel.length,'Total Quantity: '+items,'Total List Savings (priced offer items): '+budgetFmt(save),'PRODUCT TOTAL: '+budgetFmt(total),'Packing & Forwarding: ₹300 extra','Transport: TOPAY','Subject to stock verification. Payment details to follow separately.'];
  const url='https://wa.me/919488917786?text='+encodeURIComponent(content.join('\n'));
  if(url.length>7800){msg.textContent='Order is too long for reliable WhatsApp text sharing. Please reduce selected items or contact WhatsApp Support.';return}
