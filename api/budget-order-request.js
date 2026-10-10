@@ -169,6 +169,17 @@ module.exports=async function handler(req,res){
  let order;
  try{order=check(typeof req.body==='string'?JSON.parse(req.body):req.body);}
  catch(e){return res.status(400).json({ok:false,error:e.message});}
+ // Verify the owner Gmail PDF delivery flag BEFORE reserving an Order ID.
+ // A disabled Gmail/Apps Script integration must never create an orphaned test booking.
+ try{
+   const emailHealth=await google(undefined,20000);
+   if(emailHealth.requestEmailPDF!==true){
+     return res.status(503).json({ok:false,emailAvailable:false,error:'PDF email is not active. Owner: enable invoice email in the existing Google Apps Script, authorize permissions, and deploy the latest web app version before testing.'});
+   }
+ }catch(e){
+   console.warn('Budget request email preflight unavailable',{message:e.message});
+   return res.status(503).json({ok:false,emailAvailable:false,error:'Cannot verify PDF email service now. No order number was created; please check Gmail/Apps Script setup before retrying.'});
+ }
  try{
    const reserve=await google({action:'allocateOrderId',requestKey:order.requestKey},30000);
    if(reserve.requestKey!==order.requestKey||!/^[0-9]{4,12}$/.test(reserve.orderId||''))throw Error('Order number reservation failed.');
