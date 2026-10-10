@@ -625,6 +625,7 @@ function budgetAdd(id,n){
 function budgetCart(){return budgetProducts.filter(p=>p.inStock!==false&&(budgetQty[p.id]||0)>0)}
 function budgetTotals(){const sel=budgetCart();return {sel,items:sel.reduce((s,p)=>s+budgetQty[p.id],0),mrp:sel.reduce((s,p)=>s+(p.discount?p.list:0)*budgetQty[p.id],0),total:sel.reduce((s,p)=>s+p.rate*budgetQty[p.id],0),save:sel.reduce((s,p)=>s+(p.discount?p.list-p.rate:0)*budgetQty[p.id],0)}}
 let budgetOrderBusy=false;
+let budgetProofBusy=false,budgetSelectedProof=null,budgetProofPreviewUrl=null,budgetInvoiceUrl=null,budgetProofVersion=0;
 function budgetRender(){
  for(const p of budgetProducts){if(p.inStock===false)delete budgetQty[p.id];}
  const root=bd('budget-lines'),query=bd('budget-search').value.trim().toLowerCase(),category=bd('budget-category').value;root.replaceChildren();let last='',visible=0;
@@ -842,6 +843,144 @@ function budgetReceiptMatchesCurrent(selected,customer){
  return JSON.stringify(receipt.items)===JSON.stringify(lines)&&
         JSON.stringify(receipt.customer)===JSON.stringify(customer);
 }
+
+function budgetResetPaymentProof(){
+ ++budgetProofVersion;
+ budgetSelectedProof=null;
+ if(budgetProofPreviewUrl){URL.revokeObjectURL(budgetProofPreviewUrl);budgetProofPreviewUrl=null}
+ if(budgetInvoiceUrl){URL.revokeObjectURL(budgetInvoiceUrl);budgetInvoiceUrl=null}
+ const input=bd('budget-proof-file');input.value='';input.disabled=false;
+ bd('budget-proof-preview').hidden=true;
+ bd('budget-proof-upload').disabled=true;
+ bd('budget-proof-invoice').hidden=true;
+ bd('budget-proof-whatsapp').hidden=true;
+ bd('budget-proof-status').textContent='FINAL CONFIRM ORDER மூலம் ஆர்டர் பதிவு செய்த பின்னரே Payment Screenshot Upload செய்யலாம்.';
+ bd('budget-proof-mailstatus').textContent='';
+ bd('budget-proof-invoice-email').textContent='';
+ bd('budget-proof-orderid').textContent='';
+}
+async function budgetPrepareProof(event){
+ if(budgetProofBusy)return;
+ const version=++budgetProofVersion,input=event.currentTarget,file=input.files?.[0];
+ budgetSelectedProof=null;
+ bd('budget-proof-upload').disabled=true;
+ bd('budget-proof-invoice').hidden=true;
+ bd('budget-proof-mailstatus').textContent='';
+ bd('budget-proof-invoice-email').textContent='';
+ bd('budget-proof-whatsapp').hidden=true;
+ if(budgetInvoiceUrl){URL.revokeObjectURL(budgetInvoiceUrl);budgetInvoiceUrl=null}
+ if(budgetProofPreviewUrl){URL.revokeObjectURL(budgetProofPreviewUrl);budgetProofPreviewUrl=null}
+ bd('budget-proof-preview').hidden=true;
+ if(!file){bd('budget-proof-status').textContent='';return}
+ const saved=budgetSavedReceipt();
+ if(!saved){
+  bd('budget-proof-status').textContent='முதலில் FINAL CONFIRM ORDER செய்து Order ID பெறுங்கள். பழைய Order Screenshot-ஐ WhatsApp-ல் அனுப்பலாம்.';
+  bd('budget-proof-whatsapp').href=budgetWhatsAppUrl('FUTURA - Payment Screenshot assistance. Please help me attach screenshot for my saved order.');
+  bd('budget-proof-whatsapp').hidden=false;
+  input.value='';return;
+ }
+ if(!['image/jpeg','image/png'].includes(file.type)||file.size>10000000){
+  bd('budget-proof-status').textContent='10 MB-க்குள் JPG / PNG Screenshot மட்டும் தேர்வு செய்யுங்கள்.';
+  input.value='';return;
+ }
+ const status=bd('budget-proof-status');
+ status.textContent='Payment Screenshot தயாராகிறது…';
+ try{
+  budgetProofPreviewUrl=URL.createObjectURL(file);
+  const img=new Image();
+  await new Promise((resolve,reject)=>{
+   img.onload=resolve;img.onerror=()=>reject(Error('Could not open image.'));
+   img.src=budgetProofPreviewUrl;
+  });
+  if(version!==budgetProofVersion)return;
+  if(img.naturalWidth<1||img.naturalHeight<1)throw Error('Invalid image');
+  const scale=Math.min(1,1600/Math.max(img.naturalWidth,img.naturalHeight));
+  const canvas=document.createElement('canvas');
+  canvas.width=Math.max(1,Math.round(img.naturalWidth*scale));
+  canvas.height=Math.max(1,Math.round(img.naturalHeight*scale));
+  const context=canvas.getContext('2d');
+  context.fillStyle='#fff';context.fillRect(0,0,canvas.width,canvas.height);
+  context.drawImage(img,0,0,canvas.width,canvas.height);
+  let imageBase64=canvas.toDataURL('image/jpeg',0.84).split(',')[1];
+  if(imageBase64.length>1600000)imageBase64=canvas.toDataURL('image/jpeg',0.65).split(',')[1];
+  if(imageBase64.length>1600000)throw Error('Screenshot too large. Please choose a smaller image.');
+  const digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(saved.orderId+'\n'+imageBase64));
+  if(version!==budgetProofVersion)return;
+  const proofId='FUBPAY_'+Array.from(new Uint8Array(digest),n=>n.toString(16).padStart(2,'0')).join('');
+  budgetSelectedProof={orderId:saved.orderId,requestKey:saved.requestKey,
+   finalConfirmed:true,customer:saved.customer,items:saved.items,
+   proofId,mimeType:'image/jpeg',imageBase64};
+  const preview=bd('budget-proof-preview');
+  preview.src=budgetProofPreviewUrl;preview.hidden=false;
+  bd('budget-proof-orderid').textContent='Order ID: '+saved.orderId;
+  const whats=bd('budget-proof-whatsapp');
+  whats.href=budgetWhatsAppUrl('FUTURA - Payment screenshot for Order '+saved.orderId+
+   '. Please verify my payment. I can attach the screenshot on WhatsApp if required.');
+  whats.hidden=false;
+  const response=await fetch('/api/budget-payment-proof',{method:'GET',cache:'no-store'});
+  const availability=await response.json();
+  if(version!==budgetProofVersion)return;
+  if(!response.ok||availability.available!==true){
+   status.textContent='Screenshot Upload சேவை தற்போது கிடைக்கவில்லை. Screenshot-ஐ WhatsApp-ல் கைமுறையாக Attach செய்து அனுப்புங்கள்.';
+   return;
+  }
+  bd('budget-proof-upload').disabled=false;
+  status.textContent='Screenshot தேர்வு செய்யப்பட்டுள்ளது. UPLOAD PAYMENT SCREENSHOT அழுத்தவும்.';
+ }catch(e){
+  if(version!==budgetProofVersion)return;
+  budgetSelectedProof=null;
+  status.textContent=e.message||'Screenshot தயார் செய்ய முடியவில்லை.';
+ }
+}
+async function budgetUploadPaymentProof(){
+ if(budgetProofBusy||!budgetSelectedProof)return;
+ budgetProofBusy=true;
+ const data=budgetSelectedProof,input=bd('budget-proof-file'),button=bd('budget-proof-upload');
+ button.disabled=true;input.disabled=true;
+ const status=bd('budget-proof-status');
+ status.textContent='Screenshot FUTURA-க்கு Upload ஆகிறது…';
+ try{
+  const response=await fetch('/api/budget-payment-proof',{
+   method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)
+  });
+  const result=await response.json();
+  if(!response.ok||result.ok!==true||result.orderId!==data.orderId||result.proofId!==data.proofId){
+   throw Error(result.error||'Upload not confirmed.');
+  }
+  status.textContent='Screenshot received ✓ Order '+result.orderId+
+   '. Payment Verification Pending / பணம் சரிபார்க்கப்பட வேண்டியுள்ளது.';
+  bd('budget-proof-mailstatus').textContent=result.ownerScreenshotEmail==='sent'
+   ?'Screenshot FUTURA Email-க்கு அனுப்பப்பட்டது ✓'
+   :result.ownerScreenshotEmail==='sending'
+   ?'Screenshot Email இன்னும் அனுப்பப்படுவது உறுதியாகவில்லை.'
+   :'Screenshot Sheet-ல் பதிவு செய்யப்பட்டது; Owner Email உறுதி செய்யப்படவில்லை.';
+  const invoiceLink=bd('budget-proof-invoice'),emailStatus=bd('budget-proof-invoice-email');
+  if(result.invoiceBase64){
+   const bytes=Uint8Array.from(atob(result.invoiceBase64),c=>c.charCodeAt(0));
+   budgetInvoiceUrl=URL.createObjectURL(new Blob([bytes],{type:'application/pdf'}));
+   invoiceLink.href=budgetInvoiceUrl;invoiceLink.download='FUTURA_Budget_Invoice_'+result.orderId+'.pdf';
+   invoiceLink.hidden=false;
+  }
+  emailStatus.textContent=result.invoiceEmail==='sent'
+    ?'Invoice PDF Customer Email-க்கு அனுப்பப்பட்டது. Inbox / Spam பார்க்கவும்.'
+    :result.invoiceEmail==='no_email'
+     ?'Customer Email வழங்கப்படவில்லை. Invoice PDF-ஐ இங்கே Download செய்யலாம்.'
+     :'Invoice PDF தயார். Email உறுதி செய்யப்படவில்லை; இங்கே Download செய்யலாம்.';
+  bd('budget-proof-whatsapp').href=budgetWhatsAppUrl(
+   'FUTURA - Budget Payment Screenshot submitted for Order '+result.orderId+
+   '. Payment verification pending. Please check.'
+  );
+  bd('budget-proof-whatsapp').hidden=false;
+  if(result.ownerScreenshotEmail==='sent'){budgetSelectedProof=null;input.value='';}
+ }catch(e){
+  status.textContent=(e.message||'Screenshot upload error')+
+   ' / Retry upload or manually attach screenshot on WhatsApp. Old Order ID remains unchanged.';
+ }finally{
+  budgetProofBusy=false;input.disabled=false;button.disabled=!budgetSelectedProof;
+ }
+}
+bd('budget-proof-file').addEventListener('change',budgetPrepareProof);
+bd('budget-proof-upload').addEventListener('click',budgetUploadPaymentProof);
 function openBudgetCustomerModal(){
  if(budgetOrderBusy)return;
  const totals=budgetTotals();
