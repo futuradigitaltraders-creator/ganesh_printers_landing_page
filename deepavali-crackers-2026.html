@@ -742,6 +742,24 @@ footer{color:#fff;background:rgba(8,13,38,.88)}
 .futura-list-switch .futura-list-choice:not(.active):hover,.futura-list-switch .futura-list-choice:not(.active):focus-visible{background:#ffec9c;border-color:#e3ae24}
 @media(max-width:620px){.futura-quality-list-chooser{padding:15px 10px}.futura-list-switch{gap:8px}.futura-list-switch .futura-list-choice{min-height:78px;padding:10px 6px}.futura-list-switch .futura-list-choice strong{font-size:clamp(14px,3.3vw,19px)}.futura-list-switch .futura-list-choice small{font-size:9px}}
 </style>
+<style id="futura-quality-shared-minimum-order-tip">
+.quality-shared-order-tip{
+  margin-top:10px;
+  padding:12px 15px;
+  border:1px solid #dfbe67;
+  border-left:5px solid #d59e22;
+  border-radius:10px;
+  background:#fff9e6;
+  color:#443055;
+  font-family:Arial,'Noto Sans Tamil',FuturaTamil,sans-serif;
+  font-size:clamp(13px,1.15vw,16px);
+  line-height:1.65;
+  max-width:620px;
+}
+.quality-shared-order-tip p{margin:0 0 6px}
+.quality-shared-order-tip>strong{display:block;color:#742477;font-weight:900;font-size:clamp(15px,1.35vw,19px);line-height:1.45;margin:5px 0 7px}
+.quality-shared-order-tip .quality-shared-order-final{margin:7px 0 0;font-weight:800;color:#643671}
+</style>
 </head>
 <body>
 <header class="site-header">
@@ -3319,6 +3337,12 @@ footer{color:#fff;background:rgba(8,13,38,.88)}
     <div class="summary-counts">Selected Products: <span id="selectedProducts">0</span> &nbsp; | &nbsp; Total Qty: <span id="totalQty">0</span></div>
     <div class="net-total">NET PRODUCT TOTAL <strong>₹<span id="sampleNetTotal">0.00</span></strong></div>
     <div class="shipping-note"><strong>Minimum Order: Rs. 3,000/- / குறைந்தபட்ச ஆர்டர்: ரூ. 3,000/-</strong><br>Packing &amp; Forwarding Extra / பேக்கிங் மற்றும் பார்சல் அனுப்பும் கட்டணம் தனி.<br>Transport: TOPAY / போக்குவரத்துக் கட்டணம் பெறும்போது செலுத்த வேண்டும்.</div>
+    <div class="quality-shared-order-tip" lang="ta" role="note" aria-label="நண்பருடன் இணைந்து ஆர்டர் செய்வது">
+      <p>உங்களுக்கு Rs. 1,500-க்கு மட்டும் பட்டாசுகள் வேண்டுமா?</p>
+      <strong>நண்பருடன் சேர்ந்து சிக்கனமாக ஆர்டர் செய்யுங்கள்! 🎉</strong>
+      <p>நீங்களும் உங்கள் நண்பரும் தலா Rs. 1,500 + Rs. 1,500 மதிப்பில் பட்டாசுகளைத் தேர்வு செய்து, ஒரே ஆர்டராக Rs. 3,000-க்கு பதிவு செய்யலாம்!</p>
+      <p class="quality-shared-order-final">குறைந்த பட்ஜெட்டில் குடும்பத்துடன் தீபாவளியைக் கொண்டாடுங்கள்!</p>
+    </div>
   </div>
   <div class="request-order-actions">
     <button class="pay-btn" id="samplePayBtn" type="button" onclick="comboReadyToPay()" disabled>SEND ORDER REQUEST</button>
