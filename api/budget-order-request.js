@@ -37,7 +37,7 @@ function check(input){
  const catalogue=serverCatalogue(),seen=new Set();
  const items=input.items.map(item=>{
    const serial=Number(item.serial),qty=Number(item.qty),product=catalogue.get(serial);
-   if(!product||seen.has(serial)||!Number.isInteger(qty)||qty<1||qty>999||
+   if(!product||product.inStock===false||seen.has(serial)||!Number.isInteger(qty)||qty<1||qty>999||
       !Number.isFinite(Number(item.price))||Math.abs(Number(item.price)-product.rate)>0.001)
      throw Error('Products/prices have changed. Please refresh the catalogue.');
    seen.add(serial);
