@@ -322,6 +322,22 @@ body{
 #budget-pdf-email-health[data-state="available"]{color:#0a6844}
 #budget-pdf-email-health[data-state="unavailable"]{color:#a02020}
 </style>
+<style id="budget-matching-quality-order-cta">
+.budget-final-cta{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,1fr);gap:18px;align-items:center;margin-top:16px;padding:16px;background:#fff3cd;border-radius:14px;color:#422c1f}
+.budget-final-cta-summary{font-size:13px;line-height:1.65;font-weight:700}.budget-cta-total{font-size:16px;font-weight:900;margin:5px 0}
+.budget-cta-total strong{color:#9c2518;font-size:clamp(22px,2.3vw,29px);margin-left:8px}
+.budget-final-cta-summary small{font-size:12px;font-weight:600;line-height:1.4}
+#budget-open-request{width:100%;background:#19a447;color:white;border:none;border-radius:10px;padding:15px;font:900 17px Arial,sans-serif;cursor:pointer}
+#budget-open-request:disabled{opacity:.43;filter:grayscale(1);cursor:not-allowed}
+.budget-final-cta-action p{font-size:13px;line-height:1.55;color:#553a23;margin:8px 0 0}
+.budget-send-overlay[hidden]{display:none!important}.budget-send-overlay{position:fixed;inset:0;z-index:2147482600;display:flex;align-items:center;justify-content:center;padding:15px;background:#160a29bd}
+.budget-send-card{position:relative;width:min(100%,570px);max-height:calc(100vh - 30px);overflow:auto;padding:22px 19px;background:#fff;color:#28173b;border-radius:15px;border:2px solid #ebcd92;box-shadow:0 16px 50px #0007}
+.budget-send-card h2{color:#3b1769;font-size:21px;margin:0 35px 8px 0}.budget-send-card>p{font-size:14px;line-height:1.5}
+.budget-send-close{position:absolute;top:10px;right:12px;width:36px;height:36px;background:#f1e9fa;color:#3b1769;border:0;border-radius:50%;font-size:25px;cursor:pointer}
+.budget-send-card .budget-order-buttons{grid-template-columns:1fr;gap:9px;margin:14px 0}.budget-send-card .budget-order-buttons button{min-height:53px}
+#budget-send-modal-status{white-space:pre-line;color:#11683c;font-size:13px;font-weight:800}
+@media(max-width:620px){.budget-final-cta{grid-template-columns:1fr;gap:12px;padding:12px}.budget-send-card{padding:20px 13px}}
+</style>
 </head>
 <body>
 <header><div><strong>FUTURA TRADERS</strong><small>SRI GANESH PRINTERS</small></div>
@@ -405,14 +421,16 @@ body{
   <p>நீங்களும் உங்கள் நண்பரும் தலா Rs. 1,500 + Rs. 1,500 மதிப்பில் பட்டாசுகளைத் தேர்வு செய்து, ஒரே ஆர்டராக Rs. 3,000-க்கு பதிவு செய்யலாம்!</p>
   <p class="budget-share-order-finish">குறைந்த பட்ஜெட்டில் குடும்பத்துடன் தீபாவளியைக் கொண்டாடுங்கள்!</p>
 </div>
-<div class="budget-order-buttons">
- <button type="button" id="budget-send" disabled aria-describedby="budget-msg" title="Minimum product total Rs. 3,000 required">WHATSAPP ORDER + EMAIL PDF / ஆர்டர் அனுப்புங்கள்</button>
- <button type="button" id="budget-email-send" disabled aria-describedby="budget-msg" title="Minimum product total Rs. 3,000 required">SEND ORDER REQUEST PDF TO EMAIL / PDF மின்னஞ்சல்</button>
-</div>
-<p class="budget-email-recipient">PDF Email Recipient: <strong>ganeshprint.kodai1976@gmail.com</strong> — FUTURA</p>
-<div class="budget-pdf-health-check">
-  <button type="button" id="budget-check-pdf-email">CHECK PDF EMAIL SERVICE / PDF EMAIL சரிபார்க்க</button>
-  <p id="budget-pdf-email-health" role="status" aria-live="polite">PDF Email service இன்னும் சரிபார்க்கப்படவில்லை.</p>
+<div class="budget-final-cta">
+ <div class="budget-final-cta-summary">
+  <div>Selected Products: <strong id="budget-cta-products">0</strong> &nbsp; | &nbsp; Total Qty: <strong id="budget-cta-items">0</strong></div>
+  <div class="budget-cta-total">NET PRODUCT TOTAL <strong id="budget-cta-total">Rs. 0</strong></div>
+  <small>Minimum Order: Rs. 3,000/- / குறைந்தபட்ச ஆர்டர்: ரூ. 3,000/-<br>Packing &amp; Forwarding Extra / பேக்கிங் கட்டணம் தனி.<br>Transport: TOPAY / போக்குவரத்துக் கட்டணம் பெறும்போது செலுத்த வேண்டும்.</small>
+ </div>
+ <div class="budget-final-cta-action">
+  <button id="budget-open-request" type="button" disabled aria-describedby="budget-msg">SEND ORDER REQUEST</button>
+  <p>Send your saved order to FUTURA through WhatsApp or email.<br><span lang="ta">PDF FUTURA Email-க்கு; சுருக்கமான Order Request WhatsApp-க்கு.</span></p>
+ </div>
 </div>
 <p id="budget-request-result" role="status" aria-live="polite"></p>
 <p id="budget-msg" role="status" aria-live="polite">Minimum order Rs. 3,000 — பொருட்களைத் தேர்வு செய்யுங்கள்.</p>
@@ -420,6 +438,23 @@ body{
 </section>
 </main>
 <footer>FUTURA TRADERS · SRI GANESH PRINTERS | WhatsApp: 94889 17786</footer>
+<div class="budget-send-overlay" id="budget-send-modal" hidden>
+ <div class="budget-send-card" role="dialog" aria-modal="true" aria-labelledby="budget-send-title">
+  <button type="button" id="budget-close-send" class="budget-send-close" aria-label="Close">×</button>
+  <h2 id="budget-send-title">Send your order / ஆர்டரை அனுப்புங்கள்</h2>
+  <p>Order Request PDF FUTURA Email-க்கு அனுப்பப்படும். WhatsApp-ல் Order ID உடன் சுருக்கமான Message செல்லும்.</p>
+  <div class="budget-order-buttons">
+   <button id="budget-send" type="button" disabled>WHATSAPP + PDF EMAIL</button>
+   <button id="budget-email-send" type="button" disabled>EMAIL ORDER REQUEST PDF</button>
+  </div>
+  <p class="budget-email-recipient">PDF Recipient: <strong>ganeshprint.kodai1976@gmail.com</strong></p>
+  <div class="budget-pdf-health-check">
+   <button type="button" id="budget-check-pdf-email">CHECK PDF EMAIL SERVICE / PDF EMAIL சரிபார்க்க</button>
+   <p id="budget-pdf-email-health" role="status" aria-live="polite">PDF Email service இன்னும் சரிபார்க்கப்படவில்லை.</p>
+  </div>
+  <p id="budget-send-modal-status" role="status" aria-live="polite"></p>
+ </div>
+</div>
 
 
 <!-- Budget: first stock notice at Rs.1000, again at final MOQ Rs.3000 -->
@@ -546,11 +581,15 @@ function budgetRender(){
  bd('budget-products').textContent=sel.length;bd('budget-items').textContent=items;bd('budget-mrp').textContent=budgetFmt(mrp);bd('budget-total').textContent=budgetFmt(total);bd('budget-save').textContent=budgetFmt(save);
  bd('budget-chosen').textContent=sel.length?sel.map(p=>p.id+'. '+p.name+' / '+p.tamil+' × '+budgetQty[p.id]+' @ '+budgetFmt(p.rate)+' = '+budgetFmt(p.rate*budgetQty[p.id])).join('\n'):'Products தேர்வு செய்யவும்.';
  const minBudgetOrder=3000,ready=total>=minBudgetOrder;
- const sendButton=bd('budget-send'),emailButton=bd('budget-email-send'),sendMessage=bd('budget-msg');
+ const sendButton=bd('budget-send'),emailButton=bd('budget-email-send'),mainButton=bd('budget-open-request'),sendMessage=bd('budget-msg');
  sendButton.disabled=!ready || budgetOrderBusy;
  emailButton.disabled=!ready || budgetOrderBusy;
+ mainButton.disabled=!ready || budgetOrderBusy;
+ bd('budget-cta-products').textContent=sel.length;
+ bd('budget-cta-items').textContent=items;
+ bd('budget-cta-total').textContent=budgetFmt(total);
  const title=ready?'Minimum order Rs. 3,000 reached — Ready to submit':'Minimum order Rs. 3,000 — மேலும் '+budgetFmt(minBudgetOrder-total)+' சேர்க்கவும்';
- sendButton.title=title;emailButton.title=title;
+ sendButton.title=title;emailButton.title=title;mainButton.title=title;
  bd('budget-clear-selection').disabled=budgetOrderBusy;bd('budget-start-new-order').disabled=budgetOrderBusy;
  sendMessage.textContent=ready?'Minimum Order Rs. 3,000 அடைந்துவிட்டது. Customer Details நிரப்பி WhatsApp Order Request அனுப்பலாம்.':'Minimum Order Rs. 3,000 — மேலும் '+budgetFmt(minBudgetOrder-total)+' மதிப்பிற்கு பொருட்களைத் தேர்வு செய்யுங்கள்.';
 }
@@ -572,6 +611,7 @@ function budgetStartNewOrder(resetSession){
  for(const id of ['budget-name','budget-mobile','budget-city','budget-address','budget-lorry','budget-email'])bd(id).value='';
  if(resetSession){try{localStorage.removeItem('futuraBudgetSession2026')}catch(e){}}
  budgetOrderResult('',false);
+ closeBudgetSendModal(false);
  bd('budget-session-message').textContent=resetSession?
    'புதிய ஆர்டர் / New order — select your products to begin.':
    'தேர்வு அழிக்கப்பட்டது / Selection cleared — choose your products again.';
@@ -601,6 +641,7 @@ function budgetWhatsAppUrl(message){
 function budgetOrderResult(message,error=false,link=''){
  const status=bd('budget-request-result');
  status.replaceChildren(document.createTextNode(message));
+ bd('budget-send-modal-status').textContent=message;
  status.dataset.error=error?'true':'false';
  if(link){
   const a=document.createElement('a');a.href=link;a.target='_blank';a.rel='noopener noreferrer';
@@ -668,6 +709,21 @@ async function budgetSubmitRequest(openWhatsApp){
   budgetOrderBusy=false;budgetRender();
  }
 }
+function openBudgetSendModal(){
+ if(budgetOrderBusy || budgetTotals().total<3000)return;
+ bd('budget-send-modal').hidden=false;
+ bd('budget-send-modal-status').textContent='';
+ bd('budget-send').focus();
+}
+function closeBudgetSendModal(focus=true){
+ if(budgetOrderBusy)return;
+ bd('budget-send-modal').hidden=true;
+ if(focus)bd('budget-open-request').focus();
+}
+bd('budget-open-request').addEventListener('click',openBudgetSendModal);
+bd('budget-close-send').addEventListener('click',()=>closeBudgetSendModal());
+bd('budget-send-modal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeBudgetSendModal()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!bd('budget-send-modal').hidden)closeBudgetSendModal()});
 bd('budget-send').addEventListener('click',()=>budgetSubmitRequest(true));
 bd('budget-email-send').addEventListener('click',()=>budgetSubmitRequest(false));
 async function checkBudgetPdfEmailService(){
