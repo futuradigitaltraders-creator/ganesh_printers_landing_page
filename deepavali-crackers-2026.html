@@ -3654,6 +3654,71 @@ function syncCatalogueProducts(){
 }
 
 
+
+/* Supplier stock feed: the scheduled GitHub watcher updates only this JSON.
+   Fallback is the 38 manually confirmed NO STOCK rows already in the HTML. */
+async function checkFuturaSupplierStock(){
+  try{
+    const url='pyrobazaar-stock-status.json?t='+Date.now();
+    const response=await fetch(url,{cache:'no-store',headers:{Accept:'application/json'}});
+    if(!response.ok) return;
+    const feed=await response.json();
+    const rows=[...document.querySelectorAll('.product-row[data-product-key]')];
+    if(feed.schema!==1 || rows.length!==300 ||
+       !feed.products || typeof feed.products!=='object' ||
+       Object.keys(feed.products).length!==300 ||
+       rows.some(row=>typeof feed.products[row.dataset.productKey]!=='boolean')) return;
+
+    let changes=0,removedFromCart=0;
+    rows.forEach(row=>{
+      const id=row.dataset.productKey;
+      const p=comboProducts[id];
+      if(!p) return;
+      const noStock=!feed.products[id];
+      if(!!p.outOfStock!==noStock) changes++;
+      p.outOfStock=noStock;
+      row.classList.toggle('futura-no-stock',noStock);
+      if(noStock) row.dataset.stockStatus='out';
+      else row.removeAttribute('data-stock-status');
+      let badge=row.querySelector('.futura-stock-badge');
+      if(!badge){
+        badge=document.createElement('div');
+        badge.className='futura-stock-badge';
+        badge.setAttribute('role','status');
+        badge.setAttribute('aria-label','NO STOCK');
+        badge.textContent='❌ NO STOCK';
+        const priceBox=row.querySelector('.price-box');
+        if(priceBox) priceBox.appendChild(badge);
+      }
+      row.querySelectorAll('button.qty-btn').forEach(button=>{
+        button.disabled=noStock;
+        button.setAttribute('aria-disabled',String(noStock));
+        if(noStock)button.title='NO STOCK';
+        else button.removeAttribute('title');
+      });
+      if(noStock && p.qty>0){
+        removedFromCart+=p.qty;
+        p.qty=0;
+        const qtyEl=document.getElementById('qty-'+id);
+        const totalEl=document.getElementById('sub-'+id);
+        if(qtyEl) qtyEl.textContent='0';
+        if(totalEl) totalEl.textContent='0.00';
+      }
+    });
+    if(removedFromCart){
+      rememberCrackersCart();
+      const note=document.getElementById('cartSessionMessage');
+      if(note)note.textContent='Stock update: '+removedFromCart+
+        ' unavailable item(s) removed from your current selection. / Stock இல்லாத பொருட்கள் உங்கள் தேர்விலிருந்து நீக்கப்பட்டன.';
+    }
+    if(changes || removedFromCart) refreshComboSummary();
+  }catch(e){
+    // Safety: a failed fetch must NEVER turn the whole catalogue into NO STOCK.
+    console.warn('Supplier stock feed unavailable, retaining last known statuses.');
+  }
+}
+
+
 let awaitingSavedCartChoice=false;
 function offerSavedCrackersCart(){
   try{
@@ -4124,6 +4189,8 @@ document.addEventListener('DOMContentLoaded',()=>{
   syncCatalogueProducts();
   offerSavedCrackersCart();
   refreshComboSummary();
+  checkFuturaSupplierStock();
+  setInterval(checkFuturaSupplierStock,3*60*1000);
   processCrackersOrderQueue();
   hydrateCatalogueImages();
   // Automatic re-application when catalogue images are replaced/loaded dynamically.
