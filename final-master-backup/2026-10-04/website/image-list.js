@@ -1,1 +1,0 @@
-window.CATALOGUE_IMAGES=[];
