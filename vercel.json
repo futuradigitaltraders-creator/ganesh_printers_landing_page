@@ -36,6 +36,9 @@
     "api/budget-payment-proof.js": {
       "maxDuration": 180,
       "includeFiles": "{budget-friendly-crackers-2026.html,assets/crackers/request-form/**}"
+    },
+    "api/budget-whatsapp-preview.js": {
+      "includeFiles": "images/crackers/budget-friendly-crackers-hero.png"
     }
   }
 }
