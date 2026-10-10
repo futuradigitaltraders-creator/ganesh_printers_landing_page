@@ -237,6 +237,10 @@ body{
 #budget-request-result[data-error="true"]{color:#a01926}
 @media(max-width:600px){.budget-order-buttons{grid-template-columns:1fr;gap:9px}.budget-order-buttons button{min-height:56px}}
 </style>
+<style id="budget-gift-net-only">
+.budget-cat.budget-no-discount-category{background:linear-gradient(110deg,#742650,#bf5930)!important}
+.budget-gift-net-rate{background:#f5ffdf!important;color:#0c714c!important;outline:1px solid #6ab27f}
+</style>
 </head>
 <body>
 <header><div><strong>FUTURA TRADERS</strong><small>SRI GANESH PRINTERS</small></div>
@@ -285,7 +289,7 @@ body{
 </div>
 <div class="tbl-head"><span>S.No<small>வ.எண்</small></span><span>PRODUCT NAME / PACK<small>பட்டாசு பெயர் / பேக்</small></span><span>MRP PRICE<small>அசல் விலை</small></span><span>80% OFF NET RATE<small>தள்ளுபடி விலை</small></span><span>QUANTITY<small>எண்ணிக்கை</small></span><span class="subtotal">SUB TOTAL<small>கூடுதல் தொகை</small></span></div>
 <div id="budget-lines"></div><div id="budget-empty">No matching products / பொருட்கள் கிடைக்கவில்லை.</div>
-<div class="special-rate-note">Gift Boxes & Combo Packs (S.No 220–234): 15 பொருட்களுக்கும் Final Net Rate மட்டும். MRP மற்றும் 80% Discount கிடையாது. 20, 30, 35, 40, 50, 60 Items Gift Box விலைகள் ஒப்புதல் அளிக்கப்பட்ட படம் போல அப்படியே உள்ளன. மற்ற Gift Packs / Boxes-க்கு 50% சேர்க்கப்பட்டுள்ளது.</div>
+<div class="special-rate-note">Gift Boxes & Combo Packs (S.No 220–234): 15 பொருட்களுக்கும் Final Net Rate மட்டும். MRP மற்றும் 80% Discount கிடையாது. 20, 30, 35, 40, 50, 60 Items Gift Box விலைகள் ஒப்புதல் அளிக்கப்பட்ட படம் போல அப்படியே உள்ளன. இவ்வாறு படத்தில் உள்ள 6 Gift Box விலைகள் Bulk Bookings (Hotels & Companies) மட்டுமே. மற்ற Gift Packs / Boxes-க்கு 50% சேர்க்கப்பட்டுள்ளது.</div>
 <div id="budget-chosen" class="budget-selected-details">Products தேர்வு செய்யவும்.</div>
 <div class="checkout-panel"><h3>Send Order Request / ஆர்டர் விவரங்களை அனுப்புங்கள்</h3>
 <div class="fields">
@@ -336,14 +340,14 @@ function budgetRender(){
   if(category&&p.category!==category)continue;
   if(query&&!([p.name,p.tamil,p.category,budgetCategoryTamil[p.category],p.unit,String(p.id)].join(' ').toLowerCase().includes(query)))continue;
   visible++;
-  if(last!==p.category){last=p.category;const heading=document.createElement('h3');heading.className='budget-cat';heading.textContent=last+' / '+budgetCategoryTamil[last];root.append(heading)}
+  if(last!==p.category){last=p.category;const heading=document.createElement('h3');heading.className='budget-cat'+(last==='GIFT BOXES & COMBO PACK'?' budget-no-discount-category':'');heading.textContent=last+' / '+budgetCategoryTamil[last]+(last==='GIFT BOXES & COMBO PACK'?' — FINAL NET RATE (NO DISCOUNT) / தள்ளுபடி இல்லை':'');root.append(heading)}
   const row=document.createElement('div');row.className='budget-line';
   const serial=document.createElement('div');serial.className='n';serial.textContent=p.id;
   const title=document.createElement('div');title.className='product-name';title.textContent=p.name;
   const tamil=document.createElement('span');tamil.className='budget-tamil-name';tamil.lang='ta';tamil.textContent=p.tamil;title.append(tamil);
   const unit=document.createElement('div');unit.className='unit';unit.textContent=p.unit;title.append(unit);
   const list=document.createElement('div');list.className='list-price';if(p.discount)budgetCellAmount(list,p.list);else list.textContent='—';list.title=p.discount?'MRP PRICE':'PDF contains net rate only';
-  const rate=document.createElement('div');rate.className='net-rate';budgetCellAmount(rate,p.rate);
+  const rate=document.createElement('div');rate.className='net-rate';budgetCellAmount(rate,p.rate);if(!p.discount){rate.title='FINAL NET RATE — NO DISCOUNT';rate.classList.add('budget-gift-net-rate');}
   const qty=document.createElement('div');qty.className='qty-col';
   const minus=document.createElement('button');minus.className='qty-btn';minus.type='button';minus.textContent='−';minus.setAttribute('aria-label','Decrease '+p.name);minus.onclick=()=>budgetAdd(p.id,-1);
   const plus=document.createElement('button');plus.className='qty-btn';plus.type='button';plus.textContent='+';plus.setAttribute('aria-label','Increase '+p.name);plus.onclick=()=>budgetAdd(p.id,1);
