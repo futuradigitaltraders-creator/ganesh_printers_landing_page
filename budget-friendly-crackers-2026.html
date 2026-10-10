@@ -315,6 +315,14 @@ body{
 .futura-urgency-tamil-heading{font-size:18px;margin:2px 0 10px;color:#9c1730}
 @media(max-width:480px){.futura-urgency-card{padding:18px 15px}.futura-urgency-card p{font-size:15px}}
 </style>
+<style id="futura-budget-email-service-health">
+.budget-pdf-health-check{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0 14px}
+#budget-check-pdf-email{border:1px solid #593682;background:#f2eafd;border-radius:8px;color:#36145a;font:800 13px Arial,'Noto Sans Tamil',sans-serif;padding:9px 12px;cursor:pointer}
+#budget-check-pdf-email:disabled{cursor:wait;opacity:.55}
+#budget-pdf-email-health{font:700 13px/1.45 Arial,'Noto Sans Tamil',sans-serif;color:#543765;flex:1 1 220px;margin:0}
+#budget-pdf-email-health[data-state="available"]{color:#0a6844}
+#budget-pdf-email-health[data-state="unavailable"]{color:#a02020}
+</style>
 </head>
 <body>
 <header><div><strong>FUTURA TRADERS</strong><small>SRI GANESH PRINTERS</small></div>
@@ -403,6 +411,10 @@ body{
  <button type="button" id="budget-email-send" disabled aria-describedby="budget-msg" title="Minimum product total Rs. 3,000 required">SEND ORDER REQUEST PDF TO EMAIL / PDF மின்னஞ்சல்</button>
 </div>
 <p class="budget-email-recipient">PDF Email Recipient: <strong>ganeshprint.kodai1976@gmail.com</strong> — FUTURA</p>
+<div class="budget-pdf-health-check">
+  <button type="button" id="budget-check-pdf-email">CHECK PDF EMAIL SERVICE / PDF EMAIL சரிபார்க்க</button>
+  <p id="budget-pdf-email-health" role="status" aria-live="polite">PDF Email service இன்னும் சரிபார்க்கப்படவில்லை.</p>
+</div>
 <p id="budget-request-result" role="status" aria-live="polite"></p>
 <p id="budget-msg" role="status" aria-live="polite">Minimum order Rs. 3,000 — பொருட்களைத் தேர்வு செய்யுங்கள்.</p>
 </div>
@@ -659,6 +671,27 @@ async function budgetSubmitRequest(openWhatsApp){
 }
 bd('budget-send').addEventListener('click',()=>budgetSubmitRequest(true));
 bd('budget-email-send').addEventListener('click',()=>budgetSubmitRequest(false));
+async function checkBudgetPdfEmailService(){
+ const status=bd('budget-pdf-email-health'),button=bd('budget-check-pdf-email');
+ button.disabled=true;status.dataset.state='checking';
+ status.textContent='Checking Gmail PDF service… / PDF Email சேவை சரிபார்க்கப்படுகிறது…';
+ try{
+  const response=await fetch('/api/budget-order-request',{method:'GET',cache:'no-store',headers:{'Accept':'application/json'}});
+  const data=await response.json();
+  if(response.ok && data.emailAvailable===true){
+   status.dataset.state='available';
+   status.textContent='PDF EMAIL SERVICE ENABLED ✓ — Gmail-க்கு PDF அனுப்பும் வசதி இயக்கப்பட்டுள்ளது. Actual delivery-ஐ Test Order மூலம் உறுதி செய்ய வேண்டும்.';
+  }else{
+   status.dataset.state='unavailable';
+   status.textContent='PDF EMAIL NOT READY — Google Apps Script-ல் Email authorization/setup மற்றும் புதிய Web App deployment சரிபார்க்கவும்.';
+  }
+ }catch(e){
+  status.dataset.state='unavailable';
+  status.textContent='PDF EMAIL STATUS NOT VERIFIED — இணைப்பு சோதனை தோல்வி. தற்போது Test Order போட வேண்டாம்.';
+ }finally{button.disabled=false;}
+}
+bd('budget-check-pdf-email').addEventListener('click',checkBudgetPdfEmailService);
+checkBudgetPdfEmailService();
 budgetRender();
 /* Keep the yellow bilingual heading visible immediately below the dynamic sticky totals. */
 (function(){
