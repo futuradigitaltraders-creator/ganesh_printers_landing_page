@@ -79,6 +79,19 @@ footer{padding:26px 14px;text-align:center;font-size:13px;background:#16052bdc}
 @media(max-width:760px){.catalogue-area .catalogue-tools{grid-template-columns:minmax(0,1fr) minmax(0,1fr);padding:6px;gap:5px}.catalogue-tools input,.catalogue-tools select{min-width:0;width:100%;font-size:12px;padding:9px 5px}.catalogue-tools .product-count{grid-column:1 / -1;justify-self:center;font-size:11px;padding:5px 10px}.catalogue-area .summary-counts{gap:3px}.catalogue-area .summary-counts div{padding:6px 2px}.catalogue-area .summary-counts small{font-size:9px;letter-spacing:0}.catalogue-area .summary-counts strong{font-size:15px}.budget-line .product-name{font-size:13px}.budget-tamil-name{font-size:13px}}
 @media(max-width:390px){.catalogue-area .summary-counts small{font-size:8px}.catalogue-area .summary-counts strong{font-size:14px}}
 </style>
+<style id="budget-category-switch-styles">
+.budget-category-switch{padding:12px 4px 24px;margin-bottom:16px;text-align:center;color:#2b1843}
+.budget-category-switch h2{color:#66137d;font-size:clamp(21px,2.3vw,30px);font-weight:900;line-height:1.4;margin:0 0 10px}
+.budget-category-switch p{max-width:760px;margin:0 auto 17px;font-size:clamp(14px,1.25vw,17px);line-height:1.65}
+.budget-two-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.budget-two-choices .budget-choice{min-width:0;width:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-decoration:none!important;padding:15px 10px;min-height:90px;border:2px solid #b791c4;border-radius:12px;background:#fff4b6;color:#4c136b;font-weight:900;box-shadow:0 4px 13px #0002;line-height:1.4}
+.budget-two-choices .budget-choice.current{background:#66148d;color:#fff;border-color:#dcb84b}
+.budget-two-choices .budget-choice strong{font-size:clamp(17px,2vw,24px)}
+.budget-two-choices .budget-choice small{font-size:clamp(10px,1.05vw,13px);margin-top:5px}
+.budget-two-choices .budget-choice:not(.current):hover{background:#ffdf55}
+#budget-catalogue{scroll-margin-top:8px}
+@media(max-width:620px){.budget-category-switch{padding:6px 0 17px}.budget-two-choices{gap:6px}.budget-two-choices .budget-choice{padding:10px 5px;min-height:76px}.budget-two-choices .budget-choice strong{font-size:clamp(14px,3.3vw,19px)}.budget-two-choices .budget-choice small{font-size:9px}}
+</style>
 </head>
 <body>
 <header><div><strong>FUTURA TRADERS</strong><small>SRI GANESH PRINTERS</small></div>
@@ -102,7 +115,14 @@ footer{padding:26px 14px;text-align:center;font-size:13px;background:#16052bdc}
 <p class="stock">குறைந்த ஸ்டாக் மட்டுமே உள்ளது. முன்பதிவு செய்பவர்களுக்கு முன்னுரிமை வழங்கப்படும்.</p>
 </section>
 <section class="catalogue-area" id="budget-catalogue" aria-label="Budget Friendly Crackers price list and customer selection">
-<h2>2026 Budget Friendly Crackers – Price List</h2>
+<div class="budget-category-switch" lang="ta">
+  <h2>குறைந்த விலை பட்டாசுகள் / LOW PRICE CRACKERS PRICE LIST</h2>
+  <p>இங்கு காட்டப்படுவது <strong>குறைந்த விலை பட்டாசுகளின் விலைப்பட்டியல்</strong> மட்டும். உயர்தர பட்டாசுகளின் விலைகளைப் பார்க்க இடப்புறத் தேர்வை அழுத்துங்கள்.</p>
+  <nav class="budget-two-choices" aria-label="Quality or Budget catalogue selection">
+    <a class="budget-choice" href="deepavali-crackers-2026.html#quality-price-list"><strong>உயர்தர பட்டாசுகள்</strong><small>QUALITY PRICE LIST — CLICK HERE →</small></a>
+    <a class="budget-choice current" href="#budget-sticky-tools" aria-current="page"><strong>குறைந்த விலை பட்டாசுகள்</strong><small>LOW PRICE LIST — இப்போது பார்க்கிறீர்கள்</small></a>
+  </nav>
+</div>
 
 <div class="catalogue-tools" id="budget-sticky-tools">
  <input type="search" id="budget-search" aria-label="Search products in English or Tamil" placeholder="Search Products / பொருள் பெயர் தேடுங்கள்">
