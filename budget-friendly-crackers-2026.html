@@ -658,6 +658,15 @@ function budgetRender(){
  sendButton.disabled=!ready || budgetOrderBusy;
  emailButton.disabled=!ready || budgetOrderBusy;
  mainButton.disabled=!ready || budgetOrderBusy;
+ const confirmed=budgetReceiptMatchesCurrent(sel,budgetCustomerInputs());
+ sendButton.disabled=!ready||budgetOrderBusy||!confirmed;
+ emailButton.disabled=!ready||budgetOrderBusy||!confirmed;
+ bd('budget-customer-quickstatus').textContent=confirmed?'Order ID: '+budgetSavedReceipt().orderId+' — Saved ✓':'Review & Confirm Order required before sending.';
+ const receipt=budgetSavedReceipt();
+ if(receipt && !budgetProofBusy){
+  bd('budget-proof-orderid').textContent='Saved Order ID: '+receipt.orderId;
+ }
+
  bd('budget-cta-products').textContent=sel.length;
  bd('budget-cta-items').textContent=items;
  bd('budget-cta-total').textContent=budgetFmt(total);
@@ -682,6 +691,10 @@ function budgetStartNewOrder(resetSession){
  Object.keys(budgetQty).forEach(id=>delete budgetQty[id]);
  bd('budget-search').value='';bd('budget-category').value='';
  for(const id of ['budget-name','budget-mobile','budget-city','budget-address','budget-lorry','budget-email'])bd(id).value='';
+ bd('budget-final-confirm-check').checked=false;
+ closeBudgetCustomerModal(false);
+ budgetResetPaymentProof();
+ if(resetSession){try{localStorage.removeItem('futuraBudgetSavedOrder2026')}catch(e){}}
  if(resetSession){try{localStorage.removeItem('futuraBudgetSession2026')}catch(e){}}
  budgetOrderResult('',false);
  closeBudgetSendModal(false);
@@ -723,7 +736,7 @@ function budgetOrderResult(message,error=false,link=''){
   status.appendChild(a);
  }
 }
-async function budgetSubmitRequest(openWhatsApp){
+async function budgetSubmitRequest(openWhatsApp,confirmOnly=false){
  if(budgetOrderBusy)return;
  const {sel,items,mrp,total,save}=budgetTotals(),customer=budgetCustomerInputs();
  if(!sel.length||total<3000){
@@ -737,7 +750,13 @@ async function budgetSubmitRequest(openWhatsApp){
  if(customer.email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customer.email)){
   budgetOrderResult('Please enter a valid email address.',true);bd('budget-email').focus();return;
  }
- if(!window.confirm('FUTURA – LOW PRICE CRACKERS\n'+sel.length+' selected products / '+items+' items\nProduct Total: '+budgetFmt(total)+'\n\nFINAL CONFIRM ORDER REQUEST?\nStock and payment are NOT confirmed yet.'))return;
+ if(confirmOnly){
+  if(!bd('budget-final-confirm-check').checked){bd('budget-customer-modal-status').textContent='Please confirm the final order first.';return;}
+ }else if(!budgetReceiptMatchesCurrent(sel,customer)){
+  openBudgetCustomerModal();
+  budgetOrderResult('First REVIEW & CONFIRM ORDER; no new Order ID will be created by opening the review.',true);
+  return;
+ }
  // Reserve WhatsApp window while user gesture is active, so desktop popup blockers don't discard it.
  let popup=null;
  if(openWhatsApp){
@@ -753,12 +772,23 @@ async function budgetSubmitRequest(openWhatsApp){
  budgetOrderResult('Saving order and sending PDF email… / ஆர்டர் சேமித்து PDF மின்னஞ்சல் அனுப்ப முயற்சிக்கிறது.');
  try{
   const requestKey=await budgetStableRequestKey(sel,customer);
-  const payload={requestKey,finalConfirmed:true,customer,items:sel.map(p=>({serial:p.id,qty:budgetQty[p.id],price:p.rate}))};
+  const payload={requestKey,finalConfirmed:true,confirmOnly,customer,items:sel.map(p=>({serial:p.id,qty:budgetQty[p.id],price:p.rate}))};
   const reply=await fetch('/api/budget-order-request',{method:'POST',
      headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
   const result=await reply.json();
   if(!reply.ok||result.ok!==true||result.orderSaved!==true||!/^[0-9]{4,12}$/.test(result.orderId||'')){
     throw Error(result.error||'Order or email could not be confirmed. Please retry.');
+  }
+  const receipt={orderId:result.orderId,requestKey,customer,
+    items:payload.items,total,savedAt:new Date().toISOString()};
+  try{localStorage.setItem('futuraBudgetSavedOrder2026',JSON.stringify(receipt));}catch(e){}
+  if(confirmOnly){
+    bd('budget-customer-order-id').textContent='Order ID: '+result.orderId;
+    bd('budget-customer-modal-status').textContent='Saved ✓ Order ID: '+result.orderId+' — Payment verification pending.';
+    budgetOrderResult('Order '+result.orderId+' saved ✓. Press SEND ORDER REQUEST to email PDF and open WhatsApp.',false);
+    bd('budget-customer-modal').hidden=true;
+    bd('budget-proof-orderid').textContent='Saved Order ID: '+result.orderId;
+    return result;
   }
   const status=result.emailStatus==='sent'
     ?'Order Request PDF emailed to ganeshprint.kodai1976@gmail.com ✓'
@@ -784,6 +814,10 @@ async function budgetSubmitRequest(openWhatsApp){
 }
 function openBudgetSendModal(){
  if(budgetOrderBusy || budgetTotals().total<3000)return;
+ if(!budgetReceiptMatchesCurrent(budgetCart(),budgetCustomerInputs())){
+  openBudgetCustomerModal();
+  return;
+ }
  bd('budget-send-modal').hidden=false;
  bd('budget-send-modal-status').textContent='';
  bd('budget-send').focus();
@@ -793,6 +827,48 @@ function closeBudgetSendModal(focus=true){
  bd('budget-send-modal').hidden=true;
  if(focus)bd('budget-open-request').focus();
 }
+function budgetSavedReceipt(){
+ try{
+  const o=JSON.parse(localStorage.getItem('futuraBudgetSavedOrder2026')||'null');
+  return o && /^[0-9]{4,12}$/.test(o.orderId||'') &&
+  /^FUTBUD_[a-f0-9]{64}$/.test(o.requestKey||'') &&
+  Array.isArray(o.items)&&o.items.length && o.customer?o:null;
+ }catch(e){return null;}
+}
+function budgetReceiptMatchesCurrent(selected,customer){
+ const receipt=budgetSavedReceipt();
+ if(!receipt)return false;
+ const lines=selected.map(p=>({serial:p.id,qty:budgetQty[p.id],price:p.rate}));
+ return JSON.stringify(receipt.items)===JSON.stringify(lines)&&
+        JSON.stringify(receipt.customer)===JSON.stringify(customer);
+}
+function openBudgetCustomerModal(){
+ if(budgetOrderBusy)return;
+ const totals=budgetTotals();
+ bd('budget-customer-order-summary').textContent=totals.sel.length+' products · '+totals.items+' items · Product total '+budgetFmt(totals.total);
+ const receipt=budgetSavedReceipt();
+ bd('budget-customer-order-id').textContent=
+  receipt&&budgetReceiptMatchesCurrent(totals.sel,budgetCustomerInputs())?'Order ID: '+receipt.orderId
+  :'Order ID: FINAL CONFIRM ORDER அழுத்திய பிறகு உருவாகும்.';
+ bd('budget-final-confirm-check').checked=false;
+ bd('budget-customer-modal-status').textContent='';
+ bd('budget-customer-modal').hidden=false;
+}
+function closeBudgetCustomerModal(focus=true){
+ if(budgetOrderBusy)return;
+ bd('budget-customer-modal').hidden=true;
+ if(focus)bd('budget-review-confirm').focus();
+}
+bd('budget-review-confirm').addEventListener('click',openBudgetCustomerModal);
+bd('budget-customer-close').addEventListener('click',()=>closeBudgetCustomerModal());
+bd('budget-customer-modal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeBudgetCustomerModal()});
+bd('budget-customer-form').addEventListener('submit',async e=>{
+ e.preventDefault();
+ if(budgetOrderBusy)return;
+ if(budgetTotals().total<3000){bd('budget-customer-modal-status').textContent='Minimum Order Rs. 3,000 required.';return;}
+ if(!e.currentTarget.reportValidity())return;
+ await budgetSubmitRequest(false,true);
+});
 bd('budget-open-request').addEventListener('click',openBudgetSendModal);
 bd('budget-close-send').addEventListener('click',()=>closeBudgetSendModal());
 bd('budget-send-modal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeBudgetSendModal()});
