@@ -1,0 +1,42 @@
+name: FUTURA - Pyrobazaar Stock Sync
+on:
+  schedule:
+    # Every 30 minutes in UTC (GitHub can delay scheduled jobs at busy times).
+    - cron: '7,37 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: futura-pyrobazaar-stock
+  cancel-in-progress: false
+
+jobs:
+  stock-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install checker dependencies
+        run: python -m pip install --disable-pip-version-check 'requests>=2.31,<3' 'beautifulsoup4>=4.12,<5'
+      - name: Compare company website and FUTURA catalogue (fail closed on errors)
+        run: python scripts/pyrobazaar_stock_sync.py
+      - name: Publish only when stock statuses change
+        shell: bash
+        run: |
+          if git diff --quiet -- pyrobazaar-stock-status.json; then
+            echo 'Stock unchanged. No Git commit and no Vercel deployment.'
+            exit 0
+          fi
+          git config user.name 'futura-stock-bot'
+          git config user.email 'futura-stock-bot@users.noreply.github.com'
+          git add pyrobazaar-stock-status.json
+          git commit -m 'Auto-sync Pyrobazaar availability (stock status only)'
+          git pull --rebase origin main
+          git push origin HEAD:main
