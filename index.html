@@ -312,30 +312,74 @@
 
     <!-- Shop Banner Section Start -->
 
-    <!-- Catalogue choice 1: Approved Quality Crackers poster and Tamil/English CTA.
-         Budget catalogue text will be added only after customer supplies wording. -->
+    <!-- Two separate customer-facing cracker catalogue choices. Existing prices and order process remain untouched. -->
     <style>
-      .quality-choice-desc{max-width:980px;margin:0 auto;padding:20px 20px 23px;text-align:center;background:linear-gradient(115deg,#1a0743,#400b69 55%,#190837);border-top:2px solid #ffd264;color:#fff;font-size:clamp(16px,2vw,24px);line-height:1.6;font-weight:800}
-      .quality-choice-desc strong{color:#ffe261;font-weight:950}
-      .quality-choice-cta{display:inline-block;margin-top:12px;padding:9px 26px;border-radius:999px;background:#ffd444;color:#31064b;font-size:clamp(17px,2vw,22px);font-weight:950;box-shadow:0 5px 16px #0005}
-      .home-crackers-promo-link:hover .quality-choice-cta,.home-crackers-promo-link:focus-visible .quality-choice-cta{background:#fff08c}
-      @media(max-width:767px){.quality-choice-desc{padding:13px 12px 17px;line-height:1.5}.quality-choice-cta{margin-top:10px}}
+      #futura-catalogue-choice{padding:35px 18px 42px!important;background:linear-gradient(155deg,#12052e,#2b1152 50%,#0a0928)!important}
+      .futura-chooser-intro{text-align:center;max-width:980px;margin:0 auto 25px;color:#fff}
+      .futura-chooser-intro h2{color:#ffe16a;font-size:clamp(25px,3vw,39px);font-weight:950;line-height:1.3;margin:0 0 10px}
+      .futura-chooser-intro p{font-size:clamp(15px,1.6vw,19px);line-height:1.7;margin:0}
+      .futura-catalogue-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;max-width:1170px;margin:0 auto;align-items:stretch}
+      .futura-catalogue-card{display:flex;flex-direction:column;min-width:0;background:#fcf7ff;border:3px solid #f1c347;border-radius:20px;overflow:hidden;box-shadow:0 18px 36px #0007}
+      #futura-catalogue-choice .futura-catalogue-card a{text-decoration:none}
+      #futura-catalogue-choice .futura-catalogue-art{display:block;width:100%;margin:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;background:#0a0425!important}
+      #futura-catalogue-choice .futura-catalogue-art img{display:block;width:100%;height:400px;object-fit:contain;background:#0b0627}
+      .futura-budget-visual{display:flex;flex-direction:column;justify-content:space-between;align-items:center;text-align:center;min-height:400px;height:400px;padding:18px;background:radial-gradient(circle at 13% 11%,#f61c9550,transparent 34%),radial-gradient(circle at 82% 15%,#ffb30075,transparent 28%),url('assets/crackers/fireworks-sky-2026.jpg') center/cover,#09031f;color:#fff}
+      .futura-budget-visual .futura-badges{display:flex;justify-content:space-between;width:100%;gap:10px}
+      .futura-budget-visual .futura-badges b{display:grid;place-items:center;width:90px;height:90px;border:3px double #ffe559;border-radius:50%;background:radial-gradient(circle,#bd1414,#530623);font-size:17px;line-height:1.06;color:#ffdf5b;text-shadow:0 2px 1px #260000;box-shadow:0 0 15px #f1c33b}
+      .futura-budget-visual .futura-bud-title{color:#ffdf67;font:900 clamp(26px,3.4vw,51px)/1.08 Georgia,serif;text-shadow:2px 3px 0 #842c0f}
+      .futura-budget-visual .futura-bud-sub{font:900 clamp(21px,2.5vw,31px)/1.15 Arial;color:#fff}
+      .futura-budget-visual .futura-bud-discount{color:#ffe661;font:900 clamp(75px,8vw,113px)/1 Arial;text-shadow:3px 5px 0 #8e3214}
+      .futura-budget-visual .futura-bud-stock{padding:7px 12px;border-radius:11px;border:1px solid #ffdc58;background:#890c1b;font-weight:900}
+      #futura-catalogue-choice .futura-approved-poster{display:none!important}
+      #futura-catalogue-choice .futura-catalogue-art.poster-ready .futura-approved-poster{display:block!important}
+      #futura-catalogue-choice .futura-catalogue-art.poster-ready .futura-budget-visual{display:none}
+      .futura-choice-description{flex:1;display:flex;flex-direction:column;gap:13px;padding:20px 20px 24px;text-align:center;color:#29143f}
+      .futura-choice-description h3{font-size:clamp(20px,2vw,27px);color:#670c24;margin:0;line-height:1.3;font-weight:950}
+      .futura-choice-description p{font-size:clamp(15px,1.4vw,18px);font-weight:730;line-height:1.75;margin:0}
+      .futura-choice-description strong{color:#7620a5;font-weight:950}
+      .futura-choice-description .futura-limited-note{font-weight:850;color:#9a2519}
+      .futura-choice-description .futura-choose-btn{display:block;margin-top:auto;border-radius:12px;padding:14px 16px;background:linear-gradient(95deg,#7716b6,#361175);color:#fff;font-size:clamp(17px,1.6vw,21px);font-weight:950;box-shadow:0 5px 12px #0002}
+      #futura-catalogue-choice .futura-choose-btn:hover{background:#a129d5}
+      @media(max-width:767px){#futura-catalogue-choice{padding:22px 10px 28px!important}.futura-catalogue-grid{grid-template-columns:1fr;gap:18px}.futura-catalogue-card{border-width:2px;border-radius:13px}#futura-catalogue-choice .futura-catalogue-art img{height:auto;max-height:560px}.futura-budget-visual{height:330px;min-height:330px}.futura-choice-description{padding:17px 13px 20px}}
     </style>
-    <section class="home-crackers-promo" aria-label="High Quality Crackers Catalogue 1">
-        <a href="deepavali-crackers-2026.html" class="home-crackers-promo-link" aria-label="உயர்தர STANDARD WE TWO VANITHA ASOK பட்டாசுகளின் விலைப்பட்டியலைப் பார்க்க Click here">
-            <img src="images/crackers/80%25%20discount%20adv%20image.png"
-                 alt="Deepavali Crackers 2026 - 80% Discount - Click to View Price List and Order"
-                 class="home-crackers-promo-img">
-            <div class="quality-choice-desc" lang="ta">
-              உயர்தர <strong>STANDARD</strong> ரக குவாலிட்டி பட்டாசுகள் &amp;<br>
-              <strong>WE TWO / VANITHA / ASOK</strong> ரக குவாலிட்டி பட்டாசுகள் பார்க்க
-              <div><span class="quality-choice-cta">Click here →</span></div>
+    <section id="futura-catalogue-choice" class="home-crackers-promo" aria-labelledby="futura-chooser-title">
+      <div class="futura-chooser-intro" lang="ta">
+        <h2 id="futura-chooser-title">உங்கள் தேவைக்கு ஏற்ற பட்டாசு வகையைத் தேர்வு செய்யுங்கள்</h2>
+        <p>எங்கள் பட்டாசு பட்டியல் இரண்டு வகைகளில் வழங்கப்படுகிறது. உங்களுக்கு ஏற்ற Catalogue-ஐ தேர்வு செய்யுங்கள்.</p>
+      </div>
+      <div class="futura-catalogue-grid">
+        <article class="futura-catalogue-card" aria-labelledby="quality-catalogue-name">
+          <a class="futura-catalogue-art home-crackers-promo-link" href="deepavali-crackers-2026.html" aria-label="உயர்தர பட்டாசுகள் catalogue">
+            <img src="images/crackers/ChatGPT%20Image%20Sep%2030,%202026,%2011_05_07%20PM.png?v=7" alt="Quality Crackers 2026 original approved hero poster — FUTURA Deepavali Price List">
+          </a>
+          <div class="futura-choice-description" lang="ta">
+            <h3 id="quality-catalogue-name">உயர்தர பட்டாசுகள் / Quality Crackers</h3>
+            <p>உயர்தர <strong>STANDARD</strong> ரக குவாலிட்டி பட்டாசுகள் &amp; <strong>WE TWO / VANITHA / ASOK</strong> ரக குவாலிட்டி பட்டாசுகள் பார்க்க <strong>Click here</strong></p>
+            <a class="futura-choose-btn" href="deepavali-crackers-2026.html">உயர்தர பட்டாசுகள் →</a>
+          </div>
+        </article>
+        <article class="futura-catalogue-card" aria-labelledby="budget-catalogue-name">
+          <a class="futura-catalogue-art home-crackers-promo-link" href="budget-friendly-crackers-2026.html" aria-label="குறைந்த விலை பட்டாசுகள் catalogue">
+            <img class="futura-approved-poster" src="images/crackers/budget-friendly-crackers-hero.webp" alt="Budget Friendly Crackers 2026 approved Low Budget hero poster" onload="this.parentElement.classList.add('poster-ready')">
+            <div class="futura-budget-visual" aria-label="Budget Friendly Crackers promotion">
+              <div class="futura-badges"><b>LOW<br>BUDGET</b><b>LOW<br>BUDGET</b></div>
+              <div><div class="futura-bud-title">BUDGET<br>FRIENDLY</div><div class="futura-bud-sub">CRACKERS</div></div>
+              <div class="futura-bud-discount">80%</div>
+              <div class="futura-bud-stock">LIMITED STOCK ONLY</div>
             </div>
-        </a>
+          </a>
+          <div class="futura-choice-description" lang="ta">
+            <h3 id="budget-catalogue-name">குறைந்த விலை / Low Price Crackers</h3>
+            <p>குறைந்த பட்ஜெட்டில் அதிக வகைகள் மற்றும் சிக்கனமான விலையில் வாங்க விரும்பினால் இந்த பகுதியைத் தேர்வு செய்யவும்.</p>
+            <p>உங்கள் பட்ஜெட் மற்றும் தேவைக்கு ஏற்ற வகையை தேர்வு செய்து தொடர்ந்து பார்க்கலாம்.</p>
+            <p class="futura-limited-note">குறைந்த ஸ்டாக் மட்டுமே உள்ளது. முன்பதிவு செய்பவர்களுக்கு முன்னுரிமை வழங்கப்படும்.</p>
+            <a class="futura-choose-btn" href="budget-friendly-crackers-2026.html">குறைந்த விலை பட்டாசுகள் →</a>
+          </div>
+        </article>
+      </div>
     </section>
 
-
-    <!-- About Section Start -->
+        <!-- About Section Start -->
     <section class="about-section fix section-padding section-bg">
         <div class="container">
             <div class="about-wrapper-3">
