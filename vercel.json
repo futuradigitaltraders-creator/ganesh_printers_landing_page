@@ -29,6 +29,9 @@
     "api/budget-order-request.js": {
       "maxDuration": 180,
       "includeFiles": "{budget-friendly-crackers-2026.html,assets/crackers/request-form/**}"
+    },
+    "api/crackers-order-tracking.js": {
+      "maxDuration": 60
     }
   }
 }
