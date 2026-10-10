@@ -656,6 +656,13 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
   .customer-field.full{grid-column:1}
 }
 
+
+/* FUTURA stock gate: keep product and price visible; block ordering */
+.product-row.futura-no-stock{box-shadow:inset 5px 0 0 #ce1820}
+.product-row .futura-stock-badge{display:none}
+.product-row.futura-no-stock .futura-stock-badge{display:inline-flex;align-items:center;justify-content:center;align-self:flex-start;margin-top:8px;padding:7px 12px;border:2px solid #c5121c;border-radius:8px;background:#fff0f0;color:#b7000d;font-weight:900;font-size:16px;letter-spacing:.3px}
+.product-row.futura-no-stock .qty-btn{background:#929292!important;opacity:.43!important;cursor:not-allowed!important;pointer-events:none!important}
+.product-row.futura-no-stock .qty-num{color:#a00!important}
 </style>
 
 <!-- Approved fireworks sky background; opaque catalogue panels preserve readability -->
@@ -920,11 +927,11 @@ footer{color:#fff;background:rgba(8,13,38,.88)}
     <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('sp01',-1)">−</button><span class="qty-num" id="qty-sp01">0</span><button class="qty-btn" type="button" onclick="changeComboQty('sp01',1)">+</button></div></div>
     <div class="subtotal-col"><div class="subtotal"><strong>₹<span id="sub-sp01">0.00</span></strong></div></div>
   </div>
-  <div class="product-row" data-product-key="sp02" data-company-code="STD 009" data-company-name="15 CM CRACKLING SPARKLERS (10 PCS)">
+  <div class="product-row futura-no-stock" data-stock-status="out" data-product-key="sp02" data-company-code="STD 009" data-company-name="15 CM CRACKLING SPARKLERS (10 PCS)">
     <img src="images/crackers/2026%20crackers%20new/9__Standard15CMCracklingSparklers.jpg?v=20261001-spark9" data-full="images/crackers/2026%20crackers%20new/9__Standard15CMCracklingSparklers.jpg?v=20261001-spark9" alt="15 CM CRACKLING SPARKLERS (10 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full,this)">
     <div><div class="product-name">15 CM CRACKLING SPARKLERS (10 PCS)</div><div class="product-meta">Brand: STANDARD · Category: Sparklers</div></div>
-    <div class="price-box"><div class="price-label mrp-label">MRP</div><div class="mrp-price"><s>₹612.43</s></div><div class="price-label discount-label">80% OFF PRICE</div><div class="our-price">₹122.49</div></div>
-    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('sp02',-1)">−</button><span class="qty-num" id="qty-sp02">0</span><button class="qty-btn" type="button" onclick="changeComboQty('sp02',1)">+</button></div></div>
+    <div class="price-box"><div class="price-label mrp-label">MRP</div><div class="mrp-price"><s>₹612.43</s></div><div class="price-label discount-label">80% OFF PRICE</div><div class="our-price">₹122.49</div><div class="futura-stock-badge" role="status" aria-label="NO STOCK">❌ NO STOCK</div></div>
+    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" disabled aria-disabled="true" title="NO STOCK" onclick="changeComboQty('sp02',-1)">−</button><span class="qty-num" id="qty-sp02">0</span><button class="qty-btn" type="button" disabled aria-disabled="true" title="NO STOCK" onclick="changeComboQty('sp02',1)">+</button></div></div>
     <div class="subtotal-col"><div class="subtotal"><strong>₹<span id="sub-sp02">0.00</span></strong></div></div>
   </div>
   <div class="product-row" data-product-key="sp03" data-company-code="STD 008" data-company-name="15 CM GOLD SPARKLERS (10 PCS)">
@@ -934,18 +941,18 @@ footer{color:#fff;background:rgba(8,13,38,.88)}
     <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('sp03',-1)">−</button><span class="qty-num" id="qty-sp03">0</span><button class="qty-btn" type="button" onclick="changeComboQty('sp03',1)">+</button></div></div>
     <div class="subtotal-col"><div class="subtotal"><strong>₹<span id="sub-sp03">0.00</span></strong></div></div>
   </div>
-  <div class="product-row" data-product-key="sp04" data-company-code="STD 011" data-company-name="15 CM LAVENDER SPARKLERS (10 PCS)">
+  <div class="product-row futura-no-stock" data-stock-status="out" data-product-key="sp04" data-company-code="STD 011" data-company-name="15 CM LAVENDER SPARKLERS (10 PCS)">
     <img src="images/crackers/2026%20crackers%20new/11__Eco4Lakshmi.jpg?v=20261001-spark11" data-full="images/crackers/2026%20crackers%20new/11__Eco4Lakshmi.jpg?v=20261001-spark11" alt="15 CM LAVENDER SPARKLERS (10 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full,this)">
     <div><div class="product-name">15 CM LAVENDER SPARKLERS (10 PCS)</div><div class="product-meta">Brand: STANDARD · Category: Sparklers</div></div>
-    <div class="price-box"><div class="price-label mrp-label">MRP</div><div class="mrp-price"><s>₹643.63</s></div><div class="price-label discount-label">80% OFF PRICE</div><div class="our-price">₹128.73</div></div>
-    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('sp04',-1)">−</button><span class="qty-num" id="qty-sp04">0</span><button class="qty-btn" type="button" onclick="changeComboQty('sp04',1)">+</button></div></div>
+    <div class="price-box"><div class="price-label mrp-label">MRP</div><div class="mrp-price"><s>₹643.63</s></div><div class="price-label discount-label">80% OFF PRICE</div><div class="our-price">₹128.73</div><div class="futura-stock-badge" role="status" aria-label="NO STOCK">❌ NO STOCK</div></div>
+    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" disabled aria-disabled="true" title="NO STOCK" onclick="changeComboQty('sp04',-1)">−</button><span class="qty-num" id="qty-sp04">0</span><button class="qty-btn" type="button" disabled aria-disabled="true" title="NO STOCK" onclick="changeComboQty('sp04',1)">+</button></div></div>
     <div class="subtotal-col"><div class="subtotal"><strong>₹<span id="sub-sp04">0.00</span></strong></div></div>
   </div>
-  <div class="product-row" data-product-key="sp05" data-company-code="STD 010" data-company-name="15 CM LEMON TREE SPARKLERS (10 PCS)">
+  <div class="product-row futura-no-stock" data-stock-status="out" data-product-key="sp05" data-company-code="STD 010" data-company-name="15 CM LEMON TREE SPARKLERS (10 PCS)">
     <img src="images/crackers/2026%20crackers%20new/12__Standard15CMLemonTreeSparklers.jpg?v=20261001-spark12" data-full="images/crackers/2026%20crackers%20new/12__Standard15CMLemonTreeSparklers.jpg?v=20261001-spark12" alt="15 CM LEMON TREE SPARKLERS (10 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full,this)">
     <div><div class="product-name">15 CM LEMON TREE SPARKLERS (10 PCS)</div><div class="product-meta">Brand: STANDARD · Category: Sparklers</div></div>
-    <div class="price-box"><div class="price-label mrp-label">MRP</div><div class="mrp-price"><s>₹461.11</s></div><div class="price-label discount-label">80% OFF PRICE</div><div class="our-price">₹92.22</div></div>
-    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('sp05',-1)">−</button><span class="qty-num" id="qty-sp05">0</span><button class="qty-btn" type="button" onclick="changeComboQty('sp05',1)">+</button></div></div>
+    <div class="price-box"><div class="price-label mrp-label">MRP</div><div class="mrp-price"><s>₹461.11</s></div><div class="price-label discount-label">80% OFF PRICE</div><div class="our-price">₹92.22</div><div class="futura-stock-badge" role="status" aria-label="NO STOCK">❌ NO STOCK</div></div>
+    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" disabled aria-disabled="true" title="NO STOCK" onclick="changeComboQty('sp05',-1)">−</button><span class="qty-num" id="qty-sp05">0</span><button class="qty-btn" type="button" disabled aria-disabled="true" title="NO STOCK" onclick="changeComboQty('sp05',1)">+</button></div></div>
     <div class="subtotal-col"><div class="subtotal"><strong>₹<span id="sub-sp05">0.00</span></strong></div></div>
   </div>
   <div class="product-row" data-product-key="sp06" data-company-code="STD 013" data-company-name="30 CM CRACKLING SPARKLERS (5 PCS)">
@@ -1433,11 +1440,11 @@ footer{color:#fff;background:rgba(8,13,38,.88)}
     <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('rk01',-1)">−</button><span class="qty-num" id="qty-rk01">0</span><button class="qty-btn" type="button" onclick="changeComboQty('rk01',1)">+</button></div></div>
     <div class="subtotal-col"><div class="subtotal"><strong>₹<span id="sub-rk01">0.00</span></strong></div></div>
   </div>
-  <div class="product-row" data-product-key="rk02" data-company-code="STD 087" data-company-name="ROHINI ROCKETS (10 PCS)">
+  <div class="product-row futura-no-stock" data-stock-status="out" data-product-key="rk02" data-company-code="STD 087" data-company-name="ROHINI ROCKETS (10 PCS)">
     <img src="images/crackers/2026%20crackers%20new/76__StandardRohiniRocket.jpg?v=20261001-rocket76" data-full="images/crackers/2026%20crackers%20new/76__StandardRohiniRocket.jpg?v=20261001-rocket76" alt="ROHINI ROCKETS (10 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full,this)">
     <div><div class="product-name">ROHINI ROCKETS (10 PCS)</div><div class="product-meta">Brand: STANDARD · Category: Rockets &amp; Mega Rockets</div></div>
-    <div class="price-box"><div class="price-label mrp-label">MRP</div><div class="mrp-price"><s>₹1,805.83</s></div><div class="price-label discount-label">80% OFF PRICE</div><div class="our-price">₹361.17</div></div>
-    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('rk02',-1)">−</button><span class="qty-num" id="qty-rk02">0</span><button class="qty-btn" type="button" onclick="changeComboQty('rk02',1)">+</button></div></div>
+    <div class="price-box"><div class="price-label mrp-label">MRP</div><div class="mrp-price"><s>₹1,805.83</s></div><div class="price-label discount-label">80% OFF PRICE</div><div class="our-price">₹361.17</div><div class="futura-stock-badge" role="status" aria-label="NO STOCK">❌ NO STOCK</div></div>
+    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" disabled aria-disabled="true" title="NO STOCK" onclick="changeComboQty('rk02',-1)">−</button><span class="qty-num" id="qty-rk02">0</span><button class="qty-btn" type="button" disabled aria-disabled="true" title="NO STOCK" onclick="changeComboQty('rk02',1)">+</button></div></div>
     <div class="subtotal-col"><div class="subtotal"><strong>₹<span id="sub-rk02">0.00</span></strong></div></div>
   </div>
   <div class="product-row" data-product-key="rk03" data-company-code="SVF 088" data-company-name="CRACKLING ROCKET (10 PCS)">
@@ -1454,11 +1461,11 @@ footer{color:#fff;background:rgba(8,13,38,.88)}
     <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('rk04',-1)">−</button><span class="qty-num" id="qty-rk04">0</span><button class="qty-btn" type="button" onclick="changeComboQty('rk04',1)">+</button></div></div>
     <div class="subtotal-col"><div class="subtotal"><strong>₹<span id="sub-rk04">0.00</span></strong></div></div>
   </div>
-  <div class="product-row" data-product-key="rk05" data-company-code="STR 090" data-company-name="MUSICAL ROCKET">
+  <div class="product-row futura-no-stock" data-stock-status="out" data-product-key="rk05" data-company-code="STR 090" data-company-name="MUSICAL ROCKET">
     <img src="images/crackers/2026%20crackers%20new/79__StarvellMusicalRocket.jpg?v=20261001-rocket79" data-full="images/crackers/2026%20crackers%20new/79__StarvellMusicalRocket.jpg?v=20261001-rocket79" alt="ECO MUSICAL ROCKET (5 PCS)" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full,this)">
     <div><div class="product-name">ECO MUSICAL ROCKET (5 PCS)</div><div class="product-meta">Brand: BUDGET · Category: Rockets &amp; Mega Rockets</div></div>
-    <div class="price-box"><div class="price-label mrp-label">MRP</div><div class="mrp-price"><s>₹1,043.25</s></div><div class="price-label discount-label">80% OFF PRICE</div><div class="our-price">₹208.65</div></div>
-    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('rk05',-1)">−</button><span class="qty-num" id="qty-rk05">0</span><button class="qty-btn" type="button" onclick="changeComboQty('rk05',1)">+</button></div></div>
+    <div class="price-box"><div class="price-label mrp-label">MRP</div><div class="mrp-price"><s>₹1,043.25</s></div><div class="price-label discount-label">80% OFF PRICE</div><div class="our-price">₹208.65</div><div class="futura-stock-badge" role="status" aria-label="NO STOCK">❌ NO STOCK</div></div>
+    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" disabled aria-disabled="true" title="NO STOCK" onclick="changeComboQty('rk05',-1)">−</button><span class="qty-num" id="qty-rk05">0</span><button class="qty-btn" type="button" disabled aria-disabled="true" title="NO STOCK" onclick="changeComboQty('rk05',1)">+</button></div></div>
     <div class="subtotal-col"><div class="subtotal"><strong>₹<span id="sub-rk05">0.00</span></strong></div></div>
   </div>
 </section>
@@ -1620,11 +1627,11 @@ footer{color:#fff;background:rgba(8,13,38,.88)}
     <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('pm05',-1)">−</button><span class="qty-num" id="qty-pm05">0</span><button class="qty-btn" type="button" onclick="changeComboQty('pm05',1)">+</button></div></div>
     <div class="subtotal-col"><div class="subtotal"><strong>₹<span id="sub-pm05">0.00</span></strong></div></div>
   </div>
-  <div class="product-row" data-product-key="pm06" data-company-code="ECO 111" data-company-name="48 DELUXE CRACKERS">
+  <div class="product-row futura-no-stock" data-stock-status="out" data-product-key="pm06" data-company-code="ECO 111" data-company-name="48 DELUXE CRACKERS">
     <img src="images/crackers/2026%20crackers%20new/98__48DELUXEECO.jpg?v=20261001-premium98" data-full="images/crackers/2026%20crackers%20new/98__48DELUXEECO.jpg?v=20261001-premium98" alt="ECO 48 DELUXE CRACKERS" loading="lazy" title="Click to enlarge" onclick="openProductImage(this.src,this.alt,this.dataset.full,this)">
     <div><div class="product-name">ECO 48 DELUXE CRACKERS</div><div class="product-meta">Brand: BUDGET · Category: Premium Magic Crackers</div></div>
-    <div class="price-box"><div class="price-label mrp-label">MRP</div><div class="mrp-price"><s>₹861.90</s></div><div class="price-label discount-label">80% OFF PRICE</div><div class="our-price">₹172.38</div></div>
-    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" onclick="changeComboQty('pm06',-1)">−</button><span class="qty-num" id="qty-pm06">0</span><button class="qty-btn" type="button" onclick="changeComboQty('pm06',1)">+</button></div></div>
+    <div class="price-box"><div class="price-label mrp-label">MRP</div><div class="mrp-price"><s>₹861.90</s></div><div class="price-label discount-label">80% OFF PRICE</div><div class="our-price">₹172.38</div><div class="futura-stock-badge" role="status" aria-label="NO STOCK">❌ NO STOCK</div></div>
+    <div class="qty-col"><div class="qty-wrap"><button class="qty-btn" type="button" disabled aria-disabled="true" title="NO STOCK" onclick="changeComboQty('pm06',-1)">−</button><span class="qty-num" id="qty-pm06">0</span><button class="qty-btn" type="button" disabled aria-disabled="true" title="NO STOCK" onclick="changeComboQty('pm06',1)">+</button></div></div>
     <div class="subtotal-col"><div class="subtotal"><strong>₹<span id="sub-pm06">0.00</span></strong></div></div>
   </div>
 </section>
@@ -3639,6 +3646,7 @@ function syncCatalogueProducts(){
       product.mrp=mrpText && Number.isFinite(mrp) && mrp>0 ? mrp : null;
       product.serial=row.querySelector('.serial-col')?.textContent.trim() || '';
       product.companyCode=row.dataset.companyCode || '';
+      product.outOfStock=row.dataset.stockStatus==='out';
       const image=row.querySelector('img');
       product.imageUrl=image ? new URL(image.dataset.full || image.getAttribute('src'),location.href).href : '';
     }
@@ -3650,7 +3658,7 @@ let awaitingSavedCartChoice=false;
 function offerSavedCrackersCart(){
   try{
     const cart=JSON.parse(localStorage.getItem('futuraCrackersCart2026') || '{}');
-    awaitingSavedCartChoice=Object.keys(comboProducts).some(id=>Number.isInteger(Number(cart[id])) && Number(cart[id])>0 && Number(cart[id])<=10000);
+    awaitingSavedCartChoice=Object.keys(comboProducts).some(id=>!comboProducts[id].outOfStock && Number.isInteger(Number(cart[id])) && Number(cart[id])>0 && Number(cart[id])<=10000);
   }catch(e){awaitingSavedCartChoice=false;}
   document.getElementById('continueSavedCartBtn').hidden=!awaitingSavedCartChoice;
   if(awaitingSavedCartChoice) document.getElementById('cartSessionMessage').textContent='பழைய தேர்வு இந்த browser-ல் உள்ளது. தொடர CONTINUE SAVED SELECTION அழுத்துங்கள்; புதிய ஆர்டருக்கு products தேர்வு செய்யுங்கள். / A previous selection is saved. Continue it, or select products for a new order.';
@@ -3706,7 +3714,7 @@ function restoreCrackersCart(){
     const cart=JSON.parse(localStorage.getItem('futuraCrackersCart2026') || '{}');
     Object.entries(comboProducts).forEach(([id,p])=>{
       const qty=Number(cart[id] || 0);
-      p.qty=Number.isInteger(qty) && qty>=0 && qty<=10000 ? qty : 0;
+      p.qty=p.outOfStock ? 0 : (Number.isInteger(qty) && qty>=0 && qty<=10000 ? qty : 0);
       const qtyEl=document.getElementById('qty-'+id), subEl=document.getElementById('sub-'+id);
       if(qtyEl) qtyEl.textContent=p.qty;
       if(subEl) subEl.textContent=(p.qty*p.price).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
@@ -3735,6 +3743,7 @@ function changeComboQty(id,delta){
   if(awaitingSavedCartChoice && (clientRequestPdfBusy || customerDetailsBusy || paymentProofBusy)) return;
   if(awaitingSavedCartChoice) startNewCrackersOrder(false);
   const p=comboProducts[id];
+  if(!p || p.outOfStock) return;
   p.qty=Math.min(10000,Math.max(0,p.qty+delta));
   rememberCrackersCart();
   document.getElementById('qty-'+id).textContent=p.qty;
@@ -3743,7 +3752,7 @@ function changeComboQty(id,delta){
 }
 
 function renderCrackersOrderReview(){
-  const chosen=Object.values(comboProducts).filter(p=>p.qty>0).sort((a,b)=>Number(a.serial)-Number(b.serial));
+  const chosen=Object.values(comboProducts).filter(p=>p.qty>0 && !p.outOfStock).sort((a,b)=>Number(a.serial)-Number(b.serial));
   const panel=document.getElementById('orderReview'),body=document.getElementById('orderReviewRows');
   if(!panel || !body) return;
   panel.hidden=chosen.length===0;
@@ -3792,7 +3801,7 @@ function refreshComboSummary(){
   document.getElementById('selectedProducts').textContent=selected;
   document.getElementById('totalQty').textContent=totalQty;
   document.getElementById('sampleNetTotal').textContent=total.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
-  const chosen=Object.values(comboProducts).filter(p=>p.qty>0).sort((a,b)=>Number(a.serial)-Number(b.serial));
+  const chosen=Object.values(comboProducts).filter(p=>p.qty>0 && !p.outOfStock).sort((a,b)=>Number(a.serial)-Number(b.serial));
   const currentOrder=chosen.length ? getCrackersOrder(chosen) : null;
   updateDirectOrderWhatsApp(currentOrder);
   const currentPdf=currentOrder && hasCurrentRequestPdf(currentOrder);
@@ -4333,7 +4342,7 @@ let customerDetailsBusy=false,customerDetailsMode='save',clientRequestPdfBusy=fa
 function requestPdfKey(order,customer){
   const pdfCustomer={name:customer.name,mobile:customer.mobile,address:customer.address,city:customer.city,email:customer.email || ''};
   return JSON.stringify({orderId:order.orderId,items:order.items,customer:pdfCustomer,
-    images:Object.values(comboProducts).filter(p=>p.qty>0).sort((a,b)=>Number(a.serial)-Number(b.serial)).map(p=>p.imageUrl)});
+    images:Object.values(comboProducts).filter(p=>p.qty>0 && !p.outOfStock).sort((a,b)=>Number(a.serial)-Number(b.serial)).map(p=>p.imageUrl)});
 }
 function hasCurrentRequestPdf(order,customer=getSavedCrackersCustomer()){
   return !!customer && preparedRequestPdf?.key===requestPdfKey(order,customer);
@@ -4373,7 +4382,7 @@ function getSavedCrackersCustomer(){
 }
 function getCurrentCrackersOrderForDetails(){
   syncCatalogueProducts();
-  const chosen=Object.values(comboProducts).filter(p=>p.qty>0).sort((a,b)=>Number(a.serial)-Number(b.serial));
+  const chosen=Object.values(comboProducts).filter(p=>p.qty>0 && !p.outOfStock).sort((a,b)=>Number(a.serial)-Number(b.serial));
   if(!chosen.length) return null;
   return getCrackersOrder(chosen);
 }
@@ -4490,7 +4499,7 @@ async function selectCrackersPaymentProof(input){
   const file=input.files[0];
   if(!file){status.textContent='';return;}
   syncCatalogueProducts();
-  const chosen=Object.values(comboProducts).filter(p=>p.qty>0).sort((a,b)=>Number(a.serial)-Number(b.serial));
+  const chosen=Object.values(comboProducts).filter(p=>p.qty>0 && !p.outOfStock).sort((a,b)=>Number(a.serial)-Number(b.serial));
   if(!chosen.length){status.textContent='முதலில் உங்கள் order products தேர்வு செய்யுங்கள்.';input.value='';return;}
   if(!['image/jpeg','image/png'].includes(file.type) || file.size>10000000){status.textContent='10 MB-க்குள் உள்ள JPG / PNG screenshot தேர்வு செய்யுங்கள்.';input.value='';return;}
   const customer=getSavedCrackersCustomer();
