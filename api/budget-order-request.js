@@ -16,7 +16,7 @@ function serverCatalogue(){
  const match=html.match(/const budgetProducts=(\[[^\n]*\]);/);
  if(!match)throw Error('Budget price catalogue unavailable.');
  const parsed=JSON.parse(match[1]);
- if(parsed.length!==232 || parsed.some((p,i)=>p.id!==i+1 ||
+ if(parsed.length!==234 || parsed.some((p,i)=>p.id!==i+1 ||
      !Number.isFinite(p.rate)||p.rate<=0||!p.name||!p.tamil ||
      (p.discount && (!Number.isFinite(p.list)||Math.abs(p.list-5*p.rate)>0.001)) ||
      (!p.discount && p.list!==null)))throw Error('Budget price catalogue validation failed.');
@@ -25,7 +25,7 @@ function serverCatalogue(){
 }
 const safe=(s,max=250)=>String(s??'').trim().slice(0,max);
 function check(input){
- if(!input||!Array.isArray(input.items)||!input.items.length||input.items.length>232||
+ if(!input||!Array.isArray(input.items)||!input.items.length||input.items.length>234||
     !/^[A-Za-z0-9_-]{20,80}$/.test(input.requestKey||''))throw Error('Invalid order request.');
  const name=safe(input.customer?.name,100),mobile=safe(input.customer?.mobile,20),
        city=safe(input.customer?.city,100),address=safe(input.customer?.address,300),
