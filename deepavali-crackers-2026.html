@@ -669,6 +669,13 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
 .futura-urgency-x{position:absolute;right:9px;top:7px;background:transparent;color:#6d3d35;border:0;font-size:27px;cursor:pointer;width:38px;height:38px}
 @media(max-width:480px){.futura-urgency-card{padding:18px 15px}.futura-urgency-card h2{font-size:20px}.futura-urgency-card p{font-size:15px}}
 
+
+.futura-urgency-stock-box{background:#fff0f1;border:1px solid #e9abb0;border-radius:10px;padding:11px 10px;margin-bottom:13px}
+.futura-urgency-stock-box h2{font-size:19px;margin:0 0 6px;color:#b60017}
+.futura-urgency-stock-box p{color:#c51224!important;font-weight:800;font-size:15px;line-height:1.6;margin:3px 0}
+.futura-urgency-attention{font-size:20px;color:#b60017;font-weight:900;margin:9px 0 2px}
+.futura-urgency-tamil-heading{font-size:18px;margin:2px 0 10px;color:#9c1730}
+
 /* FUTURA stock gate: keep product and price visible; block ordering */
 .product-row.futura-no-stock{box-shadow:inset 5px 0 0 #ce1820}
 .product-row .futura-stock-badge{display:none}
@@ -3270,13 +3277,18 @@ footer{color:#fff;background:rgba(8,13,38,.88)}
 </div>
 
 
-<!-- Only 2 appearances per order: first selection reaching Rs.3000; final saved order -->
+<!-- Quality: two notices at first Rs.2000 and MOQ Rs.3000; not at final confirmation -->
 <div id="futuraUrgencyOverlay" class="futura-urgency-overlay" hidden>
   <div class="futura-urgency-card" role="dialog" aria-modal="true" aria-labelledby="futuraUrgencyTitle" aria-describedby="futuraUrgencyMessage">
     <button class="futura-urgency-x" type="button" aria-label="Close notification" onclick="closeFuturaUrgencyNotice()">×</button>
-    <h2 id="futuraUrgencyTitle">⚠️ முக்கிய அறிவிப்பு!</h2>
     <div id="futuraUrgencyMessage" lang="ta">
-      <p><strong>சிவகாசியில் தற்போது தீபாவளி இறுதிநேர Stock மட்டுமே உள்ளது.</strong> பொருட்களின் கையிருப்பு வேகமாகக் குறைந்து வருகிறது.</p>
+      <div class="futura-urgency-stock-box">
+        <h2 id="futuraUrgencyTitle">❌ NO STOCK அறிவிப்பு</h2>
+        <p>NO STOCK என்று குறிக்கப்பட்ட பொருட்களின் இருப்பு தற்போது தீர்ந்துவிட்டது. <strong>இந்த ஆண்டில் மீண்டும் அவை கிடைக்காது.</strong></p>
+      </div>
+      <h3 class="futura-urgency-attention">⚠️ ATTENTION PLEASE!</h3>
+      <h4 class="futura-urgency-tamil-heading">முக்கிய அறிவிப்பு!</h4>
+      <p>சிவகாசியில் தற்போது தீபாவளி இறுதிநேர Stock மட்டுமே உள்ளது. பொருட்களின் கையிருப்பு வேகமாகக் குறைந்து வருகிறது.</p>
       <p>உங்கள் ஆர்டரை நாங்கள் சரிபார்த்து <strong>Payment விவரங்களை அனுப்பியதும், 30–60 நிமிடங்களுக்குள் கட்டணம் செலுத்தி</strong> உங்கள் ஆர்டரை உறுதிப்படுத்துங்கள்.</p>
       <p class="futura-urgency-important">Stock Availability மற்றும் Payment உறுதி செய்யப்பட்ட பின்னரே உங்கள் Order Confirm செய்யப்படும்.</p>
     </div>
@@ -3792,7 +3804,9 @@ function continueSavedCrackersCart(){
 function startNewCrackersOrder(newOrder=true){
   if(clientRequestPdfBusy || customerDetailsBusy || paymentProofBusy) return;
   awaitingSavedCartChoice=false;
-  futuraUrgencyMinimumShown=false;
+  futuraUrgencyFirstShown=false;
+  futuraUrgencyMoqShown=false;
+  futuraUrgencyPending=[];
   if(newOrder){try{localStorage.removeItem('futuraCrackersOrderSession2026');}catch(e){}crackersConfirmationSession=null;}
   // Reset this browser's editable draft only. Submitted orders, pending saves,
   // payment records and the existing private tracking link remain intact.
@@ -3857,8 +3871,10 @@ function restoreOrderReceipt(){
 }
 
 
-/* Customer sees this twice: first time selection total reaches Rs.3000; after successful final confirmation. */
-let futuraUrgencyMinimumShown=false;
+/* Quality catalogue: stock notice once at Rs.2000, once again at final MOQ Rs.3000. */
+let futuraUrgencyFirstShown=false;
+let futuraUrgencyMoqShown=false;
+let futuraUrgencyPending=[];
 let futuraUrgencyCloseCallback=null;
 let futuraUrgencyPreviousFocus=null;
 function showFuturaUrgencyNotice(stage,afterClose){
@@ -3867,7 +3883,7 @@ function showFuturaUrgencyNotice(stage,afterClose){
   if(!modal || !button) return;
   futuraUrgencyCloseCallback=typeof afterClose==='function'?afterClose:null;
   futuraUrgencyPreviousFocus=document.activeElement;
-  button.textContent=stage==='threshold'?'புரிந்தது – தொடர்ந்து தேர்வு செய்கிறேன்':'புரிந்தது – OK';
+  button.textContent=stage==='early'?'புரிந்தது – தொடர்ந்து தேர்வு செய்கிறேன்':'புரிந்தது – ஆர்டரைத் தொடர்கிறேன்';
   modal.hidden=false;
   document.body.style.overflow='hidden';
   button.focus();
@@ -3882,7 +3898,20 @@ function closeFuturaUrgencyNotice(){
   if(previous && previous.isConnected && typeof previous.focus==='function') previous.focus();
   const next=futuraUrgencyCloseCallback;
   futuraUrgencyCloseCallback=null;
-  if(next) next();
+  if(futuraUrgencyPending.length){
+    const nextStage=futuraUrgencyPending.shift();
+    showFuturaUrgencyNotice(nextStage);
+  }else if(next) next();
+}
+function enqueueFuturaUrgencyStages(stages){
+  if(!stages.length)return;
+  if(!document.getElementById('futuraUrgencyOverlay').hidden){
+    futuraUrgencyPending.push(...stages);
+  }else{
+    const [first,...rest]=stages;
+    futuraUrgencyPending.push(...rest);
+    showFuturaUrgencyNotice(first);
+  }
 }
 
 function changeComboQty(id,delta){
@@ -3897,10 +3926,16 @@ function changeComboQty(id,delta){
   document.getElementById('sub-'+id).textContent=(p.qty*p.price).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
   refreshComboSummary();
   const totalAfter=Object.values(comboProducts).reduce((sum,item)=>sum+(item.outOfStock?0:item.qty*item.price),0);
-  if(!futuraUrgencyMinimumShown && totalBefore<3000 && totalAfter>=3000){
-    futuraUrgencyMinimumShown=true;
-    showFuturaUrgencyNotice('threshold');
+  const stages=[];
+  if(!futuraUrgencyFirstShown && totalBefore<2000 && totalAfter>=2000){
+    futuraUrgencyFirstShown=true;
+    stages.push('early');
   }
+  if(!futuraUrgencyMoqShown && totalBefore<3000 && totalAfter>=3000){
+    futuraUrgencyMoqShown=true;
+    stages.push('moq');
+  }
+  enqueueFuturaUrgencyStages(stages);
 }
 
 function renderCrackersOrderReview(){
@@ -4627,10 +4662,10 @@ async function submitCustomerDetails(event){
     showCrackersOrderReceived(order);
     status.textContent='Saved ✓ உங்கள் booking details பதிவு செய்யப்பட்டது.';
     quick.textContent='Booking details saved ✓';
-    const shouldShareAfterNotice=customerDetailsMode==='share';
+    const shouldShareAfterSave=customerDetailsMode==='share';
     setTimeout(()=>{
       closeCustomerDetailsForm();
-      showFuturaUrgencyNotice('final',shouldShareAfterNotice?()=>comboReadyToPay(customer):null);
+      if(shouldShareAfterSave)comboReadyToPay(customer);
     },900);
   }catch(e){
     status.textContent=e.message || 'Booking details save ஆகவில்லை. மீண்டும் முயற்சி செய்யுங்கள்.';
