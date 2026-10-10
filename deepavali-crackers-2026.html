@@ -647,6 +647,33 @@ footer{color:#fff;background:rgba(8,13,38,.88)}
 .hero-catalogue-cta{display:block;align-self:center;width:100%;padding:13px 12px;border-radius:11px;background:#ffdf4b;color:#290a4b!important;text-decoration:none;font-size:clamp(14px,1.3vw,18px);line-height:1.45;font-weight:900;box-shadow:0 4px 12px #0004}
 .hero-catalogue-cta:hover,.hero-catalogue-nav a:hover{filter:brightness(1.1)}
 @media(max-width:700px){.hero.hero-dual{padding:17px 10px 28px}.hero-dual-grid{grid-template-columns:1fr;max-width:550px}.hero-catalogue-nav{gap:9px}.hero-catalogue-nav a{min-width:0;min-height:58px;padding:10px 6px;font-size:clamp(14px,3.3vw,18px)}.hero-catalogue-caption{min-height:0;padding:14px 13px 17px}.hero.hero-dual .hero-poster{max-height:none}.hero-catalogue-caption p{font-size:16px}}
+
+/* Align the entire clickable selection button exactly to the width of its own Hero Image */
+.hero.hero-dual .hero-dual-card>.hero-catalogue-choice{
+ display:flex!important;align-items:center!important;justify-content:center!important;
+ box-sizing:border-box!important;width:100%!important;max-width:none!important;
+ min-height:88px!important;padding:18px 14px!important;margin:0!important;
+ color:#280c4b!important;background:#ffdb42!important;border:0!important;
+ border-bottom:4px solid #ffe790!important;border-radius:0!important;
+ text-decoration:none!important;text-align:center!important;
+ font-size:clamp(24px,2.25vw,31px)!important;font-weight:950!important;
+ line-height:1.4!important;letter-spacing:.1px!important;
+ cursor:pointer!important;box-shadow:inset 0 -4px 0 #bd7d03!important;
+}
+.hero.hero-dual .hero-dual-card>.hero-catalogue-choice-budget{
+ background:#fff4c7!important;color:#501071!important;
+ box-shadow:inset 0 -4px 0 #8e52a0!important
+}
+.hero.hero-dual .hero-dual-card>.hero-catalogue-choice:hover,
+.hero.hero-dual .hero-dual-card>.hero-catalogue-choice:focus-visible{
+ filter:brightness(1.08);outline:3px solid #fff4a3;outline-offset:-3px
+}
+@media(max-width:700px){
+ .hero.hero-dual .hero-dual-card>.hero-catalogue-choice{
+   min-height:67px!important;padding:14px 8px!important;
+   font-size:clamp(21px,5vw,28px)!important
+ }
+}
 </style>
 </head>
 <body>
@@ -667,13 +694,10 @@ footer{color:#fff;background:rgba(8,13,38,.88)}
   <div class="hero-catalogue-intro" lang="ta">
     <h2>உங்கள் தேவைக்கு ஏற்ற பட்டாசு வகையைத் தேர்வு செய்யுங்கள்</h2>
     <p>உங்களுக்கு ஏற்ற Catalogue-ஐ தேர்வு செய்து தொடர்ந்து பார்க்கலாம்.</p>
-    <nav class="hero-catalogue-nav" aria-label="இரண்டு பட்டாசு catalogue தேர்வுகள்">
-      <a href="#liveSummaryBar">உயர்தர பட்டாசுகள்</a>
-      <a href="budget-friendly-crackers-2026.html#budget-catalogue">குறைந்த விலை பட்டாசுகள்</a>
-    </nav>
   </div>
   <div class="hero-dual-grid">
     <article class="hero-dual-card" aria-label="Quality Crackers first catalogue">
+      <a class="hero-catalogue-choice hero-catalogue-choice-quality" href="#liveSummaryBar" aria-label="உயர்தர பட்டாசுகள் விலைப்பட்டியலைப் பார்க்க">உயர்தர பட்டாசுகள்</a>
       <a class="hero-poster-link" href="#liveSummaryBar" aria-label="உயர்தர பட்டாசுகள் விலைப்பட்டியல் பார்க்க">
         <img class="hero-poster" src="images/crackers/ChatGPT%20Image%20Sep%2030,%202026,%2011_05_07%20PM.png?v=7" alt="FUTURA Original 2026 Price List – STANDARD WE TWO and VANITHA branded quality crackers">
       </a>
@@ -683,6 +707,7 @@ footer{color:#fff;background:rgba(8,13,38,.88)}
       </div>
     </article>
     <article class="hero-dual-card" aria-label="Low Price Crackers second catalogue">
+      <a class="hero-catalogue-choice hero-catalogue-choice-budget" href="budget-friendly-crackers-2026.html#budget-catalogue" aria-label="குறைந்த விலை பட்டாசுகள் விலைப்பட்டியலைப் பார்க்க">குறைந்த விலை பட்டாசுகள்</a>
       <a class="hero-poster-link" href="budget-friendly-crackers-2026.html#budget-catalogue" aria-label="குறைந்த விலை பட்டாசுகள் விலைப்பட்டியல் பார்க்க">
         <img class="hero-poster" src="images/crackers/budget-friendly-crackers-hero.png?v=20261010-approved" alt="Budget Friendly Low Price Crackers – 80% Offer poster, clickable catalogue">
       </a>
