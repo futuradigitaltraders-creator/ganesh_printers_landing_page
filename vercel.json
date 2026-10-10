@@ -32,6 +32,10 @@
     },
     "api/crackers-order-tracking.js": {
       "maxDuration": 60
+    },
+    "api/budget-payment-proof.js": {
+      "maxDuration": 180,
+      "includeFiles": "{budget-friendly-crackers-2026.html,assets/crackers/request-form/**}"
     }
   }
 }
