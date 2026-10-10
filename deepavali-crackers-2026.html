@@ -701,6 +701,18 @@ footer{color:#fff;background:rgba(8,13,38,.88)}
    font-size:clamp(21px,5vw,28px)!important
  }
 }
+
+/* Clearly separate the two independent 2026 price lists; never mix rates or carts */
+.futura-quality-list-chooser{max-width:100%;margin:0 auto 18px;padding:21px 17px 22px;background:#fff9e9;border:3px solid #f2bc46;border-radius:16px;text-align:center;box-shadow:0 8px 20px #0003;color:#2d183a;scroll-margin-top:8px}
+.futura-quality-list-chooser h2{margin:0 0 9px;color:#651042;font-weight:950;font-size:clamp(20px,2.3vw,29px);line-height:1.4}
+.futura-quality-list-chooser p{max-width:860px;margin:0 auto 15px;font-size:clamp(14px,1.3vw,17px);line-height:1.65}
+.futura-list-switch{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch;gap:14px;margin:0 auto;width:100%;max-width:1000px}
+.futura-list-switch .futura-list-choice{display:flex;flex-direction:column;justify-content:center;align-items:center;text-decoration:none!important;text-align:center;min-height:91px;padding:13px 11px;margin:0;border:2px solid #bd93c5;border-radius:13px;background:#fff;color:#4b1674;font-weight:900;line-height:1.4;box-shadow:0 5px 13px #0002}
+.futura-list-switch .futura-list-choice.active{background:#5f177e;color:#fff;border-color:#ead054}
+.futura-list-switch .futura-list-choice strong{font-size:clamp(18px,2vw,25px)}
+.futura-list-switch .futura-list-choice small{font-size:clamp(10px,1vw,13px);margin-top:6px}
+.futura-list-switch .futura-list-choice:not(.active):hover,.futura-list-switch .futura-list-choice:not(.active):focus-visible{background:#ffec9c;border-color:#e3ae24}
+@media(max-width:620px){.futura-quality-list-chooser{padding:15px 10px}.futura-list-switch{gap:8px}.futura-list-switch .futura-list-choice{min-height:78px;padding:10px 6px}.futura-list-switch .futura-list-choice strong{font-size:clamp(14px,3.3vw,19px)}.futura-list-switch .futura-list-choice small{font-size:9px}}
 </style>
 </head>
 <body>
@@ -724,13 +736,13 @@ footer{color:#fff;background:rgba(8,13,38,.88)}
   </div>
   <div class="hero-dual-grid">
     <article class="hero-dual-card" aria-label="Quality Crackers first catalogue">
-      <a class="hero-catalogue-choice hero-catalogue-choice-quality" href="#liveSummaryBar" aria-label="உயர்தர பட்டாசுகள் விலைப்பட்டியலைப் பார்க்க">உயர்தர பட்டாசுகள்</a>
-      <a class="hero-poster-link" href="#liveSummaryBar" aria-label="உயர்தர பட்டாசுகள் விலைப்பட்டியல் பார்க்க">
+      <a class="hero-catalogue-choice hero-catalogue-choice-quality" href="#quality-price-list" aria-label="உயர்தர பட்டாசுகள் விலைப்பட்டியலைப் பார்க்க">உயர்தர பட்டாசுகள்</a>
+      <a class="hero-poster-link" href="#quality-price-list" aria-label="உயர்தர பட்டாசுகள் விலைப்பட்டியல் பார்க்க">
         <img class="hero-poster" src="images/crackers/ChatGPT%20Image%20Sep%2030,%202026,%2011_05_07%20PM.png?v=7" alt="FUTURA Original 2026 Price List – STANDARD WE TWO and VANITHA branded quality crackers">
       </a>
       <div class="hero-catalogue-caption" lang="ta">
         <p>உயர்தர <strong>STANDARD</strong> ரக குவாலிட்டி பட்டாசுகள் &amp; <strong>WE TWO / VANITHA / ASOK</strong> ரக குவாலிட்டி பட்டாசுகள் பார்க்க</p>
-        <a class="hero-catalogue-cta" href="#liveSummaryBar">உயர்தர பட்டாசுகள் பார்க்க CLICK HERE →</a>
+        <a class="hero-catalogue-cta" href="#quality-price-list">உயர்தர பட்டாசுகள் பார்க்க CLICK HERE →</a>
       </div>
     </article>
     <article class="hero-dual-card" aria-label="Low Price Crackers second catalogue">
@@ -789,6 +801,14 @@ footer{color:#fff;background:rgba(8,13,38,.88)}
       <span class="seo-highlight seo-highlight-count">240+ VARIETIES · WHOLESALE</span>
     </div>
   </div>
+</section>
+<section id="quality-price-list" class="futura-quality-list-chooser" aria-labelledby="quality-list-heading">
+  <h2 id="quality-list-heading">உயர்தர பட்டாசுகள் / QUALITY CRACKERS PRICE LIST</h2>
+  <p lang="ta">கீழே காட்டப்படும் பட்டாசுகளின் விலைகள் <strong>உயர்தர பட்டாசுகள்</strong> Catalogue-க்கானவை மட்டுமே. குறைந்த விலை பட்டாசுகளைப் பார்க்க வலப்புறத் தேர்வை அழுத்துங்கள்.</p>
+  <nav class="futura-list-switch" aria-label="Choose high quality or low price crackers catalogue">
+    <a class="futura-list-choice active" href="#liveSummaryBar" aria-current="page"><strong>உயர்தர பட்டாசுகள்</strong><small>QUALITY CRACKERS PRICE LIST — இப்போது பார்க்கிறீர்கள்</small></a>
+    <a class="futura-list-choice" href="budget-friendly-crackers-2026.html#budget-catalogue"><strong>குறைந்த விலை பட்டாசுகள்</strong><small>LOW PRICE CRACKERS PRICE LIST — CLICK HERE →</small></a>
+  </nav>
 </section>
 <div class="live-summary" id="liveSummaryBar" aria-label="Live order summary">
   <div class="sum-box sum-products"><div class="sum-label">NUMBER OF PRODUCTS</div><div class="sum-value" id="liveProducts">0</div></div>
