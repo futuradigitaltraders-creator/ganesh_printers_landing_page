@@ -299,6 +299,22 @@ body{
 .budget-share-order-tip .budget-share-order-title{display:block;color:#76207c;font-weight:900;font-size:clamp(16px,1.55vw,20px);line-height:1.5;margin:7px 0}
 .budget-share-order-tip .budget-share-order-finish{margin:8px 0 0;font-weight:800;color:#62316e}
 </style>
+
+<style id="futura-budget-stock-urgency-popup-v2">
+.futura-urgency-overlay[hidden]{display:none!important}
+.futura-urgency-overlay{position:fixed;inset:0;z-index:2147483000;background:rgba(15,9,28,.74);display:flex;align-items:center;justify-content:center;padding:16px;font-family:Arial,'Noto Sans Tamil',sans-serif}
+.futura-urgency-card{position:relative;width:min(100%,430px);max-height:85vh;overflow-y:auto;background:#fffaf3;color:#271a13;border:3px solid #eaab23;border-radius:17px;padding:21px 20px;box-shadow:0 14px 42px rgba(0,0,0,.35);text-align:center}
+.futura-urgency-card p{font-size:16px;line-height:1.75;margin:8px 0;color:#34261d}
+.futura-urgency-card .futura-urgency-important{color:#ab101c;font-weight:900}
+.futura-urgency-card .futura-urgency-continue{background:#17773e;color:#fff;cursor:pointer;border:0;border-radius:9px;padding:12px 16px;font-size:16px;font-weight:800;width:100%;margin-top:13px}
+.futura-urgency-x{position:absolute;right:9px;top:7px;background:transparent;color:#6d3d35;border:0;font-size:27px;cursor:pointer;width:38px;height:38px}
+.futura-urgency-stock-box{background:#fff0f1;border:1px solid #e9abb0;border-radius:10px;padding:11px 10px;margin-bottom:13px}
+.futura-urgency-stock-box h2{font-size:19px;margin:0 0 6px;color:#b60017;font-weight:900}
+.futura-urgency-stock-box p{color:#c51224!important;font-weight:800;font-size:15px;line-height:1.6;margin:3px 0}
+.futura-urgency-attention{font-size:20px;color:#b60017;font-weight:900;margin:9px 0 2px}
+.futura-urgency-tamil-heading{font-size:18px;margin:2px 0 10px;color:#9c1730}
+@media(max-width:480px){.futura-urgency-card{padding:18px 15px}.futura-urgency-card p{font-size:15px}}
+</style>
 </head>
 <body>
 <header><div><strong>FUTURA TRADERS</strong><small>SRI GANESH PRINTERS</small></div>
@@ -394,6 +410,26 @@ body{
 </main>
 <footer>FUTURA TRADERS · SRI GANESH PRINTERS | WhatsApp: 94889 17786</footer>
 
+
+<!-- Budget: first stock notice at Rs.1000, again at final MOQ Rs.3000 -->
+<div id="budgetUrgencyOverlay" class="futura-urgency-overlay" hidden>
+  <div class="futura-urgency-card" role="dialog" aria-modal="true" aria-labelledby="budgetUrgencyTitle" aria-describedby="budgetUrgencyMessage">
+    <button class="futura-urgency-x" type="button" aria-label="Close notification" onclick="closeBudgetUrgencyNotice()">×</button>
+    <div id="budgetUrgencyMessage" lang="ta">
+      <div class="futura-urgency-stock-box">
+        <h2 id="budgetUrgencyTitle">❌ NO STOCK அறிவிப்பு</h2>
+        <p>NO STOCK என்று குறிக்கப்பட்ட பொருட்களின் இருப்பு தற்போது தீர்ந்துவிட்டது. <strong>இந்த ஆண்டில் மீண்டும் அவை கிடைக்காது.</strong></p>
+      </div>
+      <h3 class="futura-urgency-attention">⚠️ ATTENTION PLEASE!</h3>
+      <h4 class="futura-urgency-tamil-heading">முக்கிய அறிவிப்பு!</h4>
+      <p>சிவகாசியில் தற்போது தீபாவளி இறுதிநேர Stock மட்டுமே உள்ளது. பொருட்களின் கையிருப்பு வேகமாகக் குறைந்து வருகிறது.</p>
+      <p>உங்கள் ஆர்டரை நாங்கள் சரிபார்த்து <strong>Payment விவரங்களை அனுப்பியதும், 30–60 நிமிடங்களுக்குள் கட்டணம் செலுத்தி</strong> உங்கள் ஆர்டரை உறுதிப்படுத்துங்கள்.</p>
+      <p class="futura-urgency-important">Stock Availability மற்றும் Payment உறுதி செய்யப்பட்ட பின்னரே உங்கள் Order Confirm செய்யப்படும்.</p>
+    </div>
+    <button id="budgetUrgencyOK" type="button" class="futura-urgency-continue" onclick="closeBudgetUrgencyNotice()">புரிந்தது – OK</button>
+  </div>
+</div>
+
 <script id="budget-approved-prices">
 "use strict";
 // Exact approved PDF rate data: Vennila_2026_Editable_80_Percent_Order_Catalogue.pdf; 7 pages.
@@ -408,10 +444,65 @@ function budgetCellAmount(element,value){
 }
 
 const bd=id=>document.getElementById(id);
+
+/* Popup appears exactly twice per new Budget selection: Rs.1000, then Rs.3000 MOQ. */
+let budgetUrgencyFirstShown=false;
+let budgetUrgencyMoqShown=false;
+let budgetUrgencyQueue=[];
+let budgetUrgencyFocusBefore=null;
+function showBudgetUrgencyNotice(stage){
+ const overlay=bd('budgetUrgencyOverlay'),ok=bd('budgetUrgencyOK');
+ if(!overlay||!ok)return;
+ budgetUrgencyFocusBefore=document.activeElement;
+ ok.textContent=stage==='early'?'புரிந்தது – தொடர்ந்து தேர்வு செய்கிறேன்':'புரிந்தது – ஆர்டரைத் தொடர்கிறேன்';
+ overlay.hidden=false;
+ document.body.style.overflow='hidden';
+ ok.focus();
+}
+function closeBudgetUrgencyNotice(){
+ const overlay=bd('budgetUrgencyOverlay');
+ if(!overlay||overlay.hidden)return;
+ overlay.hidden=true;
+ document.body.style.overflow='';
+ const previous=budgetUrgencyFocusBefore;budgetUrgencyFocusBefore=null;
+ if(previous&&previous.isConnected&&typeof previous.focus==='function')previous.focus();
+ if(budgetUrgencyQueue.length)showBudgetUrgencyNotice(budgetUrgencyQueue.shift());
+}
+function enqueueBudgetUrgencyNotices(stages){
+ if(!stages.length)return;
+ if(!bd('budgetUrgencyOverlay').hidden)budgetUrgencyQueue.push(...stages);
+ else{
+   const [first,...other]=stages;
+   budgetUrgencyQueue.push(...other);
+   showBudgetUrgencyNotice(first);
+ }
+}
+function checkBudgetUrgencyThresholds(before,after){
+ const stages=[];
+ if(!budgetUrgencyFirstShown&&before<1000&&after>=1000){
+   budgetUrgencyFirstShown=true;
+   stages.push('early');
+ }
+ if(!budgetUrgencyMoqShown&&before<3000&&after>=3000){
+   budgetUrgencyMoqShown=true;
+   stages.push('moq');
+ }
+ enqueueBudgetUrgencyNotices(stages);
+}
+
 const budgetCategoryTamil={"ONE SOUND CRACKERS":"ஒரு சத்தப் பட்டாசுகள்","GROUND CHAKKAR":"தரைச் சக்கரங்கள்","FLOWER POTS":"பூச்சட்டிகள்","TWINKLING STAR":"ட்விங்கிளிங் ஸ்டார் வகைகள்","PENCIL VARITIES":"பென்சில் வகைகள்","DELHI LADDU FLOWER POTS":"டெல்லி லட்டு பூச்சட்டிகள்","BIJILI CRACKERS":"பிஜிலி பட்டாசுகள்","ATOM BOMB":"ஆட்டம் பாம்","PAPER BOMB":"பேப்பர் பாம்","SKY ROCKET":"வான ராக்கெட்டுகள்","KIDS ITEMS":"குழந்தைகளுக்கான பட்டாசுகள்","SPECIAL FOUNTAIN":"ஸ்பெஷல் ஃபவுண்டன் வகைகள்","TIN SERIES":"டின் சீரிஸ்","SPARKLERS":"மத்தாப்பு வகைகள்","SINGLE SHOT FESTIVAL":"சிங்கிள் ஷாட் வகைகள்","MULTI COLOUR SHOTS":"பலவண்ண ஷாட்ஸ்","SPECIAL CELEBRATION NIGHTS":"ஸ்பெஷல் கொண்டாட்ட இரவு வகைகள்","NIGHTS SPECIAL KIDS ITEMS":"இரவு நேர குழந்தைகள் ஸ்பெஷல்","GIFT BOXES & COMBO PACK":"கிஃப்ட் பாக்ஸ் மற்றும் காம்போ பேக்"};
 const budgetCategories=[...new Set(budgetProducts.map(x=>x.category))];
 budgetCategories.forEach(c=>{const op=document.createElement('option');op.value=c;op.textContent=c+' / '+budgetCategoryTamil[c];bd('budget-category').append(op)});
-function budgetAdd(id,n){const product=budgetProducts.find(p=>p.id===id);if(!product||product.inStock===false){delete budgetQty[id];budgetRender();return;}const q=Math.max(0,Math.min(999,(budgetQty[id]||0)+n));if(q)budgetQty[id]=q;else delete budgetQty[id];budgetRender()}
+function budgetAdd(id,n){
+ const product=budgetProducts.find(p=>p.id===id);
+ if(!product||product.inStock===false){delete budgetQty[id];budgetRender();return;}
+ if(budgetOrderBusy)return;
+ const before=budgetTotals().total;
+ const q=Math.max(0,Math.min(999,(budgetQty[id]||0)+n));
+ if(q)budgetQty[id]=q;else delete budgetQty[id];
+ budgetRender();
+ checkBudgetUrgencyThresholds(before,budgetTotals().total);
+}
 function budgetCart(){return budgetProducts.filter(p=>p.inStock!==false&&(budgetQty[p.id]||0)>0)}
 function budgetTotals(){const sel=budgetCart();return {sel,items:sel.reduce((s,p)=>s+budgetQty[p.id],0),mrp:sel.reduce((s,p)=>s+(p.discount?p.list:0)*budgetQty[p.id],0),total:sel.reduce((s,p)=>s+p.rate*budgetQty[p.id],0),save:sel.reduce((s,p)=>s+(p.discount?p.list-p.rate:0)*budgetQty[p.id],0)}}
 let budgetOrderBusy=false;
@@ -464,6 +555,7 @@ function budgetStartNewOrder(resetSession){
  const chosen=budgetCart();
  if(chosen.length && !window.confirm('Clear '+chosen.length+' selected product(s)?\nதேர்வு செய்த பொருட்களை நீக்கவா?'))return;
  // Clear this browser's unsent Budget draft only. Never delete submitted orders.
+ budgetUrgencyFirstShown=false;budgetUrgencyMoqShown=false;budgetUrgencyQueue=[];
  Object.keys(budgetQty).forEach(id=>delete budgetQty[id]);
  bd('budget-search').value='';bd('budget-category').value='';
  for(const id of ['budget-name','budget-mobile','budget-city','budget-address','budget-lorry','budget-email'])bd(id).value='';
