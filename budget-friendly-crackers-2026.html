@@ -3,6 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<script id="futura-direct-budget-chooser">
+(function(){
+  // Old/shared Budget catalogue URLs also begin with the two-choice screen.
+  if(new URLSearchParams(window.location.search).get('catalogue')!=='budget'){
+    window.location.replace('crackers-catalogue-choose-2026.html');
+  }
+})();
+</script>
 <meta name="theme-color" content="#12052d">
 <title>Budget Friendly Crackers 2026 | குறைந்த விலை பட்டாசுகள் | FUTURA</title>
 <meta name="description" content="குறைந்த பட்ஜெட்டில் அதிக வகைகள் மற்றும் சிக்கனமான விலையில் பட்டாசுகளை தேர்வு செய்ய FUTURA Budget Friendly Crackers 2026 தனி catalogue. Stock availability subject to confirmation.">
@@ -95,7 +103,7 @@ footer{padding:26px 14px;text-align:center;font-size:13px;background:#16052bdc}
 </head>
 <body>
 <header><div><strong>FUTURA TRADERS</strong><small>SRI GANESH PRINTERS</small></div>
-<nav><a href="index.html#futura-catalogue-choice">Catalogue தேர்வு</a><a href="deepavali-crackers-2026.html">உயர்தர பட்டாசுகள்</a><a href="index.html">Home</a></nav></header>
+<nav><a href="crackers-catalogue-choose-2026.html">Catalogue தேர்வு</a><a href="deepavali-crackers-2026.html?catalogue=quality">உயர்தர பட்டாசுகள்</a><a href="index.html">Home</a></nav></header>
 <main>
 <div class="intro"><h1>குறைந்த விலை / Low Price Crackers</h1><p class="note">Budget Friendly Crackers 2026 — FUTURA TRADERS</p></div>
 <a class="poster-wrap" href="#budget-catalogue" aria-label="குறைந்த விலை பட்டாசுகள் பார்க்க CLICK HERE" style="color:inherit;text-decoration:none">
@@ -119,7 +127,7 @@ footer{padding:26px 14px;text-align:center;font-size:13px;background:#16052bdc}
   <h2>குறைந்த விலை பட்டாசுகள் / LOW PRICE CRACKERS PRICE LIST</h2>
   <p>இங்கு காட்டப்படுவது <strong>குறைந்த விலை பட்டாசுகளின் விலைப்பட்டியல்</strong> மட்டும். உயர்தர பட்டாசுகளின் விலைகளைப் பார்க்க இடப்புறத் தேர்வை அழுத்துங்கள்.</p>
   <nav class="budget-two-choices" aria-label="Quality or Budget catalogue selection">
-    <a class="budget-choice" href="deepavali-crackers-2026.html#quality-price-list"><strong>உயர்தர பட்டாசுகள்</strong><small>QUALITY PRICE LIST — CLICK HERE →</small></a>
+    <a class="budget-choice" href="deepavali-crackers-2026.html?catalogue=quality"><strong>உயர்தர பட்டாசுகள்</strong><small>QUALITY PRICE LIST — CLICK HERE →</small></a>
     <a class="budget-choice current" href="#budget-sticky-tools" aria-current="page"><strong>குறைந்த விலை பட்டாசுகள்</strong><small>LOW PRICE LIST — இப்போது பார்க்கிறீர்கள்</small></a>
   </nav>
 </div>
