@@ -680,7 +680,7 @@ async function budgetSubmitRequest(openWhatsApp){
  budgetOrderResult('Saving order and sending PDF email… / ஆர்டர் சேமித்து PDF மின்னஞ்சல் அனுப்ப முயற்சிக்கிறது.');
  try{
   const requestKey=await budgetStableRequestKey(sel,customer);
-  const payload={requestKey,customer,items:sel.map(p=>({serial:p.id,qty:budgetQty[p.id],price:p.rate}))};
+  const payload={requestKey,finalConfirmed:true,customer,items:sel.map(p=>({serial:p.id,qty:budgetQty[p.id],price:p.rate}))};
   const reply=await fetch('/api/budget-order-request',{method:'POST',
      headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
   const result=await reply.json();
