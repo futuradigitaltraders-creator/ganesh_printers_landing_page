@@ -391,6 +391,180 @@ body{
  body{background-attachment:scroll,scroll,scroll!important}
 }
 </style>
+<style id="budget-product-table-emerald-green-option-04">
+/* APPROVED DESIGN 04 - EMERALD GREEN.
+   Scope styling to Budget Catalogue's inner price table.
+   Keep the approved RED fireworks page background and all ordering logic as-is.
+   Vennila reference: gradient category dividers, legible bilingual product rows,
+   bright yellow MRP column, rosy-pink net-price column, and clear subtotal. */
+#budget-catalogue{
+ --emerald-deep:#065b43;
+ --emerald:#087c5a;
+ --emerald-light:#12a787;
+ --emerald-border:#34866e;
+ --emerald-ink:#133d34;
+ border:3px solid #149879;
+ box-shadow:0 15px 34px #051b1270,0 0 0 2px #ffdd78;
+}
+#budget-catalogue .tbl-head{
+ background:linear-gradient(100deg,#054c39,#087e64 65%,#0c9a81)!important;
+ color:#fff!important;
+ border:2px solid #004f3b!important;
+ border-bottom:3px solid #f1c44c!important;
+ box-shadow:0 5px 12px #073a2e4d;
+ border-radius:7px 7px 0 0;
+ font-weight:950;
+ letter-spacing:.15px;
+ padding:11px 7px;
+}
+#budget-catalogue .tbl-head>span small{color:#dffced!important}
+#budget-catalogue .tbl-head>span:nth-child(3){color:#ffed83!important}
+#budget-catalogue .tbl-head>span:nth-child(4){color:#ffccda!important}
+#budget-catalogue .budget-cat{
+ background:linear-gradient(100deg,#064b3a 0%,#087b60 42%,#10b69c 100%)!important;
+ color:#fff!important;
+ border:1px solid #024e3b;
+ border-left:7px solid #f4cf5d;
+ box-shadow:0 3px 8px #00473235;
+ padding:10px 8px;
+ margin:14px 0 0;
+ text-align:center;
+ text-shadow:0 1px 1px #00382b;
+ letter-spacing:.2px;
+ font-weight:950!important;
+}
+#budget-catalogue .budget-cat.budget-no-discount-category{
+ background:linear-gradient(105deg,#05634d,#2d9c74 64%,#d49a38)!important;
+ border-left-color:#ffcf57;
+}
+#budget-catalogue .budget-line{
+ background:#f3fffc;
+ border:1px solid #9bc9bc;
+ border-top:0;
+ color:#173c34;
+ min-height:58px;
+ gap:5px;
+ padding:7px 7px;
+ transition:background-color .16s ease;
+}
+#budget-catalogue .budget-line:nth-of-type(2n){background:#e5f6f2}
+#budget-catalogue .budget-line:hover{background:#d8f5e8}
+#budget-catalogue .budget-line .n{
+ font-weight:950;color:#085641;
+ font-variant-numeric:tabular-nums;
+}
+#budget-catalogue .budget-line .product-name{
+ color:#143e34;
+ font-weight:850;
+ line-height:1.35;
+ font-size:clamp(13px,1.1vw,15px);
+}
+#budget-catalogue .budget-line .budget-tamil-name{
+ color:#0e745a;
+ font-weight:900;
+ line-height:1.36;
+ font-size:clamp(13px,1.12vw,16px);
+}
+#budget-catalogue .budget-line .unit{
+ display:inline-block;
+ font-size:11px;
+ font-weight:800;
+ color:#496359;
+ margin-top:3px;
+}
+#budget-catalogue .budget-line .list-price{
+ background:#ffe75d!important;
+ color:#60380c!important;
+ border:1px solid #e1bf37;
+ border-radius:3px;
+ padding:9px 3px;
+ font-weight:950;
+ box-shadow:inset 0 1px #fff8b6;
+}
+#budget-catalogue .budget-line .net-rate{
+ background:#ffd0df!important;
+ color:#9d154c!important;
+ border:1px solid #e69aae;
+ border-radius:3px;
+ padding:9px 2px;
+ font-weight:950;
+}
+#budget-catalogue .budget-line .budget-gift-net-rate{
+ background:#d3f7df!important;
+ color:#0a6b41!important;
+ border:1px solid #7fce99;
+}
+#budget-catalogue .budget-line .qty-col{gap:5px}
+#budget-catalogue .budget-line .qty-btn{
+ background:#056b50!important;
+ color:#fff!important;
+ border-radius:5px;
+ border:1px solid #064e3b;
+ font-weight:950;
+ box-shadow:0 2px 0 #033f31;
+}
+#budget-catalogue .budget-line .qty-btn:hover:not(:disabled){
+ background:#0e9b74!important;
+}
+#budget-catalogue .budget-line .qty-btn:focus-visible{
+ outline:3px solid #f5c54d;outline-offset:2px;
+}
+#budget-catalogue .budget-line .qty-num{color:#043b2e;font-weight:950}
+#budget-catalogue .budget-line .subtotal{
+ display:block!important;
+ background:#d2f5e5!important;
+ border:1px solid #8fd0b1;
+ border-radius:3px;
+ color:#076340!important;
+ font-weight:950!important;
+ padding:9px 3px;
+ text-align:center;
+}
+#budget-catalogue .budget-line.budget-no-stock-line{
+ background:#ffeded!important;
+ border-left:4px solid #cd3041!important;
+}
+#budget-catalogue .budget-line.budget-no-stock-line .qty-btn:disabled{
+ background:#999!important;border-color:#888!important;box-shadow:none!important;
+}
+#budget-catalogue .budget-line .budget-no-stock-rate{
+ background:#c72236!important;color:white!important;
+}
+#budget-catalogue .catalogue-tools{
+ border-color:#3f9b7d!important;
+ background:#edfdf6!important;
+}
+#budget-catalogue .product-count{
+ background:#076447;
+ color:white;
+}
+@media(max-width:920px){
+ #budget-catalogue .budget-line{padding:7px 4px;gap:3px}
+}
+@media(max-width:620px){
+ /* Preserve existing compact 3-row mobile ordering grid. */
+ #budget-catalogue .tbl-head{
+  background:linear-gradient(95deg,#064634,#087d60)!important;
+  font-size:8px!important;
+  padding:5px 2px!important;
+ }
+ #budget-catalogue .budget-line{
+  min-height:unset;
+  padding:9px 5px;
+  gap:6px;
+  border-bottom:2px solid #9bc9bc;
+ }
+ #budget-catalogue .budget-line .product-name{font-size:13px;line-height:1.4}
+ #budget-catalogue .budget-line .budget-tamil-name{font-size:13px}
+ #budget-catalogue .budget-line .list-price,
+ #budget-catalogue .budget-line .net-rate{padding:7px 2px}
+ #budget-catalogue .budget-line .subtotal{padding:8px 6px;text-align:right}
+ #budget-catalogue .budget-line .subtotal:before{color:#075c41}
+}
+@media(prefers-reduced-motion:reduce){
+ #budget-catalogue .budget-line{transition:none}
+}
+</style>
 </head>
 <body>
 <header><div><strong>FUTURA TRADERS</strong><small>SRI GANESH PRINTERS</small></div>
