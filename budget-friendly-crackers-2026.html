@@ -225,6 +225,18 @@ body{
  .budget-category-switch .budget-catalogue-notice{font-size:17px}
 }
 </style>
+<style id="futura-budget-pdf-email-buttons-2026">
+.budget-order-buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}
+.budget-order-buttons button{width:100%;min-height:64px;padding:12px 13px;border:0;border-radius:10px;color:#fff;font-family:Arial,'Noto Sans Tamil',sans-serif;font-size:clamp(14px,1.4vw,18px);font-weight:900;line-height:1.4;cursor:pointer}
+#budget-send{background:#12834a}
+#budget-email-send{background:#3d1680}
+.budget-order-buttons button:disabled{opacity:.40!important;filter:grayscale(1)!important;cursor:not-allowed!important;pointer-events:none!important;box-shadow:none}
+#budget-email-send:not(:disabled){background:#3d1680!important;opacity:1!important;filter:none!important}
+.budget-email-recipient{font-size:13px;font-weight:800;color:#513068;line-height:1.5;margin:10px 0;overflow-wrap:anywhere}
+#budget-request-result{white-space:pre-line;min-height:18px;font-size:14px;font-weight:800;color:#1e5a38;line-height:1.75;margin:12px 0}
+#budget-request-result[data-error="true"]{color:#a01926}
+@media(max-width:600px){.budget-order-buttons{grid-template-columns:1fr;gap:9px}.budget-order-buttons button{min-height:56px}}
+</style>
 </head>
 <body>
 <header><div><strong>FUTURA TRADERS</strong><small>SRI GANESH PRINTERS</small></div>
@@ -280,11 +292,17 @@ body{
 <label>Customer Name / பெயர்<input type="text" id="budget-name" maxlength="90" autocomplete="name" required></label>
 <label>Mobile Number / மொபைல்<input type="tel" id="budget-mobile" maxlength="15" inputmode="tel" required></label>
 <label class="full">City & Pincode / நகரம், PIN Code<input type="text" id="budget-city" maxlength="130" required></label>
-<label class="full">Address / பெயர் அல்லது அலுவலகம்<input type="text" id="budget-address" maxlength="200" placeholder="House / office / company name"></label>
+<label class="full">Full Address / முழு முகவரி (Required)<input type="text" id="budget-address" maxlength="200" minlength="5" placeholder="House / office / company name, street" required></label>
+<label class="full">Email (optional) / மின்னஞ்சல்<input type="email" id="budget-email" maxlength="254" placeholder="For future order updates"></label>
 <label class="full">Preferred Lorry Service (optional)<input type="text" id="budget-lorry" maxlength="100" placeholder="Optional transport preference"></label>
 </div>
 <p class="terms">Minimum Order Rs. 3,000. Packing & Forwarding Rs. 300 extra; Transport TOPAY. Stock check மற்றும் payment confirmation-க்குப் பின்னரே order உறுதி செய்யப்படும். இதுவொரு Order Request மட்டும்; Invoice அல்ல.</p>
-<button type="button" id="budget-send" disabled aria-describedby="budget-msg" title="Minimum product total Rs. 3,000 required">SEND ORDER REQUEST ON WHATSAPP</button>
+<div class="budget-order-buttons">
+ <button type="button" id="budget-send" disabled aria-describedby="budget-msg" title="Minimum product total Rs. 3,000 required">WHATSAPP ORDER + EMAIL PDF / ஆர்டர் அனுப்புங்கள்</button>
+ <button type="button" id="budget-email-send" disabled aria-describedby="budget-msg" title="Minimum product total Rs. 3,000 required">SEND ORDER REQUEST PDF TO EMAIL / PDF மின்னஞ்சல்</button>
+</div>
+<p class="budget-email-recipient">PDF Email Recipient: <strong>ganeshprint.kodai1976@gmail.com</strong> — FUTURA</p>
+<p id="budget-request-result" role="status" aria-live="polite"></p>
 <p id="budget-msg" role="status" aria-live="polite">Minimum order Rs. 3,000 — பொருட்களைத் தேர்வு செய்யுங்கள்.</p>
 </div>
 </section>
@@ -311,6 +329,7 @@ budgetCategories.forEach(c=>{const op=document.createElement('option');op.value=
 function budgetAdd(id,n){const q=Math.max(0,Math.min(999,(budgetQty[id]||0)+n));if(q)budgetQty[id]=q;else delete budgetQty[id];budgetRender()}
 function budgetCart(){return budgetProducts.filter(p=>(budgetQty[p.id]||0)>0)}
 function budgetTotals(){const sel=budgetCart();return {sel,items:sel.reduce((s,p)=>s+budgetQty[p.id],0),mrp:sel.reduce((s,p)=>s+(p.discount?p.list:0)*budgetQty[p.id],0),total:sel.reduce((s,p)=>s+p.rate*budgetQty[p.id],0),save:sel.reduce((s,p)=>s+(p.discount?p.list-p.rate:0)*budgetQty[p.id],0)}}
+let budgetOrderBusy=false;
 function budgetRender(){
  const root=bd('budget-lines'),query=bd('budget-search').value.trim().toLowerCase(),category=bd('budget-category').value;root.replaceChildren();let last='',visible=0;
  for(const p of budgetProducts){
@@ -338,28 +357,106 @@ function budgetRender(){
  bd('budget-products').textContent=sel.length;bd('budget-items').textContent=items;bd('budget-mrp').textContent=budgetFmt(mrp);bd('budget-total').textContent=budgetFmt(total);bd('budget-save').textContent=budgetFmt(save);
  bd('budget-chosen').textContent=sel.length?sel.map(p=>p.id+'. '+p.name+' / '+p.tamil+' × '+budgetQty[p.id]+' @ '+budgetFmt(p.rate)+' = '+budgetFmt(p.rate*budgetQty[p.id])).join('\n'):'Products தேர்வு செய்யவும்.';
  const minBudgetOrder=3000,ready=total>=minBudgetOrder;
- const sendButton=bd('budget-send'),sendMessage=bd('budget-msg');
- sendButton.disabled=!ready;
- sendButton.title=ready?'Minimum order Rs. 3,000 reached — Send Order Request':'Minimum order Rs. 3,000 — மேலும் '+budgetFmt(minBudgetOrder-total)+' சேர்க்கவும்';
+ const sendButton=bd('budget-send'),emailButton=bd('budget-email-send'),sendMessage=bd('budget-msg');
+ sendButton.disabled=!ready || budgetOrderBusy;
+ emailButton.disabled=!ready || budgetOrderBusy;
+ const title=ready?'Minimum order Rs. 3,000 reached — Ready to submit':'Minimum order Rs. 3,000 — மேலும் '+budgetFmt(minBudgetOrder-total)+' சேர்க்கவும்';
+ sendButton.title=title;emailButton.title=title;
  sendMessage.textContent=ready?'Minimum Order Rs. 3,000 அடைந்துவிட்டது. Customer Details நிரப்பி WhatsApp Order Request அனுப்பலாம்.':'Minimum Order Rs. 3,000 — மேலும் '+budgetFmt(minBudgetOrder-total)+' மதிப்பிற்கு பொருட்களைத் தேர்வு செய்யுங்கள்.';
 }
 bd('budget-search').addEventListener('input',budgetRender);
 bd('budget-category').addEventListener('change',budgetRender);
-function budgetOrderRequest(){
- const name=bd('budget-name').value.trim(),mobile=bd('budget-mobile').value.trim(),city=bd('budget-city').value.trim(),address=bd('budget-address').value.trim(),lorry=bd('budget-lorry').value.trim();
- const {sel,items,mrp,total,save}=budgetTotals();
- const msg=bd('budget-msg');
- if(!sel.length){msg.textContent='ஒரு பொருளையாவது தேர்வு செய்யுங்கள்.';return}
- if(total<3000){msg.textContent='Minimum Order Amount Rs. 3,000. மேலும் பொருட்களைத் தேர்வு செய்யுங்கள்.';return}
- if(!name||!/^\+?[0-9\s-]{10,15}$/.test(mobile)||!city){msg.textContent='பெயர், சரியான mobile number, City & Pincode நிரப்புங்கள்.';return}
- const rows=sel.map(p=>p.id+'. '+p.name+' / '+p.tamil+' | '+budgetQty[p.id]+' x '+budgetFmt(p.rate)+' = '+budgetFmt(budgetQty[p.id]*p.rate)).join('\n');
- const content=['FUTURA - LOW PRICE CRACKERS ORDER REQUEST','Catalogue: Budget Friendly Vennila 2026','Name: '+name,'Mobile: '+mobile,'City & Pincode: '+city,'Address: '+(address||'-'),'Preferred Lorry: '+(lorry||'-'),'','PRODUCTS',rows,'','Selected Products: '+sel.length,'Total Quantity: '+items,'Total MRP (offer items only): '+budgetFmt(mrp),'Total List Savings (priced offer items): '+budgetFmt(save),'PRODUCT TOTAL: '+budgetFmt(total),'Packing & Forwarding: Rs. 300 extra','Transport: TOPAY','Subject to stock verification. Payment details to follow separately.'];
- const url='https://wa.me/919488917786?text='+encodeURIComponent(content.join('\n'));
- if(url.length>7800){msg.textContent='Order is too long for reliable WhatsApp text sharing. Please reduce selected items or contact WhatsApp Support.';return}
- msg.textContent='WhatsApp திறக்கிறது. அங்கு Send அழுத்தினால்தான் Order Request அனுப்பப்படும்.';
- window.open(url,'_blank','noopener,noreferrer');
+function budgetCustomerInputs(){
+ return {name:bd('budget-name').value.trim(),mobile:bd('budget-mobile').value.trim(),
+    city:bd('budget-city').value.trim(),address:bd('budget-address').value.trim(),
+    lorry:bd('budget-lorry').value.trim(),email:bd('budget-email').value.trim()};
 }
-bd('budget-send').addEventListener('click',budgetOrderRequest);
+async function budgetStableRequestKey(selected,customer){
+ let session;
+ try{session=localStorage.getItem('futuraBudgetSession2026')||''}catch(e){}
+ if(!session){session=crypto.randomUUID();try{localStorage.setItem('futuraBudgetSession2026',session)}catch(e){}}
+ const data=JSON.stringify({session,customer,items:selected.map(p=>({serial:p.id,qty:budgetQty[p.id],rate:p.rate}))});
+ const hash=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(data));
+ return 'FUTBUD_'+Array.from(new Uint8Array(hash),b=>b.toString(16).padStart(2,'0')).join('');
+}
+function budgetWhatsAppUrl(message){
+ const encoded=encodeURIComponent(message);
+ const isMobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+ return isMobile?'https://wa.me/919488917786?text='+encoded:
+  'https://web.whatsapp.com/send?phone=919488917786&text='+encoded;
+}
+function budgetOrderResult(message,error=false,link=''){
+ const status=bd('budget-request-result');
+ status.replaceChildren(document.createTextNode(message));
+ status.dataset.error=error?'true':'false';
+ if(link){
+  const a=document.createElement('a');a.href=link;a.target='_blank';a.rel='noopener noreferrer';
+  a.textContent=' Click here to open WhatsApp / WhatsApp திறக்கவும் →';
+  a.style.cssText='display:block;font-weight:900;color:#3c157a;margin:8px 0';
+  status.appendChild(a);
+ }
+}
+async function budgetSubmitRequest(openWhatsApp){
+ if(budgetOrderBusy)return;
+ const {sel,items,mrp,total,save}=budgetTotals(),customer=budgetCustomerInputs();
+ if(!sel.length||total<3000){
+  budgetOrderResult('Minimum Product Order Rs. 3,000. மேலும் பொருட்களைத் தேர்வு செய்யுங்கள்.',true);return;
+ }
+ if(customer.name.length<2||!(/^[+0-9()\s-]{10,20}$/.test(customer.mobile))||
+    customer.mobile.replace(/\D/g,'').length<10||!customer.city||customer.address.length<5){
+  budgetOrderResult('பெயர், சரியான Mobile Number, City & Pincode மற்றும் முழு முகவரி நிரப்புங்கள்.',true);
+  bd('budget-name').focus();return;
+ }
+ if(customer.email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customer.email)){
+  budgetOrderResult('Please enter a valid email address.',true);bd('budget-email').focus();return;
+ }
+ if(!window.confirm('FUTURA – LOW PRICE CRACKERS\n'+sel.length+' selected products / '+items+' items\nProduct Total: '+budgetFmt(total)+'\n\nFINAL CONFIRM ORDER REQUEST?\nStock and payment are NOT confirmed yet.'))return;
+ // Reserve WhatsApp window while user gesture is active, so desktop popup blockers don't discard it.
+ let popup=null;
+ if(openWhatsApp){
+  popup=window.open('about:blank','_blank');
+  if(popup){
+   popup.opener=null;
+   popup.document.title='FUTURA Order Request';
+   popup.document.body.textContent='Preparing your saved Order ID and PDF email… / PDF Email தயாராகிறது. காத்திருக்கவும்.';
+   popup.document.body.style.cssText='font:18px Arial,sans-serif;padding:30px;color:#35116B';
+  }
+ }
+ budgetOrderBusy=true;budgetRender();
+ budgetOrderResult('Saving order and sending PDF email… / ஆர்டர் சேமித்து PDF மின்னஞ்சல் அனுப்ப முயற்சிக்கிறது.');
+ try{
+  const requestKey=await budgetStableRequestKey(sel,customer);
+  const payload={requestKey,customer,items:sel.map(p=>({serial:p.id,qty:budgetQty[p.id],price:p.rate}))};
+  const reply=await fetch('/api/budget-order-request',{method:'POST',
+     headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+  const result=await reply.json();
+  if(!reply.ok||result.ok!==true||result.orderSaved!==true||!/^[0-9]{4,12}$/.test(result.orderId||'')){
+    throw Error(result.error||'Order or email could not be confirmed. Please retry.');
+  }
+  const status=result.emailStatus==='sent'
+    ?'Order Request PDF emailed to ganeshprint.kodai1976@gmail.com ✓'
+    :result.emailStatus==='sending'?'PDF Email is processing; delivery not yet confirmed.'
+    :'PDF Email NOT confirmed. Please retry with the email button; order is already saved.';
+  let message='FUTURA - LOW PRICE CRACKERS ORDER REQUEST\n'+
+    'Order ID: '+result.orderId+'\nClient: '+customer.name+
+    '\nMobile: '+customer.mobile+'\nCity & Pincode: '+customer.city+
+    '\nSelected products: '+sel.length+' | Total Qty: '+items+
+    '\nMRP of 80% offer items: '+budgetFmt(mrp)+'\nYou Save: '+budgetFmt(save)+
+    '\nPRODUCT TOTAL: '+budgetFmt(total)+
+    '\nPacking & Forwarding: Rs. 300 extra; Transport TOPAY.'+
+    '\n'+status+'\nPlease check stock and send payment details. Payment is not confirmed.';
+  const link=budgetWhatsAppUrl(message);
+  budgetOrderResult('Order ID: '+result.orderId+' — Order saved ✓\n'+status,false,openWhatsApp?link:'');
+  if(openWhatsApp && popup && !popup.closed)popup.location.replace(link);
+ }catch(err){
+  if(popup && !popup.closed)popup.close();
+  budgetOrderResult(err.message||'Order could not be confirmed. Please retry.',true);
+ }finally{
+  budgetOrderBusy=false;budgetRender();
+ }
+}
+bd('budget-send').addEventListener('click',()=>budgetSubmitRequest(true));
+bd('budget-email-send').addEventListener('click',()=>budgetSubmitRequest(false));
 budgetRender();
 /* Keep the yellow bilingual heading visible immediately below the dynamic sticky totals. */
 (function(){
