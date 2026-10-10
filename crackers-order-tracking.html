@@ -40,15 +40,30 @@ const params=new URLSearchParams(location.hash.slice(1));
 const message=document.getElementById('message'),button=document.getElementById('refresh'),tracking=document.getElementById('tracking');
 const form=document.getElementById('accessForm'),orderInput=document.getElementById('accessOrderId'),mobileInput=document.getElementById('accessMobile'),openButton=document.getElementById('openOrder');
 let busy=false,credentials=null,requestVersion=0;
+const TRACKING_CLIENT_TIMEOUT_MS=38000;
 if(/^[0-9]{1,12}$/.test(params.get('order')||''))orderInput.value=params.get('order');
 const money=value=>'₹'+Number(value).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
 function clearPrivateView(){tracking.hidden=true;tracking.querySelectorAll('dd,p[id]').forEach(e=>e.textContent='');document.getElementById('savedItems').replaceChildren();button.hidden=true;document.getElementById('closeOrder').hidden=true;}
 function lockOrder(){requestVersion++;credentials=null;clearPrivateView();document.getElementById('accessCard').hidden=false;mobileInput.value='';message.textContent='Enter your Order ID and registered mobile number to continue.';}
 async function refreshOrder(){
   if(busy||!credentials)return;
-  const attempt=++requestVersion,submitted={...credentials};clearPrivateView();busy=true;button.disabled=true;openButton.disabled=true;message.textContent='Verifying your saved order… / ஆர்டர் விவரங்கள் சரிபார்க்கப்படுகின்றன…';
+  const attempt=++requestVersion,submitted={...credentials};
+  clearPrivateView();busy=true;button.disabled=true;openButton.disabled=true;
+  message.textContent='Verifying your saved order… / ஆர்டர் விவரங்கள் சரிபார்க்கப்படுகின்றன…';
+  const controller=new AbortController();
+  const warnTimer=setTimeout(()=>{
+    if(attempt===requestVersion && busy)
+      message.textContent='Connecting to order records… / Google Sheets ஆர்டர் விவரங்கள் பெறப்படுகிறது. சிறிது நேரம் காத்திருக்கவும்.';
+  },10000);
+  const abortTimer=setTimeout(()=>controller.abort(),TRACKING_CLIENT_TIMEOUT_MS);
   try{
-    const response=await fetch('/api/crackers-order-tracking',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(submitted)}),data=await response.json();
+    const response=await fetch('/api/crackers-order-tracking',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(submitted),signal:controller.signal,cache:'no-store'
+    });
+    let data;
+    try{data=await response.json();}
+    catch{throw Error('Order tracking server did not return a valid response. Please retry shortly.');}
     if(attempt!==requestVersion)return;
     if(!response.ok||!data.ok||data.mobileVerified!==true||data.orderId!==String(Number(submitted.orderId)).padStart(4,'0'))throw Error(data.error||'Order verification failed.');
     document.getElementById('savedOrderId').textContent='ORDER ID: '+data.orderId;
@@ -67,8 +82,24 @@ async function refreshOrder(){
     document.querySelectorAll('#progress li').forEach((li,i)=>{const current=(i===1&&!data.paymentConfirmed)||(i===2&&active===2);li.classList.toggle('done',completed[i]);li.classList.toggle('current',current);li.querySelector('.badge').textContent=completed[i]?'COMPLETED':current?'IN PROGRESS':'PENDING';});
     message.textContent=data.paymentConfirmed?'Current status: '+data.status:'Order saved. Payment confirmation is pending / ஆர்டர் சேமிக்கப்பட்டுள்ளது. பணம் சரிபார்ப்பு காத்திருக்கிறது.';
     tracking.hidden=false;button.hidden=false;document.getElementById('closeOrder').hidden=false;document.getElementById('accessCard').hidden=true;mobileInput.value='';
-  }catch(error){if(attempt!==requestVersion)return;credentials=null;clearPrivateView();document.getElementById('accessCard').hidden=false;mobileInput.value='';message.textContent=(error.message||'Could not open your order.')+' / ஆர்டர் எண் மற்றும் பதிவு செய்த மொபைல் எண்ணைச் சரிபார்க்கவும்.';}
-  finally{busy=false;button.disabled=false;openButton.disabled=false;}
+   }catch(error){
+    if(attempt!==requestVersion)return;
+    credentials=null;clearPrivateView();
+    document.getElementById('accessCard').hidden=false;
+    // Keep the entered number visible on temporary connection problems so a retry is easy.
+    if(error?.name==='AbortError'){
+      message.textContent='Order server is taking too long (38 seconds). Please try again after a minute. / ஆர்டர் சேவை தாமதமாகிறது. சிறிது நேரம் கழித்து மீண்டும் முயற்சிக்கவும்.';
+    }else{
+      const msg=error?.message||'Could not open your order.';
+      const isCredentialIssue=/Order ID and registered mobile number do not match|registered mobile number|Order verification failed/i.test(msg);
+      message.textContent=isCredentialIssue
+        ?msg+' / ஆர்டர் எண் மற்றும் பதிவு செய்த மொபைல் எண்ணைச் சரிபார்க்கவும்.'
+        :msg+' / தற்காலிக இணைப்புப் பிரச்சினை. மீண்டும் முயற்சிக்கவும். உங்கள் Order ID மாற்றப்படவில்லை.';
+    }
+  }finally{
+    clearTimeout(warnTimer);clearTimeout(abortTimer);
+    busy=false;button.disabled=false;openButton.disabled=false;
+  }
 }
 form.addEventListener('submit',event=>{event.preventDefault();if(busy)return;credentials={orderId:orderInput.value.trim(),mobile:mobileInput.value.trim()};refreshOrder();});
 button.addEventListener('click',refreshOrder);
