@@ -199,6 +199,12 @@ module.exports=async function handler(req,res){
    console.warn('Budget order save issue',{orderId:order.orderId,message:e.message});
    return res.status(502).json({ok:false,error:'Order save could not be confirmed. Retry safely with the same selection.'});
  }
+ // FINAL CONFIRM ORDER reserves/saves the ID but does not send the owner PDF yet.
+ // Just as on the Quality page, SEND ORDER REQUEST is a distinct customer action.
+ if((typeof req.body==='string'?JSON.parse(req.body):req.body)?.confirmOnly===true){
+  return res.status(200).json({ok:true,orderId:order.orderId,orderSaved:true,
+   emailStatus:'not_requested',total:order.total,items:order.items.length});
+ }
  let emailStatus='failed',emailError='';
  try{const x=await deliverPdf(order);emailStatus=x.status;}
  catch(e){emailError='PDF email could not be confirmed. You may retry without creating another order.';console.warn('Budget PDF email issue',{orderId:order.orderId,message:e.message});}
