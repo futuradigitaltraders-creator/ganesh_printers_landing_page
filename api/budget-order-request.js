@@ -27,6 +27,9 @@ const safe=(s,max=250)=>String(s??'').trim().slice(0,max);
 function check(input){
  if(!input||!Array.isArray(input.items)||!input.items.length||input.items.length>234||
     !/^[A-Za-z0-9_-]{20,80}$/.test(input.requestKey||''))throw Error('Invalid order request.');
+ // Match the Quality catalogue: the final customer confirmation is mandatory
+ // before any sequential Order Number is reserved in Google Sheets.
+ if(input.finalConfirmed!==true)throw Error('Please confirm the final order before creating an Order ID.');
  const name=safe(input.customer?.name,100),mobile=safe(input.customer?.mobile,20),
        city=safe(input.customer?.city,100),address=safe(input.customer?.address,300),
        lorry=safe(input.customer?.lorry,100),email=safe(input.customer?.email,254);
