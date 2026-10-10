@@ -1,5 +1,8 @@
 name: FUTURA - Pyrobazaar Stock Sync
 on:
+  push:
+    paths:
+      - '.github/workflows/pyrobazaar-stock-sync.yml'
   schedule:
     # Every 30 minutes in UTC (GitHub can delay scheduled jobs at busy times).
     - cron: '7,37 * * * *'
