@@ -44,7 +44,7 @@
     "gc06": true,
     "gc07": true,
     "gc08": true,
-    "gc09": true,
+    "gc09": false,
     "gc10": true,
     "gc11": true,
     "gc12": true,
@@ -125,7 +125,7 @@
     "cg08": false,
     "cg09": true,
     "cg10": true,
-    "cg11": true,
+    "cg11": false,
     "cg12": true,
     "cg13": false,
     "cg14": true,
@@ -304,5 +304,8 @@
     "p5000": false,
     "pchildren": false,
     "pstarvell": false
-  }
+  },
+  "lastChangedUTC": "2026-10-10T15:00:38+00:00",
+  "matchedProductsAtLastChange": 260,
+  "supplierDisplayedAbsenceRule": "Missing from Quick Shopping = NO STOCK"
 }
