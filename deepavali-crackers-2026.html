@@ -520,33 +520,60 @@ footer{text-align:center;padding:25px;color:#6c4b3b}
 }
 .seo-intro-card strong{color:#b10f0f}
 .seo-highlight-row{
-  display:flex;
-  flex-wrap:wrap;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  align-items:start;
   justify-content:center;
-  gap:8px;
+  gap:14px;
+  width:100%;
+  max-width:980px;
   margin:14px auto 0;
 }
-.seo-highlight{
-  display:inline-flex;
+.seo-highlight-group{
+  display:flex;
+  flex-direction:column;
   align-items:center;
-  min-height:36px;
-  padding:8px 12px;
-  border-radius:999px;
+  justify-content:flex-start;
+  gap:8px;
+  min-width:0;
+}
+.seo-highlight{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  min-height:39px;
+  padding:9px 12px;
+  border-radius:12px;
   background:#68110d;
   color:#fff;
-  font-size:12px;
-  line-height:1.2;
+  font-size:clamp(10px,1vw,13px);
+  line-height:1.35;
   font-weight:900;
-  letter-spacing:.2px;
+  letter-spacing:.1px;
+  text-align:center;
 }
-.seo-highlight:nth-child(2){background:#ffc94a;color:#391a08;border:1px solid #e8aa00}
-.seo-highlight:nth-child(3){background:#0a7c72}
+.seo-highlight-group--budget .seo-highlight:first-child{
+  background:#ffc94a;
+  color:#391a08;
+  border:1px solid #e8aa00;
+}
+.seo-highlight-group .seo-highlight-count{
+  width:min(100%,330px);
+  min-height:35px;
+  background:#0a7c72;
+  color:#fff;
+  font-size:clamp(11px,1.1vw,13px);
+  border-radius:999px;
+}
+.seo-highlight-group--budget .seo-highlight-count{background:#1d5e9c}
 @media(max-width:760px){
   .seo-intro-card{padding:16px 13px}
   .seo-intro-card h1{font-size:21px}
   .seo-intro-card p{font-size:13px;text-align:left}
-  .seo-highlight-row{display:grid;grid-template-columns:1fr}
-  .seo-highlight{justify-content:center;text-align:center;border-radius:9px}
+  .seo-highlight-row{grid-template-columns:1fr;gap:13px}
+  .seo-highlight{font-size:12px;border-radius:9px}
+  .seo-highlight-group .seo-highlight-count{font-size:12px}
 }
 
 
@@ -752,10 +779,15 @@ footer{color:#fff;background:rgba(8,13,38,.88)}
   <h1>Buy Diwali Crackers Online 2026 from Sivakasi – FUTURA TRADERS</h1>
   <p><strong>Standard Brand and Budget Quality Branded Crackers – Original 80% Discount</strong> on selected products. Choose from 300+ varieties including sound crackers, sparklers, ground chakkars, flower pots, rockets, atom bombs, aerial fancy, multiple shots, gift boxes and children’s crackers.</p>
   <p>Order crackers online with <strong>direct Sivakasi dispatch</strong> for Tamil Nadu. FUTURA supports wholesale and retail orders with clear 2026 price-list rates and products sourced directly through Sivakasi manufacturers.</p>
-  <div class="seo-highlight-row" aria-label="FUTURA crackers highlights">
-    <span class="seo-highlight">STANDARD BRAND AND BUDGET QUALITY BRANDED CRACKERS – ORIGINAL 80% DISCOUNT</span>
-    <span class="seo-highlight">BUDGET – QUALITY BRANDED CRACKERS</span>
-    <span class="seo-highlight">300+ VARIETIES · WHOLESALE &amp; RETAIL</span>
+  <div class="seo-highlight-row" aria-label="FUTURA Quality and Budget crackers highlights">
+    <div class="seo-highlight-group seo-highlight-group--quality">
+      <span class="seo-highlight">STANDARD BRAND AND BUDGET QUALITY BRANDED CRACKERS – ORIGINAL 80% DISCOUNT</span>
+      <span class="seo-highlight seo-highlight-count">300+ VARIETIES · WHOLESALE &amp; RETAIL</span>
+    </div>
+    <div class="seo-highlight-group seo-highlight-group--budget">
+      <span class="seo-highlight">BUDGET – QUALITY BRANDED CRACKERS</span>
+      <span class="seo-highlight seo-highlight-count">240+ VARIETIES · WHOLESALE</span>
+    </div>
   </div>
 </section>
 <div class="live-summary" id="liveSummaryBar" aria-label="Live order summary">
