@@ -67,7 +67,9 @@ footer{padding:26px 14px;text-align:center;font-size:13px;background:#16052bdc}
 .checkout-panel label.full{grid-column:span 2}.checkout-panel textarea{min-height:70px;resize:vertical}
 .checkout-panel .terms{color:#6c3a1b;background:#fff2cf;padding:12px;border-radius:8px;line-height:1.6;font-size:13px;font-weight:700}
 #budget-send{display:block;width:100%;padding:15px 18px;background:#12834a;border:0;border-radius:10px;font:900 17px Arial,sans-serif;color:#fff;cursor:pointer}
-#budget-send:disabled{background:#6e8176;cursor:not-allowed}#budget-msg{margin:10px 0;font-weight:700;font-size:13px}
+#budget-send:disabled{background:#8e9791!important;color:#e3e6e4!important;opacity:.52;filter:grayscale(1);box-shadow:none;cursor:not-allowed;pointer-events:none}
+#budget-send:not(:disabled){background:#12834a!important;opacity:1;filter:none;cursor:pointer}
+#budget-msg{margin:10px 0;font-weight:700;font-size:13px;color:#773514}
 @media(max-width:920px){.tbl-head,.budget-line{grid-template-columns:37px minmax(0,1fr) 73px 79px 91px}.tbl-head .subtotal,.budget-line .subtotal{display:none}.budget-line{gap:3px}.budget-line .net-rate{font-size:16px}.budget-line .list-price{font-size:13px}}
 @media(max-width:620px){.catalogue-area{padding:9px}.tbl-head,.budget-line{grid-template-columns:30px minmax(0,1fr) 60px 65px 84px}.budget-line{padding:8px 3px;gap:3px;font-size:12px}.budget-line .product-name{font-size:12px}.budget-line .list-price{font-size:12px}.budget-line .net-rate{font-size:13px}.budget-line .qty-btn{height:33px;width:25px;font-size:19px}.budget-line .qty-col{gap:2px}.budget-line .qty-num{font-size:14px;min-width:18px}.tbl-head{font-size:10px;padding:8px 1px}.summary-counts{grid-template-columns:repeat(2,1fr)}.checkout-panel .fields{grid-template-columns:1fr}.checkout-panel label.full{grid-column:auto}.catalogue-tools{top:0}.catalogue-tools input,.catalogue-tools select{width:100%;flex:1 1 100%}}
 
@@ -282,8 +284,8 @@ body{
 <label class="full">Preferred Lorry Service (optional)<input type="text" id="budget-lorry" maxlength="100" placeholder="Optional transport preference"></label>
 </div>
 <p class="terms">Minimum Order Rs. 3,000. Packing & Forwarding Rs. 300 extra; Transport TOPAY. Stock check மற்றும் payment confirmation-க்குப் பின்னரே order உறுதி செய்யப்படும். இதுவொரு Order Request மட்டும்; Invoice அல்ல.</p>
-<button type="button" id="budget-send">SEND ORDER REQUEST ON WHATSAPP</button>
-<p id="budget-msg" role="status"></p>
+<button type="button" id="budget-send" disabled aria-describedby="budget-msg" title="Minimum product total Rs. 3,000 required">SEND ORDER REQUEST ON WHATSAPP</button>
+<p id="budget-msg" role="status" aria-live="polite">Minimum order Rs. 3,000 — பொருட்களைத் தேர்வு செய்யுங்கள்.</p>
 </div>
 </section>
 </main>
@@ -335,6 +337,11 @@ function budgetRender(){
  const {sel,items,mrp,total,save}=budgetTotals();
  bd('budget-products').textContent=sel.length;bd('budget-items').textContent=items;bd('budget-mrp').textContent=budgetFmt(mrp);bd('budget-total').textContent=budgetFmt(total);bd('budget-save').textContent=budgetFmt(save);
  bd('budget-chosen').textContent=sel.length?sel.map(p=>p.id+'. '+p.name+' / '+p.tamil+' × '+budgetQty[p.id]+' @ '+budgetFmt(p.rate)+' = '+budgetFmt(p.rate*budgetQty[p.id])).join('\n'):'Products தேர்வு செய்யவும்.';
+ const minBudgetOrder=3000,ready=total>=minBudgetOrder;
+ const sendButton=bd('budget-send'),sendMessage=bd('budget-msg');
+ sendButton.disabled=!ready;
+ sendButton.title=ready?'Minimum order Rs. 3,000 reached — Send Order Request':'Minimum order Rs. 3,000 — மேலும் '+budgetFmt(minBudgetOrder-total)+' சேர்க்கவும்';
+ sendMessage.textContent=ready?'Minimum Order Rs. 3,000 அடைந்துவிட்டது. Customer Details நிரப்பி WhatsApp Order Request அனுப்பலாம்.':'Minimum Order Rs. 3,000 — மேலும் '+budgetFmt(minBudgetOrder-total)+' மதிப்பிற்கு பொருட்களைத் தேர்வு செய்யுங்கள்.';
 }
 bd('budget-search').addEventListener('input',budgetRender);
 bd('budget-category').addEventListener('change',budgetRender);
