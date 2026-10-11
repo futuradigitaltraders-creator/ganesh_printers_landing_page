@@ -652,6 +652,38 @@ body{
 @media(max-width:620px){.budget-promo-pair{gap:8px}.budget-promo-limited,.budget-promo-deadline{min-height:105px;padding:9px 4px}.budget-promo-blink strong{display:block;margin:4px 0 0}.intro .budget-hero-subtitle{font-size:22px!important}}
 @media(prefers-reduced-motion:reduce){.budget-promo-limited,.budget-promo-blink{animation:none}}
 </style>
+<style id="budget-mobile-price-box-labels-2026">
+/* Mobile-only: each price box explains the number without relying on the tiny table header. */
+@media (max-width:620px){
+ #budget-catalogue .tbl-head{display:none!important}
+ #budget-catalogue .budget-line .list-price,
+ #budget-catalogue .budget-line .net-rate,
+ #budget-catalogue .budget-line .budget-no-stock-rate{
+   min-height:57px!important;
+   box-sizing:border-box;
+   padding:5px 2px 7px!important;
+   text-align:center!important;
+   line-height:1.25!important;
+ }
+ #budget-catalogue .budget-line .list-price::before,
+ #budget-catalogue .budget-line .net-rate::before,
+ #budget-catalogue .budget-line .budget-no-stock-rate::before{
+   display:block!important;
+   font-size:12px!important;
+   line-height:1.2!important;
+   font-weight:950!important;
+   letter-spacing:0!important;
+   margin:0 0 5px!important;
+   white-space:nowrap!important;
+ }
+ #budget-catalogue .budget-line .list-price::before{content:"MRP";color:#5e3804}
+ #budget-catalogue .budget-line .net-rate::before{content:"80% OFF";color:#9d154c}
+ #budget-catalogue .budget-line.budget-no-discount-line .list-price::before{content:"MRP N/A";font-size:10px!important}
+ #budget-catalogue .budget-line .budget-gift-net-rate::before{content:"NET RATE";color:#0a6b41;font-size:11px!important}
+ #budget-catalogue .budget-line .budget-no-stock-rate::before{content:"80% OFF";color:#fff}
+ #budget-catalogue .budget-line.budget-no-discount-line .budget-no-stock-rate::before{content:"NET RATE";color:#fff}
+}
+</style>
 </head>
 <body>
 <header><div><strong>FUTURA TRADERS</strong><small>SRI GANESH PRINTERS</small></div>
@@ -915,7 +947,7 @@ function budgetRender(){
   if(query&&!([p.name,p.tamil,p.category,budgetCategoryTamil[p.category],p.unit,String(p.id)].join(' ').toLowerCase().includes(query)))continue;
   visible++;
   if(last!==p.category){last=p.category;const heading=document.createElement('h3');heading.className='budget-cat'+(last==='GIFT BOXES & COMBO PACK'?' budget-no-discount-category':'');heading.textContent=last+' / '+budgetCategoryTamil[last]+(last==='GIFT BOXES & COMBO PACK'?' — FINAL NET RATE (NO DISCOUNT) / தள்ளுபடி இல்லை':'');root.append(heading)}
-  const row=document.createElement('div');row.className='budget-line'+(p.inStock===false?' budget-no-stock-line':'');
+  const row=document.createElement('div');row.className='budget-line'+(p.inStock===false?' budget-no-stock-line':'')+(!p.discount?' budget-no-discount-line':'');
   const serial=document.createElement('div');serial.className='n';serial.textContent=p.id;
   const title=document.createElement('div');title.className='product-name';title.textContent=p.name;
   const tamil=document.createElement('span');tamil.className='budget-tamil-name';tamil.lang='ta';tamil.textContent=p.tamil;title.append(tamil);
