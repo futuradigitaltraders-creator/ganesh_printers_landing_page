@@ -5265,9 +5265,11 @@ document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!document.g
 <style id="futura-scroll-desktop-right-final-20261013">
 .futura-desktop-scroll-label{display:none}
 @media(min-width:1024px){
- nav.futura-quick-nav{position:fixed!important;left:calc(50% + 275px)!important;right:auto!important;top:50%!important;transform:translateY(-50%)!important;display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:14px!important;width:150px!important;max-width:150px!important;z-index:9998!important;pointer-events:none!important}
+ nav.futura-quick-nav{position:fixed!important;left:calc(50% + 290px)!important;right:auto!important;top:50%!important;transform:translateY(-50%)!important;display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:14px!important;width:150px!important;max-width:150px!important;z-index:9998!important;pointer-events:none!important}
  nav.futura-quick-nav a{display:flex!important;flex-direction:column!important;justify-content:center!important;align-items:center!important;gap:3px!important;box-sizing:border-box!important;width:150px!important;min-width:150px!important;max-width:150px!important;height:90px!important;min-height:90px!important;padding:8px!important;border:3px solid #ffda64!important;border-radius:14px!important;background:#42126e!important;color:#fff!important;text-align:center!important;text-decoration:none!important;box-shadow:0 5px 15px #0009!important;pointer-events:auto!important;overflow:visible!important}
- nav.futura-quick-nav .futura-scroll-arrow{display:block;font:bold 44px/1 Arial,sans-serif!important}
+ /* Keep the entire control in the right-side fireworks margin, outside the 530px catalogue. */
+@media(min-width:1024px){nav.futura-quick-nav{left:calc(50% + 290px)!important;width:130px!important;max-width:130px!important}nav.futura-quick-nav a{width:130px!important;min-width:130px!important;max-width:130px!important}}
+nav.futura-quick-nav .futura-scroll-arrow{display:block;font:bold 44px/1 Arial,sans-serif!important}
  nav.futura-quick-nav .futura-desktop-scroll-label{display:block!important;font:bold 13px/1.2 Arial,sans-serif!important;white-space:nowrap!important;letter-spacing:.2px}
 }
 </style>
