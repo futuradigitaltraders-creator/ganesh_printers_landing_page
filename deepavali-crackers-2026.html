@@ -1037,7 +1037,6 @@ footer{color:#fff;background:rgba(8,13,38,.88)}
 .order-review table tbody tr{border-bottom:1px solid #8e7a9d!important}
 .order-review table tfoot td{border-top:2px solid #80669b!important}
 </style>
-
 </head>
 <body>
 <header class="site-header">
@@ -4582,11 +4581,8 @@ function setupCatalogueFilter(){
         totalProducts++;
         const searchable=((row.querySelector('.product-name')?.textContent || '')+' '+
           (row.querySelector('.product-meta')?.textContent || '')+' '+
-          (row.querySelector('img')?.alt || '')+' '+
-          (row.dataset.companyCode || '')+' '+(row.dataset.companyName || '')+' '+
-          (row.dataset.productKey || '')).toLocaleLowerCase();
-        const terms=query.split(/\s+/).filter(Boolean);
-        const visible=categoryMatch && terms.every(term=>searchable.includes(term));
+          (row.querySelector('img')?.alt || '')).toLocaleLowerCase();
+        const visible=categoryMatch && (!query || searchable.includes(query));
         row.classList.toggle('catalog-filter-hidden',!visible);
         if(visible){sectionVisibleRows++;shownProducts++;}
       });
