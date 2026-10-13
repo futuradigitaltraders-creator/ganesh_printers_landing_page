@@ -209,17 +209,20 @@ function buildPdf(order) {
     const pendingText = pending.length ? 'Company code confirmation pending: ' + pending.map(item => item.name).join('; ') : '';
     doc.font('Body').fontSize(9);
     const pendingHeight = pendingText ? doc.heightOfString(pendingText, {width: width - 16, lineGap: 2}) + 14 : 0;
-    if (y + 66 + pendingHeight > bottom) { doc.addPage(); y = header(false); }
+    if (y + 100 + pendingHeight > bottom) { doc.addPage(); y = header(false); }
     y += 10;
-    doc.roundedRect(left, y, width, 52, 7).fill('#FFF3CA');
+    doc.roundedRect(left, y, width, 86, 7).fill('#FFF3CA');
     text('Selected Products: ' + order.items.length + ' Items', left + 11, y + 8, width * 0.55 - 22, 11, true);
     text('தேர்ந்தெடுக்கப்பட்ட பொருட்கள்: ' + order.items.length, left + 11, y + 29, width * 0.55 - 22, 9);
     const totalX = left + width * 0.55;
-    doc.roundedRect(totalX, y, width * 0.45, 52, 7).fill('#FFE13D');
-    text('NET TOTAL (₹)', totalX + 10, y + 5, width * 0.45 - 20, 11, true);
+    doc.roundedRect(totalX, y, width * 0.45, 86, 7).fill('#FFE13D');
+    text('PRODUCT TOTAL (₹)', totalX + 10, y + 5, width * 0.45 - 20, 10, true);
     const total = order.items.reduce((sum, item) => sum + item.subtotalCents, 0);
-    number(money(total), totalX + 10, y + 23, width * 0.45 - 20, true, '#E32119', 18);
-    if (pendingText) text(pendingText, left + 8, y + 62, width - 16, 9, false, '#784B05');
+    number(money(total), totalX + 10, y + 21, width * 0.45 - 20, true, '#E32119', 13);
+    text('SIVAKASI PACKING + FORWARDING: Rs. 300', totalX + 10, y + 41, width * 0.45 - 20, 8, true);
+    text('NET TOTAL TO PAY (Rs.)', totalX + 10, y + 55, width * 0.45 - 20, 9, true);
+    number(money(total + 30000), totalX + 10, y + 66, width * 0.45 - 20, true, '#E32119', 14);
+    if (pendingText) text(pendingText, left + 8, y + 96, width - 16, 9, false, '#784B05');
     const pages = doc.bufferedPageRange();
     for (let i = 0; i < pages.count; i++) {
       doc.switchToPage(i);
