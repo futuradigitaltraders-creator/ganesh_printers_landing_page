@@ -1020,6 +1020,14 @@ footer{color:#fff;background:rgba(8,13,38,.88)}
 }
 </style>
 <link rel="stylesheet" href="/assets/css/futura-crackers-mobile-cards-20261013.css?v=2">
+<style id="futura-checkout-quick-nav-css">
+.futura-charge-line,.futura-payable-line{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0;font-weight:800;color:#44245e}
+.futura-payable-line{margin-top:6px;padding:13px 12px;border-radius:10px;background:#ffebad;color:#42165e;font-size:19px}
+.futura-quick-nav{position:fixed;right:10px;top:55%;transform:translateY(-50%);z-index:250;display:flex;flex-direction:column;gap:9px}
+.futura-quick-nav a{display:flex;align-items:center;justify-content:center;min-width:54px;min-height:48px;padding:7px;border:2px solid #ffdb71;border-radius:12px;background:#42126e;color:#fff;text-decoration:none;font:bold 11px/1.25 Arial,sans-serif;box-shadow:0 3px 10px #0006;text-align:center}
+.futura-quick-nav a:focus-visible{outline:3px solid #fff}
+@media(min-width:900px){.futura-quick-nav{right:18px}}
+</style>
 </head>
 <body>
 <header class="site-header">
@@ -1137,7 +1145,7 @@ footer{color:#fff;background:rgba(8,13,38,.88)}
   <button class="catalog-clear-btn" id="startNewOrderBtn" type="button" onclick="startNewCrackersOrder()">START NEW ORDER / புதிய ஆர்டர்</button>
 </div>
 <div class="order-policy-note" role="note" aria-label="Order charges">
-  <strong>MINIMUM ORDER ₹3,000</strong> &nbsp;|&nbsp; PACKING &amp; FORWARDING EXTRA &nbsp;|&nbsp; TRANSPORT: TOPAY
+  <strong>MINIMUM ORDER ₹3,000</strong> &nbsp;|&nbsp; PACKING &amp; FORWARDING ₹300 ADDED AT CHECKOUT &nbsp;|&nbsp; TRANSPORT: TOPAY
   <br><span>குறைந்தபட்ச ஆர்டர் ₹3,000 · பேக்கிங் மற்றும் பார்சல் அனுப்பும் கட்டணம் தனி · டிரான்ஸ்போர்ட் கட்டணம் உங்கள் ஊரில் செலுத்த வேண்டும்</span>
 </div>
 <div class="catalog-tools" id="catalogTools" aria-label="Product search and category filter">
@@ -3510,7 +3518,7 @@ footer{color:#fff;background:rgba(8,13,38,.88)}
 <div class="order-review-scroll"><table>
 <thead><tr><th scope="col">S.No.</th><th scope="col">Code No.</th><th scope="col">Product Image</th><th scope="col">Product Name</th><th scope="col" class="order-number">Qty</th><th scope="col" class="order-number">Rate (₹)</th><th scope="col" class="order-number">Sub-Total (₹)</th></tr></thead>
 <tbody id="orderReviewRows"></tbody>
-<tfoot><tr><td colspan="4">NET PRODUCT TOTAL</td><td id="orderReviewQty" class="order-number"></td><td></td><td id="orderReviewTotal" class="order-number"></td></tr></tfoot>
+<tfoot><tr><td colspan="4">PRODUCT TOTAL</td><td id="orderReviewQty" class="order-number"></td><td></td><td id="orderReviewTotal" class="order-number"></td></tr><tr><td colspan="6">SIVAKASI PACKING &amp; FORWARDING</td><td id="orderReviewPacking" class="order-number">₹0.00</td></tr><tr><td colspan="6"><strong>NET TOTAL TO PAY</strong></td><td id="orderReviewPayable" class="order-number">₹0.00</td></tr></tfoot>
 </table></div>
 <div class="request-pdf-tools">
   <p id="clientRequestPdfStatus" role="status" aria-live="polite"></p>
@@ -3603,7 +3611,7 @@ footer{color:#fff;background:rgba(8,13,38,.88)}
       <p id="finalOrderSummary" style="padding:12px;background:#fff3cd;border-radius:8px;line-height:1.6"></p>
       <div class="booking-policy-note" aria-label="Order notes">
         <p><strong>Minimum order: Rs. 3,000/-.</strong><br><span lang="ta">குறைந்தபட்ச ஆர்டர் தொகை: ரூ. 3,000/-.</span></p>
-        <p><strong>Packing &amp; Forwarding Extra.</strong><br><span lang="ta">பேக்கிங் மற்றும் பார்சல் அனுப்பும் கட்டணம் தனியாகச் செலுத்த வேண்டும்.</span></p>
+        <p><strong>Packing &amp; Forwarding ₹300 (included in Net Total).</strong><br><span lang="ta">பேக்கிங் மற்றும் பார்சல் அனுப்பும் கட்டணம் தனியாகச் செலுத்த வேண்டும்.</span></p>
         <p><strong>Gift Boxes: Bulk orders only.</strong> Small quantities such as 1, 2, 3 or 5 boxes are not accepted.<br><span lang="ta">கிஃப்ட் பாக்ஸ்கள் மொத்த எண்ணிக்கையில் மட்டுமே ஆர்டர் செய்யலாம். 1, 2, 3, 5 போன்ற சிறிய எண்ணிக்கை ஆர்டர்கள் ஏற்கப்படாது.</span></p>
       </div>
       <label style="display:flex;gap:10px;align-items:flex-start;margin:14px 0;line-height:1.6"><input id="finalOrderCheckpoint" type="checkbox" required style="margin-top:5px;width:20px;height:20px;flex-shrink:0"> <span><span lang="ta">தேர்வு செய்த பொருட்கள், எண்ணிக்கை மற்றும் எனது விவரங்களைச் சரிபார்த்துவிட்டேன். நான் பணம் செலுத்தத் தயாராக இருக்கிறேன். உங்கள் ஸ்டாக் இருப்பைச் சரிபார்த்து, பணம் செலுத்தும் விவரங்களை அனுப்புங்கள்.</span><br>I have checked my items, quantities and details. I am ready to make payment. Please check stock availability and send me the payment details.</span></label>
@@ -3615,8 +3623,8 @@ footer{color:#fff;background:rgba(8,13,38,.88)}
 <div class="cart-summary">
   <div>
     <div class="summary-counts">Selected Products: <span id="selectedProducts">0</span> &nbsp; | &nbsp; Total Qty: <span id="totalQty">0</span></div>
-    <div class="net-total">NET PRODUCT TOTAL <strong>₹<span id="sampleNetTotal">0.00</span></strong></div>
-    <div class="shipping-note"><strong>Minimum Order: Rs. 3,000/- / குறைந்தபட்ச ஆர்டர்: ரூ. 3,000/-</strong><br>Packing &amp; Forwarding Extra / பேக்கிங் மற்றும் பார்சல் அனுப்பும் கட்டணம் தனி.<br>Transport: TOPAY / போக்குவரத்துக் கட்டணம் பெறும்போது செலுத்த வேண்டும்.</div>
+    <div class="net-total">PRODUCT TOTAL <strong>₹<span id="sampleNetTotal">0.00</span></strong></div><div class="futura-charge-line">Sivakasi Packing &amp; Forwarding <strong>+ ₹<span id="packingCharge">0.00</span></strong></div><div class="futura-payable-line">NET TOTAL TO PAY <strong>₹<span id="payableTotal">0.00</span></strong></div>
+    <div class="shipping-note"><strong>Minimum Order: Rs. 3,000/- / குறைந்தபட்ச ஆர்டர்: ரூ. 3,000/-</strong><br>Packing &amp; Forwarding: ₹300 (included in Net Total when items selected) / பேக்கிங் கட்டணம் ₹300 மொத்தத் தொகையில் சேர்க்கப்பட்டுள்ளது.<br>Transport: TOPAY / போக்குவரத்துக் கட்டணம் பெறும்போது செலுத்த வேண்டும்.</div>
     <div class="quality-shared-order-tip" lang="ta" role="note" aria-label="நண்பருடன் இணைந்து ஆர்டர் செய்வது">
       <p>உங்களுக்கு Rs. 1,500-க்கு மட்டும் பட்டாசுகள் வேண்டுமா?</p>
       <strong>நண்பருடன் சேர்ந்து சிக்கனமாக ஆர்டர் செய்யுங்கள்! 🎉</strong>
@@ -4232,6 +4240,8 @@ function renderCrackersOrderReview(){
   });
   document.getElementById('orderReviewQty').textContent=qty;
   document.getElementById('orderReviewTotal').textContent=money(total);
+  document.getElementById('orderReviewPacking').textContent=money(qty?300:0);
+  document.getElementById('orderReviewPayable').textContent=money(total+(qty?300:0));
 }
 
 function refreshComboSummary(){
@@ -4257,6 +4267,9 @@ function refreshComboSummary(){
   document.getElementById('totalQty').textContent=totalQty;
   document.getElementById('sampleNetTotal').textContent=total.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
   const chosen=Object.values(comboProducts).filter(p=>p.qty>0 && !p.outOfStock).sort((a,b)=>Number(a.serial)-Number(b.serial));
+  const charge=totalQty>0?300:0;
+  document.getElementById('packingCharge').textContent=charge.toFixed(2);
+  document.getElementById('payableTotal').textContent=(total+charge).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
   const currentOrder=chosen.length ? getCrackersOrder(chosen) : null;
   updateDirectOrderWhatsApp(currentOrder);
   const currentPdf=currentOrder && hasCurrentRequestPdf(currentOrder);
@@ -4827,7 +4840,7 @@ function updateDirectOrderWhatsApp(order){
   link.hidden=!ready;hint.hidden=!ready;
   if(!ready){link.removeAttribute('href');return;}
   const total=order.items.reduce((sum,item)=>sum+item.qty*item.price,0),qty=order.items.reduce((sum,item)=>sum+item.qty,0);
-  link.href=crackersWhatsAppChatUrl('FUTURA CLIENT ORDER REQUEST\nOrder ID: '+order.orderId+'\nClient: '+customer.name+'\nCity & Pincode: '+customer.city+'\nProducts: '+order.items.length+' | Total Qty: '+qty+'\nProduct Total: Rs. '+total.toFixed(2)+'\nMy selected items and details are saved under this Order ID.\nI am ready to make payment. Please check stock availability and send me the payment details.');
+  link.href=crackersWhatsAppChatUrl('FUTURA CLIENT ORDER REQUEST\nOrder ID: '+order.orderId+'\nClient: '+customer.name+'\nCity & Pincode: '+customer.city+'\nProducts: '+order.items.length+' | Total Qty: '+qty+'\nProduct Total: Rs. '+total.toFixed(2)+'\nSivakasi Packing & Forwarding: Rs. 300.00\nNET TOTAL TO PAY: Rs. '+(total+300).toFixed(2)+'\nMy selected items and details are saved under this Order ID.\nI am ready to make payment. Please check stock availability and send me the payment details.');
 }
 function getSavedCrackersCustomer(){
   try{
@@ -4858,7 +4871,7 @@ function openCustomerDetailsForm(mode='save'){
   document.getElementById('finalOrderCheckpoint').checked=false;
   const total=order.items.reduce((sum,item)=>sum+item.qty*item.price,0),qty=order.items.reduce((sum,item)=>sum+item.qty,0);
   const money=value=>'₹'+value.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
-  document.getElementById('finalOrderSummary').textContent=order.items.length+' products · '+qty+' items · Product total / பொருட்களின் மொத்தத் தொகை '+money(total);
+  document.getElementById('finalOrderSummary').textContent=order.items.length+' products · '+qty+' items · Product total '+money(total)+' + Sivakasi Packing & Forwarding ₹300 = NET TOTAL TO PAY '+money(total+300);
   document.getElementById('customerDetailsOrderId').textContent=clientOrderIdLabel(order);
   try{
     const saved=JSON.parse(localStorage.getItem('futuraCrackersCustomerDetails2026') || 'null');
@@ -5192,6 +5205,8 @@ document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!document.g
 <svg viewBox="0 0 32 32" aria-hidden="true" fill="none"><path d="M27 15.5A11.5 11.5 0 0 1 10 25.6L4 28l1.9-6.1A11.5 11.5 0 1 1 27 15.5Z" stroke="currentColor" stroke-width="2"/><path d="M11 9c-1 0-2 2-2 3 0 4 6 10 10 10 2 0 4-2 3-3l-3-2-2 1c-2-1-4-3-5-5l1-2-2-2Z" fill="currentColor"/></svg>
 <span>WhatsApp Support</span></a>
 
+<nav class="futura-quick-nav" aria-label="Quick navigation"><a href="#liveSummaryBar" aria-label="Go to top of catalogue">↑ TOP</a><a href="#orderReview" aria-label="Go to order review and checkout">↓ ORDER</a></nav>
+<script>document.querySelectorAll('.futura-quick-nav a').forEach(a=>a.addEventListener('click',e=>{const target=document.querySelector(a.getAttribute('href'));if(!target)return;e.preventDefault();target.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});}));</script>
 </body><!-- deployment-refresh -->
 </html>
 <!-- summary-dashboard-deploy-refresh -->
