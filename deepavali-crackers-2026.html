@@ -3517,9 +3517,9 @@ footer{color:#fff;background:rgba(8,13,38,.88)}
 <section class="order-review" id="orderReview" hidden aria-labelledby="orderReviewHeading">
 <h2 id="orderReviewHeading">Client Request PDF / ஆர்டர் கோரிக்கை</h2>
 <div class="order-review-scroll"><table>
-<thead><tr><th scope="col">S.No.</th><th scope="col">Code No.</th><th scope="col">Product Image</th><th scope="col">Product Name</th><th scope="col" class="order-number">Qty</th><th scope="col" class="order-number">Rate (₹)</th><th scope="col" class="order-number">Sub-Total (₹)</th></tr></thead>
+<thead><tr><th scope="col">S.No.</th><th scope="col">Code No.</th><th scope="col">Product Image</th><th scope="col">Product Name</th><th scope="col" class="order-number">Qty</th><th scope="col" class="order-number">MRP (₹)</th><th scope="col" class="order-number">80% OFF Rate (₹)</th><th scope="col" class="order-number">Sub-Total (₹)</th></tr></thead>
 <tbody id="orderReviewRows"></tbody>
-<tfoot><tr><td colspan="4">PRODUCT TOTAL</td><td id="orderReviewQty" class="order-number"></td><td></td><td id="orderReviewTotal" class="order-number"></td></tr><tr><td colspan="6">SIVAKASI PACKING &amp; FORWARDING</td><td id="orderReviewPacking" class="order-number">₹0.00</td></tr><tr><td colspan="6"><strong>NET TOTAL TO PAY</strong></td><td id="orderReviewPayable" class="order-number">₹0.00</td></tr></tfoot>
+<tfoot><tr><td colspan="4">PRODUCT TOTAL</td><td id="orderReviewQty" class="order-number"></td><td id="orderReviewMrpTotal" class="order-number"></td><td></td><td id="orderReviewTotal" class="order-number"></td></tr><tr><td colspan="7">SIVAKASI PACKING &amp; FORWARDING</td><td id="orderReviewPacking" class="order-number">₹0.00</td></tr><tr><td colspan="7"><strong>NET TOTAL TO PAY</strong></td><td id="orderReviewPayable" class="order-number">₹0.00</td></tr></tfoot>
 </table></div>
 <div class="request-pdf-tools">
   <p id="clientRequestPdfStatus" role="status" aria-live="polite"></p>
@@ -4081,6 +4081,7 @@ function continueSavedCrackersCart(){
   if(category){category.value='';category.dispatchEvent(new Event('change'));}
   restoreCrackersCart();
   document.getElementById('continueSavedCartBtn').hidden=true;
+  document.getElementById('continueSavedCartBtn').dataset.restoredThisVisit='1';
   const restored=Object.entries(comboProducts).filter(([,p])=>p.qty>0 && !p.outOfStock);
   const count=restored.reduce((sum,[,p])=>sum+p.qty,0);
   document.getElementById('cartSessionMessage').textContent=restored.length
@@ -4134,6 +4135,7 @@ function startNewCrackersOrder(newOrder=true){
   if(paymentPreviewUrl){URL.revokeObjectURL(paymentPreviewUrl);paymentPreviewUrl=null;}
   setRequestPdfStatus('');
   document.getElementById('continueSavedCartBtn').hidden=true;
+  document.getElementById('continueSavedCartBtn').dataset.restoredThisVisit='1';
   const search=document.getElementById('productSearch'),category=document.getElementById('categoryFilter');
   search.value='';category.value='';search.dispatchEvent(new Event('input'));category.dispatchEvent(new Event('change'));
   document.getElementById('cartSessionMessage').textContent='புதிய ஆர்டர் / New order — select your products to begin.';
@@ -4246,11 +4248,15 @@ function renderCrackersOrderReview(){
   if(!panel || !body) return;
   panel.hidden=chosen.length===0;
   body.replaceChildren();
-  let total=0,qty=0;
+  let total=0,qty=0,mrpTotal=0;
   const money=value=>value.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
   chosen.forEach((p,index)=>{
     const row=document.createElement('tr'),amount=p.qty*p.price;
-    [index+1,p.companyCode || 'Pending','',p.name,p.qty,money(p.price),money(amount)].forEach((value,column)=>{
+    const qtyEl=document.getElementById('qty-'+p.id);
+    const productRow=qtyEl?.closest('.product-row');
+    const mrpText=productRow?.querySelector('.mrp-price')?.textContent||'';
+    const mrp=Number(mrpText.replace(/[^0-9.]/g,''))||0;
+    [index+1,p.companyCode || 'Pending','',p.name,p.qty,mrp?money(mrp):'—',money(p.price),money(amount)].forEach((value,column)=>{
       const cell=document.createElement('td');
       cell.textContent=value;
       cell.className=column===1?'order-code':column===2?'order-image':column===3?'order-product':column>=4?'order-number':'';
@@ -4262,8 +4268,9 @@ function renderCrackersOrderReview(){
       row.appendChild(cell);
     });
     body.appendChild(row);
-    total+=amount;qty+=p.qty;
+    total+=amount;qty+=p.qty;mrpTotal+=mrp*p.qty;
   });
+  document.getElementById('orderReviewMrpTotal').textContent=mrpTotal?money(mrpTotal):'—';
   document.getElementById('orderReviewQty').textContent=qty;
   document.getElementById('orderReviewTotal').textContent=money(total);
   document.getElementById('orderReviewPacking').textContent=money(qty?300:0);
@@ -4302,6 +4309,16 @@ function refreshComboSummary(){
   if(preparedRequestPdf && !currentPdf){
     preparedRequestPdf=null;
     setRequestPdfStatus('Products அல்லது client details மாறியுள்ளன. Order Request button புதிய PDF-ஐ உருவாக்கும்.');
+  }
+  const savedBtn=document.getElementById('continueSavedCartBtn');
+  if(savedBtn && !awaitingSavedCartChoice && !savedBtn.dataset.restoredThisVisit){
+    try{
+      const stored=JSON.parse(localStorage.getItem('futuraCrackersCart2026')||'{}');
+      if(Object.keys(stored).some(id=>comboProducts[id]&&!comboProducts[id].outOfStock&&Number(stored[id])>0)){
+        awaitingSavedCartChoice=true;
+        savedBtn.hidden=false;
+      }
+    }catch(e){}
   }
   const requestButton=document.getElementById('samplePayBtn');
   for(const id of ['startNewOrderBtn','continueSavedCartBtn','refreshSelectionBtn']) document.getElementById(id).disabled=clientRequestPdfBusy || customerDetailsBusy || paymentProofBusy;
