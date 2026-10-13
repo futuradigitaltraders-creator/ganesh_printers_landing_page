@@ -1037,6 +1037,18 @@ footer{color:#fff;background:rgba(8,13,38,.88)}
 .order-review table tbody tr{border-bottom:1px solid #8e7a9d!important}
 .order-review table tfoot td{border-top:2px solid #80669b!important}
 </style>
+<style id="futura-approved-desktop-wide-20261013">
+/* Desktop-only approved wide catalogue; mobile cards are unchanged. */
+@media (min-width:1024px){
+  main{max-width:calc(100% - 64px)!important;width:calc(100% - 64px)!important;padding-left:0!important;padding-right:0!important}
+  .sample-shop{padding:clamp(12px,1.3vw,22px)!important}
+  .catalog-head,.product-row{grid-template-columns:60px 125px minmax(250px,1fr) 165px 135px 150px!important}
+  .product-row>div{padding:12px!important}
+  .live-summary .sum-box{min-height:92px!important;padding:13px!important}
+  .catalog-tools{grid-template-columns:minmax(280px,2fr) minmax(200px,1fr) auto!important}
+  .catalog-tools input{min-height:48px;font-size:16px}
+}
+</style>
 </head>
 <body>
 <header class="site-header">
@@ -4581,8 +4593,11 @@ function setupCatalogueFilter(){
         totalProducts++;
         const searchable=((row.querySelector('.product-name')?.textContent || '')+' '+
           (row.querySelector('.product-meta')?.textContent || '')+' '+
-          (row.querySelector('img')?.alt || '')).toLocaleLowerCase();
-        const visible=categoryMatch && (!query || searchable.includes(query));
+          (row.querySelector('img')?.alt || '')+' '+
+          (row.dataset.companyCode || '')+' '+(row.dataset.companyName || '')+' '+
+          (row.dataset.productKey || '')).toLocaleLowerCase();
+        const terms=query.split(/\s+/).filter(Boolean);
+        const visible=categoryMatch && terms.every(term=>searchable.includes(term));
         row.classList.toggle('catalog-filter-hidden',!visible);
         if(visible){sectionVisibleRows++;shownProducts++;}
       });
