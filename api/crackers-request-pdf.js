@@ -185,7 +185,7 @@ function buildPdf(order) {
       const height = Math.max(62, doc.heightOfString(item.name, {width: columns[3] - 14, lineGap: 2}) + 18);
       if (y + height > bottom - 12) { doc.addPage(); y = tableHeader(header(false)); }
       doc.rect(left, y, width, height).fill(index % 2 ? '#FAFBFD' : '#FFFFFF');
-      doc.lineWidth(0.5).strokeColor('#AAB3C0');
+      doc.lineWidth(1).strokeColor('#6B6075');
       edges.forEach(edge => doc.moveTo(edge, y).lineTo(edge, y + height).stroke());
       doc.moveTo(left, y + height).lineTo(left + width, y + height).stroke();
       text(index + 1, edges[0] + 3, y + (height - 15) / 2, columns[0] - 6, 10.5, false, '#141414', 'center');
