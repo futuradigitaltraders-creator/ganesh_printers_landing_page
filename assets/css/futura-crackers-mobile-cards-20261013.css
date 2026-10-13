@@ -1,0 +1,96 @@
+/* FUTURA 2026 high-quality crackers: mobile product cards only.
+   No pricing, inventory, ordering or desktop behavior changes. */
+@media screen and (max-width:760px){
+ html,body{max-width:100%;overflow-x:clip}
+ .sample-shop{width:100%;max-width:100%;min-width:0;padding:10px 7px!important}
+ .sample-shop .product-row{
+  display:grid!important;grid-template-columns:minmax(104px,31%) minmax(0,1fr)!important;
+  grid-template-rows:auto auto auto!important;grid-auto-flow:row!important;
+  gap:0!important;width:100%!important;min-width:0!important;
+  margin:0 0 14px!important;padding:0!important;
+  border:1px solid #b99bd5!important;border-radius:12px!important;
+  background:#f8f1ff!important;overflow:hidden!important;
+  box-shadow:0 4px 12px rgba(44,13,78,.12)!important;
+ }
+ .sample-shop .product-row>img{
+  grid-column:1!important;grid-row:1!important;
+  display:block!important;width:calc(100% - 12px)!important;
+  max-width:120px!important;height:116px!important;
+  margin:9px auto!important;object-fit:contain!important;
+  align-self:center!important;justify-self:center!important;
+ }
+ .sample-shop .product-row>div:not(.price-box):not(.qty-col):not(.subtotal-col):not(.serial-col){
+  grid-column:2!important;grid-row:1!important;
+  width:auto!important;min-width:0!important;
+  padding:12px 10px!important;margin:0!important;
+  display:flex!important;flex-direction:column!important;justify-content:center!important;
+  border:0!important;overflow:visible!important;
+ }
+ .sample-shop .product-row .product-name{
+  display:block!important;width:100%!important;min-width:0!important;
+  font-size:15px!important;line-height:1.4!important;
+  white-space:normal!important;word-break:normal!important;
+  overflow-wrap:break-word!important;letter-spacing:0!important;
+  text-align:left!important;
+ }
+ .sample-shop .product-row .product-meta{
+  display:block!important;font-size:11px!important;line-height:1.5!important;
+  white-space:normal!important;word-break:normal!important;
+  overflow-wrap:break-word!important;text-align:left!important;
+ }
+ .sample-shop .product-row>.price-box{
+  grid-column:1/-1!important;grid-row:2!important;
+  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  grid-template-rows:auto auto auto!important;gap:5px 10px!important;
+  padding:12px 10px!important;width:100%!important;min-width:0!important;
+  border:0!important;border-top:1px solid #d9c4e8!important;
+  align-items:center!important;justify-items:stretch!important;
+ }
+ .sample-shop .product-row>.price-box>.mrp-label{grid-column:1!important;grid-row:1!important}
+ .sample-shop .product-row>.price-box>.mrp-price{grid-column:1!important;grid-row:2!important}
+ .sample-shop .product-row>.price-box>.discount-label{grid-column:2!important;grid-row:1!important}
+ .sample-shop .product-row>.price-box>.our-price{grid-column:2!important;grid-row:2!important}
+ .sample-shop .product-row>.price-box>.futura-stock-badge{
+  grid-column:1/-1!important;grid-row:3!important;
+  margin:5px auto 0!important;max-width:100%!important;
+ }
+ .sample-shop .product-row .price-label{font-size:11px!important;text-align:center!important}
+ .sample-shop .product-row .mrp-price,.sample-shop .product-row .our-price{
+  width:100%!important;min-width:0!important;text-align:center!important;
+  font-size:19px!important;white-space:nowrap!important;
+ }
+ .sample-shop .product-row>.qty-col{
+  grid-column:1!important;grid-row:3!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  padding:12px 5px!important;min-width:0!important;
+  border:0!important;border-top:1px solid #d9c4e8!important;
+ }
+ .sample-shop .product-row>.subtotal-col{
+  grid-column:2!important;grid-row:3!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  padding:12px 6px!important;min-width:0!important;
+  border:0!important;border-left:1px solid #d9c4e8!important;
+  border-top:1px solid #d9c4e8!important;
+ }
+ .sample-shop .product-row .qty-wrap{display:flex!important;gap:5px!important;flex-wrap:nowrap!important}
+ .sample-shop .product-row .qty-btn{
+  width:38px!important;min-width:38px!important;height:42px!important;
+  font-size:24px!important;touch-action:manipulation!important;
+ }
+ .sample-shop .product-row .qty-num{min-width:18px!important;font-size:17px!important}
+ .sample-shop .product-row .subtotal strong{font-size:19px!important;white-space:nowrap!important}
+ .sample-shop .product-row>.serial-col{
+  grid-column:1/-1!important;grid-row:4!important;
+  padding:5px 9px!important;border:0!important;border-top:1px solid #d9c4e8!important;
+ }
+ .live-summary{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ .live-summary .sum-box{min-height:70px!important;padding:9px 6px!important}
+ .live-summary .sum-label{font-size:10px!important;line-height:1.25!important}
+ .live-summary .sum-value{font-size:20px!important;overflow-wrap:anywhere!important}
+}
+@media screen and (max-width:360px){
+ .sample-shop .product-row{grid-template-columns:98px minmax(0,1fr)!important}
+ .sample-shop .product-row>img{height:98px!important}
+ .sample-shop .product-row .qty-btn{width:34px!important;min-width:34px!important}
+ .sample-shop .product-row .qty-wrap{gap:3px!important}
+}
