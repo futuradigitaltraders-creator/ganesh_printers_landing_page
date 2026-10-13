@@ -5207,7 +5207,32 @@ document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!document.g
 <span>WhatsApp Support</span></a>
 
 <nav class="futura-quick-nav" aria-label="Quick navigation"><a href="#liveSummaryBar" aria-label="Scroll to top" title="Top">↑</a><a href="#futuraCheckoutAnchor" aria-label="Scroll down to checkout" title="Checkout">↓</a></nav>
-<script>document.querySelectorAll('.futura-quick-nav a').forEach(a=>a.addEventListener('click',e=>{const target=document.querySelector(a.getAttribute('href'));if(!target)return;e.preventDefault();target.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});}));</script>
+<script>
+(function(){
+  const nav=document.querySelector('.futura-quick-nav');
+  if(!nav)return;
+  const up=nav.querySelector('a[href="#liveSummaryBar"]');
+  const down=nav.querySelector('a[href="#futuraCheckoutAnchor"]');
+  const behavior=()=>window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth';
+  // Move up in four predictable steps (25% of full page scroll range per tap).
+  // Avoid scrollIntoView on sticky summary: it may not move the document.
+  if(up)up.addEventListener('click',function(e){
+    e.preventDefault();
+    const root=document.scrollingElement||document.documentElement;
+    const max=Math.max(0,root.scrollHeight-window.innerHeight);
+    const step=Math.max(window.innerHeight*0.8,max*0.25);
+    const next=Math.max(0,window.scrollY-step);
+    window.scrollTo({top:next,behavior:behavior()});
+  });
+  if(down)down.addEventListener('click',function(e){
+    e.preventDefault();
+    const target=document.getElementById('futuraCheckoutAnchor');
+    if(!target)return;
+    const y=Math.max(0,window.scrollY+target.getBoundingClientRect().top-90);
+    window.scrollTo({top:y,behavior:behavior()});
+  });
+})();
+</script>
 </body><!-- deployment-refresh -->
 </html>
 <!-- summary-dashboard-deploy-refresh -->
