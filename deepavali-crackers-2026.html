@@ -1038,16 +1038,27 @@ footer{color:#fff;background:rgba(8,13,38,.88)}
 .order-review table tfoot td{border-top:2px solid #80669b!important}
 </style>
 <style id="futura-approved-desktop-wide-20261013">
-/* Desktop-only approved wide catalogue; mobile cards are unchanged. */
-@media (min-width:1024px){
-  main{max-width:calc(100% - 64px)!important;width:calc(100% - 64px)!important;padding-left:0!important;padding-right:0!important}
-  .sample-shop{padding:clamp(12px,1.3vw,22px)!important}
-  .catalog-head,.product-row{grid-template-columns:60px 125px minmax(250px,1fr) 165px 135px 150px!important}
-  .product-row>div{padding:12px!important}
-  .live-summary .sum-box{min-height:92px!important;padding:13px!important}
-  .catalog-tools{grid-template-columns:minmax(280px,2fr) minmax(200px,1fr) auto!important}
-  .catalog-tools input{min-height:48px;font-size:16px}
+/* Desktop only: 25% narrower than first wide test, supplier-style readable columns. */
+@media(min-width:1024px){
+ main{max-width:1050px!important;width:calc(100% - 48px)!important;padding-left:0!important;padding-right:0!important}
+ .sample-shop{padding:14px!important}
+ .catalog-head,.product-row{grid-template-columns:46px 78px 100px minmax(190px,1fr) 96px 106px 106px 80px 98px!important}
+ .catalog-head>div{font-size:12px!important;padding:11px 4px!important}
+ .product-row>div{padding:11px 7px!important}
+ .product-row .product-name{font-size:15px!important;line-height:1.35!important}
+ .product-row .product-meta{font-size:12px!important}
+ .product-row .mrp-price,.product-row .our-price{font-size:17px!important}
+ .product-row .price-box .mrp-label,.product-row .price-box .mrp-price,.product-row .price-box .discount-label{display:none!important}
+ .product-row .price-box{background:#fff5fc!important}
+ .product-row .our-price{border:0!important;background:transparent!important;padding:0!important;font-weight:900!important}
+ .product-row .futura-desktop-brand{font-size:13px!important;font-weight:800!important;color:#49305f;text-align:center}
+ .product-row .futura-desktop-mrp{font-size:15px!important;color:#655a69;text-align:center;background:#fff}
+ .product-row .futura-desktop-discount{font-size:15px!important;color:#d41359;text-align:center;font-weight:800;background:#fff8fc}
+ .live-summary .sum-box{min-height:100px!important;padding:14px!important}
+ .catalog-tools{grid-template-columns:minmax(280px,2fr) minmax(200px,1fr) auto!important}
+ .catalog-tools input{min-height:46px!important;font-size:15px!important}
 }
+@media(max-width:1023px){.futura-desktop-only{display:none!important}}
 </style>
 </head>
 <body>
@@ -4653,6 +4664,36 @@ document.addEventListener('DOMContentLoaded',()=>{
     img.addEventListener('load',()=>ensureProductLogoCover(img));
     if(img.complete && img.naturalWidth===0) productImageError(img);
     if(img.complete && img.naturalWidth>0) ensureProductLogoCover(img);
+  });
+  // Add supplier-style manufacturer, MRP and discount columns on desktop only.
+  // Read existing DOM rates: never alter cart calculations or selling prices.
+  document.querySelectorAll('.catalog-head').forEach(head=>{
+    if(head.querySelector('.futura-desktop-brand'))return;
+    const productHead=head.querySelector('.head-product');
+    if(!productHead)return;
+    const brand=document.createElement('div');brand.className='futura-desktop-brand futura-desktop-only';brand.textContent='MANUFACTURER';
+    productHead.before(brand);
+    const priceHead=[...head.children].find(el=>el.textContent.trim()==='PRICE');
+    if(priceHead){
+      const mrp=document.createElement('div');mrp.className='futura-desktop-only';mrp.textContent='MRP (₹)';
+      const discount=document.createElement('div');discount.className='futura-desktop-only';discount.textContent='80% DISCOUNT (₹)';
+      priceHead.before(mrp,discount);priceHead.textContent='OFFER RATE (₹)';
+    }
+  });
+  document.querySelectorAll('.product-row').forEach(row=>{
+    if(row.querySelector('.futura-desktop-brand'))return;
+    const name=row.querySelector('.product-name')?.parentElement;
+    const price=row.querySelector('.price-box');
+    if(!name||!price)return;
+    const meta=row.querySelector('.product-meta')?.textContent||'';
+    const brandMatch=meta.match(/Brand:\\s*([^·|]+)/i);
+    const brand=document.createElement('div');brand.className='futura-desktop-brand futura-desktop-only';brand.textContent=(brandMatch?brandMatch[1].trim():'—').toUpperCase();
+    name.before(brand);
+    const mrpValue=Number((row.querySelector('.mrp-price')?.textContent||'').replace(/[^0-9.]/g,''));
+    const offerValue=Number((row.querySelector('.our-price')?.textContent||'').replace(/[^0-9.]/g,''));
+    const mrp=document.createElement('div');mrp.className='futura-desktop-mrp futura-desktop-only';mrp.textContent=mrpValue>0?'₹'+mrpValue.toFixed(2):'—';
+    const discount=document.createElement('div');discount.className='futura-desktop-discount futura-desktop-only';discount.textContent=mrpValue>0&&Number.isFinite(offerValue)?'₹'+Math.max(0,mrpValue-offerValue).toFixed(2):'—';
+    price.before(mrp,discount);
   });
   setupCatalogueFilter();
   syncCatalogueProducts();
