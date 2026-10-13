@@ -1023,10 +1023,10 @@ footer{color:#fff;background:rgba(8,13,38,.88)}
 <style id="futura-checkout-quick-nav-css">
 .futura-charge-line,.futura-payable-line{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0;font-weight:800;color:#44245e}
 .futura-payable-line{margin-top:6px;padding:13px 12px;border-radius:10px;background:#ffebad;color:#42165e;font-size:19px}
-.futura-quick-nav{position:fixed;left:9px;right:auto;top:57%;transform:translateY(-50%);z-index:250;display:flex;flex-direction:column;gap:12px}
-.futura-quick-nav a{display:flex;align-items:center;justify-content:center;min-width:78px;min-height:65px;padding:10px 8px;border:2px solid #ffdb71;border-radius:12px;background:#42126e;color:#fff;text-decoration:none;font:bold 15px/1.25 Arial,sans-serif;box-shadow:0 3px 10px #0006;text-align:center}
+.futura-quick-nav{position:fixed!important;left:6px!important;right:auto!important;top:56%!important;transform:translateY(-50%)!important;z-index:250!important;display:flex!important;flex-direction:column!important;align-items:flex-start!important;gap:9px!important;width:auto!important;max-width:54px!important;pointer-events:none!important}
+.futura-quick-nav a{box-sizing:border-box!important;display:flex!important;align-items:center!important;justify-content:center!important;width:48px!important;min-width:48px!important;max-width:48px!important;height:52px!important;min-height:52px!important;padding:0!important;margin:0!important;border:2px solid #ffdb71!important;border-radius:12px!important;background:#42126e!important;color:#fff!important;text-decoration:none!important;font:bold 24px/1 Arial,sans-serif!important;box-shadow:0 3px 9px #0008!important;pointer-events:auto!important;overflow:hidden!important}
 .futura-quick-nav a:focus-visible{outline:3px solid #fff}
-@media(min-width:900px){.futura-quick-nav{left:18px}}
+@media(min-width:900px){.futura-quick-nav{left:10px!important}}
 </style>
 </head>
 <body>
@@ -5206,7 +5206,7 @@ document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!document.g
 <svg viewBox="0 0 32 32" aria-hidden="true" fill="none"><path d="M27 15.5A11.5 11.5 0 0 1 10 25.6L4 28l1.9-6.1A11.5 11.5 0 1 1 27 15.5Z" stroke="currentColor" stroke-width="2"/><path d="M11 9c-1 0-2 2-2 3 0 4 6 10 10 10 2 0 4-2 3-3l-3-2-2 1c-2-1-4-3-5-5l1-2-2-2Z" fill="currentColor"/></svg>
 <span>WhatsApp Support</span></a>
 
-<nav class="futura-quick-nav" aria-label="Quick navigation"><a href="#liveSummaryBar" aria-label="Scroll to top">↑ TOP</a><a href="#futuraCheckoutAnchor" aria-label="Scroll down to checkout">↓ DOWN</a></nav>
+<nav class="futura-quick-nav" aria-label="Quick navigation"><a href="#liveSummaryBar" aria-label="Scroll to top" title="Top">↑</a><a href="#futuraCheckoutAnchor" aria-label="Scroll down to checkout" title="Checkout">↓</a></nav>
 <script>document.querySelectorAll('.futura-quick-nav a').forEach(a=>a.addEventListener('click',e=>{const target=document.querySelector(a.getAttribute('href'));if(!target)return;e.preventDefault();target.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});}));</script>
 </body><!-- deployment-refresh -->
 </html>
