@@ -3517,9 +3517,9 @@ footer{color:#fff;background:rgba(8,13,38,.88)}
 <section class="order-review" id="orderReview" hidden aria-labelledby="orderReviewHeading">
 <h2 id="orderReviewHeading">Client Request PDF / ஆர்டர் கோரிக்கை</h2>
 <div class="order-review-scroll"><table>
-<thead><tr><th scope="col">S.No.</th><th scope="col">Code No.</th><th scope="col">Product Image</th><th scope="col">Product Name</th><th scope="col" class="order-number">Qty</th><th scope="col" class="order-number">MRP (₹)</th><th scope="col" class="order-number">80% OFF Rate (₹)</th><th scope="col" class="order-number">Sub-Total (₹)</th></tr></thead>
+<thead><tr><th scope="col">S.No.</th><th scope="col">Code No.</th><th scope="col">Product Image</th><th scope="col">Product Name</th><th scope="col" class="order-number">MRP (₹)</th><th scope="col" class="order-number">80% Discount (₹)</th><th scope="col" class="order-number">20% Offer Rate (₹)</th><th scope="col" class="order-number">Qty</th><th scope="col" class="order-number">Sub-Total (₹)</th></tr></thead>
 <tbody id="orderReviewRows"></tbody>
-<tfoot><tr><td colspan="4">PRODUCT TOTAL</td><td id="orderReviewQty" class="order-number"></td><td id="orderReviewMrpTotal" class="order-number"></td><td></td><td id="orderReviewTotal" class="order-number"></td></tr><tr><td colspan="7">SIVAKASI PACKING &amp; FORWARDING</td><td id="orderReviewPacking" class="order-number">₹0.00</td></tr><tr><td colspan="7"><strong>NET TOTAL TO PAY</strong></td><td id="orderReviewPayable" class="order-number">₹0.00</td></tr></tfoot>
+<tfoot><tr><td colspan="4">PRODUCT TOTAL</td><td id="orderReviewMrpTotal" class="order-number"></td><td></td><td></td><td id="orderReviewQty" class="order-number"></td><td id="orderReviewTotal" class="order-number"></td></tr><tr><td colspan="8">SIVAKASI PACKING &amp; FORWARDING</td><td id="orderReviewPacking" class="order-number">₹0.00</td></tr><tr><td colspan="8"><strong>NET TOTAL TO PAY</strong></td><td id="orderReviewPayable" class="order-number">₹0.00</td></tr></tfoot>
 </table></div>
 <div class="request-pdf-tools">
   <p id="clientRequestPdfStatus" role="status" aria-live="polite"></p>
@@ -4256,7 +4256,7 @@ function renderCrackersOrderReview(){
     const productRow=qtyEl?.closest('.product-row');
     const mrpText=productRow?.querySelector('.mrp-price')?.textContent||'';
     const mrp=Number(mrpText.replace(/[^0-9.]/g,''))||0;
-    [index+1,p.companyCode || 'Pending','',p.name,p.qty,mrp?money(mrp):'—',money(p.price),money(amount)].forEach((value,column)=>{
+    [index+1,p.companyCode || 'Pending','',p.name,mrp?money(mrp):'—',mrp?money(Math.max(0,mrp-p.price)):'—',money(p.price),p.qty,money(amount)].forEach((value,column)=>{
       const cell=document.createElement('td');
       cell.textContent=value;
       cell.className=column===1?'order-code':column===2?'order-image':column===3?'order-product':column>=4?'order-number':'';
