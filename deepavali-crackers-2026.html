@@ -1028,6 +1028,7 @@ footer{color:#fff;background:rgba(8,13,38,.88)}
 .futura-quick-nav a:focus-visible{outline:3px solid #fff}
 @media(min-width:900px){.futura-quick-nav{left:10px!important}}
 </style>
+<style>.futura-restored-selection{outline:3px solid #ffc400!important;outline-offset:2px;box-shadow:0 0 0 5px rgba(255,196,0,.22)!important}</style>
 </head>
 <body>
 <header class="site-header">
@@ -4072,11 +4073,35 @@ function continueSavedCrackersCart(){
   if(!awaitingSavedCartChoice || clientRequestPdfBusy || customerDetailsBusy || paymentProofBusy) return;
   try{const receipt=JSON.parse(localStorage.getItem('futuraCrackersReceipt2026')||'null');if(receipt?.state==='saved' && /^[0-9]{4,12}$/.test(receipt.order?.orderId||'')){location.href='/crackers-order-tracking.html#order='+encodeURIComponent(receipt.order.orderId);return;}}catch(e){}
   awaitingSavedCartChoice=false;
+  // Clear any active search/category filter before locating saved products.
+  // Otherwise the restored rows can remain hidden, making Continue look broken.
+  const search=document.getElementById('productSearch');
+  const category=document.getElementById('categoryFilter');
+  if(search){search.value='';search.dispatchEvent(new Event('input'));}
+  if(category){category.value='';category.dispatchEvent(new Event('change'));}
   restoreCrackersCart();
   document.getElementById('continueSavedCartBtn').hidden=true;
-  document.getElementById('cartSessionMessage').textContent='சேமித்த தேர்வு தொடர்கிறது / Continuing your saved selection.';
+  const restored=Object.entries(comboProducts).filter(([,p])=>p.qty>0 && !p.outOfStock);
+  const count=restored.reduce((sum,[,p])=>sum+p.qty,0);
+  document.getElementById('cartSessionMessage').textContent=restored.length
+    ?'Saved selection restored: '+restored.length+' products / '+count+' items. பழைய தேர்வு மீட்டெடுக்கப்பட்டது.'
+    :'Saved items are no longer available. Please select available products.';
   refreshComboSummary();
   restoreOrderReceipt();
+  if(restored.length){
+    const firstId=restored[0][0];
+    const qtyEl=document.getElementById('qty-'+firstId);
+    const row=qtyEl?.closest('.product-row');
+    if(row){
+      // Allow filter/summary updates to finish before scrolling.
+      requestAnimationFrame(()=>requestAnimationFrame(()=>{
+        const top=Math.max(0,window.scrollY+row.getBoundingClientRect().top-155);
+        window.scrollTo({top,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+        row.classList.add('futura-restored-selection');
+        setTimeout(()=>row.classList.remove('futura-restored-selection'),2200);
+      }));
+    }
+  }
 }
 function startNewCrackersOrder(newOrder=true){
   if(clientRequestPdfBusy || customerDetailsBusy || paymentProofBusy) return;
