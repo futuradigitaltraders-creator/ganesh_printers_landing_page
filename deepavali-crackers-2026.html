@@ -1038,27 +1038,28 @@ footer{color:#fff;background:rgba(8,13,38,.88)}
 .order-review table tfoot td{border-top:2px solid #80669b!important}
 </style>
 <style id="futura-approved-desktop-wide-20261013">
-/* Desktop only: 25% narrower than first wide test, supplier-style readable columns. */
+/* Centered desktop catalogue with readable table; no mobile layout changes. */
 @media(min-width:1024px){
- main{max-width:1050px!important;width:calc(100% - 48px)!important;padding-left:0!important;padding-right:0!important}
+ main{max-width:1120px!important;width:80%!important;margin-left:auto!important;margin-right:auto!important;padding:28px 0!important}
  .sample-shop{padding:14px!important}
- .catalog-head,.product-row{grid-template-columns:46px 78px 100px minmax(190px,1fr) 96px 106px 106px 80px 98px!important}
- .catalog-head>div{font-size:12px!important;padding:11px 4px!important}
- .product-row>div{padding:11px 7px!important}
- .product-row .product-name{font-size:15px!important;line-height:1.35!important}
+ .catalog-head,.product-row{grid-template-columns:44px 76px 94px minmax(200px,1fr) 90px 98px 98px 76px 95px!important}
+ .catalog-head>div{font-size:12px!important;padding:10px 3px!important}
+ .product-row>div{padding:12px 6px!important}
+ .product-row .product-name{font-size:16px!important;line-height:1.4!important;font-weight:900!important}
  .product-row .product-meta{font-size:12px!important}
- .product-row .mrp-price,.product-row .our-price{font-size:17px!important}
+ .product-row .mrp-price,.product-row .our-price{font-size:18px!important}
  .product-row .price-box .mrp-label,.product-row .price-box .mrp-price,.product-row .price-box .discount-label{display:none!important}
  .product-row .price-box{background:#fff5fc!important}
  .product-row .our-price{border:0!important;background:transparent!important;padding:0!important;font-weight:900!important}
  .product-row .futura-desktop-brand{font-size:13px!important;font-weight:800!important;color:#49305f;text-align:center}
- .product-row .futura-desktop-mrp{font-size:15px!important;color:#655a69;text-align:center;background:#fff}
- .product-row .futura-desktop-discount{font-size:15px!important;color:#d41359;text-align:center;font-weight:800;background:#fff8fc}
- .live-summary .sum-box{min-height:100px!important;padding:14px!important}
- .catalog-tools{grid-template-columns:minmax(280px,2fr) minmax(200px,1fr) auto!important}
+ .product-row .futura-desktop-mrp{font-size:16px!important;color:#655a69;text-align:center;background:#fff}
+ .product-row .futura-desktop-discount{font-size:16px!important;color:#d41359;text-align:center;font-weight:800;background:#fff8fc}
+ .product-row .futura-tamil-name{display:block;font-size:13px!important;color:#532079;font-weight:700;margin-top:4px;line-height:1.35}
+ .live-summary .sum-box{min-height:98px!important;padding:14px!important}
+ .catalog-tools{grid-template-columns:minmax(260px,2fr) minmax(180px,1fr) auto!important}
  .catalog-tools input{min-height:46px!important;font-size:15px!important}
 }
-@media(max-width:1023px){.futura-desktop-only{display:none!important}}
+@media(max-width:1023px){.futura-desktop-only,.futura-tamil-name{display:none!important}}
 </style>
 </head>
 <body>
@@ -4686,7 +4687,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     const price=row.querySelector('.price-box');
     if(!name||!price)return;
     const meta=row.querySelector('.product-meta')?.textContent||'';
-    const brandMatch=meta.match(/Brand:\\s*([^·|]+)/i);
+    const brandMatch=meta.match(/Brand:\s*([^·|]+)/i);
     const brand=document.createElement('div');brand.className='futura-desktop-brand futura-desktop-only';brand.textContent=(brandMatch?brandMatch[1].trim():'—').toUpperCase();
     name.before(brand);
     const mrpValue=Number((row.querySelector('.mrp-price')?.textContent||'').replace(/[^0-9.]/g,''));
@@ -4694,6 +4695,26 @@ document.addEventListener('DOMContentLoaded',()=>{
     const mrp=document.createElement('div');mrp.className='futura-desktop-mrp futura-desktop-only';mrp.textContent=mrpValue>0?'₹'+mrpValue.toFixed(2):'—';
     const discount=document.createElement('div');discount.className='futura-desktop-discount futura-desktop-only';discount.textContent=mrpValue>0&&Number.isFinite(offerValue)?'₹'+Math.max(0,mrpValue-offerValue).toFixed(2):'—';
     price.before(mrp,discount);
+  });
+  // Tamil names are a display aid, not replacements for supplier product names.
+  const tamilNames=[
+    [/LAKSHMI CRACKERS/i,'லட்சுமி வெடி'],
+    [/HERCULES/i,'ஹெர்குலிஸ் வெடி'],
+    [/SPARKLERS/i,'கம்பி மத்தாப்பு'],
+    [/GROUND CHAKKAR/i,'தரைச் சக்கரம்'],
+    [/FLOWER POTS/i,'பூச்சட்டி'],
+    [/ROCKET/i,'ராக்கெட்'],
+    [/ATOM BOMB/i,'ஆட்டம் பாம்'],
+    [/TWINKLING STARS/i,'சாட்டை மத்தாப்பு'],
+    [/COLOUR FOG/i,'வண்ணப் புகை'],
+    [/SKY SHOT|SHOTS/i,'வானவேடிக்கை']
+  ];
+  document.querySelectorAll('.product-row .product-name').forEach(el=>{
+    if(el.querySelector('.futura-tamil-name'))return;
+    const match=tamilNames.find(([re])=>re.test(el.textContent));
+    if(!match)return;
+    const small=document.createElement('span');small.className='futura-tamil-name';small.lang='ta';small.textContent=match[1];
+    el.appendChild(small);
   });
   setupCatalogueFilter();
   syncCatalogueProducts();
