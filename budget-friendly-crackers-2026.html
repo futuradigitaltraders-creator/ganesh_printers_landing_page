@@ -687,6 +687,37 @@ body{
 
 <!-- Anonymous visitor totals; customer/order data is excluded. -->
 <script defer src="/assets/js/futura-analytics.js?v=20261011"></script>
+<style>
+.budget-checklist{background:#fff;border:2px solid #48217c;border-radius:12px;padding:18px;margin:20px 0;color:#20212b}
+.budget-checklist h2{text-align:center;font-size:clamp(18px,2.5vw,26px);margin:0;color:#321267}
+.budget-checklist-brand{text-align:center;font-weight:700;margin:7px 0 14px}
+.budget-checklist-scroll{overflow-x:auto}
+.budget-checklist-table{border-collapse:collapse;width:100%;table-layout:fixed;font-size:14px}
+.budget-checklist-table th,.budget-checklist-table td{border:1px solid #737080;padding:9px 7px;vertical-align:middle;overflow-wrap:anywhere}
+.budget-checklist-table thead th{background:#fbd858;color:#1b1740;text-align:center}
+.budget-checklist-table th:nth-child(1){width:9%}.budget-checklist-table th:nth-child(2){width:43%}.budget-checklist-table th:nth-child(3){width:10%}.budget-checklist-table th:nth-child(4){width:18%}.budget-checklist-table th:nth-child(5){width:20%}
+.budget-checklist-table td:nth-child(1),.budget-checklist-table td:nth-child(3){text-align:center;font-weight:700}
+.budget-checklist-table td:nth-child(4),.budget-checklist-table td:nth-child(5){text-align:right;font-variant-numeric:tabular-nums}
+.budget-checklist-table tbody tr:nth-child(even){background:#f3eff8}
+.budget-checklist-table tfoot{background:#fff1c4;font-weight:800}
+.budget-checklist-table tfoot td:last-child{text-align:right}
+.budget-checklist-note{font-size:12px;margin:12px 0}
+.budget-checklist-actions{display:flex;gap:10px;flex-wrap:wrap}
+.budget-checklist-actions button{background:#40167d;color:#fff;border:0;border-radius:7px;padding:11px 16px;font-weight:800;cursor:pointer}
+.budget-checklist-help{font-size:12px;color:#555}
+@media(max-width:600px){.budget-checklist{padding:10px}.budget-checklist-table{font-size:11px;min-width:530px}.budget-checklist-table th,.budget-checklist-table td{padding:6px 4px}}
+@page{size:A4 portrait;margin:13mm}
+@media print{
+ body.budget-print-checklist *{visibility:hidden!important}
+ body.budget-print-checklist #budget-checklist,body.budget-print-checklist #budget-checklist *{visibility:visible!important}
+ body.budget-print-checklist #budget-checklist{position:absolute;top:0;left:0;width:100%;margin:0;padding:0;border:0;background:#fff}
+ body.budget-print-checklist .budget-checklist-actions,body.budget-print-checklist .budget-checklist-help{display:none!important}
+ body.budget-print-checklist .budget-checklist-scroll{overflow:visible}
+ body.budget-print-checklist .budget-checklist-table{font-size:10pt;min-width:0}
+ body.budget-print-checklist .budget-checklist-table thead{display:table-header-group}
+ body.budget-print-checklist .budget-checklist-table tr{break-inside:avoid}
+}
+</style>
 </head>
 <body>
 <header><div><strong>FUTURA TRADERS</strong><small>SRI GANESH PRINTERS</small></div>
@@ -754,7 +785,18 @@ body{
 <div class="tbl-head"><span>S.No<small>வ.எண்</small></span><span>PRODUCT NAME / PACK<small>பட்டாசு பெயர் / பேக்</small></span><span>MRP PRICE<small>அசல் விலை</small></span><span>80% OFF NET RATE<small>தள்ளுபடி விலை</small></span><span>QUANTITY<small>எண்ணிக்கை</small></span><span class="subtotal">SUB TOTAL<small>கூடுதல் தொகை</small></span></div>
 <div id="budget-lines"></div><div id="budget-empty">No matching products / பொருட்கள் கிடைக்கவில்லை.</div>
 
-<div id="budget-chosen" class="budget-selected-details">Products தேர்வு செய்யவும்.</div>
+<section id="budget-checklist" class="budget-checklist" aria-labelledby="budget-checklist-title">
+ <h2 id="budget-checklist-title">2026 DEEPAVALI CRACKERS CHECK LIST</h2>
+ <p class="budget-checklist-brand">FUTURA TRADERS — BUDGET FRIENDLY CRACKERS</p>
+ <div class="budget-checklist-scroll"><table class="budget-checklist-table">
+  <thead><tr><th scope="col">S.No.</th><th scope="col">ITEMS / PRODUCT NAME</th><th scope="col">QTY</th><th scope="col">NET RATE (₹)</th><th scope="col">NET TOTAL (₹)</th></tr></thead>
+  <tbody id="budget-checklist-rows"><tr><td colspan="5">Select products to view checklist / பொருட்களைத் தேர்வு செய்யுங்கள்.</td></tr></tbody>
+  <tfoot><tr><th colspan="2" scope="row">GRAND TOTAL</th><td id="budget-checklist-qty">0</td><td>—</td><td id="budget-checklist-total">₹ 0</td></tr></tfoot>
+ </table></div>
+ <p class="budget-checklist-note">Product total only. Packing &amp; Forwarding ₹300 extra. Transport TOPAY. This is not a paid invoice.</p>
+ <div class="budget-checklist-actions"><button type="button" id="budget-checklist-view">VIEW CHECK LIST</button><button type="button" id="budget-checklist-print">DOWNLOAD / SAVE AS PDF</button></div>
+ <p class="budget-checklist-help">For PDF: choose “Save as PDF” in the print dialog. A4 portrait layout.</p>
+</section>
 <div class="budget-checkout-tools-grid">
  <section class="budget-proof-panel" aria-labelledby="budget-proof-heading">
   <h2 id="budget-proof-heading">Payment Screenshot / பணம் செலுத்திய Screenshot</h2>
@@ -970,6 +1012,10 @@ function budgetRender(){
  const {sel,items,mrp,total,save}=budgetTotals();
  bd('budget-products').textContent=sel.length;bd('budget-items').textContent=items;bd('budget-mrp').textContent=budgetFmt(mrp);bd('budget-total').textContent=budgetFmt(total);bd('budget-save').textContent=budgetFmt(save);
  bd('budget-chosen').textContent=sel.length?sel.map(p=>p.id+'. '+p.name+' / '+p.tamil+' × '+budgetQty[p.id]+' @ '+budgetFmt(p.rate)+' = '+budgetFmt(p.rate*budgetQty[p.id])).join('\n'):'Products தேர்வு செய்யவும்.';
+ const checklistBody=bd('budget-checklist-rows');checklistBody.replaceChildren();
+ if(!sel.length){const tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=5;td.textContent='Select products to view checklist / பொருட்களைத் தேர்வு செய்யுங்கள்.';tr.append(td);checklistBody.append(tr);}
+ sel.forEach(p=>{const tr=document.createElement('tr');[p.id,p.name+' / '+p.tamil,budgetQty[p.id],budgetFmt(p.rate),budgetFmt(p.rate*budgetQty[p.id])].forEach(v=>{const td=document.createElement('td');td.textContent=v;tr.append(td)});checklistBody.append(tr)});
+ bd('budget-checklist-qty').textContent=items;bd('budget-checklist-total').textContent=budgetFmt(total);
  const minBudgetOrder=3000,ready=total>=minBudgetOrder;
  const sendButton=bd('budget-send'),emailButton=bd('budget-email-send'),mainButton=bd('budget-open-request'),sendMessage=bd('budget-msg');
  sendButton.disabled=!ready || budgetOrderBusy;
@@ -992,6 +1038,9 @@ function budgetRender(){
  bd('budget-clear-selection').disabled=budgetOrderBusy;bd('budget-start-new-order').disabled=budgetOrderBusy;
  sendMessage.textContent=ready?'Minimum Order Rs. 3,000 அடைந்துவிட்டது. Customer Details நிரப்பி WhatsApp Order Request அனுப்பலாம்.':'Minimum Order Rs. 3,000 — மேலும் '+budgetFmt(minBudgetOrder-total)+' மதிப்பிற்கு பொருட்களைத் தேர்வு செய்யுங்கள்.';
 }
+bd('budget-checklist-view').addEventListener('click',()=>bd('budget-checklist').scrollIntoView({behavior:'smooth',block:'start'}));
+bd('budget-checklist-print').addEventListener('click',()=>{if(!budgetCart().length){alert('Select products first / முதலில் பொருட்களைத் தேர்வு செய்யுங்கள்.');return;}document.body.classList.add('budget-print-checklist');window.print();});
+window.addEventListener('afterprint',()=>document.body.classList.remove('budget-print-checklist'));
 bd('budget-search').addEventListener('input',budgetRender);
 bd('budget-category').addEventListener('change',budgetRender);
 bd('budget-clear-search').addEventListener('click',()=>{
