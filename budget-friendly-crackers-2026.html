@@ -693,7 +693,7 @@ body{
 .budget-checklist-brand{text-align:center;font-weight:700;margin:7px 0 14px}
 .budget-checklist-scroll{overflow-x:auto}
 .budget-checklist-table{border-collapse:collapse;width:100%;table-layout:fixed;font-size:14px}
-.budget-checklist-table th,.budget-checklist-table td{border:1px solid #737080;padding:9px 7px;vertical-align:middle;overflow-wrap:anywhere}
+.budget-checklist-table{border:2px solid #3c3152;border-spacing:0}.budget-checklist-table th,.budget-checklist-table td{border:1px solid #514760!important;padding:9px 7px;vertical-align:middle;overflow-wrap:anywhere;background-clip:padding-box}.budget-checklist-table tbody tr{border-top:2px solid #514760!important;border-bottom:2px solid #514760!important}.budget-checklist-table tbody td+td{border-left:2px solid #514760!important}
 .budget-checklist-table thead th{background:#fbd858;color:#1b1740;text-align:center}
 .budget-checklist-table th:nth-child(1){width:9%}.budget-checklist-table th:nth-child(2){width:43%}.budget-checklist-table th:nth-child(3){width:10%}.budget-checklist-table th:nth-child(4){width:18%}.budget-checklist-table th:nth-child(5){width:20%}
 .budget-checklist-table td:nth-child(1),.budget-checklist-table td:nth-child(3){text-align:center;font-weight:700}
@@ -714,6 +714,7 @@ body{
  body.budget-print-checklist .budget-checklist-actions,body.budget-print-checklist .budget-checklist-help{display:none!important}
  body.budget-print-checklist .budget-checklist-scroll{overflow:visible}
  body.budget-print-checklist .budget-checklist-table{font-size:10pt;min-width:0}
+ body.budget-print-checklist .budget-checklist-table,body.budget-print-checklist .budget-checklist-table th,body.budget-print-checklist .budget-checklist-table td{border-color:#222!important;print-color-adjust:exact;-webkit-print-color-adjust:exact}
  body.budget-print-checklist .budget-checklist-table thead{display:table-header-group}
  body.budget-print-checklist .budget-checklist-table tr{break-inside:avoid}
 }
