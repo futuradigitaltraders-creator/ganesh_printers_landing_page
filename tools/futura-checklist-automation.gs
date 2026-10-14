@@ -40,13 +40,36 @@ function setupChecklistAutomation() {
   Logger.log('Mapping Sheet: '+sheet_().getParent().getUrl());
   Logger.log('PDF Folder: '+folder_().getUrl());
 }
-function parseSupplierEmail_(body){
-  const rows=[];
-  // Example: 1 STD 016 36041000 12 CM JIMMY ... (10 PCS) 2 ₹54.10 ₹108.20
-  const pattern=/^(\d{1,3})\s+[A-Z]{2,5}\s+\d{2,4}\s+\d{8}\s+(.+?)\s+(\d{1,5})\s+₹\s*[\d,]+\.\d{2}\s+₹\s*[\d,]+\.\d{2}\s*$/gm;
-  let m;
-  while((m=pattern.exec(body))!==null)rows.push({number:Number(m[1]),name:m[2].trim(),qty:Number(m[3])});
-  if(!rows.length||rows.some((r,i)=>r.number!==i+1)||rows.length>300)throw Error('Email product rows could not be verified');
+function parseSupplierEmail_(body, html){
+  function decode(value){
+    return String(value).replace(/<br\s*\/?>/gi,' ').replace(/<[^>]*>/g,' ')
+      .replace(/&nbsp;|&#160;/gi,' ').replace(/&quot;/gi,'"')
+      .replace(/&amp;/gi,'&').replace(/&#(\d+);/g,(_,n)=>String.fromCharCode(Number(n)))
+      .replace(/\s+/g,' ').trim();
+  }
+  let rows=[];
+  // Prefer the real HTML table cells: supplier emails may wrap plain text at arbitrary widths.
+  const htmlRows=String(html||'').match(/<tr\b[^>]*>[\s\S]*?<\/tr>/gi)||[];
+  for(const tr of htmlRows){
+    const cells=[...tr.matchAll(/<td\b[^>]*>([\s\S]*?)<\/td>/gi)].map(m=>decode(m[1]));
+    if(cells.length<7)continue;
+    const no=Number(cells[0]), code=cells[1], hsn=cells[2], qty=Number(cells[4]);
+    if(Number.isInteger(no)&&no>0&&/^[A-Z]{2,5}\s*\d{2,4}$/.test(code)&&/^\d{8}$/.test(hsn)
+       &&cells[3]&&Number.isInteger(qty)&&qty>0){
+      rows.push({number:no,name:cells[3],qty});
+    }
+  }
+  if(!rows.length){
+    // Gmail plain body fallback: spaces/newlines and currency glyphs vary by message.
+    const normalized=String(body||'').replace(/\u00a0/g,' ').replace(/[ \t]+/g,' ')
+      .replace(/\r/g,'').replace(/\n(?!(?:\d{1,3})\s+[A-Z]{2,5}\s+\d{2,4}\s+\d{8}\b)/g,' ');
+    const pattern=/(?:^|\n)\s*(\d{1,3})\s+([A-Z]{2,5})\s+(\d{2,4})\s+(\d{8})\s+(.+?)\s+(\d{1,5})\s+[₹Rs.\s]*([\d,]+\.\d{2})\s+[₹Rs.\s]*([\d,]+\.\d{2})(?=\s|$)/g;
+    let m;
+    while((m=pattern.exec(normalized))!==null)
+      rows.push({number:Number(m[1]),name:m[5].trim(),qty:Number(m[6])});
+  }
+  if(!rows.length||rows.length>300||rows.some((r,i)=>r.number!==i+1||!r.name||r.qty<1))
+    throw Error('Email product rows could not be verified');
   return rows;
 }
 function pdfFromRows_(futura,supplier,name,mobile,items){
@@ -106,7 +129,7 @@ function checkSupplierOrderEmails() {
         const text=msg.getPlainBody();
         const embedded=text.match(/Your Order\s+(\d+)\s+placed/i);
         if(!embedded||embedded[1]!==supplier)throw Error('Supplier order mismatch');
-        const rows=parseSupplierEmail_(text);
+        const rows=parseSupplierEmail_(text,msg.getBody());
         const pdf=pdfFromRows_(futura,supplier,name,mobile,rows);
         sh.getRange(row,5,1,4).setValues([['DONE',pdf.getUrl(),msg.getId(),new Date()]]);
       }catch(e){sh.getRange(row,5).setValue('ERROR: '+String(e.message).slice(0,100));}
