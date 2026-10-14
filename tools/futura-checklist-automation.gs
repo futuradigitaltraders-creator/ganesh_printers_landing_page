@@ -35,10 +35,10 @@ function sheet_() {
 }
 function setupChecklistAutomation() {
   sheet_();folder_();
-  // Replace older 15-minute (or duplicate) triggers with exactly one 6-hour trigger.
+  // Replace older 6-hour (or duplicate) triggers with exactly one 5-minute trigger.
   ScriptApp.getProjectTriggers().filter(t=>t.getHandlerFunction()==='checkSupplierOrderEmails')
     .forEach(t=>ScriptApp.deleteTrigger(t));
-  ScriptApp.newTrigger('checkSupplierOrderEmails').timeBased().everyHours(6).create();
+  ScriptApp.newTrigger('checkSupplierOrderEmails').timeBased().everyMinutes(5).create();
   Logger.log('Mapping Sheet: '+sheet_().getParent().getUrl());
   Logger.log('PDF Folder: '+folder_().getUrl());
 }
