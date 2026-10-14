@@ -79,22 +79,53 @@ function pdfFromRows_(futura,supplier,name,mobile,items){
   const tmp=DocumentApp.create(filename);
   try{
     const body=tmp.getBody();
-    const title=body.appendParagraph('2026 DEEPAVALI CRACKERS CHECKLIST');
-    title.setHeading(DocumentApp.ParagraphHeading.HEADING2);
-    title.setAlignment(DocumentApp.HorizontalAlignment.CENTER);
-    title.editAsText().setFontSize(12);
-    const subtitle=body.appendParagraph('Customer: '+name+'   |   Mobile: '+mobile+'   |   FUTURA Order: '+futura+'   |   Supplier Order: '+supplier);
-    subtitle.setAlignment(DocumentApp.HorizontalAlignment.CENTER);
-    subtitle.editAsText().setFontSize(8);
-    const data=[['S.No.','Product Name','Qty']];
-    items.forEach((item,i)=>data.push([String(i+1),item.name,String(item.qty)]));
-    const table=body.appendTable(data);
-    table.setBorderWidth(0.5);
-    for(let i=0;i<table.getNumRows();i++) {
-      for(let j=0;j<3;j++)table.getCell(i,j).editAsText().setFontSize(9);
+    // A4 in points; narrow margins and compact rows for 20 products per page.
+    body.setPageWidth(595.28).setPageHeight(841.89);
+    body.setMarginTop(28).setMarginBottom(28);
+    body.setMarginLeft(28).setMarginRight(28);
+    const pageWidth=539;
+    const totalPages=Math.ceil(items.length/20);
+    for(let page=0;page<totalPages;page++){
+      if(page>0)body.appendPageBreak();
+      if(page===0){
+        const title=body.appendParagraph('2026 DEEPAVALI CRACKERS CHECKLIST');
+        title.setAlignment(DocumentApp.HorizontalAlignment.CENTER);
+        title.setSpacingBefore(0).setSpacingAfter(4);
+        title.editAsText().setBold(true).setFontSize(12);
+        const subtitle=body.appendParagraph('Customer: '+name+'   |   Mobile: '+mobile+'   |   FUTURA Order: '+futura+'   |   Supplier Order: '+supplier);
+        subtitle.setAlignment(DocumentApp.HorizontalAlignment.CENTER);
+        subtitle.setSpacingBefore(0).setSpacingAfter(5);
+        subtitle.editAsText().setFontSize(8);
+      }else{
+        const label=body.appendParagraph('Page '+(page+1));
+        label.setSpacingBefore(0).setSpacingAfter(5);
+        label.editAsText().setFontSize(9).setBold(true);
+      }
+      const start=page*20;
+      const section=items.slice(start,start+20);
+      const data=[['S.No.','Product Name','Qty']];
+      section.forEach((item,i)=>data.push([String(start+i+1),item.name,String(item.qty)]));
+      const table=body.appendTable(data);
+      table.setBorderWidth(0.5);
+      table.setColumnWidth(0,42);
+      table.setColumnWidth(1,pageWidth-91);
+      table.setColumnWidth(2,49);
+      for(let i=0;i<table.getNumRows();i++){
+        for(let j=0;j<3;j++){
+          const cell=table.getCell(i,j);
+          cell.setPaddingTop(2).setPaddingBottom(2);
+          cell.setPaddingLeft(4).setPaddingRight(4);
+          cell.editAsText().setFontSize(8);
+          if(i===0)cell.editAsText().setBold(true);
+        }
+      }
+      if(page===totalPages-1){
+        const total=items.reduce((sum,item)=>sum+item.qty,0);
+        const summary=body.appendParagraph('Total Products: '+items.length+'    |    Total Qty: '+total);
+        summary.setSpacingBefore(5).setSpacingAfter(0);
+        summary.editAsText().setFontSize(9).setBold(true);
+      }
     }
-    const total=items.reduce((sum,item)=>sum+item.qty,0);
-    body.appendParagraph('Total Products: '+items.length+'    |    Total Qty: '+total).editAsText().setFontSize(9);
     tmp.saveAndClose();
     const blob=DriveApp.getFileById(tmp.getId()).getAs(MimeType.PDF).setName(filename+'.pdf');
     return folder_().createFile(blob);
