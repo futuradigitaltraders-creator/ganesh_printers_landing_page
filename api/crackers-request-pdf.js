@@ -131,13 +131,18 @@ function buildPdf(order) {
       while (size > 7.5 && doc.fontSize(size).widthOfString(String(value)) > w) size -= 0.25;
       text(value, x, y, w, size, bold, color, 'right');
     }
-    function header(first) {
+    function header() {
       doc.roundedRect(left, 20, width, 53, 9).fill('#087DCF');
       text('1. CLIENT WHATSAPP ORDER FORM', left + 9, 28, width - 18, 19, true, '#FFFFFF', 'center');
-      text('(Only Selected Products & Client Details)', left + 9, 53, width - 18, 11, true, '#FFFFFF', 'center');
+      text('(Client Details)', left + 9, 53, width - 18, 11, true, '#FFFFFF', 'center');
       doc.image(path.join(ASSETS, 'header.png'), left, 79, {width, height: 85});
       text('Order ID: ' + order.orderId, left + 4, 172, width - 8, 9, false, '#35116B');
-      return first ? 197 : 195;
+      return 197;
+    }
+    function continuedPage() {
+      const pageNumber = doc.bufferedPageRange().count;
+      text('Page ' + pageNumber, left, 24, width, 10, true, '#35116B');
+      return 45;
     }
     function details(y) {
       doc.roundedRect(left, y, width, 25, 5).fill('#E6F4FC');
@@ -179,11 +184,14 @@ function buildPdf(order) {
       });
       return y + 43;
     }
-    let y = tableHeader(details(header(true)));
+    // The first sheet is reserved exclusively for the customer's details.
+    details(header());
+    doc.addPage();
+    let y = tableHeader(continuedPage());
     order.items.forEach((item, index) => {
       doc.font('Body').fontSize(10.5);
       const height = Math.max(62, doc.heightOfString(item.name, {width: columns[3] - 14, lineGap: 2}) + 18);
-      if (y + height > bottom - 12) { doc.addPage(); y = tableHeader(header(false)); }
+      if (y + height > bottom - 12) { doc.addPage(); y = tableHeader(continuedPage()); }
       doc.rect(left, y, width, height).fill(index % 2 ? '#FAFBFD' : '#FFFFFF');
       doc.lineWidth(1).strokeColor('#6B6075');
       edges.forEach(edge => doc.moveTo(edge, y).lineTo(edge, y + height).stroke());
@@ -209,7 +217,7 @@ function buildPdf(order) {
     const pendingText = pending.length ? 'Company code confirmation pending: ' + pending.map(item => item.name).join('; ') : '';
     doc.font('Body').fontSize(9);
     const pendingHeight = pendingText ? doc.heightOfString(pendingText, {width: width - 16, lineGap: 2}) + 14 : 0;
-    if (y + 100 + pendingHeight > bottom) { doc.addPage(); y = header(false); }
+    if (y + 100 + pendingHeight > bottom) { doc.addPage(); y = continuedPage(); }
     y += 10;
     doc.roundedRect(left, y, width, 86, 7).fill('#FFF3CA');
     text('Selected Products: ' + order.items.length + ' Items', left + 11, y + 8, width * 0.55 - 22, 11, true);
