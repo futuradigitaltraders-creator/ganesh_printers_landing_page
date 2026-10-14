@@ -1404,7 +1404,7 @@ checkBudgetPdfEmailService();
 (function restoreVerifiedBudgetDraft(){
  let draft;
  try{draft=JSON.parse(sessionStorage.getItem('futuraBudgetVerifiedEditDraft2026')||'null');sessionStorage.removeItem('futuraBudgetVerifiedEditDraft2026');}catch{return;}
- if(!draft||!/^\\d{4,12}$/.test(String(draft.orderId||''))||!Array.isArray(draft.items)||!draft.items.length)return;
+ if(!draft||!/^\d{4,12}$/.test(String(draft.orderId||''))||!Array.isArray(draft.items)||!draft.items.length)return;
  const matches=draft.items.every(item=>Number.isInteger(item.serial)&&Number.isInteger(item.qty)&&item.qty>0&&item.qty<=999&&budgetProducts.some(p=>p.id===item.serial));
  if(!matches){bd('budget-session-message').textContent='Some old order products could not be matched. No draft loaded; contact FUTURA before editing.';return;}
  // This is a NEW editable selection, not an update to the verified saved order.
