@@ -4,8 +4,9 @@ on:
     paths:
       - '.github/workflows/pyrobazaar-stock-sync.yml'
   schedule:
-    # Every 30 minutes in UTC (GitHub can delay scheduled jobs at busy times).
-    - cron: '7,37 * * * *'
+    # Target: hourly stock checks (60 minutes). GitHub Actions schedule is best-effort;
+    # actual intervals can exceed 120 minutes when scheduled runs are delayed or dropped.
+    - cron: '17 * * * *'
   workflow_dispatch:
 
 permissions:
