@@ -35,8 +35,10 @@ function sheet_() {
 }
 function setupChecklistAutomation() {
   sheet_();folder_();
-  const exists=ScriptApp.getProjectTriggers().some(t=>t.getHandlerFunction()==='checkSupplierOrderEmails');
-  if(!exists) ScriptApp.newTrigger('checkSupplierOrderEmails').timeBased().everyMinutes(15).create();
+  // Replace older 15-minute (or duplicate) triggers with exactly one 6-hour trigger.
+  ScriptApp.getProjectTriggers().filter(t=>t.getHandlerFunction()==='checkSupplierOrderEmails')
+    .forEach(t=>ScriptApp.deleteTrigger(t));
+  ScriptApp.newTrigger('checkSupplierOrderEmails').timeBased().everyHours(6).create();
   Logger.log('Mapping Sheet: '+sheet_().getParent().getUrl());
   Logger.log('PDF Folder: '+folder_().getUrl());
 }
