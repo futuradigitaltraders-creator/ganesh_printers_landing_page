@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>2026 Deepavali Crackers Checklist Generator</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#eef1f5;color:#19212b;font-family:Arial,sans-serif}.wrap{max-width:1050px;margin:auto;padding:20px}.controls{background:white;border:1px solid #d5d9e0;padding:20px;border-radius:10px;margin-bottom:16px}h1{font-size:22px;margin:0 0 10px}p{line-height:1.5}label{display:block;font-weight:bold;font-size:13px;margin-bottom:6px}.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}input,textarea{width:100%;padding:10px;border:1px solid #b4baca;border-radius:5px;font:14px Arial}textarea{min-height:180px;resize:vertical}button{padding:12px 18px;border:0;background:#35116b;color:#fff;border-radius:5px;font-weight:bold;cursor:pointer}button:disabled{background:#bbb}#status{min-height:25px;margin:10px 0;color:#7c1627}.sheet{width:210mm;min-height:297mm;margin:auto;background:white;padding:11mm 12mm;box-shadow:0 5px 24px #0002}.sheet h2{text-align:center;font-size:14px;letter-spacing:.3px;margin:0 0 9px}.meta{font-size:9px;text-align:center;padding:0 0 9px;border-bottom:1px solid #555;line-height:1.6}.sheet table{border-collapse:collapse;width:100%;margin-top:10px;font-size:10px}.sheet th,.sheet td{border:1px solid #6c6c6c;padding:5px 6px;text-align:left;vertical-align:top}.sheet th{background:#eee}.sheet td:first-child,.sheet th:first-child{width:46px;text-align:center}.sheet td:last-child,.sheet th:last-child{width:47px;text-align:center}.totals{font-size:10px;margin-top:9px;text-align:right}.note{font-size:11px;color:#505767} @media(max-width:750px){.fields{grid-template-columns:1fr}.sheet{width:100%;min-height:0;padding:14px}}@page{size:A4;margin:0}@media print{body{background:white}.controls{display:none}.wrap{padding:0;max-width:none}.sheet{box-shadow:none;width:210mm;min-height:297mm;padding:11mm 12mm}.sheet tr{break-inside:avoid;page-break-inside:avoid}.sheet thead{display:table-header-group}.sheet h2{break-after:avoid}}
+</style></head><body><main class="wrap">
+<section class="controls"><h1>2026 Deepavali Checklist — Office Tool</h1>
+<p class="note">Paste the supplier's confirmation email text. Nothing is uploaded or saved; this page processes the text inside your browser. Check both order numbers before printing. Use browser Print → Save as PDF.</p>
+<div class="fields">
+<div><label for="futura">FUTURA Order No.</label><input id="futura" inputmode="numeric" placeholder="0108"></div>
+<div><label for="supplier">Supplier Order No.</label><input id="supplier" inputmode="numeric" placeholder="7697"></div>
+<div><label for="customer">Customer Name</label><input id="customer" placeholder="Customer name"></div>
+<div><label for="mobile">Customer Mobile</label><input id="mobile" inputmode="tel" placeholder="10-digit mobile"></div></div>
+<p><label for="email">Supplier confirmed order email text</label><textarea id="email" placeholder="Paste the supplier email including: S.No Item ID HSN Code Product Name Quantity Rate Amount"></textarea></p>
+<button id="generate" type="button">Create Checklist Preview</button> <button id="print" disabled type="button">Print / Save PDF</button>
+<p id="status" role="status"></p></section>
+<article class="sheet" id="sheet" hidden><h2>2026 DEEPAVALI CRACKERS CHECKLIST</h2><div id="meta" class="meta"></div>
+<table><thead><tr><th>S.No.</th><th>Product Name</th><th>Qty</th></tr></thead><tbody id="rows"></tbody></table><div class="totals" id="totals"></div></article>
+</main><script>
+'use strict';
+const $=id=>document.getElementById(id);
+function parseItems(raw){
+ const lines=raw.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
+ const items=[];
+ // Supplier email line format: 1 STD 016 36041000 PRODUCT NAME (PACK) 2 ₹54.10 ₹108.20
+ const row=/^(\d{1,3})\s+([A-Z]{2,5})\s+(\d{2,4})\s+(\d{8})\s+(.+?)\s+(\d{1,5})\s+₹\s*[\d,]+\.\d{2}\s+₹\s*[\d,]+\.\d{2}\s*$/;
+ for(const line of lines){
+   const m=line.match(row);
+   if(m)items.push({serial:Number(m[1]),name:m[5].trim(),qty:Number(m[6])});
+ }
+ if(!items.length)throw Error('No supplier product rows found. Paste the full supplier order email.');
+ if(items.some((item,i)=>item.serial!==i+1)||new Set(items.map(x=>x.serial)).size!==items.length)throw Error('Supplier product lines are missing or out of order. Please check the pasted email.');
+ return items;
+}
+$('generate').addEventListener('click',()=>{
+ $('print').disabled=true;$('sheet').hidden=true;
+ try{
+  const futura=$('futura').value.trim(),supplier=$('supplier').value.trim(),name=$('customer').value.trim(),mobile=$('mobile').value.replace(/\D/g,'');
+  if(!/^\d{3,12}$/.test(futura)||!/^\d{3,12}$/.test(supplier)||!name||mobile.length!==10)throw Error('Enter FUTURA number, supplier number, customer name and 10-digit mobile.');
+  const items=parseItems($('email').value);
+  const emailOrder=$('email').value.match(/Your Order\s+(\d+)\s+placed/i);
+  if(emailOrder&&emailOrder[1]!==supplier)throw Error('Supplier Order No. does not match the number in the email ('+emailOrder[1]+').');
+  const meta=$('meta');meta.replaceChildren();
+  for(const [i,v] of [['Customer',name],['Mobile',mobile],['FUTURA Order',futura],['Supplier Order',supplier]].entries()){
+    if(i)meta.append(document.createTextNode('  |  '));
+    const b=document.createElement('strong');b.textContent=v[0]+': ';meta.append(b,document.createTextNode(v[1]));
+  }
+  $('rows').replaceChildren();
+  items.forEach((p,i)=>{const tr=document.createElement('tr');for(const val of [i+1,p.name,p.qty]){const td=document.createElement('td');td.textContent=val;tr.append(td);}$('rows').append(tr);});
+  $('totals').textContent='Total Products: '+items.length+'  |  Total Qty: '+items.reduce((a,b)=>a+b.qty,0);
+  $('sheet').hidden=false;$('print').disabled=false;$('status').textContent='Verified '+items.length+' product rows. Review the preview, then print or save PDF.';
+ }catch(e){$('status').textContent=e.message;}
+});
+$('print').addEventListener('click',()=>window.print());
+</script></body></html>
