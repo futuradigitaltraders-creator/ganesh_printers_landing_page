@@ -36,7 +36,7 @@ input{display:block;width:100%;border:1px solid #bfb3cd;border-radius:7px;paddin
 <section class="card"><h2>ORDER PROGRESS / ஆர்டர் நிலை</h2><ol id="progress"><li><span class="step">1</span><span>Order Placed</span><small class="badge"></small></li><li><span class="step">2</span><span>Payment Received</span><small class="badge"></small></li><li><span class="step">3</span><span>Packing</span><small class="badge"></small></li><li><span class="step">4</span><span>Dispatch</span><small class="badge"></small></li><li><span class="step">5</span><span>Transport / LR Details</span><small class="badge"></small></li><li><span class="step">6</span><span>Delivered / Goods Received</span><small class="badge"></small></li></ol></section>
 <section class="card"><h2>Dispatch & delivery details</h2><dl><dt>Dispatch date</dt><dd id="dispatchDate"></dd><dt>Transport name</dt><dd id="transportName"></dd><dt>LR / Parcel number</dt><dd id="parcelNumber"></dd><dt>Delivered date</dt><dd id="deliveredDate"></dd><dt>Receiver name</dt><dd id="receiverName"></dd><dt>Client mobile</dt><dd id="maskedMobile"></dd></dl><p class="muted">Transport: TOPAY — payable at destination.</p><p class="muted" id="updatedAt"></p></section>
 </div>
-<div class="actions"><button id="closeOrder" type="button" hidden>CLOSE ORDER / வேறு ஆர்டர்</button><a class="link" id="viewSelectedProducts" href="#savedOrderProducts">VIEW MY SELECTED PRODUCTS<br>நான் தேர்வு செய்த பொருட்களைப் பார்க்க</a></div>
+<div class="actions"><button id="closeOrder" type="button" hidden>CLOSE ORDER / வேறு ஆர்டர்</button><a class="link" id="viewSelectedProducts" href="#savedOrderProducts" hidden>RE-MODIFY MY ORDER<br>பழைய ஆர்டரைத் திருத்த</a></div>
 </main><footer>Need help? <a href="tel:+919488917786">9488917786</a><br>Your Order ID and registered mobile number are required each time you reopen this page.</footer>
 <script>
 
@@ -44,11 +44,11 @@ input{display:block;width:100%;border:1px solid #bfb3cd;border-radius:7px;paddin
 const params=new URLSearchParams(location.hash.slice(1));
 const message=document.getElementById('message'),button=document.getElementById('refresh'),tracking=document.getElementById('tracking');
 const form=document.getElementById('accessForm'),orderInput=document.getElementById('accessOrderId'),mobileInput=document.getElementById('accessMobile'),openButton=document.getElementById('openOrder');
-let busy=false,credentials=null,requestVersion=0,showSelectedAfterVerify=false;
+let busy=false,credentials=null,requestVersion=0,showSelectedAfterVerify=false,verifiedEditableOrder=null;
 const TRACKING_CLIENT_TIMEOUT_MS=38000;
 if(/^[0-9]{1,12}$/.test(params.get('order')||''))orderInput.value=params.get('order');
 const money=value=>'₹'+Number(value).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
-function clearPrivateView(){tracking.hidden=true;tracking.querySelectorAll('dd,p[id]').forEach(e=>e.textContent='');document.getElementById('savedItems').replaceChildren();for(const id of ['selectedProductCount','selectedItemCount','selectedProductValue'])document.getElementById(id).textContent='';button.hidden=true;document.getElementById('closeOrder').hidden=true;}
+function clearPrivateView(){verifiedEditableOrder=null;document.getElementById('viewSelectedProducts').hidden=true;tracking.hidden=true;tracking.querySelectorAll('dd,p[id]').forEach(e=>e.textContent='');document.getElementById('savedItems').replaceChildren();for(const id of ['selectedProductCount','selectedItemCount','selectedProductValue'])document.getElementById(id).textContent='';button.hidden=true;document.getElementById('closeOrder').hidden=true;}
 function lockOrder(){showSelectedAfterVerify=false;requestVersion++;credentials=null;clearPrivateView();document.getElementById('accessCard').hidden=false;mobileInput.value='';message.textContent='Enter your Order ID and registered mobile number to continue.';}
 async function refreshOrder(){
   if(busy||!credentials)return;
@@ -92,6 +92,9 @@ async function refreshOrder(){
       row.dataset.companyCode=item.companyCode||'';row.dataset.productName=item.name;
       document.getElementById('savedItems').append(row);
     }
+    verifiedEditableOrder=(!data.paymentConfirmed && (data.items||[]).length && (data.items||[]).every(item=>String(item.companyCode||'').toUpperCase()==='BUDGET'))
+      ?{orderId:data.orderId,items:data.items.map(item=>({serial:Number(item.serial),qty:Number(item.qty)}))}:null;
+    document.getElementById('viewSelectedProducts').hidden=!verifiedEditableOrder;
     loadSelectedProductImages(attempt);
     const stages=['Awaiting payment confirmation','Payment Received','Packing','Dispatched','Delivered'],active=Math.max(0,stages.indexOf(data.status));
     const completed=[true,data.paymentConfirmed,active>=3,active>=3,!!(data.transportName&&data.parcelNumber),active>=4];
@@ -143,12 +146,12 @@ async function loadSelectedProductImages(attempt){
   }catch{}
 }
 document.getElementById('viewSelectedProducts').addEventListener('click',event=>{
-  event.preventDefault();
-  if(!tracking.hidden&&credentials){openSelectedProducts();return;}
-  if(busy)return;
-  showSelectedAfterVerify=true;
-  if(form.reportValidity())form.requestSubmit();
-  else{showSelectedAfterVerify=false;document.getElementById('accessCard').scrollIntoView({behavior:'smooth'});}
+ event.preventDefault();
+ if(!verifiedEditableOrder||tracking.hidden)return;
+ try{
+  sessionStorage.setItem('futuraBudgetVerifiedEditDraft2026',JSON.stringify(verifiedEditableOrder));
+  location.href='/budget-friendly-crackers-2026.html?catalogue=budget#budget-catalogue';
+ }catch{message.textContent='Could not prepare editable draft. Please retry.';}
 });
 form.addEventListener('submit',event=>{event.preventDefault();if(busy)return;credentials={orderId:orderInput.value.trim(),mobile:mobileInput.value.trim()};refreshOrder();});
 button.addEventListener('click',refreshOrder);
