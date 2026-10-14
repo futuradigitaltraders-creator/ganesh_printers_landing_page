@@ -1401,6 +1401,24 @@ async function checkBudgetPdfEmailService(){
 }
 bd('budget-check-pdf-email').addEventListener('click',checkBudgetPdfEmailService);
 checkBudgetPdfEmailService();
+(function restoreVerifiedBudgetDraft(){
+ let draft;
+ try{draft=JSON.parse(sessionStorage.getItem('futuraBudgetVerifiedEditDraft2026')||'null');sessionStorage.removeItem('futuraBudgetVerifiedEditDraft2026');}catch{return;}
+ if(!draft||!/^\\d{4,12}$/.test(String(draft.orderId||''))||!Array.isArray(draft.items)||!draft.items.length)return;
+ const matches=draft.items.every(item=>Number.isInteger(item.serial)&&Number.isInteger(item.qty)&&item.qty>0&&item.qty<=999&&budgetProducts.some(p=>p.id===item.serial));
+ if(!matches){bd('budget-session-message').textContent='Some old order products could not be matched. No draft loaded; contact FUTURA before editing.';return;}
+ // This is a NEW editable selection, not an update to the verified saved order.
+ for(const id of Object.keys(budgetQty))delete budgetQty[id];
+ let unavailable=[];
+ for(const item of draft.items){
+  const p=budgetProducts.find(p=>p.id===item.serial);
+  if(p.inStock===false){unavailable.push(p.name);continue;}
+  budgetQty[item.serial]=item.qty;
+ }
+ // Prevent accidentally reusing a locally saved order ID or confirmation.
+ try{localStorage.removeItem('futuraBudgetSavedOrder2026');localStorage.removeItem('futuraBudgetSession2026');}catch{}
+ bd('budget-session-message').textContent='OLD ORDER '+draft.orderId+' — Editable NEW draft loaded. Check current prices and quantities. Original order remains unchanged. '+(unavailable.length?'Out of stock (not added): '+unavailable.join(', '):'');
+})();
 budgetRender();
 /* Keep the yellow bilingual heading visible immediately below the dynamic sticky totals. */
 (function(){
