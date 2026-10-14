@@ -36,7 +36,7 @@ input{display:block;width:100%;border:1px solid #bfb3cd;border-radius:7px;paddin
 <section class="card"><h2>ORDER PROGRESS / ஆர்டர் நிலை</h2><ol id="progress"><li><span class="step">1</span><span>Order Placed</span><small class="badge"></small></li><li><span class="step">2</span><span>Payment Received</span><small class="badge"></small></li><li><span class="step">3</span><span>Packing</span><small class="badge"></small></li><li><span class="step">4</span><span>Dispatch</span><small class="badge"></small></li><li><span class="step">5</span><span>Transport / LR Details</span><small class="badge"></small></li><li><span class="step">6</span><span>Delivered / Goods Received</span><small class="badge"></small></li></ol></section>
 <section class="card"><h2>Dispatch & delivery details</h2><dl><dt>Dispatch date</dt><dd id="dispatchDate"></dd><dt>Transport name</dt><dd id="transportName"></dd><dt>LR / Parcel number</dt><dd id="parcelNumber"></dd><dt>Delivered date</dt><dd id="deliveredDate"></dd><dt>Receiver name</dt><dd id="receiverName"></dd><dt>Client mobile</dt><dd id="maskedMobile"></dd></dl><p class="muted">Transport: TOPAY — payable at destination.</p><p class="muted" id="updatedAt"></p></section>
 </div>
-<div class="actions"><button id="closeOrder" type="button" hidden>CLOSE ORDER / வேறு ஆர்டர்</button><a class="link" id="viewSelectedProducts" href="#savedOrderProducts" hidden>RE-MODIFY MY ORDER<br>பழைய ஆர்டரைத் திருத்த</a></div>
+<div class="actions"><a class="link" id="viewSelectedProducts" href="#savedOrderProducts" hidden>RE-MODIFY MY ORDER<br>பழைய ஆர்டரைத் திருத்த</a></div>
 </main><footer>Need help? <a href="tel:+919488917786">9488917786</a><br>Your Order ID and registered mobile number are required each time you reopen this page.</footer>
 <script>
 
@@ -48,7 +48,7 @@ let busy=false,credentials=null,requestVersion=0,showSelectedAfterVerify=false,v
 const TRACKING_CLIENT_TIMEOUT_MS=38000;
 if(/^[0-9]{1,12}$/.test(params.get('order')||''))orderInput.value=params.get('order');
 const money=value=>'₹'+Number(value).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
-function clearPrivateView(){verifiedEditableOrder=null;document.getElementById('viewSelectedProducts').hidden=true;tracking.hidden=true;tracking.querySelectorAll('dd,p[id]').forEach(e=>e.textContent='');document.getElementById('savedItems').replaceChildren();for(const id of ['selectedProductCount','selectedItemCount','selectedProductValue'])document.getElementById(id).textContent='';button.hidden=true;document.getElementById('closeOrder').hidden=true;}
+function clearPrivateView(){verifiedEditableOrder=null;document.getElementById('viewSelectedProducts').hidden=true;tracking.hidden=true;tracking.querySelectorAll('dd,p[id]').forEach(e=>e.textContent='');document.getElementById('savedItems').replaceChildren();for(const id of ['selectedProductCount','selectedItemCount','selectedProductValue'])document.getElementById(id).textContent='';button.hidden=true;}
 function lockOrder(){showSelectedAfterVerify=false;requestVersion++;credentials=null;clearPrivateView();document.getElementById('accessCard').hidden=false;mobileInput.value='';message.textContent='Enter your Order ID and registered mobile number to continue.';}
 async function refreshOrder(){
   if(busy||!credentials)return;
@@ -100,7 +100,7 @@ async function refreshOrder(){
     const completed=[true,data.paymentConfirmed,active>=3,active>=3,!!(data.transportName&&data.parcelNumber),active>=4];
     document.querySelectorAll('#progress li').forEach((li,i)=>{const current=(i===1&&!data.paymentConfirmed)||(i===2&&active===2);li.classList.toggle('done',completed[i]);li.classList.toggle('current',current);li.querySelector('.badge').textContent=completed[i]?'COMPLETED':current?'IN PROGRESS':'PENDING';});
     message.textContent=data.paymentConfirmed?'Current status: '+data.status:'Order saved. Payment confirmation is pending / ஆர்டர் சேமிக்கப்பட்டுள்ளது. பணம் சரிபார்ப்பு காத்திருக்கிறது.';
-    tracking.hidden=false;button.hidden=false;document.getElementById('closeOrder').hidden=false;document.getElementById('accessCard').hidden=true;mobileInput.value='';
+    tracking.hidden=false;button.hidden=false;document.getElementById('accessCard').hidden=true;mobileInput.value='';
     if(showSelectedAfterVerify){showSelectedAfterVerify=false;openSelectedProducts();}
    }catch(error){
     if(attempt!==requestVersion)return;
@@ -155,7 +155,7 @@ document.getElementById('viewSelectedProducts').addEventListener('click',event=>
 });
 form.addEventListener('submit',event=>{event.preventDefault();if(busy)return;credentials={orderId:orderInput.value.trim(),mobile:mobileInput.value.trim()};refreshOrder();});
 button.addEventListener('click',refreshOrder);
-document.getElementById('closeOrder').addEventListener('click',lockOrder);
+
 window.addEventListener('pagehide',lockOrder);
 window.addEventListener('pageshow',event=>{if(event.persisted)lockOrder();});
 </script>
