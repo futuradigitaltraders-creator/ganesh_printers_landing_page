@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Browse 2027 Christian, Yanai, Geetha Lamination and Shree Printography calendars, diaries and printable catalogues at Sri Ganesh Printers.">
+<title>2027 Calendar Design Gallery | Sri Ganesh Printers</title>
+<link rel="icon" type="image/png" href="/images/futura-favicon-512.png">
+<style>
+:root{color-scheme:light;--ink:#22202a;--muted:#655f68;--purple:#80205d;--red:#a51945;--gold:#efc567;--line:#ebe7ec}
+*{box-sizing:border-box}
+body{margin:0;background:#f8f6f8;color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+a{color:inherit}
+header{background:linear-gradient(118deg,#521549,#9f155a 65%,#ad5f1f);color:#fff;padding:30px 18px 32px}
+.wrap{max-width:1220px;margin:auto}
+.toplinks{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.toplinks a{font-size:13px;border:1px solid #ffffff85;border-radius:30px;padding:9px 14px;text-decoration:none;background:#ffffff16}
+header h1{font-size:clamp(28px,5vw,46px);line-height:1.12;margin:0 0 8px;letter-spacing:.01em}
+header p{margin:5px 0;color:#fff5e5;line-height:1.5}
+.smallbrand{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#ffe6b4;margin-bottom:12px;font-weight:700}
+main{max-width:1220px;margin:24px auto 50px;padding:0 16px}
+.supplier-tabs{display:flex;gap:10px;overflow-x:auto;padding:1px 0 13px;scrollbar-width:thin}
+.supplier-tabs button,.categories button{flex-shrink:0;background:#fff;border:1px solid #ddd0db;border-radius:24px;padding:12px 16px;font:700 13px Arial,sans-serif;color:#54294b;cursor:pointer}
+.supplier-tabs button[aria-pressed="true"],.categories button[aria-pressed="true"]{background:var(--purple);color:#fff;border-color:var(--purple)}
+.panel{background:#fff;padding:22px;border-radius:15px;box-shadow:0 3px 20px #2609220a;margin:10px 0 20px}
+.panel h2{font-size:clamp(21px,3vw,28px);margin:0 0 7px}
+.subtitle{color:var(--muted);font-size:14px;line-height:1.55;margin:0}
+.tools{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:22px}
+.tools label{font-size:13px;font-weight:700;color:#4c3c47}
+.tools input{width:min(420px,100%);max-width:100%;padding:12px 14px;border:1px solid #cfc4cb;border-radius:10px;font-size:14px;outline-color:var(--purple)}
+.categories{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.categories button{font-size:12px;padding:9px 12px;font-weight:600}
+.resources{display:none;border-top:1px solid var(--line);margin-top:18px;padding-top:15px;gap:8px;flex-wrap:wrap;align-items:center}
+.resources a{display:inline-block;padding:9px 13px;border-radius:8px;text-decoration:none;font-size:13px;background:#fff8e9;color:#693e06;border:1px solid #e7d3a5}
+.resources strong{font-size:13px;margin-right:5px}
+.summary{color:#625b63;font-size:13px;margin:20px 2px 12px}
+.gallery-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.design{background:#fff;border:1px solid #efe8ee;box-shadow:0 2px 10px #0000000a;border-radius:12px;overflow:hidden;text-align:left;cursor:pointer;padding:0;display:flex;flex-direction:column;width:100%;font-family:inherit;color:inherit}
+.design:focus-visible,.supplier-tabs button:focus-visible,.categories button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.design .photo{background:#f2eff2;display:flex;align-items:center;justify-content:center;aspect-ratio:3 / 4;padding:7px}
+.design img{width:100%;height:100%;object-fit:contain;display:block}
+.design .meta{padding:12px;min-height:75px}
+.design .name{font-weight:700;font-size:14px;line-height:1.4;overflow-wrap:anywhere}
+.design .category{font-size:11px;color:#6c6068;line-height:1.4;margin-top:5px;overflow-wrap:anywhere}
+.actions{text-align:center;margin-top:24px}
+.actions button{background:var(--purple);border:0;border-radius:9px;color:white;padding:13px 28px;font-size:14px;font-weight:700;cursor:pointer}
+.empty{padding:48px 18px;border:1px dashed #cebfc8;border-radius:12px;text-align:center;color:#6c6269;background:#fff}
+footer{text-align:center;padding:24px 15px;background:#29212a;color:#f5e9f3;font-size:12px;line-height:1.8}
+.modal{position:fixed;inset:0;background:#120b12ec;display:none;z-index:20;align-items:center;justify-content:center;padding:15px}
+.modal.open{display:flex}
+.modal-content{display:flex;flex-direction:column;width:min(1120px,100%);height:100%;max-height:96vh;align-items:center;justify-content:space-between;color:white;gap:10px}
+.modal-head{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:39px}
+.modal-head span{font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.modal-head button,.modal-footer button{border:1px solid #ffffff8a;background:#ffffff1c;color:#fff;border-radius:8px;padding:9px 13px;cursor:pointer;font-size:14px}
+.modal-view{display:flex;align-items:center;justify-content:center;flex:1;min-height:0;width:100%;gap:10px}
+.modal-view img{max-width:100%;max-height:100%;object-fit:contain;min-height:0;min-width:0;flex:1}
+.modal-view button{border:0;border-radius:9px;background:#ffffff21;color:white;font-size:30px;min-width:43px;height:65px;cursor:pointer}
+.modal-footer{display:flex;align-items:center;justify-content:center;gap:14px;font-size:12px;min-height:45px}
+.modal-footer a{color:#ffe0a2;text-decoration:underline}
+@media(max-width:1050px){.gallery-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:700px){.gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.panel{padding:16px}.design .meta{padding:10px}.design .name{font-size:12px}.design .category{font-size:10px}.modal-view{gap:3px}.modal-view button{min-width:30px;font-size:24px}}
+@media(max-width:410px){.gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.design .photo{padding:4px}}
+</style>
+<script defer src="/assets/js/futura-analytics.js?v=20261011"></script>
+</head>
+<body>
+<header><div class="wrap">
+<nav class="toplinks" aria-label="Page navigation"><a href="/calendar.html">← All Calendar Categories</a><a href="/">Home</a></nav>
+<div class="smallbrand">Sri Ganesh Printers · FUTURA · The Trend Changers</div>
+<h1>2027 Calendar Design Gallery</h1>
+<p>Browse original product images by collection and category. Tap any design for a full-size preview.</p>
+</div></header>
+<main>
+<nav class="supplier-tabs" id="supplierTabs" aria-label="Calendar collections"></nav>
+<section class="panel" aria-label="Filters and catalogues">
+<h2 id="collectionTitle">Calendar Collections</h2>
+<p class="subtitle" id="collectionDescription">Choose a collection to browse its available designs.</p>
+<div class="tools"><label for="search">Find a design</label><input id="search" type="search" placeholder="Search filename, design or category" autocomplete="off"></div>
+<div class="categories" id="categories" aria-label="Design categories"></div>
+<div class="resources" id="resources"></div>
+</section>
+<p class="summary" id="summary" aria-live="polite">Loading catalogue…</p>
+<div class="gallery-grid" id="designGrid"></div>
+<div class="actions"><button id="loadMore" type="button" hidden>Show More Designs</button></div>
+</main>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Design image preview" tabindex="-1">
+<div class="modal-content">
+<div class="modal-head"><span id="modalTitle"></span><button id="modalClose" type="button" aria-label="Close image preview">✕ Close</button></div>
+<div class="modal-view"><button id="prev" type="button" aria-label="Previous design">‹</button><img id="modalImage" alt=""><button id="next" type="button" aria-label="Next design">›</button></div>
+<div class="modal-footer"><span id="modalPosition"></span><a id="openOriginal" href="#" target="_blank" rel="noopener">Open original image</a></div>
+</div>
+</div>
+<footer>Sri Ganesh Printers · 2027 Calendars &amp; Diary<br>All catalogue images are displayed from the original website folders.</footer>
+<script>
+(function(){
+'use strict';
+const tabs=document.getElementById('supplierTabs');
+const cats=document.getElementById('categories');
+const grid=document.getElementById('designGrid');
+const resources=document.getElementById('resources');
+const search=document.getElementById('search');
+const summary=document.getElementById('summary');
+const more=document.getElementById('loadMore');
+const modal=document.getElementById('modal');
+const modalImg=document.getElementById('modalImage');
+const modalTitle=document.getElementById('modalTitle');
+const modalPosition=document.getElementById('modalPosition');
+const original=document.getElementById('openOriginal');
+let collections=[],chosen='',category='__all__',shown=24,visible=[],opened=0,restoreFocus=null;
+function safeUrl(path){return '/'+path.split('/').map(encodeURIComponent).join('/');}
+function pretty(name){const stem=name.replace(/\.[^/.]+$/,'');return /^\d+$/.test(stem)?'Design '+Number(stem):stem.replace(/[_-]+/g,' ');}
+function element(tag,cls,txt){const e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=txt;return e;}
+function current(){return collections.find(x=>x.id===chosen);}
+function setCollection(id){
+ if(!collections.some(x=>x.id===id))return;
+ chosen=id;category='__all__';shown=24;search.value='';
+ const address=new URL(window.location.href);address.searchParams.set('collection',chosen);history.replaceState(null,'',address.pathname+address.search);
+ redraw();
+}
+function redraw(){
+ const c=current();if(!c)return;
+ tabs.replaceChildren();
+ for(const g of collections){
+  const b=element('button','',g.title+' ('+g.files.filter(f=>f.type==='image').length+')');
+  b.type='button';b.setAttribute('aria-pressed',String(g.id===chosen));b.onclick=()=>setCollection(g.id);tabs.append(b);
+ }
+ document.getElementById('collectionTitle').textContent=c.title;
+ document.getElementById('collectionDescription').textContent=c.subtitle;
+ const images=c.files.filter(x=>x.type==='image');
+ const names=[...new Set(images.map(x=>x.category))].sort((a,b)=>a.localeCompare(b,'en',{numeric:true}));
+ cats.replaceChildren();
+ for(const name of ['__all__',...names]){
+  const count=name==='__all__'?images.length:images.filter(x=>x.category===name).length;
+  const b=element('button','',name==='__all__'?'All Designs ('+count+')':name+' ('+count+')');
+  b.type='button';b.setAttribute('aria-pressed',String(category===name));
+  b.onclick=()=>{category=name;shown=24;renderImages();redrawCategories();};
+  cats.append(b);
+ }
+ resources.replaceChildren();
+ const pdf=c.files.filter(f=>f.type==='pdf');
+ if(pdf.length){
+  resources.style.display='flex';resources.append(element('strong','','PDF Catalogues / Price Lists:'));
+  for(const f of pdf){
+   const a=element('a','',pretty(f.name)+' ↗');a.href=safeUrl(f.path);a.target='_blank';a.rel='noopener';resources.append(a);
+  }
+ }else resources.style.display='none';
+ renderImages();
+}
+function redrawCategories(){
+ for(let i=0;i<cats.children.length;i++){
+  const target=i===0?'__all__':[...new Set(current().files.filter(x=>x.type==='image').map(x=>x.category))].sort((a,b)=>a.localeCompare(b,'en',{numeric:true}))[i-1];
+  cats.children[i].setAttribute('aria-pressed',String(category===target));
+ }
+}
+function renderImages(){
+ const q=search.value.trim().toLowerCase();
+ visible=current().files.filter(x=>x.type==='image'&&(category==='__all__'||x.category===category)&&(!q||(x.name+' '+x.category).toLowerCase().includes(q)));
+ const rendered=visible.slice(0,shown);grid.replaceChildren();
+ for(const file of rendered){
+  const index=grid.children.length;
+  const btn=element('button','design');btn.type='button';btn.setAttribute('aria-label','View '+pretty(file.name)+' in full size');
+  const photo=element('span','photo');const img=element('img');img.src=safeUrl(file.path);img.alt=pretty(file.name)+' — '+file.category;img.loading='lazy';img.decoding='async';
+  photo.append(img);const meta=element('span','meta');meta.append(element('span','name',pretty(file.name)),element('div','category',file.category));
+  btn.append(photo,meta);btn.onclick=()=>openImage(index,btn);grid.append(btn);
+ }
+ summary.textContent=visible.length?('Showing '+rendered.length+' of '+visible.length+' designs · '+current().title):'No matching images in this category.';
+ if(!visible.length){grid.append(element('div','empty','No images match your search. Select another category or clear the search.'));}
+ more.hidden=rendered.length>=visible.length;
+}
+function openImage(i,focus){if(!visible[i])return;opened=i;restoreFocus=focus||document.activeElement;showOpened();modal.classList.add('open');document.body.style.overflow='hidden';document.getElementById('modalClose').focus();}
+function showOpened(){
+ const f=visible[opened];if(!f)return;modalImg.src=safeUrl(f.path);modalImg.alt=pretty(f.name);modalTitle.textContent=pretty(f.name)+' · '+f.category;modalPosition.textContent=(opened+1)+' / '+visible.length;original.href=safeUrl(f.path);
+}
+function closeModal(){modal.classList.remove('open');document.body.style.overflow='';if(restoreFocus && restoreFocus.isConnected)restoreFocus.focus();}
+document.getElementById('modalClose').onclick=closeModal;
+document.getElementById('prev').onclick=()=>{opened=(opened+visible.length-1)%visible.length;showOpened();};
+document.getElementById('next').onclick=()=>{opened=(opened+1)%visible.length;showOpened();};
+modal.onclick=e=>{if(e.target===modal)closeModal();};
+document.addEventListener('keydown',e=>{if(!modal.classList.contains('open'))return;if(e.key==='Escape')closeModal();if(e.key==='ArrowLeft')document.getElementById('prev').click();if(e.key==='ArrowRight')document.getElementById('next').click();});
+search.addEventListener('input',()=>{shown=24;renderImages();});
+more.onclick=()=>{shown+=24;renderImages();};
+fetch('/assets/calendar-gallery-2027.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw new Error('Gallery index not available');return r.json();}).then(data=>{
+ collections=Array.isArray(data.collections)?data.collections:[];if(!collections.length)throw new Error('Empty gallery data');
+ const requested=new URLSearchParams(location.search).get('collection');
+ chosen=collections.some(g=>g.id===requested)?requested:collections[0].id;
+ redraw();
+}).catch(()=>{summary.textContent='Catalogue is temporarily unavailable. Please return to the main Calendar page.';grid.replaceChildren();});
+})();
+</script>
+</body>
+</html>
