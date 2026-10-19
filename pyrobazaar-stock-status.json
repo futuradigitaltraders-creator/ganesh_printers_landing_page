@@ -71,7 +71,7 @@
     "fp18": true,
     "fp19": false,
     "fp20": false,
-    "fp21": true,
+    "fp21": false,
     "tw01": true,
     "tw02": true,
     "tw03": true,
@@ -83,7 +83,7 @@
     "rk03": true,
     "rk04": true,
     "rk05": false,
-    "ab01": true,
+    "ab01": false,
     "ab02": true,
     "ab03": true,
     "ab04": true,
@@ -305,8 +305,8 @@
     "pchildren": false,
     "pstarvell": false
   },
-  "lastChangedUTC": "2026-10-18T11:18:02+00:00",
-  "matchedProductsAtLastChange": 247,
+  "lastChangedUTC": "2026-10-19T10:52:43+00:00",
+  "matchedProductsAtLastChange": 245,
   "supplierDisplayedAbsenceRule": "Missing from Quick Shopping = NO STOCK",
   "lastCorrectedUTC": "2026-10-10T15:20:09.697Z",
   "correctionNote": "ECO GROUND CHAKKAR ASOKA (10 PCS) is listed by supplier as (1 0 PCS); typo tolerance fixed in checker."
