@@ -1160,7 +1160,7 @@ footer{color:#fff;background:rgba(8,13,38,.88)}
   <button class="catalog-clear-btn" id="startNewOrderBtn" type="button" onclick="startNewCrackersOrder()">START NEW ORDER / புதிய ஆர்டர்</button>
 </div>
 <div class="order-policy-note" role="note" aria-label="Order charges">
-  <strong>MINIMUM ORDER ₹3,000</strong> &nbsp;|&nbsp; PACKING &amp; FORWARDING ₹300 ADDED AT CHECKOUT &nbsp;|&nbsp; TRANSPORT: TOPAY
+  <strong>MINIMUM ORDER ₹4,000</strong> &nbsp;|&nbsp; PACKING &amp; FORWARDING ₹300 ADDED AT CHECKOUT &nbsp;|&nbsp; TRANSPORT: TOPAY
   <br><span>குறைந்தபட்ச ஆர்டர் ₹3,000 · பேக்கிங் மற்றும் பார்சல் அனுப்பும் கட்டணம் தனி · டிரான்ஸ்போர்ட் கட்டணம் உங்கள் ஊரில் செலுத்த வேண்டும்</span>
 </div>
 <div class="catalog-tools" id="catalogTools" aria-label="Product search and category filter">
@@ -3625,7 +3625,7 @@ footer{color:#fff;background:rgba(8,13,38,.88)}
       </div>
       <p id="finalOrderSummary" style="padding:12px;background:#fff3cd;border-radius:8px;line-height:1.6"></p>
       <div class="booking-policy-note" aria-label="Order notes">
-        <p><strong>Minimum order: Rs. 3,000/-.</strong><br><span lang="ta">குறைந்தபட்ச ஆர்டர் தொகை: ரூ. 3,000/-.</span></p>
+        <p><strong>Minimum order: Rs. 4,000/-. </strong><br><span lang="ta">குறைந்தபட்ச ஆர்டர் தொகை: ரூ. 4,000/-. </span></p>
         <p><strong>Packing &amp; Forwarding ₹300 (included in Net Total).</strong><br><span lang="ta">பேக்கிங் மற்றும் பார்சல் அனுப்பும் கட்டணம் தனியாகச் செலுத்த வேண்டும்.</span></p>
         <p><strong>Gift Boxes: Bulk orders only.</strong> Small quantities such as 1, 2, 3 or 5 boxes are not accepted.<br><span lang="ta">கிஃப்ட் பாக்ஸ்கள் மொத்த எண்ணிக்கையில் மட்டுமே ஆர்டர் செய்யலாம். 1, 2, 3, 5 போன்ற சிறிய எண்ணிக்கை ஆர்டர்கள் ஏற்கப்படாது.</span></p>
       </div>
@@ -3640,7 +3640,7 @@ footer{color:#fff;background:rgba(8,13,38,.88)}
   <div>
     <div class="summary-counts">Selected Products: <span id="selectedProducts">0</span> &nbsp; | &nbsp; Total Qty: <span id="totalQty">0</span></div>
     <div class="net-total">PRODUCT TOTAL <strong>₹<span id="sampleNetTotal">0.00</span></strong></div><div class="futura-charge-line">Sivakasi Packing &amp; Forwarding <strong>+ ₹<span id="packingCharge">0.00</span></strong></div><div class="futura-payable-line">NET TOTAL TO PAY <strong>₹<span id="payableTotal">0.00</span></strong></div>
-    <div class="shipping-note"><strong>Minimum Order: Rs. 3,000/- / குறைந்தபட்ச ஆர்டர்: ரூ. 3,000/-</strong><br>Packing &amp; Forwarding: ₹300 (included in Net Total when items selected) / பேக்கிங் கட்டணம் ₹300 மொத்தத் தொகையில் சேர்க்கப்பட்டுள்ளது.<br>Transport: TOPAY / போக்குவரத்துக் கட்டணம் பெறும்போது செலுத்த வேண்டும்.</div>
+    <div class="shipping-note"><strong>Minimum Order: Rs. 4,000/- / குறைந்தபட்ச ஆர்டர்: ரூ. 4,000/-</strong><br>Packing &amp; Forwarding: ₹300 (included in Net Total when items selected) / பேக்கிங் கட்டணம் ₹300 மொத்தத் தொகையில் சேர்க்கப்பட்டுள்ளது.<br>Transport: TOPAY / போக்குவரத்துக் கட்டணம் பெறும்போது செலுத்த வேண்டும்.</div>
     <div class="quality-shared-order-tip" lang="ta" role="note" aria-label="நண்பருடன் இணைந்து ஆர்டர் செய்வது">
       <p>உங்களுக்கு Rs. 1,500-க்கு மட்டும் பட்டாசுகள் வேண்டுமா?</p>
       <strong>நண்பருடன் சேர்ந்து சிக்கனமாக ஆர்டர் செய்யுங்கள்! 🎉</strong>
@@ -4189,7 +4189,7 @@ function restoreOrderReceipt(){
 }
 
 
-/* Quality catalogue: stock notice once at Rs.2000, once again at final MOQ Rs.3000. */
+/* Quality catalogue: stock notice once at Rs.2000, once again at final MOQ Rs.4000. */
 let futuraUrgencyFirstShown=false;
 let futuraUrgencyMoqShown=false;
 let futuraUrgencyPending=[];
@@ -4249,7 +4249,7 @@ function changeComboQty(id,delta){
     futuraUrgencyFirstShown=true;
     stages.push('early');
   }
-  if(!futuraUrgencyMoqShown && totalBefore<3000 && totalAfter>=3000){
+  if(!futuraUrgencyMoqShown && totalBefore<4000 && totalAfter>=4000){
     futuraUrgencyMoqShown=true;
     stages.push('moq');
   }
