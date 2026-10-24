@@ -1261,3 +1261,47 @@
 .header-section-3 #mobile-menu > ul > li > a.shipping-policy-nav:hover{
   color:#fff3a0 !important;
 }
+
+
+/* FUTURA TRADERS GSTIN badge — top-right header corner */
+.header-section-3 {
+    position: relative;
+}
+.gstin-header-badge {
+    position: absolute;
+    top: 8px;
+    right: 18px;
+    z-index: 1100;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 12px;
+    border: 1px solid #7b1e36;
+    border-radius: 3px;
+    background: #800020;
+    color: #ffdf45;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: .35px;
+    line-height: 1.2;
+    white-space: nowrap;
+    box-shadow: 0 2px 7px rgba(0,0,0,.18);
+}
+@media (max-width: 1199px) {
+    .gstin-header-badge {
+        top: 6px;
+        right: 10px;
+        padding: 5px 8px;
+        font-size: 11px;
+    }
+}
+@media (max-width: 767px) {
+    .gstin-header-badge {
+        top: 5px;
+        right: 8px;
+        padding: 4px 6px;
+        font-size: 9px;
+        letter-spacing: 0;
+    }
+}
